@@ -50,6 +50,85 @@
           </mat-form-field>
         </div>
       </div>
+      <div class="row">
+        <div class="col-12">
+          <mat-accordion>
+            <mat-expansion-panel>
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  <strong>archivo de situación fiscal</strong>
+                </mat-panel-title>
+              </mat-expansion-panel-header>
+              <mat-card>
+                <mat-card-content>
+                  <input placeholder="Archivo" type="file">
+                  <br>
+                  <a target="_blank" href="http://archivo.html">Ver archivo</a>
+                </mat-card-content>
+              </mat-card>
+            </mat-expansion-panel>
+            <mat-expansion-panel>
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  <strong>Vigencia de Fiel</strong>
+                </mat-panel-title>
+              </mat-expansion-panel-header>
+              <mat-card>
+                <mat-card-content>
+                  <input placeholder="Archivo" type="file">
+                  <br>
+                  <a target="_blank" href="http://archivo.html">Ver archivo</a>
+                </mat-card-content>
+              </mat-card>
+            </mat-expansion-panel>
+            <mat-expansion-panel>
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  <strong>Vigencia de sellos</strong>
+                </mat-panel-title>
+              </mat-expansion-panel-header>
+              <mat-card>
+                <mat-card-content>
+                  <input placeholder="Archivo" type="file">
+                  <br>
+                  <a target="_blank" href="http://archivo.html">Ver archivo</a>
+                </mat-card-content>
+              </mat-card>
+            </mat-expansion-panel>
+            <mat-expansion-panel>
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  <strong>Fiel</strong>
+                </mat-panel-title>
+              </mat-expansion-panel-header>
+              <mat-card>
+                <mat-card-content>
+                  <input placeholder="Archivo" type="file">
+                  <br>
+                  <a target="_blank" href="http://archivo.html">Ver archivo</a>
+                </mat-card-content>
+              </mat-card>
+            </mat-expansion-panel>
+            <mat-expansion-panel>
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  <strong>Sellos</strong>
+                </mat-panel-title>
+              </mat-expansion-panel-header>
+              <mat-card>
+                <mat-card-content>
+                  <input placeholder="Archivo" type="file">
+                  <br>
+                  <a target="_blank" href="http://archivo.html">Ver archivo</a>
+                </mat-card-content>
+              </mat-card>
+            </mat-expansion-panel>
+          </mat-accordion>
+
+
+
+        </div>
+      </div>
       <rt-datatable (selected)="onSelected($event)" searchWait="600" [showRowNumber]="true" [headers]="headers" [action]="action"
         [data]="statement">
 
