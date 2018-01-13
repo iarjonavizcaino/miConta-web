@@ -1,0 +1,230 @@
+<ul *ngIf="(user$ | async)" class="sidemenu">
+  <li>
+    <button *ngIf="permission.contribuyente" mat-button class="home-item" [routerLinkActiveOptions]="{ exact: true }"
+      [routerLinkActive]="['is-active']" routerLink="/inicio" (click)="selectedOption ='home'; home=true;">
+      <mat-icon class="home-icon">home</mat-icon>
+      <div class="home-item-title">Inicio</div>
+    </button>
+  </li>
+  <li>
+      <button *ngIf="permission.contador" mat-button class="home-item" [routerLinkActiveOptions]="{ exact: true }"
+        [routerLinkActive]="['is-active']" routerLink="/inicioContador" (click)="selectedOption ='home'; home=true;">
+        <mat-icon class="home-icon">home</mat-icon>
+        <div class="home-item-title">Inicio</div>
+      </button>
+    </li>
+  <li>
+    <button *ngIf="permission.contador" mat-button class="home-item" [routerLinkActiveOptions]="{ exact: true }" [routerLinkActive]="['is-active']"
+      routerLink="/contribuyentes" (click)="selectedOption ='home'; home=true;">
+      <mat-icon class="home-icon">accessibility</mat-icon>
+      <div class="home-item-title">Contribuyentes</div>
+    </button>
+  </li>
+  <li>
+    <button *ngIf="permission.contribuyente" mat-button class="home-item" [routerLinkActiveOptions]="{ exact: true }" [routerLinkActive]="['is-active']"
+      routerLink="/impuestos" (click)="selectedOption ='home'; home=true;">
+      <mat-icon class="home-icon">attach_money</mat-icon>
+      <div class="home-item-title">Mis Impuestos</div>
+    </button>
+  </li>
+  <li>
+    <!-- permisison.contibuyente.home -> tiene acceso a home -->
+    <button *ngIf="permission.contribuyente" mat-button class="home-item" [routerLinkActiveOptions]="{ exact: true }" [routerLinkActive]="['is-active']"
+      routerLink="/ingresos" (click)="selectedOption ='home'; home=true;">
+      <mat-icon class="home-icon">assignment_returned</mat-icon>
+      <div class="home-item-title">Mis Ingresos</div>
+    </button>
+  </li>
+  <li>
+    <!-- permisison.contibuyente.home -> tiene acceso a home -->
+    <button *ngIf="permission.contribuyente" mat-button class="home-item" [routerLinkActiveOptions]="{ exact: true }" [routerLinkActive]="['is-active']"
+      routerLink="/egresos" (click)="selectedOption ='home'; home=true;">
+      <mat-icon class="home-icon">assignment_return</mat-icon>
+      <div class="home-item-title">Mis Egresos</div>
+    </button>
+  </li>
+  <li>
+    <mat-accordion #matacordion *ngIf="permission.contribuyente">
+      <mat-expansion-panel [expanded]="!home && inventory" (opened)="setToFalse(); inventory=true;">
+        <mat-expansion-panel-header class="menu-item" (click)="selectedOption ='header'">
+          <mat-icon matPrefix>account_circle</mat-icon>
+          <div class="menu-item-title">Mi Perfil</div>
+        </mat-expansion-panel-header>
+        <!-- permission.inventory.inputs -> tiene permiso a inputs -->
+        <button mat-button class="menu-item-sub" [routerLinkActiveOptions]="{ exact: true }" [routerLinkActive]="['is-active']" routerLink="/misDatos"
+          (click)="selectedOption ='child'">
+          <mat-icon matPrefix>assignment_ind</mat-icon>
+          <div class="menu-item-title">Mis Datos</div>
+        </button>
+
+        <button mat-button class="menu-item-sub" [routerLinkActiveOptions]="{ exact: true }" [routerLinkActive]="['is-active']" routerLink="/obligaciones"
+          (click)="selectedOption ='child'">
+          <mat-icon matPrefix>list</mat-icon>
+          <div class="menu-item-title">Mis Obligaciones</div>
+        </button>
+
+        <button mat-button class="menu-item-sub" [routerLinkActiveOptions]="{ exact: true }" [routerLinkActive]="['is-active']" routerLink="/limites"
+          (click)="selectedOption ='child'">
+          <mat-icon matPrefix>warning</mat-icon>
+          <div class="menu-item-title">Mis Limites</div>
+        </button>
+
+        <button mat-button class="menu-item-sub" [routerLinkActiveOptions]="{ exact: true }" [routerLinkActive]="['is-active']" routerLink="/notificaciones"
+          (click)="selectedOption ='child'">
+          <mat-icon matPrefix>message</mat-icon>
+          <div class="menu-item-title">Notificaciones</div>
+        </button>
+
+      </mat-expansion-panel>
+    </mat-accordion>
+  </li>
+  <!-- <li>
+    <mat-accordion #matacordion>
+
+      <mat-expansion-panel [expanded]="!home && catalogs" (opened)="setToFalse(); catalogs=true">
+        <mat-expansion-panel-header class="menu-item" (click)="selectedOption ='header'">
+          <mat-icon matPrefix>widgets</mat-icon>
+          <div class="menu-item-title">Mis Impuestos</div>
+        </mat-expansion-panel-header>
+        <button *ngIf="permission.catalogs.company" mat-button class="menu-item-sub" [routerLinkActiveOptions]="{ exact: true }"
+          [routerLinkActive]="['is-active']" routerLink="/empresas" (click)="selectedOption ='child'">
+          <mat-icon matPrefix>business</mat-icon>
+          <div class="menu-item-title">Empresas</div>
+        </button>
+        <button *ngIf="permission.catalogs.roles" mat-button class="menu-item-sub" [routerLinkActiveOptions]="{ exact: true }" [routerLinkActive]="['is-active']"
+          routerLink="/roles" (click)="selectedOption ='child'">
+          <mat-icon matPrefix>person</mat-icon>
+          <div class="menu-item-title">Roles</div>
+        </button>
+        <button *ngIf="permission.catalogs.pricesLists" mat-button class="menu-item-sub" [routerLinkActiveOptions]="{ exact: true }"
+          [routerLinkActive]="['is-active']" routerLink="/listasPrecios" (click)="selectedOption ='child'">
+          <mat-icon matPrefix>attach_money</mat-icon>
+          <div class="menu-item-title">Listas de precios</div>
+        </button>
+        <button *ngIf="permission.catalogs.brands" mat-button class="menu-item-sub" [routerLinkActiveOptions]="{ exact: true }" [routerLinkActive]="['is-active']"
+          routerLink="/marcas" (click)="selectedOption ='child'">
+          <mat-icon matPrefix>dashboard</mat-icon>
+          <div class="menu-item-title">Marcas</div>
+        </button>
+        <button *ngIf="permission.catalogs.families" mat-button class="menu-item-sub" [routerLinkActiveOptions]="{ exact: true }"
+          [routerLinkActive]="['is-active']" routerLink="/familias" (click)="selectedOption ='child'">
+          <mat-icon matPrefix>dashboard</mat-icon>
+          <div class="menu-item-title">Familias</div>
+        </button>
+        <button *ngIf="permission.catalogs.stores" mat-button class="menu-item-sub" [routerLinkActiveOptions]="{ exact: true }" [routerLinkActive]="['is-active']"
+          routerLink="/almacenes" (click)="selectedOption ='child'">
+          <mat-icon matPrefix>store</mat-icon>
+          <div class="menu-item-title">Almacenes</div>
+        </button>
+        <button *ngIf="permission.catalogs.customers" mat-button class="menu-item-sub" [routerLinkActiveOptions]="{ exact: true }"
+          [routerLinkActive]="['is-active']" routerLink="/clientes" (click)="selectedOption ='child'">
+          <mat-icon matPrefix>people</mat-icon>
+          <div class="menu-item-title">Clientes</div>
+        </button>
+        <button *ngIf="permission.catalogs.employees" mat-button class="menu-item-sub" [routerLinkActiveOptions]="{ exact: true }"
+          [routerLinkActive]="['is-active']" routerLink="/empleados" (click)="selectedOption ='child'">
+          <mat-icon matPrefix>people</mat-icon>
+          <div class="menu-item-title">Empleados</div>
+        </button>
+        <button *ngIf="permission.catalogs.providers" mat-button class="menu-item-sub" [routerLinkActiveOptions]="{ exact: true }"
+          [routerLinkActive]="['is-active']" routerLink="/proveedores" (click)="selectedOption ='child'">
+          <mat-icon matPrefix>people</mat-icon>
+          <div class="menu-item-title">Proveedores</div>
+        </button>
+        <button *ngIf="permission.catalogs.products" mat-button class="menu-item-sub" [routerLinkActiveOptions]="{ exact: true }"
+          [routerLinkActive]="['is-active']" routerLink="/productos" (click)="selectedOption ='child'">
+          <mat-icon matPrefix>shopping_cart</mat-icon>
+          <div class="menu-item-title">Productos</div>
+        </button>
+      </mat-expansion-panel>
+
+      <mat-expansion-panel [expanded]="!home && inventory" (opened)="setToFalse(); inventory=true;">
+        <mat-expansion-panel-header class="menu-item" (click)="selectedOption ='header'">
+          <mat-icon matPrefix>trending_up</mat-icon>
+          <div class="menu-item-title">Inventario</div>
+        </mat-expansion-panel-header>
+        <button *ngIf="permission.inventory.inputs" mat-button class="menu-item-sub" [routerLinkActiveOptions]="{ exact: true }"
+          [routerLinkActive]="['is-active']" routerLink="/entradas" (click)="selectedOption ='child'">
+          <mat-icon matPrefix>arrow_forward</mat-icon>
+          <div class="menu-item-title">Entradas</div>
+        </button>
+        <button *ngIf="permission.inventory.outputs" mat-button class="menu-item-sub" [routerLinkActiveOptions]="{ exact: true }"
+          [routerLinkActive]="['is-active']" routerLink="/salidas" (click)="selectedOption ='child'">
+          <mat-icon matPrefix>arrow_back</mat-icon>
+          <div class="menu-item-title">Salidas</div>
+        </button>
+        <button *ngIf="permission.inventory.transfers" mat-button class="menu-item-sub" [routerLinkActiveOptions]="{ exact: true }"
+          [routerLinkActive]="['is-active']" routerLink="/traspasos" (click)="selectedOption ='child'">
+          <mat-icon matPrefix>compare_arrows</mat-icon>
+          <div class="menu-item-title">Traspasos</div>
+        </button>
+        <button *ngIf="permission.inventory.reports" mat-button class="menu-item-sub" [routerLinkActiveOptions]="{ exact: true }"
+          [routerLinkActive]="['is-active']" routerLink="/reporteInventario" (click)="selectedOption ='child'">
+          <mat-icon matPrefix>assessment</mat-icon>
+          <div class="menu-item-title">Reportes</div>
+        </button>
+      </mat-expansion-panel>
+
+      <mat-expansion-panel [expanded]="!home && sales" (opened)="setToFalse(); sales=true">
+        <mat-expansion-panel-header class="menu-item" (click)="selectedOption ='header'">
+          <mat-icon matPrefix>attach_money</mat-icon>
+          <div class="menu-item-title">Ventas</div>
+        </mat-expansion-panel-header>
+        <button *ngIf="permission.sales.cuts" mat-button class="menu-item-sub" [routerLinkActiveOptions]="{ exact: true }" [routerLinkActive]="['is-active']"
+          routerLink="/cortes" (click)="selectedOption ='child'">
+          <mat-icon matPrefix>content_cut</mat-icon>
+          <div class="menu-item-title">Cortes</div>
+        </button>
+        <button *ngIf="permission.sales.new" mat-button class="menu-item-sub" [routerLinkActiveOptions]="{ exact: true }" [routerLinkActive]="['is-active']"
+          routerLink="/nuevaVenta" (click)="selectedOption ='child'">
+          <mat-icon matPrefix>add_shopping_cart</mat-icon>
+          <div class="menu-item-title">Nueva venta</div>
+        </button>
+        <button *ngIf="permission.sales.pendingPayment" mat-button class="menu-item-sub" [routerLinkActiveOptions]="{ exact: true }"
+          [routerLinkActive]="['is-active']" routerLink="/ventasPendientes" (click)="selectedOption ='child'">
+          <mat-icon matPrefix>schedule</mat-icon>
+          <div class="menu-item-title">Pendientes de pago</div>
+        </button>
+        <button *ngIf="permission.sales.cancels" mat-button class="menu-item-sub" [routerLinkActiveOptions]="{ exact: true }" [routerLinkActive]="['is-active']"
+          routerLink="/cancelacion-devolucion" (click)="selectedOption ='child'">
+          <mat-icon matPrefix>block</mat-icon>
+          <div class="menu-item-title">Cancelaciones / Devoluciones</div>
+        </button>
+        <button *ngIf="permission.sales.reports" mat-button class="menu-item-sub" [routerLinkActiveOptions]="{ exact: true }" [routerLinkActive]="['is-active']"
+          routerLink="/reporteVentas" (click)="selectedOption ='child'">
+          <mat-icon matPrefix>assessment</mat-icon>
+          <div class="menu-item-title">Reporte de ventas</div>
+        </button>
+      </mat-expansion-panel>
+
+      <mat-expansion-panel [expanded]="!home && billing" (opened)="setToFalse(); billing=false">
+        <mat-expansion-panel-header class="menu-item" (click)="selectedOption = 'header'">
+          <mat-icon matPrefix>receipt</mat-icon>
+          <div class="menu-item-title">Facturación</div>
+        </mat-expansion-panel-header>
+        <button *ngIf="permission.billing.myBills" mat-button class="menu-item-sub" [routerLinkActiveOptions]="{ exact: true }" [routerLinkActive]="['is-active']"
+          routerLink="/misFacturas" (click)="selectedOption ='child'">
+          <mat-icon matPrefix>check_box</mat-icon>
+          <div class="menu-item-title">Mis facturas</div>
+        </button>
+        <button *ngIf="permission.billing.pendingBills" mat-button class="menu-item-sub" [routerLinkActiveOptions]="{ exact: true }"
+          [routerLinkActive]="['is-active']" routerLink="/facturacion" (click)="selectedOption ='child'">
+          <mat-icon matPrefix>add_box</mat-icon>
+          <div class="menu-item-title">Ventas por facturar</div>
+        </button>
+      </mat-expansion-panel>
+
+      <mat-expansion-panel [expanded]="!home && billing" (opened)="setToFalse(); billing=false">
+        <mat-expansion-panel-header class="menu-item" (click)="selectedOption = 'header'">
+          <mat-icon matPrefix>verified_user</mat-icon>
+          <div class="menu-item-title">Garantías</div>
+        </mat-expansion-panel-header>
+        <button *ngIf="permission.guarantee.new" mat-button class="menu-item-sub" [routerLinkActiveOptions]="{ exact: true }" [routerLinkActive]="['is-active']"
+          routerLink="/garantia" (click)="selectedOption ='child'">
+          <mat-icon matPrefix>add_box</mat-icon>
+          <div class="menu-item-title">Nueva</div>
+        </button>
+      </mat-expansion-panel>
+    </mat-accordion>
+  </li> -->
+</ul>

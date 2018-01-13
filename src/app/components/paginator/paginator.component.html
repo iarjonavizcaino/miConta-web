@@ -1,0 +1,30 @@
+<section class="paginator">
+  <button mat-button class="page-changer" (click)="previousPage()" [disabled]="currentPage === 1">
+    <mat-icon>keyboard_arrow_left</mat-icon>
+  </button>
+
+  <ng-container *ngIf="(currentPage - slack) > 1">
+    <button mat-button (click)="selectPage(1)">
+      1
+    </button>
+
+    <div class="dots">...</div>
+  </ng-container>
+
+  <button mat-button [ngClass]="{ 
+            'mat-raised-button': currentPage === page,
+            'mat-primary': currentPage === page 
+        }" *ngFor="let page of pages | async" (click)="selectPage(page)">{{ page }}</button>
+
+  <ng-container *ngIf="(currentPage + slack) < totalPages">
+    <div class="dots">...</div>
+
+    <button mat-button (click)="selectPage(totalPages)">
+      {{ totalPages }}
+    </button>
+  </ng-container>
+
+  <button mat-button class="page-changer" (click)="nextPage()" [disabled]="currentPage === totalPages">
+    <mat-icon>keyboard_arrow_right</mat-icon>
+  </button>
+</section>

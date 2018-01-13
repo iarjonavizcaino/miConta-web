@@ -1,0 +1,127 @@
+<section class="billing-catalog">
+  <header class="header">
+    <h3 class="title">{{ title }}</h3>
+    <!-- <h3 class="title" *ngIf = "readonly">Facturación > Mis facturas > {{ title }}</h3> -->
+    <button mat-icon-button (click)="onClose()">
+      <mat-icon>close</mat-icon>
+    </button>
+  </header>
+
+  <section class="body">
+    <div class="container">
+      <div class="row">
+        <div class="col-12">
+          <mat-form-field>
+            <mat-icon matPrefix>today</mat-icon>
+            <input [readonly]="true" matInput placeholder="Fecha" [(ngModel)]="infoBill.date">
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12">
+          <mat-form-field>
+            <mat-icon matPrefix>person</mat-icon>
+            <input *ngIf="!infoBill.provider" [readonly]="true" matInput placeholder="Cliente" [(ngModel)]="infoBill.customer.name">            
+            <input *ngIf="infoBill.provider" [readonly]="true" matInput placeholder="Proveedor" [(ngModel)]="infoBill.customer.name">
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12 col-md-6">
+          <mat-form-field>
+            <mat-icon matPrefix>work</mat-icon>
+            <input [readonly]="true" required matInput placeholder="RFC" [(ngModel)]="infoBill.customer.rfc">
+          </mat-form-field>
+        </div>
+        <div class="col-12 col-md-6">
+          <mat-form-field>
+            <mat-icon matPrefix>phone</mat-icon>
+            <input [readonly]="true" type="tel" required matInput placeholder="Teléfono" [(ngModel)]="infoBill.customer.phone">
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12">
+          <mat-form-field>
+            <mat-icon matPrefix>mail</mat-icon>
+            <input [readonly]="true" matInput required placeholder="Coreo electrónico" [(ngModel)]="infoBill.customer.email">
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-12 col-md-6">
+          <mat-form-field>
+            <mat-icon matPrefix>location_on</mat-icon>
+            <input [readonly]="true" matInput required placeholder="Calle" [(ngModel)]="infoBill.address.street">
+          </mat-form-field>
+        </div>
+        <div class="col-12 col-md-6">
+          <mat-form-field>
+            <mat-icon matPrefix>streetview</mat-icon>
+            <input [readonly]="true" required matInput type="number" placeholder="Número" [(ngModel)]="infoBill.address.number">
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-12 col-md-6">
+          <mat-form-field>
+            <mat-icon matPrefix>location_on</mat-icon>
+            <input [readonly]="true" required matInput placeholder="Colonia" [(ngModel)]="infoBill.address.neighborhood">
+          </mat-form-field>
+        </div>
+        <div class="col-12 col-md-6">
+          <mat-form-field>
+            <mat-icon matPrefix>streetview</mat-icon>
+            <input [readonly]="true" type="text" required minlength="5" maxlength="5" matInput placeholder="Código Postal" [(ngModel)]="infoBill.address.zipcode">
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-12 col-md-6">
+          <mat-form-field>
+            <mat-icon matPrefix>location_on</mat-icon>
+            <input [readonly]="true" required matInput placeholder="Ciudad" [(ngModel)]="infoBill.address.city">
+          </mat-form-field>
+        </div>
+        <div class="col-12 col-md-6">
+          <mat-form-field>
+            <mat-icon matPrefix>location_on</mat-icon>
+            <input [readonly]="true" matInput placeholder="Municipio" [(ngModel)]="infoBill.address.municipality">
+            <mat-error *ngIf="false">
+              Campo
+              <strong>requerido</strong>
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-12 col-md-6">
+          <mat-form-field>
+            <mat-icon matPrefix>location_on</mat-icon>
+            <input [readonly]="true" matInput required placeholder="Estado" [(ngModel)]="infoBill.address.state">
+          </mat-form-field>
+        </div>
+      </div>
+      <rt-datatable 
+      searchWait="600" 
+      [showRowNumber]="true" 
+      [headers]="headers" 
+      [action]="action" 
+      [data]="products">
+      </rt-datatable>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <!-- <button mat-button (click)="onClose()">
+      Cancelar
+    </button> -->
+    <button mat-raised-button color="primary" (click)="onSave()">
+      Aceptar
+    </button>
+  </footer>
+</section>

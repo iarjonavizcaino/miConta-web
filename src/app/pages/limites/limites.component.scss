@@ -1,0 +1,27 @@
+:host ::ng-deep {
+    .mat-expansion-panel-body{
+        overflow-x: hidden;
+    }
+    .mat-progress-bar.mat-accent .mat-progress-bar-fill::after{
+        background-color: yellow;
+    }
+    .mat-progress-bar.mat-accent .mat-progress-bar-buffer{
+        background-color: #f2e397;
+    }
+    .mat-progress-bar.mat-primary .mat-progress-bar-fill::after{
+        background-color: green;
+    }
+    .mat-progress-bar.mat-primary .mat-progress-bar-buffer{
+        background-color: lightgreen;
+    }
+}
+.bar-progress{
+    height:25px; 
+    width:100%; 
+    display:block; 
+    margin:auto;
+}
+.remove-padding {
+    padding-left: 5px !important;
+    padding-right: 5px  !important;
+}

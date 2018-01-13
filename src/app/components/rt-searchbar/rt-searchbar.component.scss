@@ -1,0 +1,56 @@
+/**
+ * @license
+ * Copyright Alejandro Rivera. All Rights Reserved.
+ * Twitter: @rtalexk https://twitter.com/rtalexk
+ * Github: rtalexk https://github.com/rtalexk
+ *
+ * Use of this source code is governed by an MIT license.
+ */
+
+.search {
+    height: 46px;
+    padding: 0 16px;
+    border-radius: 4px;
+    background-color: #ddd;
+    display: flex;
+    align-items: center;
+    transition: all 200ms;
+    position: relative;
+    
+    &.focused {
+        background-color: #fff;
+        box-shadow: 0 1px 6px rgba(0,0,0,0.2);
+    }
+
+    .mat-icon {
+        color: #666;
+
+        &.icon__search {
+            margin-right: 8px;
+        }
+    }
+
+    input {
+        width: 100%;
+        background-color: transparent;
+        border: none;
+        padding-right: 30px;
+    }
+
+    .clear__button,
+    .search__spinner {
+        position: absolute;
+        width: 26px;
+        height: 26px;
+        right: 16px;
+        top: 50%;
+        transform: translateY(-50%);
+    }
+
+    .clear__button {
+        padding: 0;
+        border: none;
+        cursor: pointer;
+        background-color: transparent;
+    }
+}

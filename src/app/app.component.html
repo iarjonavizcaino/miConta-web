@@ -1,0 +1,14 @@
+<simple-notifications [options]="notifyOptions"></simple-notifications> 
+<toolbar @slide *ngIf="(user$ | async)" (menu)="onMenu()"></toolbar>
+
+<!-- <mat-sidenav-container class="sidenav-container" [class.login]="false"> -->
+<mat-sidenav-container class="sidenav-container" [class.login]="!(user$ | async)"> 
+  <!-- <mat-sidenav #sidenav [mode]='mode' [opened]='!smallScreen'> -->
+  <mat-sidenav #sidenav  [mode]='mode' [opened]='!smallScreen && (user$ | async)'> 
+    <sidemenu #sidemenu (click)="onMenuItem()"></sidemenu>
+  </mat-sidenav>
+
+  <div class="main-container">
+    <router-outlet></router-outlet>
+  </div>
+</mat-sidenav-container>

@@ -1,0 +1,15 @@
+<ul class="breadcrumb">
+  <li>
+    <a routerLink="/inicio" routerLinkActive="active">Inicio</a>
+  </li>
+</ul>
+<rt-datatable (selected)="onBillSelected($event)" [showRowNumber]="true" searchWait="600" [showRowNumber]="false" [headers]="headers"
+  [action]="action" [data]="data">
+  <section class="actions">
+    <ng-container *ngIf="selectedBill">
+      <button mat-icon-button (click)="onView($event)">
+        <mat-icon matTooltip="Ver detalles" matTooltipPosition="above">visibility</mat-icon>
+      </button>
+    </ng-container>
+  </section>
+</rt-datatable>

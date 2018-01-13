@@ -1,0 +1,27 @@
+.paginator button:first-child {
+    margin-right: -5px;
+}
+
+.paginator button:last-child {
+    margin-left: -5px;
+}
+
+:host ::ng-deep {
+    .mat-button {
+        min-width: 55px;
+
+        &.page-changer {
+            width: 30px;
+            min-width: 30px;
+            padding: 0;
+        }
+    }
+}
+
+.dots {
+    display: inline-block;
+    min-width: 25px;
+    text-align: center;
+    letter-spacing: 3px;
+    cursor: default;
+}

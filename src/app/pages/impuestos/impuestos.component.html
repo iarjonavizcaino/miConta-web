@@ -1,0 +1,41 @@
+<ul class="breadcrumb">
+  <li>
+    <a routerLink="/inicio" routerLinkActive="active">Inicio</a>
+  </li>
+</ul>
+<br>
+<div class="row">
+  <div class="col-6">
+    <mat-card class="example-card bg-angular">
+        <h5 class="text-white text-center">IMPUESTOS</h5>
+      <mat-card-header>
+        <mat-card-subtitle></mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content class="text-white">
+        <div class="row">
+          <div class="col-6">
+            <h3>IVA:</h3>
+            <h3>IEPS:</h3>
+            <h3>ISR:</h3>
+            <hr>
+            <h2>Total:</h2>
+          </div>
+          <div class="col-6">
+            <h3 class="text-center font-normal">{{716873 | currency:'USD':true:'2.2-4'}}</h3>
+            <h3 class="text-center font-normal">{{123458 | currency:'USD':true:'2.2-4'}}</h3>
+            <h3 class="text-center font-normal">{{895733 | currency:'USD':true:'2.2-4'}}</h3>
+            <hr>
+            <h3 class="text-center font-normal">{{1736064 | currency:'USD':true:'2.2-4'}}</h3>
+          </div>
+        </div>
+      </mat-card-content>
+      <mat-card-actions>
+        <!-- <button mat-button>Detalle</button> -->
+      </mat-card-actions>
+    </mat-card>
+  </div>
+  <div class="col-6">
+    <canvas style="margin: auto; width: 100%" id="pieCanvas" width="770" height="470"></canvas>
+
+  </div>
+</div>

@@ -1,0 +1,48 @@
+section.confirm {
+    position: relative;
+    width: 350px;
+
+    .header {
+        position: relative;
+        background-color: #F44336;
+        color: white;
+        padding: 6px;
+        padding-left: 68px;
+
+        .title {
+            font-size: 1.2em;
+            font-weight: bold;
+            height: 48px;
+            line-height: 48px;
+        }
+
+        .icon {
+            width: 48px;
+            height: 48px;
+            position: absolute;
+            left: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            padding: 8px;
+        }
+    }
+
+    .body {
+        padding: 16px;
+    }
+
+    .actions {
+        display: flex;
+        justify-content: flex-end;
+        padding: 16px;
+
+        button {
+            margin-right: 8px;
+
+            &:last-child {
+                margin-right: 0;
+            }
+        }
+    }
+}
+

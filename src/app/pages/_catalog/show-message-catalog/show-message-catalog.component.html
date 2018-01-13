@@ -1,0 +1,30 @@
+<section class="showMessage-catalog">
+  <header class="header">
+    <h3 class="title"><i class="material-icons">announcement</i> {{ title }}</h3>
+    <button mat-icon-button (click)="onClose()">
+      <mat-icon>close</mat-icon>
+    </button>
+  </header>
+
+  <div class="body">
+    <div class="container">
+      <mat-card class="example-card bg-info">
+        <mat-card-header>
+          <mat-card-title><h3>{{message.subject}}</h3></mat-card-title>
+          <mat-card-subtitle><i class="material-icons little-icon">date_range</i> {{moment(message.date).format('LL')}}</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+          <p class="little-margin-left text-justify">
+            {{message.message}}
+          </p>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <button mat-raised-button color="primary" (click)="onClose()">
+      OK
+    </button>
+  </footer>
+</section>

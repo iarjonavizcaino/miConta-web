@@ -1,0 +1,15 @@
+:host ::ng-deep {
+    mat-form-field {
+        width: 100%;
+        .mat-form-field-prefix {
+            margin-right: 8px;
+        }
+
+        .mat-icon {
+            color: #666;
+        }
+    }
+    .mat-expansion-panel-body{
+        overflow-x: hidden;
+    }
+}

@@ -1,0 +1,25 @@
+<!-- 
+    @license
+    Copyright Alejandro Rivera. All Rights Reserved.
+    Twitter: @rtalexk https://twitter.com/rtalexk
+    Github: rtalexk https://github.com/rtalexk
+
+    Use of this source code is governed by an MIT license.
+ -->
+
+<section class="search" [class.focused]="isSearchFocused">
+    <mat-icon class="icon__search">search</mat-icon>
+    <mat-spinner class="search__spinner" *ngIf="isSearching"></mat-spinner>
+    <button 
+            class="clear__button" 
+            *ngIf="!isSearching && input.value" 
+            (click)="clearSearchbar($event, input)">
+        <mat-icon>close</mat-icon>
+    </button>
+    <input #input
+        type="text" 
+        [placeholder]="placeholder" 
+        (keyup)="onSearch($event, $event.target.value)"
+        (focus)="isSearchFocused = true"
+        (focusout)="isSearchFocused = false">
+  </section>

@@ -1,0 +1,173 @@
+/* You can add global styles to this file, and also import other style files */
+/* You can add global styles to this file, and also import other style files */
+
+@import 'assets/css/bootstrap-reboot.min.css';
+@import 'assets/css/bootstrap-grid.min.css';
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+@import 'assets/css/material_icons.scss';
+
+* {
+    outline: none !important;
+}
+
+body {
+    margin: 0;
+}
+
+// Nabar
+.mat-toolbar { 
+    min-height: 56px !important;
+    
+    .mat-toolbar-row { 
+        height: 56px !important;
+    } 
+}
+
+// Side Menu
+ul.sidemenu span.mat-button-wrapper {
+    display: flex;
+    height: 100%;
+    align-items: center;
+}
+
+// MatDialog
+.mat-dialog-container {
+    padding: 0 !important;
+    max-width: 100% !important;
+    max-height: 96vh !important;
+
+    &::-webkit-scrollbar {
+        display: none !important;
+    }
+}
+
+.cdk-overlay-backdrop {
+    position: fixed !important;
+}
+
+.cdk-overlay-pane {
+    margin: 10px !important;
+}
+
+.cdk-global-overlay-wrapper {
+    overflow: auto !important;
+
+    &::-webkit-scrollbar {
+        display: none !important;
+    }
+}
+
+// Notifications
+
+simple-notification > div.simple-notification.success {
+    background-color: #4CAF50 !important;
+    
+    .sn-progress-loader span {
+        background-color: darken(#4CAF50, 10%) !important;
+    }
+}
+
+simple-notification > div.simple-notification.warn > div {
+    div.icon > svg * {
+        fill: #444 !important;
+    }
+}
+
+simple-notification > div.simple-notification.alert > div {
+    color: #444 !important;
+
+    div.icon > svg > path:nth-child(2) {
+        fill: #444 !important;
+    }
+}
+
+// breadcrumb
+/* Style the list */
+ul.breadcrumb {
+    padding: 10px 16px;
+    list-style: none;
+    background-color: #eee;
+}
+
+/* Display list items side by side */
+ul.breadcrumb li {
+    display: inline;
+    font-size: 16px;
+}
+
+/* Add a slash symbol (/) before/behind each list item */
+ul.breadcrumb li+li:before {
+    padding: 8px;
+    color: black;
+    content: ">\00a0";
+}
+
+/* Add a color to all links inside the list */
+ul.breadcrumb li a {
+    color: #0275d8;
+    text-decoration: none;
+}
+
+/* Add a color on mouse-over */
+ul.breadcrumb li a:hover {
+    color: #01447e;
+    text-decoration: underline;
+}
+
+ul.breadcrumb li.selected {
+    color: #01447e;
+}
+
+
+// text
+.text-white{
+ color:white;   
+}
+.text-black{
+    color:black;
+}
+.text-center{
+    text-align: center;
+}
+.text-justify{
+    text-align: justify;
+}
+.font-normal{
+    font-weight:normal;
+}
+.jessi-color{
+    color: #565555;
+}
+.center{
+    display: block;
+    margin: auto;
+}
+
+// backgrounds
+.bg-danger{
+    background:lightcoral;
+}
+.bg-success{
+    background:lightgreen;
+}
+.bg-info{
+    background:lightblue;
+}
+.bg-warning{
+    background: lightsalmon;
+}
+.bg-angular{
+    background:#402C9D;
+}
+
+// floats
+.float-right{
+    float: right;
+}
+.float-left{
+    float: left;
+}
+// big icon
+.big-icon{
+    font-size: 2.5em;
+}

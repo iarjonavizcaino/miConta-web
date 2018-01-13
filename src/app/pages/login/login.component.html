@@ -1,0 +1,30 @@
+<section class="login">
+  <form [formGroup]="loginForm" class="login__form" (keydown)="keyDownFunction($event)">
+    <h1 class="title">Iniciar sesión</h1>
+    <mat-form-field class="form__field">
+      <input matInput placeholder="Nombre de usuario" formControlName="username">
+      <mat-error *ngIf="loginForm.get('username').hasError('required')">
+        El nombre de usuario es
+        <strong>requerido</strong>
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field class="form__field">
+      <input matInput placeholder="Contraseña" type="password" formControlName="password">
+      <mat-error *ngIf="loginForm.get('password').hasError('required')">
+        La contraseña es
+        <strong>requerida</strong>
+      </mat-error>
+    </mat-form-field>
+    <alert color="danger" *ngIf="isLoginWrong && isSubmited">
+      {{ message }}
+    </alert>
+    <alert color="danger" *ngIf="noConnection && isSubmited">
+      {{ 'Falló la conexión' }}
+    </alert>
+    <div class="btn">
+      <div class="btn__submit" (click)="onLogin()">
+        <span class="label">Entrar</span>
+      </div>
+    </div>
+  </form>
+</section>

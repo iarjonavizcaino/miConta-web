@@ -1,0 +1,127 @@
+<ul class="breadcrumb">
+  <li>
+    <a routerLink="/" routerLinkActive="active">Inicio</a>
+  </li>
+  <li>Mi Perfil</li>
+  <li class="selected">Mis Datos</li>
+</ul>
+
+<div class="row">
+  <div class="col-6">
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>General</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="row">
+          <div class="col-6">
+            <mat-form-field>
+              <mat-icon matPrefix>person</mat-icon>
+              <input [readonly]="false" matInput placeholder="Nombre" [(ngModel)]="user.name">
+            </mat-form-field>
+          </div>
+          <div class="col-6">
+            <mat-form-field>
+              <mat-icon matPrefix>person</mat-icon>
+              <input [readonly]="false" matInput placeholder="RFC" [(ngModel)]="user.rfc">
+            </mat-form-field>
+          </div>
+          <div class="col-9">
+            <mat-form-field>
+              <mat-icon matPrefix>person</mat-icon>
+              <input [readonly]="false" matInput placeholder="Razon Social" [(ngModel)]="user.socialReason">
+            </mat-form-field>
+          </div>
+          <div class="col-3">
+            <br>
+            <button mat-raised-button color="primary" (click)="showNotification()">Cambiar</button>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <div class="col-6">
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>Cambiar contraseña de acceso</mat-card-title>
+        <!-- <mat-card-subtitle>Cambiar contraseña de acceso</mat-card-subtitle> -->
+      </mat-card-header>
+      <mat-card-content>
+        <div class="row">
+          <div class="col-6">
+            <mat-form-field>
+              <mat-icon matPrefix>lock</mat-icon>
+              <input [readonly]="false" matInput placeholder="Contraseña actual" type="password">
+            </mat-form-field>
+          </div>
+          <div class="col-6">
+            <mat-form-field>
+              <mat-icon matPrefix>lock</mat-icon>
+              <input [readonly]="false" matInput placeholder="Contraseña nueva" type="password">
+            </mat-form-field>
+          </div>
+          <div class="col-9"></div>
+          <div class="col-3">
+            <br>
+            <button mat-raised-button color="primary" (click)="showNotification()">Cambiar</button>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>
+<br>
+<div class="row">
+  <div class="col-12">
+    <mat-accordion class="no-scroll">
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            Domicilio
+          </mat-panel-title>
+          <mat-panel-description>
+            Cambiar datos de domicilio
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+
+        <div class="row">
+          <div class="col-5">
+            <mat-form-field>
+              <mat-icon matPrefix>location_on</mat-icon>
+              <input [readonly]="false" matInput required placeholder="Calle" [(ngModel)]="user.address.street">
+            </mat-form-field>
+            <mat-form-field>
+              <mat-icon matPrefix>streetview</mat-icon>
+              <input [readonly]="false" required matInput type="number" placeholder="Número" [(ngModel)]="user.address.number">
+            </mat-form-field>
+            <mat-form-field>
+              <mat-icon matPrefix>location_on</mat-icon>
+              <input [readonly]="false" required matInput placeholder="Colonia" [(ngModel)]="user.address.neighborhood">
+            </mat-form-field>
+            <mat-form-field>
+              <mat-icon matPrefix>streetview</mat-icon>
+              <input [readonly]="false" type="text" required minlength="5" maxlength="5" matInput placeholder="Código Postal" [(ngModel)]="user.address.zipcode">
+            </mat-form-field>
+          </div>
+          <div class="col-5">
+            <mat-form-field>
+              <mat-icon matPrefix>location_on</mat-icon>
+              <input [readonly]="false" required matInput placeholder="Ciudad" [(ngModel)]="user.address.city">
+            </mat-form-field>
+            <mat-form-field>
+              <mat-icon matPrefix>location_on</mat-icon>
+              <input [readonly]="false" matInput placeholder="Municipio" [(ngModel)]="user.address.municipality">
+            </mat-form-field>
+            <mat-form-field>
+              <mat-icon matPrefix>location_on</mat-icon>
+              <input [readonly]="false" matInput required placeholder="Estado" [(ngModel)]="user.address.state">
+            </mat-form-field>
+            <button mat-raised-button class="float-right" color="primary" (click)="showNotification()">Cambiar</button>            
+          </div>
+        </div>
+      </mat-expansion-panel>
+
+    </mat-accordion>
+  </div>
+</div>

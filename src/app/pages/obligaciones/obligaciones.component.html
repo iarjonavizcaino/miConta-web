@@ -1,0 +1,46 @@
+<ul class="breadcrumb">
+    <li>
+      <a routerLink="/" routerLinkActive="active">Inicio</a>
+    </li>
+    <li>Mi Perfil</li>
+    <li class="selected">Mis Obligaciones</li>
+  </ul>
+  
+<mat-accordion>
+
+  <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        <strong>Declarar impuestos</strong>
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+    <p>
+      Realizar declaración cada 2 meses
+    </p>
+  </mat-expansion-panel>
+
+  <mat-expansion-panel>
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        <strong>Expedir comprobantes</strong>
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+    <p>
+      Expedir comprobantes por las actividades que realicen y conservar una copia de los mismos a disposición de las autoridades
+      fiscales.
+    </p>
+  </mat-expansion-panel>
+
+  <mat-expansion-panel>
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        <strong>Registros fiscales</strong>
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+    <p>
+      Inscribirse en los registros fiscales en un plazo que no excederá de treinta días a partir de la fecha en que se genere la
+      obligación fiscal, utilizando las formas oficiales.
+    </p>
+  </mat-expansion-panel>
+
+</mat-accordion>

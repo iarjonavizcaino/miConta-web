@@ -1,0 +1,198 @@
+/**
+ * @license
+ * Copyright Alejandro Rivera. All Rights Reserved.
+ * Twitter: @rtalexk https://twitter.com/rtalexk
+ * Github: rtalexk https://github.com/rtalexk
+ *
+ * Use of this source code is governed by an MIT license.
+ */
+
+ $bd-color: #e9ecef;
+ $bg-color-style: #fff;
+
+ .rt-datatable {
+    //  border: 1px solid $bd-color;
+     box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.15);
+ }
+
+.table__actions {
+    min-height: 64px;
+    padding: 16px 0 8px 0;
+    background-color: $bg-color-style;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+
+    rt-searchbar {
+        width: 100%;
+    }
+
+    mat-select {
+        height: fit-content;
+    }
+
+    .col-md-7 {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        mat-select {
+            margin-right: 16px;
+            width: 80px;
+    
+            .mat-select-trigger {
+                height: 100%;
+
+                .mat-select-value {
+                    padding: 11px 0;
+                }
+            }
+        }
+    }
+}
+
+.mat-select :host ::ng-deep {
+    .mat-select-trigger {
+        height: 100%;
+
+        .mat-select-value {
+            padding: 11px 0;
+        }
+    }
+}
+
+:host ::ng-deep {
+    .mat-icon {
+        color: #495057;
+    }
+}
+
+footer {
+    background-color: $bg-color-style;
+    border-top: 1px solid $bd-color;
+    min-height: 48px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+
+    .status {
+        color: #555;
+        padding-top: 8px;
+        padding-bottom: 8px;
+    }
+
+    div {
+        height: 100%;
+        display: flex;
+        align-items: center;
+    }
+
+    .col__paginator {
+        justify-content: flex-end;
+        padding-top: 6px;
+        padding-bottom: 6px;
+    }
+}
+
+table {
+    border-collapse: collapse;
+    display: table;
+    border-spacing: 2px;
+    border-color: grey;
+    font-size: 0.9rem;
+    
+    thead {
+        display: table-header-group;
+        vertical-align: middle;
+        border-color: inherit;
+
+        th {
+            color: darken($bd-color, 40%);
+            background-color: $bd-color;
+        }
+    }
+
+    tbody {
+        display: table-row-group;
+        vertical-align: middle;
+        border-color: inherit;
+        font-size: 0.9rem;
+
+        tr:not(.empty-data) {
+            cursor: pointer;
+            transition: background-color 200ms, color 200ms;
+
+            &:nth-child(odd) {
+                background-color: lighten($bd-color, 20%);
+                
+            }
+
+            &:hover {
+                background-color: darken($bd-color, 1%);
+            }
+            
+            &.active {
+                background-color: #2196F3;
+                color: white;
+            }
+
+            .rtInput {                
+                width: 88%;
+                border: none;
+                background-color: white;
+                transition: color 200ms;
+            }
+        }
+    }
+
+    tr {
+        display: table-row;
+        vertical-align: inherit;
+        border-color: inherit;
+    }
+
+    th {
+        text-align: left;
+    }
+
+    td:first-child, th:first-child {
+        padding-left: 24px;
+    }
+
+    td:last-child, th:last-child {
+        padding-right: 24px;
+    }
+
+    .tac {
+        text-align: center;
+        width: 8%
+    }
+}
+
+.table {
+    width: 100%;
+    max-width: 100%;
+    background-color: transparent;
+
+    td, th {
+        padding: .75rem;
+        vertical-align: top;
+        border-top: 1px solid $bd-color;
+        word-break: break-word;
+    }
+    
+    thead th {
+        vertical-align: bottom;
+        border-bottom: 2px solid $bd-color;
+    }
+    
+     tr.empty-data {
+        display: table-row;
+    
+        > td {
+            padding: 16px 8px;
+            text-align: center;
+        }
+     }
+}
