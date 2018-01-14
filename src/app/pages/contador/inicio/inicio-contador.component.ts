@@ -40,7 +40,6 @@ export class InicioContadorComponent implements OnInit {
     console.log('filtrar en tabla');
   }
   private setBgCard(card: string) {
-    console.log(document.querySelector('#card1'));
     document.getElementById('card1').style.background = 'lightgrey';
     document.getElementById('card2').style.background = 'lightgrey';
     document.getElementById('card3').style.background = 'lightgrey';
