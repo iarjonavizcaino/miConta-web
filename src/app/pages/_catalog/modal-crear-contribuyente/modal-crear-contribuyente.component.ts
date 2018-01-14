@@ -55,6 +55,9 @@ export class ModalCrearContribuyenteComponent implements OnInit {
   onSelected(ev) {
     this.selectedStatement = ev.data;
   }
+  onSave() {
+    this.dialogRef.close();
+  }
   onClose() {
     this.dialogRef.close();
   }

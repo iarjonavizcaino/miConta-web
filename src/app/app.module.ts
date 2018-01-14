@@ -74,6 +74,8 @@ import { ResumenContribuyenteComponent } from './pages/contribuyente/resumen/res
 import { BillingCatalogComponent } from './pages/_catalog/billing-catalog/billing-catalog.component';
 import { ShowMessageCatalogComponent } from './pages/_catalog/show-message-catalog/show-message-catalog.component';
 import { ModalCrearContribuyenteComponent } from './pages/_catalog/modal-crear-contribuyente/modal-crear-contribuyente.component';
+import { NotificacionesComponent } from './pages/contador/notificaciones/notificaciones.component';
+import { CrearNotificacionComponent } from './pages/_catalog/crear-notificacion/crear-notificacion.component';
 
 
 // all routes pages
@@ -91,7 +93,8 @@ const routes: Routes = [
   { path: 'contribuyente/notificaciones', component: NotificacionesContribuyenteComponent },
   // contador routes
   { path: 'contador/incio', component: InicioContadorComponent },
-  { path: 'contador/contribuyentes', component: CrudContribuyentesComponent }
+  { path: 'contador/contribuyentes', component: CrudContribuyentesComponent },
+  { path: 'contador/notificaciones', component: NotificacionesComponent }
 ];
 
 @NgModule({
@@ -99,7 +102,8 @@ const routes: Routes = [
     AlertComponent,
     BillingCatalogComponent,
     ShowMessageCatalogComponent,
-    ModalCrearContribuyenteComponent
+    ModalCrearContribuyenteComponent,
+    CrearNotificacionComponent
   ],
   declarations: [
     AppComponent,
@@ -107,6 +111,7 @@ const routes: Routes = [
     BillingCatalogComponent,
     ShowMessageCatalogComponent,
     ModalCrearContribuyenteComponent,
+    CrearNotificacionComponent,
 
     // components
     AlertComponent,
@@ -130,7 +135,9 @@ const routes: Routes = [
     ModalCrearContribuyenteComponent,
     CrudContribuyentesComponent,
     ModalCrearContribuyenteComponent,
-    ResumenContribuyenteComponent
+    ResumenContribuyenteComponent,
+    NotificacionesComponent,
+    CrearNotificacionComponent
   ],
   imports: [
     BrowserModule,

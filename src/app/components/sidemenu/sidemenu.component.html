@@ -20,11 +20,18 @@
       <div class="home-item-title">Resumen</div>
     </button>
   </li>
-  <li>
+  <!-- <li>
     <button *ngIf="permission.contador" mat-button class="home-item" [routerLinkActiveOptions]="{ exact: true }" [routerLinkActive]="['is-active']"
       routerLink="/contador/contribuyentes" (click)="selectedOption ='home'; home=true;">
       <mat-icon class="home-icon">accessibility</mat-icon>
       <div class="home-item-title">Contribuyentes</div>
+    </button>
+  </li> -->
+  <li>
+    <button *ngIf="permission.contador" mat-button class="home-item" [routerLinkActiveOptions]="{ exact: true }" [routerLinkActive]="['is-active']"
+      routerLink="/contador/notificaciones" (click)="selectedOption ='home'; home=true;">
+      <mat-icon class="home-icon">messages</mat-icon>
+      <div class="home-item-title">Notificaciones</div>
     </button>
   </li>
   <!-- <li>

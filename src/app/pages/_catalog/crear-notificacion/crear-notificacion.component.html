@@ -1,0 +1,45 @@
+<section class="billing-catalog">
+  <header class="header">
+    <h3 class="title">Enviar Notificación</h3>
+    <button mat-icon-button (click)="onClose()">
+      <mat-icon>close</mat-icon>
+    </button>
+  </header>
+  <section class="body">
+    <div class="container">
+      <div class="row">
+        <div class="col-6">
+          <form class="example-form">
+            <mat-form-field class="example-full-width">
+              <input type="text" [(ngModel)]="notification.taxpayer" placeholder="Contribuyente" aria-label="Number" matInput [formControl]="myControl" [matAutocomplete]="auto">
+              <mat-autocomplete #auto="matAutocomplete">
+                <mat-option *ngFor="let option of options" [value]="option">
+                  {{ option }}
+                </mat-option>
+              </mat-autocomplete>
+            </mat-form-field>
+          </form>
+        </div>
+        <div class="col-12">
+          <mat-form-field>
+            <mat-icon matPrefix>subject</mat-icon>
+            <input matInput placeholder="Asunto" [(ngModel)]="notification.subject">
+          </mat-form-field>
+        </div>
+        <div class="col-12">
+          <mat-form-field class="example-full-width">
+            <textarea matInput placeholder="Mensaje" rows="6" [(ngModel)]="notification.message"></textarea>
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+  </section>
+  <footer class="footer">
+    <button mat-button (click)="onClose()" color="warn">
+      Cancelar
+    </button>
+    <button mat-raised-button color="primary" (click)="onSave()">
+      Enviar
+    </button>
+  </footer>
+</section>
