@@ -20,6 +20,8 @@ export class ModalCrearContribuyenteComponent implements OnInit {
     fiscal_regime: '',
     suspension_date: '',
     regimen_change: '',
+    vigencia_fiel: '',
+    vigencia_sellos: '',
     password: '',
   };
   statement: any = [];

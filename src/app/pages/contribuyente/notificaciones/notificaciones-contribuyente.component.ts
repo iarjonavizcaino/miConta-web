@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { RtAction, RtActionName, RtHeader } from '../../components/rt-datatable/rt-datatable.component';
+import { RtAction, RtActionName, RtHeader } from '../../../components/rt-datatable/rt-datatable.component';
 import { Subject } from 'rxjs/Subject';
 import { MatDialog } from '@angular/material';
-import { ShowMessageCatalogComponent } from '../_catalog/show-message-catalog/show-message-catalog.component';
+import { ShowMessageCatalogComponent } from '../../_catalog/show-message-catalog/show-message-catalog.component';
 
 @Component({
   selector: 'app-notificaciones-contribuyente',

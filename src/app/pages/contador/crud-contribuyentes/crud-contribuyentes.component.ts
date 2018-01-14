@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { RtAction, RtActionName, RtHeader } from '../../components/rt-datatable/rt-datatable.component';
+import { RtAction, RtActionName, RtHeader } from '../../../components/rt-datatable/rt-datatable.component';
 import { Subject } from 'rxjs/Subject';
 import { MatDialog } from '@angular/material';
-import { ModalCrearContribuyenteComponent } from '../_catalog/modal-crear-contribuyente/modal-crear-contribuyente.component';
+import { ModalCrearContribuyenteComponent } from '../../_catalog/modal-crear-contribuyente/modal-crear-contribuyente.component';
 
 @Component({
   selector: 'app-crud-contribuyentes',

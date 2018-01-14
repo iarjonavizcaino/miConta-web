@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { RtAction, RtActionName, RtHeader } from '../../components/rt-datatable/rt-datatable.component';
+import { RtAction, RtActionName, RtHeader } from '../../../components/rt-datatable/rt-datatable.component';
 import { Subject } from 'rxjs/Subject';
 import { MatDialog } from '@angular/material';
-import { BillingCatalogComponent } from '../_catalog/billing-catalog/billing-catalog.component';
+import { BillingCatalogComponent } from '../../_catalog/billing-catalog/billing-catalog.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-resumen-contribuyente',
@@ -31,7 +32,7 @@ export class ResumenContribuyenteComponent implements OnInit {
   // egresos
   dataEgresos = [];
   actionEgresos = new Subject<RtAction>();
-  constructor(private dialogCtrl: MatDialog) { }
+  constructor(private router: Router, private dialogCtrl: MatDialog) { }
 
   ngOnInit() {
     this.loadIngresosData();

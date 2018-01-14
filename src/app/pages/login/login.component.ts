@@ -19,7 +19,7 @@ export class LoginComponent implements OnInit {
 
   constructor(private router: Router, private auth: AuthService, private fb: FormBuilder, private session: SessionService) {
     this.loginForm = fb.group({
-      username: ['contribuyente', Validators.required],
+      username: ['contador', Validators.required],
       password: ['contador', Validators.required]
     });
   }
@@ -37,7 +37,7 @@ export class LoginComponent implements OnInit {
           name: 'contribuyente'
         }
       };
-      root = '/inicio';
+      root = '/contribuyente/inicio';
     } else {
       emp = {
         name: this.loginForm.get('username').value,
@@ -45,7 +45,7 @@ export class LoginComponent implements OnInit {
           name: 'contador'
         }
       };
-      root = '/inicioContador';
+      root = '/contador/incio';
     }
     this.auth.loginSuccess(emp, '');
     this.router.navigate([root]);

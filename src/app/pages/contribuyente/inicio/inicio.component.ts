@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import { SessionService } from '../../services/session.serv';
+import { SessionService } from '../../../services/session.serv';
 
 @Component({
   selector: 'app-inicio',

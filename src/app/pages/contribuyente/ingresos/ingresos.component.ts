@@ -1,18 +1,19 @@
 import { Component, OnInit } from '@angular/core';
-import { RtAction, RtActionName, RtHeader } from '../../components/rt-datatable/rt-datatable.component';
+import { RtAction, RtActionName, RtHeader } from '../../../components/rt-datatable/rt-datatable.component';
 import { Subject } from 'rxjs/Subject';
 import { MatDialog } from '@angular/material';
-import { BillingCatalogComponent } from '../_catalog/billing-catalog/billing-catalog.component';
+import { BillingCatalogComponent } from '../../_catalog/billing-catalog/billing-catalog.component';
 
 @Component({
-  selector: 'app-egresos',
-  templateUrl: './egresos.component.html',
-  styleUrls: ['./egresos.component.css']
+  selector: 'app-ingresos',
+  templateUrl: './ingresos.component.html',
+  styleUrls: ['./ingresos.component.css']
 })
-export class EgresosComponent implements OnInit {
+export class IngresosComponent implements OnInit {
+
   headers: Array<RtHeader> = [
     { name: 'Fecha', prop: 'date', default: 'No date', moment: true },
-    { name: 'Proveedor', prop: 'customer.name', default: 'No customer' },
+    { name: 'Cliente', prop: 'customer.name', default: 'No customer' },
     { name: 'RFC', prop: 'customer.rfc', default: 'XXXX-XXX-XXXX' },
     { name: 'Total', prop: 'total', default: '$ 0.00', align: 'right', accounting: true }
   ];
@@ -24,14 +25,13 @@ export class EgresosComponent implements OnInit {
   ngOnInit() {
     this.data = [
       {
-        provider: true,
-        total: 1325,
-        date: '09-19-1995',
+        total: 456,
+        date: '01-01-1995',
         customer: {
-          name: 'Master Clean',
+          name: 'Rafael Barajas López',
           rfc: 'XXXX-XXX-XXXX',
           phone: '3111905402',
-          email: 'master_clean@example.com'
+          email: 'luismi@example.com'
         },
         address: {
           street: 'Sanchez Tahuada',
@@ -64,11 +64,10 @@ export class EgresosComponent implements OnInit {
         ]
       },
       {
-        provider: true,
-        total: 3518,
-        date: '02-06-2014',
+        total: 12500,
+        date: '02-02-1995',
         customer: {
-          name: 'Joyería la Perla',
+          name: 'Jorge Madrigal Curiel',
           rfc: 'XXXX-XXX-XXXX',
           phone: '3111951421',
           email: 'jorch@example.com'
@@ -90,13 +89,13 @@ export class EgresosComponent implements OnInit {
             amount: '22500'
           },
           {
-            name: 'Accesorios Hombre',
+            name: 'Productos de aseo personal',
             quantity: '20',
             price: '35',
             amount: '700'
           },
           {
-            name: 'Accesorios mujer',
+            name: 'Equipo médico',
             quantity: '3',
             price: '500000',
             amount: '1500000'
@@ -104,11 +103,10 @@ export class EgresosComponent implements OnInit {
         ]
       },
       {
-        provider: true,
-        total: 6931,
-        date: '12-04-2015',
+        total: 70,
+        date: '03-03-1995',
         customer: {
-          name: 'Marbuen',
+          name: 'Juan Daniel Medrano Barajas',
           rfc: 'XXXX-XXX-XXXX',
           phone: '3111108525',
           email: 'dani@example.com'
@@ -124,7 +122,7 @@ export class EgresosComponent implements OnInit {
         },
         products: [
           {
-            name: 'Lorem',
+            name: 'Alimentos',
             quantity: '3',
             price: '40',
             amount: '120'
@@ -136,7 +134,7 @@ export class EgresosComponent implements OnInit {
             amount: '150'
           },
           {
-            name: 'Componentes de sonido',
+            name: 'Materiales de resina',
             quantity: '10',
             price: '20',
             amount: '200'
@@ -144,11 +142,11 @@ export class EgresosComponent implements OnInit {
         ]
       }
     ];
-  }// ngOnInit
-
+  }
   onBillSelected(ev) {
     this.selectedBill = ev.data;
   }
+
   onView(ev) {
     this.stopPropagation(ev);
     this.brandModal(this.selectedBill, true, 'Datos de Factura');

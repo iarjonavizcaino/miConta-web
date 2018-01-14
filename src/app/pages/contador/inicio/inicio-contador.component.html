@@ -1,0 +1,102 @@
+<ul class="breadcrumb">
+  <li>
+    <a routerLink="/inicio" routerLinkActive="active">Inicio</a>
+  </li>
+</ul>
+<!-- <div class="row" style="height: 40px;">
+  <div class="col-12">
+    <mat-card style="background: #C5CAE9; text-align: center; color: #444">
+      <mat-card-title style="font-size: 20px;">Alguna información relevante por aqui </mat-card-title>
+    </mat-card>
+  </div>
+</div>
+<br>
+<div class="row">
+  <div class="col-12">
+    <mat-card style="background: #7986CB; text-align: center; color: white">
+      <mat-card-title style="font-size: 25px;">Bienvenido(a)</mat-card-title>
+      <mat-card-subtitle style="font-size: 20px; color: white">CP. Héctor Martín Flores Cruz</mat-card-subtitle>
+    </mat-card>
+  </div>
+</div> -->
+<br>
+<div class="row">
+  <div class="col-3">
+    <mat-card #card1 class="example-card pointer bg-gray" (click)="filtrar('card1')">
+      <mat-card-header>
+      </mat-card-header>
+      <mat-card-content>
+        <p class="text-center remove-margin-bottom">
+          <i class="material-icons big-icon">people</i>
+        </p>
+        <h3 class="text-center jessi-color">Total de Contribuyentes</h3>
+        <h2 class="text-center">40</h2>
+      </mat-card-content>
+    </mat-card>
+  </div>
+  <div class="col-3">
+    <mat-card #card2 class="example-card pointer bg-gray" (click)="filtrar('card2')">
+      <mat-card-header>
+      </mat-card-header>
+      <mat-card-content>
+        <p class="text-center remove-margin-bottom">
+          <i class="material-icons big-icon">done</i>
+        </p>
+        <h3 class="text-center jessi-color">Contribuyentes Declarados</h3>
+        <h2 class="text-center">20</h2>
+      </mat-card-content>
+    </mat-card>
+  </div>
+  <div class="col-3">
+    <mat-card #card3 class="example-card pointer bg-gray" (click)="filtrar('card3')">
+      <mat-card-header>
+      </mat-card-header>
+      <mat-card-content>
+        <p class="text-center remove-margin-bottom">
+          <i class="material-icons big-icon">close</i>
+        </p>
+        <h3 class="text-center jessi-color">Contrib. No Declarados</h3>
+        <h2 class="text-center">18</h2>
+      </mat-card-content>
+    </mat-card>
+  </div>
+  <div class="col-3">
+    <mat-card #card4 class="example-card pointer bg-gray" (click)="filtrar('card4')">
+      <mat-card-header>
+      </mat-card-header>
+      <mat-card-content>
+        <p class="text-center remove-margin-bottom">
+          <i class="material-icons big-icon">warning</i>
+        </p>
+        <h3 class="text-center jessi-color">Contrib. Fuera de Límite</h3>
+        <h2 class="text-center">2</h2>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>
+<br>
+<rt-datatable (selected)="onTaxpayerSelected($event)" [showRowNumber]="true" searchWait="600" [showRowNumber]="false" [headers]="headers"
+  [action]="action" [data]="data">
+  <section class="actions">
+    <button mat-icon-button (click)="onCreate($event)">
+      <mat-icon matTooltip="Nuevo" matTooltipPosition="above">add</mat-icon>
+    </button>
+    <ng-container *ngIf="selectedTaxpayer">
+      <button mat-icon-button (click)="onView($event)">
+        <mat-icon matTooltip="Ver detalles" matTooltipPosition="above">visibility</mat-icon>
+      </button>
+      <button mat-icon-button (click)="taxpayerDetail('contribuyente/resumen')">
+        <mat-icon matTooltip="Resumen" matTooltipPosition="above">assessment</mat-icon>
+      </button>
+      <button mat-icon-button (click)="taxpayerDetail('contribuyente/limites')">
+        <mat-icon matTooltip="Limites" matTooltipPosition="above">warning</mat-icon>
+      </button>
+      <button mat-icon-button (click)="taxpayerDetail('contribuyente/notificaciones')">
+        <mat-icon matTooltip="Notificaciones" matTooltipPosition="above">message</mat-icon>
+      </button>
+      <button mat-icon-button (click)="taxpayerDetail('contribuyente/obligaciones')">
+        <mat-icon matTooltip="Obligaciones" matTooltipPosition="above">list</mat-icon>
+      </button>
+    </ng-container>
+  </section>
+</rt-datatable>

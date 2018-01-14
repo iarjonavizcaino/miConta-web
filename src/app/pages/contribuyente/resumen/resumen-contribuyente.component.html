@@ -2,6 +2,7 @@
   <li>
     <a routerLink="/inicio" routerLinkActive="active">Inicio</a>
   </li>
+  <li class="float-right">Nombre del contribuyente</li>
 </ul>
 <div class="row">
   <div class="col-6">
@@ -96,7 +97,7 @@
             <h3 class="panel-expandable-title">Mis Ingresos</h3>
           </mat-panel-title>
           <mat-panel-description>
-            <h3>$ total de ingresos actuales</h3>
+            <h3>{{13026 | currency:'USD':true:'2.2-4'}}</h3>
           </mat-panel-description>
         </mat-expansion-panel-header>
         <rt-datatable (selected)="onBillSelected($event)" [showRowNumber]="true" searchWait="600" [showRowNumber]="false" [headers]="headersIngresos"
@@ -118,7 +119,7 @@
             <h3 class="panel-expandable-title">Mis Egresos</h3>
           </mat-panel-title>
           <mat-panel-description>
-            <h3>$ total de egresos actuales</h3>
+            <h3>{{11774 | currency:'USD':true:'2.2-4'}}</h3>
           </mat-panel-description>
         </mat-expansion-panel-header>
         <rt-datatable (selected)="onBillSelected($event)" [showRowNumber]="true" searchWait="600" [showRowNumber]="false" [headers]="headersEgresos"

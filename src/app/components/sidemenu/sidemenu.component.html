@@ -1,56 +1,56 @@
 <ul *ngIf="(user$ | async)" class="sidemenu">
   <li>
     <button *ngIf="permission.contribuyente" mat-button class="home-item" [routerLinkActiveOptions]="{ exact: true }" [routerLinkActive]="['is-active']"
-      routerLink="/inicio" (click)="selectedOption ='home'; home=true;">
+      routerLink="/contribuyente/inicio" (click)="selectedOption ='home'; home=true;">
       <mat-icon class="home-icon">home</mat-icon>
       <div class="home-item-title">Inicio</div>
     </button>
   </li>
   <li>
     <button *ngIf="permission.contador" mat-button class="home-item" [routerLinkActiveOptions]="{ exact: true }" [routerLinkActive]="['is-active']"
-      routerLink="/inicioContador" (click)="selectedOption ='home'; home=true;">
+      routerLink="/contador/incio" (click)="selectedOption ='home'; home=true;">
       <mat-icon class="home-icon">home</mat-icon>
       <div class="home-item-title">Inicio</div>
     </button>
   </li>
   <li>
     <button *ngIf="permission.contribuyente" mat-button class="home-item" [routerLinkActiveOptions]="{ exact: true }" [routerLinkActive]="['is-active']"
-      routerLink="/resumenContribuyente" (click)="selectedOption ='home'; home=true;">
+      routerLink="/contribuyente/resumen" (click)="selectedOption ='home'; home=true;">
       <mat-icon class="home-icon">assessment</mat-icon>
       <div class="home-item-title">Resumen</div>
     </button>
   </li>
   <li>
     <button *ngIf="permission.contador" mat-button class="home-item" [routerLinkActiveOptions]="{ exact: true }" [routerLinkActive]="['is-active']"
-      routerLink="/contribuyentes" (click)="selectedOption ='home'; home=true;">
+      routerLink="/contador/contribuyentes" (click)="selectedOption ='home'; home=true;">
       <mat-icon class="home-icon">accessibility</mat-icon>
       <div class="home-item-title">Contribuyentes</div>
     </button>
   </li>
   <!-- <li>
     <button *ngIf="permission.contribuyente" mat-button class="home-item" [routerLinkActiveOptions]="{ exact: true }" [routerLinkActive]="['is-active']"
-      routerLink="/impuestos" (click)="selectedOption ='home'; home=true;">
+      routerLink="/contribuyente/impuestos" (click)="selectedOption ='home'; home=true;">
       <mat-icon class="home-icon">attach_money</mat-icon>
       <div class="home-item-title">Mis Impuestos</div>
     </button>
   </li> -->
   <!-- <li>
     <button *ngIf="permission.contribuyente" mat-button class="home-item" [routerLinkActiveOptions]="{ exact: true }" [routerLinkActive]="['is-active']"
-      routerLink="/ingresos" (click)="selectedOption ='home'; home=true;">
+      routerLink="/contribuyente/ingresos" (click)="selectedOption ='home'; home=true;">
       <mat-icon class="home-icon">assignment_returned</mat-icon>
       <div class="home-item-title">Mis Ingresos</div>
     </button>
   </li> -->
   <!-- <li>
     <button *ngIf="permission.contribuyente" mat-button class="home-item" [routerLinkActiveOptions]="{ exact: true }" [routerLinkActive]="['is-active']"
-      routerLink="/egresos" (click)="selectedOption ='home'; home=true;">
+      routerLink="/contribuyente/egresos" (click)="selectedOption ='home'; home=true;">
       <mat-icon class="home-icon">assignment_return</mat-icon>
       <div class="home-item-title">Mis Egresos</div>
     </button>
   </li> -->
   <li>
     <button *ngIf="permission.contribuyente" mat-button class="home-item" [routerLinkActiveOptions]="{ exact: true }" [routerLinkActive]="['is-active']"
-      routerLink="/notificaciones" (click)="selectedOption ='home'; home=true;">
+      routerLink="/contribuyente/notificaciones" (click)="selectedOption ='home'; home=true;">
       <mat-icon matPrefix class="home-icon">message</mat-icon>
       <div class="home-item-title">Notificaciones</div>
     </button>
@@ -63,19 +63,19 @@
           <div class="menu-item-title">Mi Perfil</div>
         </mat-expansion-panel-header>
         <!-- permission.inventory.inputs -> tiene permiso a inputs -->
-        <button mat-button class="menu-item-sub" [routerLinkActiveOptions]="{ exact: true }" [routerLinkActive]="['is-active']" routerLink="/misDatos"
+        <button mat-button class="menu-item-sub" [routerLinkActiveOptions]="{ exact: true }" [routerLinkActive]="['is-active']" routerLink="/contribuyente/misDatos"
           (click)="selectedOption ='child'">
           <mat-icon matPrefix>assignment_ind</mat-icon>
           <div class="menu-item-title">Mis Datos</div>
         </button>
 
-        <button mat-button class="menu-item-sub" [routerLinkActiveOptions]="{ exact: true }" [routerLinkActive]="['is-active']" routerLink="/obligaciones"
+        <button mat-button class="menu-item-sub" [routerLinkActiveOptions]="{ exact: true }" [routerLinkActive]="['is-active']" routerLink="/contribuyente/obligaciones"
           (click)="selectedOption ='child'">
           <mat-icon matPrefix>list</mat-icon>
           <div class="menu-item-title">Mis Obligaciones</div>
         </button>
 
-        <button mat-button class="menu-item-sub" [routerLinkActiveOptions]="{ exact: true }" [routerLinkActive]="['is-active']" routerLink="/limites"
+        <button mat-button class="menu-item-sub" [routerLinkActiveOptions]="{ exact: true }" [routerLinkActive]="['is-active']" routerLink="/contribuyente/limites"
           (click)="selectedOption ='child'">
           <mat-icon matPrefix>warning</mat-icon>
           <div class="menu-item-title">Mis Limites</div>
