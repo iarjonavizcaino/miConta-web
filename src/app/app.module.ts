@@ -73,6 +73,7 @@ import { IngresosComponent } from './pages/ingresos/ingresos.component';
 import { BillingCatalogComponent } from './pages/_catalog/billing-catalog/billing-catalog.component';
 import { ShowMessageCatalogComponent } from './pages/_catalog/show-message-catalog/show-message-catalog.component';
 import { ModalCrearContribuyenteComponent } from './pages/_catalog/modal-crear-contribuyente/modal-crear-contribuyente.component';
+import { ResumenContribuyenteComponent } from './pages/resumen-contribuyente/resumen-contribuyente.component';
 
 
 // all routes pages
@@ -80,6 +81,7 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'inicio', component: InicioComponent },
   { path: 'inicioContador', component: InicioContadorComponent },
+  { path: 'resumenContribuyente', component: ResumenContribuyenteComponent },
   { path: 'impuestos', component: ImpuestosComponent },
   { path: 'ingresos', component: IngresosComponent },
   { path: 'egresos', component: EgresosComponent },
@@ -125,7 +127,8 @@ const routes: Routes = [
     ShowMessageCatalogComponent,
     ModalCrearContribuyenteComponent,
     CrudContribuyentesComponent,
-    ModalCrearContribuyenteComponent
+    ModalCrearContribuyenteComponent,
+    ResumenContribuyenteComponent
   ],
   imports: [
     BrowserModule,

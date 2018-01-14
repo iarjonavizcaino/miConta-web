@@ -27,7 +27,7 @@ export class ModalCrearContribuyenteComponent implements OnInit {
   headers: Array<RtHeader> = [
     { name: 'Año', prop: 'year', default: '' },
     { name: 'Bimestre', prop: 'bimester', default: 'XXXX-XXX-XXXX' },
-    { name: 'Tipo', prop: 'type', default: '' },
+    { name: 'Estatus', prop: 'type', default: '' },
     { name: 'Archivo', prop: 'file', default: 'No archivo' }
   ];
   constructor(

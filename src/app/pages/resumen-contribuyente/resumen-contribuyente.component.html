@@ -1,0 +1,137 @@
+<ul class="breadcrumb">
+  <li>
+    <a routerLink="/inicio" routerLinkActive="active">Inicio</a>
+  </li>
+</ul>
+<div class="row">
+  <div class="col-6">
+    <mat-card class="example-card">
+      <h5 class="text-center">MIS IMPUESTOS</h5>
+      <mat-card-header>
+        <mat-card-subtitle></mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="row">
+          <div class="col-6">
+            <h3>IVA:</h3>
+            <h3>ISR:</h3>
+            <hr>
+            <br>
+            <h1>Total:</h1>
+          </div>
+          <div class="col-6">
+            <h3 class="text-center font-normal">{{716873 | currency:'USD':true:'2.2-4'}}</h3>
+            <h3 class="text-center font-normal">{{895733 | currency:'USD':true:'2.2-4'}}</h3>
+            <hr>
+            <br>
+            <h2 class="text-center font-normal">{{1612606 | currency:'USD':true:'2.2-4'}}</h2>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+  <div class="col-6">
+    <mat-card class="example-card">
+      <h5 class="text-center">DECLARACIONES</h5>
+      <mat-card-header>
+        <mat-card-subtitle></mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <mat-accordion>
+          <mat-expansion-panel>
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                <strong>Archivo de situación fiscal</strong>
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+            <mat-card>
+              <mat-card-content>
+                <input placeholder="Archivo" type="file">
+                <br>
+                <a target="_blank" href="http://archivo.html">Ver archivo</a>
+              </mat-card-content>
+            </mat-card>
+          </mat-expansion-panel>
+          <mat-expansion-panel>
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                <strong>Fiel</strong>
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+            <mat-card>
+              <mat-card-content>
+                <input placeholder="Archivo" type="file">
+                <br>
+                <a target="_blank" href="http://archivo.html">Ver archivo</a>
+              </mat-card-content>
+            </mat-card>
+          </mat-expansion-panel>
+          <mat-expansion-panel>
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                <strong>Sellos</strong>
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+            <mat-card>
+              <mat-card-content>
+                <input placeholder="Archivo" type="file">
+                <br>
+                <a target="_blank" href="http://archivo.html">Ver archivo</a>
+              </mat-card-content>
+            </mat-card>
+          </mat-expansion-panel>
+        </mat-accordion>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>
+<br>
+<div class="row">
+  <div class="col-12">
+    <mat-accordion>
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            <mat-icon class="home-icon">assignment_returned</mat-icon>
+            <h3 class="panel-expandable-title">Mis Ingresos</h3>
+          </mat-panel-title>
+          <mat-panel-description>
+            <h3>$ total de ingresos actuales</h3>
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+        <rt-datatable (selected)="onBillSelected($event)" [showRowNumber]="true" searchWait="600" [showRowNumber]="false" [headers]="headersIngresos"
+          [action]="actionIngresos" [data]="dataIngresos">
+          <section class="actions">
+            <ng-container *ngIf="selectedBill">
+              <button mat-icon-button (click)="onViewBill($event)">
+                <mat-icon matTooltip="Ver detalles" matTooltipPosition="above">visibility</mat-icon>
+              </button>
+            </ng-container>
+          </section>
+        </rt-datatable>
+      </mat-expansion-panel>
+      
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            <mat-icon class="home-icon">assignment_return</mat-icon>
+            <h3 class="panel-expandable-title">Mis Egresos</h3>
+          </mat-panel-title>
+          <mat-panel-description>
+            <h3>$ total de egresos actuales</h3>
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+        <rt-datatable (selected)="onBillSelected($event)" [showRowNumber]="true" searchWait="600" [showRowNumber]="false" [headers]="headersEgresos"
+          [action]="actionEgresos" [data]="dataEgresos">
+          <section class="actions">
+            <ng-container *ngIf="selectedBill">
+              <button mat-icon-button (click)="onViewBill($event)">
+                <mat-icon matTooltip="Ver detalles" matTooltipPosition="above">visibility</mat-icon>
+              </button>
+            </ng-container>
+          </section>
+        </rt-datatable>
+      </mat-expansion-panel>
+    </mat-accordion>
+  </div>
+</div>
