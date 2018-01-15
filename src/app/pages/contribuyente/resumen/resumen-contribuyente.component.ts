@@ -8,7 +8,7 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-resumen-contribuyente',
   templateUrl: './resumen-contribuyente.component.html',
-  styleUrls: ['./resumen-contribuyente.component.css']
+  styleUrls: ['./resumen-contribuyente.component.scss']
 })
 export class ResumenContribuyenteComponent implements OnInit {
   headersIngresos: Array<RtHeader> = [
@@ -58,6 +58,7 @@ export class ResumenContribuyenteComponent implements OnInit {
   stopPropagation(ev: Event) {
     if (ev) { ev.stopPropagation(); }
   }
+
   loadIngresosData() {
     this.dataIngresos = [
       {

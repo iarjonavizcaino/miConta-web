@@ -1,0 +1,25 @@
+.panel-expandable-title{
+    padding-left: 16px;
+}
+
+:host ::ng-deep {
+    mat-form-field {
+        .mat-form-field-prefix {
+            margin-right: 8px;
+        }
+
+        .mat-icon {
+            color: #666;
+        }
+    }
+
+    mat-expanse-panel {
+        // .mat-exp-field-prefix {
+        //     margin-right: 8px;
+        // }
+
+        .mat-icon {
+            color: #666;
+        }
+    }
+}

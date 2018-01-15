@@ -30,6 +30,9 @@ export class BillingCatalogComponent implements OnInit {
   title: string;
   products = [];
   bill: any;
+  total = 0;
+  taxes = 0;
+  subtotal = 0;
   infoBill: any = {
     date: '',
     total: 0,
@@ -64,10 +67,12 @@ export class BillingCatalogComponent implements OnInit {
   ngOnInit() {
     this.title = this.data.title || 'Título del modal';
     if (this.data) {  // data: info from table
+      console.log(this.data);
       this.infoBill = this.data.bill;
       this.infoBill.customer.phone = this.formatPhone(this.infoBill.customer.phone);
       // this.infoBill.date = moment(this.infoBill.date).format('LL');
       this.products = this.data.bill.products;
+      this.getTotal(this.products);
     }
   }
   formatPhone(text: string) {
@@ -76,6 +81,19 @@ export class BillingCatalogComponent implements OnInit {
   }
   onClose() {
     this.dialogRef.close();
+  }
+
+  getTotal(data) {
+    let subTotal = 0, iva = 0;
+    console.log(data);
+    data.forEach(product => {
+      console.log(product);
+      subTotal += Number(product.amount);
+      iva += Number(product.amount * 0.16);
+    });
+    this.subtotal = subTotal;
+    this.taxes = iva;
+    this.total = this.subtotal + this.taxes;
   }
 
   onSave() {

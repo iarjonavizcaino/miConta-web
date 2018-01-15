@@ -313,6 +313,7 @@ export interface RtHeader {
   moment?: boolean;
   color?: boolean;
   number?: boolean;
+  chip?: boolean;
 }
 
 export interface RtAction {

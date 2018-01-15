@@ -48,7 +48,7 @@ export class InicioContadorComponent implements OnInit {
     document.getElementById(card).style.background = 'lightgreen';
   }
   taxpayerDetail(page: string) {
-    this.router.navigate([page, {name: 'Jesica'}]);
+    this.router.navigate([page, { name: 'Jesica' }]);
   }
   stopPropagation(ev: Event) {
     if (ev) { ev.stopPropagation(); }
@@ -63,6 +63,7 @@ export class InicioContadorComponent implements OnInit {
       }
     });
   }
+
   loadData() {
     this.data = [
       {
@@ -77,17 +78,17 @@ export class InicioContadorComponent implements OnInit {
         statement: [
           {
             year: '2015',
-            bimester: '1',
+            bimester: 'ENE/FEB',
             type: 'Presentada'
           },
           {
             year: '2016',
-            bimester: '2',
+            bimester: 'MAR/ABR',
             type: 'Pagada'
           },
           {
             year: '2017',
-            bimester: '3',
+            bimester: 'MAY/JUN',
             type: 'Pendiente'
           }
         ]
@@ -102,17 +103,17 @@ export class InicioContadorComponent implements OnInit {
         statement: [
           {
             year: '2017',
-            bimester: '4',
+            bimester: 'JUL/AGO',
             type: 'Presentada'
           },
           {
             year: '2017',
-            bimester: '4',
+            bimester: 'JUL/AGO',
             type: 'Pagada'
           },
           {
             year: '2017',
-            bimester: '4',
+            bimester: 'JUL/AGO',
             type: 'Pendiente'
           }
         ]
@@ -127,17 +128,17 @@ export class InicioContadorComponent implements OnInit {
         statement: [
           {
             year: '2017',
-            bimester: '5',
+            bimester: 'SEP/OCT',
             type: 'Presentada'
           },
           {
             year: '2017',
-            bimester: '6',
+            bimester: 'NOV/DIC',
             type: 'Pagada'
           },
           {
             year: '2018',
-            bimester: '1',
+            bimester: 'ENE/FEB',
             type: 'Pendiente'
           }
         ]

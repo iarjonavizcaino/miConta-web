@@ -26,10 +26,11 @@ export class ModalCrearContribuyenteComponent implements OnInit {
   };
   statement: any = [];
   selectedStatement: any;
+  regimen = 'RIF';
   headers: Array<RtHeader> = [
     { name: 'Año', prop: 'year', default: '' },
     { name: 'Bimestre', prop: 'bimester', default: 'XXXX-XXX-XXXX' },
-    { name: 'Estatus', prop: 'type', default: '' },
+    { name: 'Estatus', prop: 'type', default: '', chip: true },
     { name: 'Archivo', prop: 'file', default: 'No archivo' }
   ];
   constructor(
