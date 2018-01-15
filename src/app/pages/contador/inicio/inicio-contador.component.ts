@@ -48,7 +48,7 @@ export class InicioContadorComponent implements OnInit {
     document.getElementById(card).style.background = 'lightgreen';
   }
   taxpayerDetail(page: string) {
-    this.router.navigate([page, { name: 'Jesica' }]);
+    this.router.navigate([page], {queryParams: { name: 'Jessica' }});
   }
   stopPropagation(ev: Event) {
     if (ev) { ev.stopPropagation(); }

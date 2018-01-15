@@ -85,9 +85,7 @@ export class BillingCatalogComponent implements OnInit {
 
   getTotal(data) {
     let subTotal = 0, iva = 0;
-    console.log(data);
     data.forEach(product => {
-      console.log(product);
       subTotal += Number(product.amount);
       iva += Number(product.amount * 0.16);
     });
