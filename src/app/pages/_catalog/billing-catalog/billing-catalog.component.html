@@ -113,6 +113,23 @@
       [action]="action" 
       [data]="products">
       </rt-datatable>
+      <div>
+        <div class="row" style="text-align: right; padding-top: 10px">
+          <div class="col-9">Subtotal: </div>
+          <div class="col-3">{{subtotal | currency:'USD':true:'2.2-4'}}</div>
+        </div>
+        <hr>
+        <div class="row" style="text-align: right;">
+          <div class="col-9">IVA:</div>
+          <div class="col-3">{{taxes | currency:'USD':true:'2.2-4'}}</div>
+        </div>
+        <hr>
+        <div class="row" style="text-align: right;">
+          <div class="col-9">Total:</div>
+          <div class="col-3">{{total | currency:'USD':true:'2.2-4'}}</div>
+        </div>
+        <br>
+      </div>
     </div>
   </section>
 
@@ -120,7 +137,7 @@
     <!-- <button mat-button (click)="onClose()">
       Cancelar
     </button> -->
-    <button mat-raised-button color="primary" (click)="onSave()">
+    <button mat-raised-button color="primary" (click)="onClose()">
       Aceptar
     </button>
   </footer>

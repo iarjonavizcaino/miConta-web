@@ -30,7 +30,7 @@
             <input [readonly]="false" matInput placeholder="RFC" [(ngModel)]="taxPayer.rfc">
           </mat-form-field>
           <mat-form-field>
-            <mat-select placeholder="Régimen Fiscal">
+            <mat-select placeholder="Régimen Fiscal" [(ngModel)]="regimen">
               <mat-option value="RIF">
                 RIF
               </mat-option>

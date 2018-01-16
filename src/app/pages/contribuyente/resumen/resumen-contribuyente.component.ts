@@ -3,12 +3,12 @@ import { RtAction, RtActionName, RtHeader } from '../../../components/rt-datatab
 import { Subject } from 'rxjs/Subject';
 import { MatDialog } from '@angular/material';
 import { BillingCatalogComponent } from '../../_catalog/billing-catalog/billing-catalog.component';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-resumen-contribuyente',
   templateUrl: './resumen-contribuyente.component.html',
-  styleUrls: ['./resumen-contribuyente.component.css']
+  styleUrls: ['./resumen-contribuyente.component.scss']
 })
 export class ResumenContribuyenteComponent implements OnInit {
   headersIngresos: Array<RtHeader> = [
@@ -32,9 +32,22 @@ export class ResumenContribuyenteComponent implements OnInit {
   // egresos
   dataEgresos = [];
   actionEgresos = new Subject<RtAction>();
-  constructor(private router: Router, private dialogCtrl: MatDialog) { }
+  sub: any;
+  contribuyente: string;
+  constructor(private router: Router, private dialogCtrl: MatDialog, private route: ActivatedRoute) { }
 
   ngOnInit() {
+
+    this.sub = this.route
+      .queryParams
+      .subscribe(params => {
+        console.log('params', params);
+        // tslint:disable-next-line:triple-equals
+        if (params.name != 0) {
+          this.contribuyente = params.name;
+        }
+      });
+
     this.loadIngresosData();
     this.loadEgresosData();
   }
@@ -58,6 +71,7 @@ export class ResumenContribuyenteComponent implements OnInit {
   stopPropagation(ev: Event) {
     if (ev) { ev.stopPropagation(); }
   }
+
   loadIngresosData() {
     this.dataIngresos = [
       {
