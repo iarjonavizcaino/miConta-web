@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { RtAction, RtActionName, RtHeader } from '../../../components/rt-datatable/rt-datatable.component';
+import { RtAction, RtActionName, RtHeader, RtCheckEvent } from '../../../components/rt-datatable/rt-datatable.component';
 import { ConfirmComponent } from '../../../components/confirm/confirm.component';
 import { Subject } from 'rxjs/Subject';
 import { MatDialog } from '@angular/material';
@@ -20,11 +20,15 @@ export class InicioDespachoComponent implements OnInit {
     { name: 'Contribuyentes Declarados', prop: 'taxpayer.declarados', default: '0', align: 'center' },
     { name: 'Contrib. No Declarados', prop: 'taxpayer.no_declarados', default: '0', align: 'center' },
     { name: 'Fuera de Límite', prop: 'taxpayer.fuera_de_limite', default: '0', align: 'center' },
+    { name: 'Activo', prop: 'active', input: 'toggle' }
   ];
   selectedAccountant: any;
   data = [];
   action = new Subject<RtAction>();
-  constructor(private notification: NotificationsService, private router: Router, private dialogCtrl: MatDialog) { }
+  constructor(
+    private notification: NotificationsService,
+    private router: Router,
+    private dialogCtrl: MatDialog) { }
 
   ngOnInit() {
     this.loadData();
@@ -33,9 +37,11 @@ export class InicioDespachoComponent implements OnInit {
   private loadData() {
     this.data = [
       {
+        _id: '1',
         name: 'Denis Adrian Jiménez Ortiz',
         email: 'denis_jim@gmail.com',
         phone: '3111979297',
+        active: true,
         address: {
           street: 'Sánchez Tahuada',
           number: '75',
@@ -53,9 +59,11 @@ export class InicioDespachoComponent implements OnInit {
         }
       },
       {
+        _id: '2',
         name: 'Roberto Herrera Ortiz',
         email: 'bertho@ricosuave.com',
         phone: '3111108525',
+        active: false,
         address: {
           street: 'Av. Mato Lópe',
           number: '31',
@@ -73,9 +81,11 @@ export class InicioDespachoComponent implements OnInit {
         }
       },
       {
+        _id: '3',
         name: 'Guadalupe Alcaraz Tizando',
         email: 'lupe_tizanado@gmail.com',
         phone: '3111632141',
+        active: true,
         address: {
           street: 'Av. Orozco',
           number: '96',
@@ -94,6 +104,7 @@ export class InicioDespachoComponent implements OnInit {
       }
     ];
   }
+
   onCreate(ev) {
     // call modal to register new Contador
     const accountant = this.accountantModal(this.selectedAccountant, false, 'Nuevo Contador');
@@ -115,6 +126,33 @@ export class InicioDespachoComponent implements OnInit {
       });
     });
   }
+
+  onRowChecked(ev: RtCheckEvent) {
+    const accountant: any = ev.item;
+    if (accountant.taxpayer.total > 0 && ev.item.active) {
+      const dialogRef = this.dialogCtrl.open(ConfirmComponent, {
+        data: {
+          title: '¡Atención!',
+          message: `El contador ${accountant.name} tiene contribuyentes asociados. No se puede desactivar`,
+          type: 'warn',
+          input: false,
+          alert: true
+        }
+      });
+      dialogRef.afterClosed().subscribe(res => {
+        accountant.active = true;
+        this.action.next({ name: RtActionName.UPDATE, itemId: accountant._id, newItem: accountant });
+      });
+    } else {
+      accountant.active = !accountant.active;
+      if (accountant.active) {
+        this.notification.success('Acción exitosa', `El contador ${accountant.name} se activó correctamente.`);
+      } else {
+        this.notification.success('Acción exitosa', `El contador ${accountant.name} se desactivó correctamente.`);
+      }
+    }
+  }
+
   onView(ev) {
     // call modal to see Contador personal info
     this.accountantModal(this.selectedAccountant, true, 'Detalle');

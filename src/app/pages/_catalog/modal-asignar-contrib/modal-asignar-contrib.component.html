@@ -9,10 +9,10 @@
 
   <div class="body">
     <div class="container">
-      <mat-form-field>
+      <!-- <mat-form-field>
         <mat-icon matPrefix>person</mat-icon>
         <input [readonly]="true" matInput placeholder="Contador Actual" [(ngModel)]="todayAccontant">
-      </mat-form-field>
+      </mat-form-field> -->
       <form class="example-form">
         <mat-form-field class="example-full-width">
           <mat-icon matPrefix>person</mat-icon>
@@ -34,7 +34,7 @@
   </div>
 
   <footer class="footer">
-    <button mat-button color="warn" (click)="onClose()">
+    <button mat-button (click)="onClose()">
       Cancelar
     </button>
     <button *ngIf="!selectedAll" mat-raised-button color="primary" (click)="onSave()">

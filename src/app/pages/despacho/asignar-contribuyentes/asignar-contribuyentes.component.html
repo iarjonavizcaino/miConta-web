@@ -2,6 +2,7 @@
   <li>
     <a routerLink="/despacho/inicio" routerLinkActive="active">Inicio</a>
   </li>
+  <li class="selected">Asignar contribuyentes</li>
 </ul>
 
 <rt-datatable (selected)="onItemSelected($event)" (checked)="onItemChecked($event)" searchWait="600" [showRowNumber]="false"
@@ -15,7 +16,7 @@
     </button>
     <ng-container *ngIf="checkedItems != 0">
       <button mat-icon-button (click)="onChange()">
-        <mat-icon matTooltip="Seleccionar" matTooltipPosition="above">swap_horiz</mat-icon>
+        <mat-icon matTooltip="Asignar a nuevo contador" matTooltipPosition="above">swap_horiz</mat-icon>
       </button>
     </ng-container>
   </section>

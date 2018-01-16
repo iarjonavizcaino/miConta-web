@@ -98,10 +98,13 @@
 <div class="row">
   <div class="col-12">
     <rt-datatable 
-    (selected)="onContadorSelected($event)" 
-    [showRowNumber]="true" searchWait="600" 
-    [showRowNumber]="false" [headers]="headers"
-      [action]="action" [data]="data">
+      (selected)="onContadorSelected($event)" 
+      (checked)="onRowChecked($event)"
+      [showRowNumber]="true"
+      searchWait="600" 
+      [headers]="headers"
+      [action]="action"
+      [data]="data">
       <section class="actions">
         <button mat-icon-button (click)="onCreate($event)">
           <mat-icon matTooltip="Nuevo" matTooltipPosition="above">add</mat-icon>

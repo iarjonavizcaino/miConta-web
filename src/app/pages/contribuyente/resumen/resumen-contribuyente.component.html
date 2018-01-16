@@ -2,7 +2,8 @@
   <li>
     <a routerLink="/inicio" routerLinkActive="active">Inicio</a>
   </li>
-  <li class="float-right">{{contribuyente}}</li>
+  <li class="selected">Resumen</li>
+  <li class="float-right selected"><strong>{{contribuyente}}</strong></li>
 </ul>
 <div class="row">
   <div class="col-6">
@@ -14,11 +15,11 @@
       <mat-card-content>
         <div class="row">
           <div class="col-6">
-            <h3>IVA:</h3>
-            <h3>ISR:</h3>
+            <h3 style="color: #444">IVA:</h3>
+            <h3 style="color: #444">ISR:</h3>
             <hr>
             <br>
-            <h1>Total:</h1>
+            <h1 style="color: #444">Total:</h1>
           </div>
           <div class="col-6">
             <h3 class="text-center font-normal">{{716873 | currency:'USD':true:'2.2-4'}}</h3>
@@ -38,7 +39,7 @@
         <mat-card-subtitle></mat-card-subtitle>
       </mat-card-header>
       <mat-card-content>
-        <mat-accordion>
+        <mat-accordion class="example-headers-align">
           <mat-expansion-panel>
             <mat-expansion-panel-header>
               <mat-panel-title>
@@ -47,8 +48,17 @@
             </mat-expansion-panel-header>
             <mat-card>
               <mat-card-content>
-                <input placeholder="Archivo" type="file">
+                <div class="file-picker">
+                  <div class="file-btn">
+                    Seleccionar
+                    <input class="picker" type="file" (change)="onSituationFile($event)">
+                  </div>
+                  <span class="filename">
+                    {{ situationFile?.name || 'Ningún archivo seleccionado' }}
+                  </span>
+                </div>
                 <br>
+                <mat-icon>insert_drive_file</mat-icon>
                 <a target="_blank" href="http://archivo.html">Ver archivo</a>
               </mat-card-content>
             </mat-card>
@@ -61,8 +71,17 @@
             </mat-expansion-panel-header>
             <mat-card>
               <mat-card-content>
-                <input placeholder="Archivo" type="file">
+                <div class="file-picker">
+                  <div class="file-btn">
+                    Seleccionar
+                    <input class="picker" type="file" (change)="onLoyalFile($event)">
+                  </div>
+                  <span class="filename">
+                    {{ loyalFile?.name || 'Ningún archivo seleccionado' }}
+                  </span>
+                </div>
                 <br>
+                <mat-icon>insert_drive_file</mat-icon>
                 <a target="_blank" href="http://archivo.html">Ver archivo</a>
               </mat-card-content>
             </mat-card>
@@ -75,8 +94,17 @@
             </mat-expansion-panel-header>
             <mat-card>
               <mat-card-content>
-                <input placeholder="Archivo" type="file">
+                <div class="file-picker">
+                  <div class="file-btn">
+                    Seleccionar
+                    <input class="picker" type="file" (change)="onSealFile($event)">
+                  </div>
+                  <span class="filename">
+                    {{ sealFile?.name || 'Ningún archivo seleccionado' }}
+                  </span>
+                </div>
                 <br>
+                <mat-icon>insert_drive_file</mat-icon>
                 <a target="_blank" href="http://archivo.html">Ver archivo</a>
               </mat-card-content>
             </mat-card>
@@ -89,7 +117,7 @@
 <br>
 <div class="row">
   <div class="col-12">
-    <mat-accordion>
+    <mat-accordion class="example-headers-align">
       <mat-expansion-panel>
         <mat-expansion-panel-header>
           <mat-panel-title>
@@ -111,7 +139,7 @@
           </section>
         </rt-datatable>
       </mat-expansion-panel>
-      
+
       <mat-expansion-panel>
         <mat-expansion-panel-header>
           <mat-panel-title>

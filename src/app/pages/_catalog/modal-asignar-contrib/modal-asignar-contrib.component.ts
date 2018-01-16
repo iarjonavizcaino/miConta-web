@@ -32,6 +32,7 @@ export class ModalAsignarContribComponent implements OnInit {
     }
   }
   onSave() {
+    console.log(this.selectedAccountant);
     this.dialogRef.close(this.selectedAccountant);
   }
   onClose() {

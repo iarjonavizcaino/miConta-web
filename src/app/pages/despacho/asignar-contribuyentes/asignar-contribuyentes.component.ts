@@ -14,11 +14,11 @@ import { NotificationsService } from 'angular2-notifications';
 })
 export class AsignarContribuyentesComponent implements OnInit {
   headers: Array<RtHeader> = [
-    { name: 'Seleccionar', prop: 'checked', input: 'checkbox', align: 'center' },
+    { name: 'Seleccionar', prop: 'checked', input: 'checkbox' },
     { name: 'Contador Asociado', prop: 'accountant', default: '' },
     { name: 'Contribuyente', prop: 'taxpayer', default: '' },
-    { name: 'RFC', prop: 'rfc', default: '0' },
-    { name: 'Régimen Fiscal', prop: 'regimen_fiscal', default: '', align: 'center' },
+    { name: 'RFC', prop: 'rfc', default: '####' },
+    { name: 'Régimen Fiscal', prop: 'regimen_fiscal', default: 'Sin régimen' },
   ];
   selectedItem: any;
   data = [];
@@ -56,28 +56,30 @@ export class AsignarContribuyentesComponent implements OnInit {
       }
     ];
   }
+
   onItemSelected(ev) {
     if (ev.data) {
-      this.selectedItem = ev.data;
       if (ev.data.checked) {
         ev.data.checked = false;
         this.checkedItems = this.checkedItems - 1 === 0 ? 0 : this.checkedItems - 1;
-      }else {
+      } else {
         ev.data.checked = true;
         this.checkedItems++;
       }
+      this.selectedItem = ev.data;
     }
   }
+
   onItemChecked(ev) {
-    console.log('run');
-    if (ev.item.checked) {
+    if (!ev.item.checked) {
       this.checkedItems++;
+      ev.item.checked = !ev.item.checked;
       this.selectedItem = ev.item;
-    }else {
+    } else {
       this.checkedItems--;
     }
-    console.log(this.selectedItem);
   }
+
   onCheckAll(ev) {
     this.allChecked = !this.allChecked;
     if (this.allChecked) {
@@ -88,7 +90,7 @@ export class AsignarContribuyentesComponent implements OnInit {
         element.checked = true;
       });
       this.checkedItems = this.data.length;
-    }else {
+    } else {
       this.checkedItems = 0;
       this.data.forEach((element) => {  // uncheck all items
         element.checked = false;
@@ -97,7 +99,7 @@ export class AsignarContribuyentesComponent implements OnInit {
 
   }
   onChange(ev) {
-    const newAccontant = this.dialogCtrl.open(ModalAsignarContribComponent, {
+    const newAccountant = this.dialogCtrl.open(ModalAsignarContribComponent, {
       disableClose: false,
       data: {
         todayAccontant: this.selectedItem ? this.selectedItem.accountant : '',
@@ -105,10 +107,12 @@ export class AsignarContribuyentesComponent implements OnInit {
         selectedAll: this.allChecked
       }
     });
-    newAccontant.afterClosed().subscribe((data) => {
+    newAccountant.afterClosed().subscribe((data) => {
       if (!data) { return; }
       this.data.forEach((element) => {
-        element.accountant = data;
+        if (element.checked) {
+          element.accountant = data;
+        }
         element.checked = false;
       });
     });

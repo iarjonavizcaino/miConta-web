@@ -34,6 +34,12 @@ export class ResumenContribuyenteComponent implements OnInit {
   actionEgresos = new Subject<RtAction>();
   sub: any;
   contribuyente: string;
+
+  // file picker
+  situationFile: any;
+  sealFile: any;
+  loyalFile: any;
+
   constructor(private router: Router, private dialogCtrl: MatDialog, private route: ActivatedRoute) { }
 
   ngOnInit() {
@@ -54,6 +60,19 @@ export class ResumenContribuyenteComponent implements OnInit {
   onBillSelected(ev) {
     this.selectedBill = ev.data;
   }
+
+  onLoyalFile(ev) {
+    this.loyalFile = ev.target.files[0];
+  }
+
+  onSealFile(ev) {
+    this.sealFile = ev.target.files[0];
+  }
+
+  onSituationFile(ev) {
+    this.situationFile = ev.target.files[0];
+  }
+
   onViewBill(ev) {
     this.stopPropagation(ev);
     this.billModal(this.selectedBill, true, 'Datos de Factura');
