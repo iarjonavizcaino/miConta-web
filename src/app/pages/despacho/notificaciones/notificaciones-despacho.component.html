@@ -1,0 +1,19 @@
+<ul class="breadcrumb">
+  <li>
+    <a routerLink="/despacho/inicio" routerLinkActive="active">Inicio</a>
+  </li>
+</ul>
+
+<rt-datatable (selected)="onMessageSelected($event)" [showRowNumber]="true" searchWait="600" [showRowNumber]="false" [headers]="headers"
+  [action]="action" [data]="data">
+  <section class="actions">
+    <button mat-icon-button (click)="onCreate()">
+      <mat-icon matTooltip="Nuevo" matTooltipPosition="above">add</mat-icon>
+    </button>
+    <ng-container *ngIf="selectedMessage">
+      <button mat-icon-button (click)="onView($event)">
+        <mat-icon matTooltip="Ver detalles" matTooltipPosition="above">visibility</mat-icon>
+      </button>
+    </ng-container>
+  </section>
+</rt-datatable>

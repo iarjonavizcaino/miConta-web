@@ -7,15 +7,15 @@ import { CrearNotificacionComponent } from '../../_catalog/crear-notificacion/cr
 import { NotificationsService } from 'angular2-notifications';
 
 @Component({
-  selector: 'app-notificaciones',
-  templateUrl: './notificaciones.component.html',
-  styleUrls: ['./notificaciones.component.css']
+  selector: 'app-notificaciones-despacho',
+  templateUrl: './notificaciones-despacho.component.html',
+  styleUrls: ['./notificaciones-despacho.component.css']
 })
+export class NotificacionesDespachoComponent implements OnInit {
 
-export class NotificacionesComponent implements OnInit {
   headers: Array<RtHeader> = [
     { name: 'Asunto', prop: 'subject', default: '' },
-    { name: 'Contribuyente', prop: 'taxpayer', default: '' },
+    { name: 'Contador', prop: 'taxpayer', default: '' },
     { name: 'Fecha', prop: 'date', moment: true, default: 'No date' },
   ];
   selectedMessage: any;
@@ -51,7 +51,7 @@ export class NotificacionesComponent implements OnInit {
   onCreate() {
     const dialogRef = this.dialogCtrl.open(CrearNotificacionComponent, {
       disableClose: false,
-      data: 'Contribuyente', // placeholder to auto-complete in select user
+      data: 'Contador'
     });
     dialogRef.afterClosed().subscribe((data) => {
       if (!data) { return; }
@@ -83,4 +83,5 @@ export class NotificacionesComponent implements OnInit {
       }
     });
   }
-}
+
+}// class

@@ -1,12 +1,8 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { Subject } from 'rxjs/Subject';
-
-import { ConfirmComponent } from '../../../components/confirm/confirm.component';
-import { RtAction, RtActionName, RtHeader } from '../../../components/rt-datatable/rt-datatable.component';
-import { NotificationsService } from 'angular2-notifications';
-import { MatDialog, MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import {FormControl} from '@angular/forms';
 import * as moment from 'moment';
+
 @Component({
   selector: 'app-crear-notificacion',
   templateUrl: './crear-notificacion.component.html',
@@ -15,6 +11,7 @@ import * as moment from 'moment';
 export class CrearNotificacionComponent implements OnInit {
   myControl: FormControl = new FormControl();
   moment = moment;
+  placeholder = 'asd';
   notification: any = {
     taxpayer: '',
     subject: '',
@@ -28,16 +25,14 @@ export class CrearNotificacionComponent implements OnInit {
    ];
 
   constructor(
-    // private saleProv: SaleProvider,
-    private notify: NotificationsService,
-    private dialogCtrl: MatDialog,
     private dialogRef: MatDialogRef<CrearNotificacionComponent>,
-    // private productProv: ProductProvider,
-    // private cutProv: CutProvider,
     @Inject(MAT_DIALOG_DATA) private data: any
   ) { }
 
   ngOnInit() {
+    if (!this.data) { return; }
+    this.placeholder = this.data;
+    // this.placeholder = this.data.placeholder;
   }
   onClose() {
     this.dialogRef.close();

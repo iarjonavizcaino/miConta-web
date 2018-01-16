@@ -13,7 +13,7 @@ import { Router } from '@angular/router';
 export class InicioContadorComponent implements OnInit {
 
   headers: Array<RtHeader> = [
-    { name: 'Nombre o Razón social', prop: 'name', default: '' },
+    { name: 'Contribuyente', prop: 'name', default: '' },
     { name: 'RFC', prop: 'rfc', default: 'XXXX-XXX-XXXX' },
     { name: 'Régimen fiscal', prop: 'fiscal_regime', default: '' },
   ];
@@ -24,6 +24,7 @@ export class InicioContadorComponent implements OnInit {
 
   ngOnInit() {
     this.loadData();
+    this.setBgCard('card1');
   }
   onTaxpayerSelected(ev) {
     this.selectedTaxpayer = ev.data;
@@ -40,10 +41,10 @@ export class InicioContadorComponent implements OnInit {
     console.log('filtrar en tabla');
   }
   private setBgCard(card: string) {
-    document.getElementById('card1').style.background = 'lightgrey';
-    document.getElementById('card2').style.background = 'lightgrey';
-    document.getElementById('card3').style.background = 'lightgrey';
-    document.getElementById('card4').style.background = 'lightgrey';
+    const numCards = 4;
+    for (let i = 1; i <= numCards; i++) {
+      document.getElementById('card' + i).style.background = 'lightgrey';
+    }
 
     document.getElementById(card).style.background = 'lightgreen';
   }

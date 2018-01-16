@@ -1,0 +1,47 @@
+<section class="showMessage-catalog">
+  <header class="header">
+    <h3 class="title">
+      Asignar Contribuyente</h3>
+    <button mat-icon-button (click)="onClose()">
+      <mat-icon>close</mat-icon>
+    </button>
+  </header>
+
+  <div class="body">
+    <div class="container">
+      <mat-form-field>
+        <mat-icon matPrefix>person</mat-icon>
+        <input [readonly]="true" matInput placeholder="Contador Actual" [(ngModel)]="todayAccontant">
+      </mat-form-field>
+      <form class="example-form">
+        <mat-form-field class="example-full-width">
+          <mat-icon matPrefix>person</mat-icon>
+          <input [(ngModel)]="selectedAccountant" matInput type="text" placeholder="Nuevo Contador" aria-label="Number" matInput [formControl]="myControl" [matAutocomplete]="auto">
+          <mat-autocomplete #auto="matAutocomplete">
+            <mat-option *ngFor="let option of options" [value]="option.accountant">
+              {{ option.accountant }}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+      </form>
+      <mat-checkbox required *ngIf="selectedAll" color="warn">
+        Entiendo las atrocidades que esto puede desencadenar.
+        <br> Cómo cuando el profe le pidió a Jessi que cambiara algo.
+        <br>
+        <strong>Sólo yo seré responsables de tales actos barbáricos</strong>
+      </mat-checkbox>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <button mat-button color="warn" (click)="onClose()">
+      Cancelar
+    </button>
+    <button *ngIf="!selectedAll" mat-raised-button color="primary" (click)="onSave()">
+      Aceptar
+    </button>
+    <button *ngIf="selectedAll" color="warn" mat-raised-button (click)="onSave()">
+      ¡MotherFucker! Nigga bitch!
+    </button>
+  </footer>
+</section>

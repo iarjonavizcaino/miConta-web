@@ -1,0 +1,22 @@
+<ul class="breadcrumb">
+  <li>
+    <a routerLink="/despacho/inicio" routerLinkActive="active">Inicio</a>
+  </li>
+</ul>
+
+<rt-datatable (selected)="onItemSelected($event)" (checked)="onItemChecked($event)" searchWait="600" [showRowNumber]="false"
+  [headers]="headers" [action]="action" [data]="data">
+  <section class="actions">
+    <button mat-icon-button (click)="onCheckAll($event)" *ngIf="!allChecked">
+      <mat-icon matTooltip="Seleccionar" matTooltipPosition="above">check_box_outline_blank</mat-icon>
+    </button>
+    <button mat-icon-button (click)="onCheckAll($event)" *ngIf="allChecked">
+      <mat-icon matTooltip="Seleccionar" matTooltipPosition="above">check_box</mat-icon>
+    </button>
+    <ng-container *ngIf="checkedItems != 0">
+      <button mat-icon-button (click)="onChange()">
+        <mat-icon matTooltip="Seleccionar" matTooltipPosition="above">swap_horiz</mat-icon>
+      </button>
+    </ng-container>
+  </section>
+</rt-datatable>

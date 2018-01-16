@@ -19,7 +19,7 @@ export class LoginComponent implements OnInit {
 
   constructor(private router: Router, private auth: AuthService, private fb: FormBuilder, private session: SessionService) {
     this.loginForm = fb.group({
-      username: ['contador', Validators.required],
+      username: ['despacho', Validators.required],
       password: ['contador', Validators.required]
     });
   }
@@ -30,22 +30,33 @@ export class LoginComponent implements OnInit {
   onLogin() {
     let emp: Employee;
     let root = '';
-    if (this.loginForm.get('username').value === 'contribuyente') {
-      emp = {
-        name: this.loginForm.get('username').value,
-        role: {
-          name: 'contribuyente'
-        }
-      };
-      root = '/contribuyente/inicio';
-    } else {
-      emp = {
-        name: this.loginForm.get('username').value,
-        role: {
-          name: 'contador'
-        }
-      };
-      root = '/contador/incio';
+    switch (this.loginForm.get('username').value) {
+      case 'contribuyente':
+        emp = {
+          name: this.loginForm.get('username').value,
+          role: {
+            name: 'contribuyente'
+          }
+        };
+        root = '/contribuyente/inicio';
+        break;
+      case 'contador':
+        emp = {
+          name: this.loginForm.get('username').value,
+          role: {
+            name: 'contador'
+          }
+        };
+        root = '/contador/incio';
+        break;
+      case 'despacho':
+        emp = {
+          name: this.loginForm.get('username').value,
+          role: {
+            name: 'despacho'
+          }
+        };
+        root = 'despacho/inicio';
     }
     this.auth.loginSuccess(emp, '');
     this.router.navigate([root]);

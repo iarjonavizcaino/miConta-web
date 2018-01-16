@@ -25,17 +25,28 @@ export class SidemenuComponent implements OnInit {
     this.user$ = this.session.user;
     this.user$.subscribe(data => {
       if (data) {
-          if (data.role.name === 'contribuyente') { // denis
+        switch (data.role.name) {
+          case 'contribuyente':
             this.permission = {
               contribuyente: true,
-              contador: false
+              contador: false,
+              despacho: false
             };
-          }else {  // contador
+            break;
+          case 'contador':
             this.permission = {
               contribuyente: false,
-              contador: true
+              contador: true,
+              despacho: false
             };
-          }
+            break;
+          case 'despacho':
+            this.permission = {
+              contribuyente: false,
+              contador: false,
+              despacho: true
+            };
+        }// switch
       }
     });
   }

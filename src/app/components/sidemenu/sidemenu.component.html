@@ -14,6 +14,27 @@
     </button>
   </li>
   <li>
+    <button *ngIf="permission.despacho" mat-button class="home-item" [routerLinkActiveOptions]="{ exact: true }" [routerLinkActive]="['is-active']"
+      routerLink="/despacho/inicio" (click)="selectedOption ='home'; home=true;">
+      <mat-icon class="home-icon">home</mat-icon>
+      <div class="home-item-title">Inicio</div>
+    </button>
+  </li>
+  <li>
+    <button *ngIf="permission.despacho" mat-button class="home-item" [routerLinkActiveOptions]="{ exact: true }" [routerLinkActive]="['is-active']"
+      routerLink="/despacho/asignar" (click)="selectedOption ='home'; home=true;">
+      <mat-icon class="home-icon">swap_horiz</mat-icon>
+      <div class="home-item-title">Asignar Contribuyentes</div>
+    </button>
+  </li>
+  <li>
+    <button *ngIf="permission.despacho" mat-button class="home-item" [routerLinkActiveOptions]="{ exact: true }" [routerLinkActive]="['is-active']"
+      routerLink="/despacho/notificaciones" (click)="selectedOption ='home'; home=true;">
+      <mat-icon class="home-icon">messages</mat-icon>
+      <div class="home-item-title">Notificaciones</div>
+    </button>
+  </li>
+  <li>
     <button *ngIf="permission.contribuyente" mat-button class="home-item" [routerLinkActiveOptions]="{ exact: true }" [routerLinkActive]="['is-active']"
       routerLink="/contribuyente/resumen" (click)="selectedOption ='home'; home=true;">
       <mat-icon class="home-icon">assessment</mat-icon>

@@ -38,6 +38,9 @@ import { ObligacionesComponent } from './pages/contribuyente/obligaciones/obliga
 import { LimitesComponent } from './pages/contribuyente/limites/limites.component';
 import { NotificacionesContribuyenteComponent } from './pages/contribuyente/notificaciones/notificaciones-contribuyente.component';
 import { CrudContribuyentesComponent } from './pages/contador/crud-contribuyentes/crud-contribuyentes.component';
+import { InicioDespachoComponent } from './pages/despacho/inicio/inicio-despacho.component';
+import { NotificacionesDespachoComponent } from './pages/despacho/notificaciones/notificaciones-despacho.component';
+import { AsignarContribuyentesComponent } from './pages/despacho/asignar-contribuyentes/asignar-contribuyentes.component';
 
 // Components
 import { RtDatatableComponent } from './components/rt-datatable/rt-datatable.component';
@@ -76,6 +79,8 @@ import { ShowMessageCatalogComponent } from './pages/_catalog/show-message-catal
 import { ModalCrearContribuyenteComponent } from './pages/_catalog/modal-crear-contribuyente/modal-crear-contribuyente.component';
 import { NotificacionesComponent } from './pages/contador/notificaciones/notificaciones.component';
 import { CrearNotificacionComponent } from './pages/_catalog/crear-notificacion/crear-notificacion.component';
+import { ModalContadorComponent } from './pages/_catalog/modal-contador/modal-contador.component';
+import { ModalAsignarContribComponent } from './pages/_catalog/modal-asignar-contrib/modal-asignar-contrib.component';
 
 
 // all routes pages
@@ -94,7 +99,11 @@ const routes: Routes = [
   // contador routes
   { path: 'contador/incio', component: InicioContadorComponent },
   { path: 'contador/contribuyentes', component: CrudContribuyentesComponent },
-  { path: 'contador/notificaciones', component: NotificacionesComponent }
+  { path: 'contador/notificaciones', component: NotificacionesComponent },
+  // despacho routes
+  { path: 'despacho/inicio', component: InicioDespachoComponent },
+  { path: 'despacho/notificaciones', component: NotificacionesDespachoComponent },
+  { path: 'despacho/asignar', component: AsignarContribuyentesComponent },
 ];
 
 @NgModule({
@@ -103,7 +112,10 @@ const routes: Routes = [
     BillingCatalogComponent,
     ShowMessageCatalogComponent,
     ModalCrearContribuyenteComponent,
-    CrearNotificacionComponent
+    CrearNotificacionComponent,
+    ModalContadorComponent,
+    ConfirmComponent,
+    ModalAsignarContribComponent
   ],
   declarations: [
     AppComponent,
@@ -112,6 +124,7 @@ const routes: Routes = [
     ShowMessageCatalogComponent,
     ModalCrearContribuyenteComponent,
     CrearNotificacionComponent,
+    ModalContadorComponent,
 
     // components
     AlertComponent,
@@ -120,6 +133,7 @@ const routes: Routes = [
     RtSearchbarComponent,
     PaginatorComponent,
     ToolbarComponent,
+    ConfirmComponent,
     // pages
     LoginComponent,
     InicioComponent,
@@ -131,13 +145,13 @@ const routes: Routes = [
     ObligacionesComponent,
     LimitesComponent,
     NotificacionesContribuyenteComponent,
-    ShowMessageCatalogComponent,
-    ModalCrearContribuyenteComponent,
     CrudContribuyentesComponent,
-    ModalCrearContribuyenteComponent,
     ResumenContribuyenteComponent,
     NotificacionesComponent,
-    CrearNotificacionComponent
+    InicioDespachoComponent,
+    NotificacionesDespachoComponent,
+    AsignarContribuyentesComponent,
+    ModalAsignarContribComponent
   ],
   imports: [
     BrowserModule,
