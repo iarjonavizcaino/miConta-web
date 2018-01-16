@@ -15,6 +15,7 @@ import * as accounting from 'accounting-js';
 import * as moment from 'moment';
 
 @Component({
+  // tslint:disable-next-line:component-selector
   selector: 'rt-datatable',
   templateUrl: './rt-datatable.component.html',
   styleUrls: ['./rt-datatable.component.scss']
@@ -24,13 +25,19 @@ export class RtDatatableComponent implements OnInit, OnDestroy {
   accounting = accounting;
   moment = moment;
 
+  // tslint:disable-next-line:no-input-rename
   @Input('showRowNumber') isRowNumber = true;
+  // tslint:disable-next-line:no-input-rename
   @Input('lazyness') isLazyness: boolean;
   @Input('searchWait') searchWait = 1000;
 
+  // tslint:disable-next-line:no-output-rename
   @Output('checked') checkEmitter = new EventEmitter();
+  // tslint:disable-next-line:no-output-rename
   @Output('changed') changeEmitter = new EventEmitter();
+  // tslint:disable-next-line:no-output-rename
   @Output('search') searchEmitter = new EventEmitter();
+  // tslint:disable-next-line:no-output-rename
   @Output('selected') rowSelectionEmitter = new EventEmitter();
 
   @Input('headers') headers: Array<RtHeader>;

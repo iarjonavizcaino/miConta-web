@@ -6,6 +6,8 @@ import { MatDialog } from '@angular/material';
 import { ModalContadorComponent } from '../../_catalog/modal-contador/modal-contador.component';
 import { Router } from '@angular/router';
 import { NotificationsService } from 'angular2-notifications';
+import { ModalAsignarContribComponent } from '../../_catalog/modal-asignar-contrib/modal-asignar-contrib.component';
+import { TaxpayerCatalogComponent } from '../../_catalog/taxpayer-catalog/taxpayer-catalog.component';
 
 @Component({
   selector: 'app-inicio-despacho',
@@ -52,6 +54,23 @@ export class InicioDespachoComponent implements OnInit {
           municipality: 'Tepic'
         },
         taxpayer: {
+          taxpayers: [
+            {
+              name: 'Juan Ramírez',
+              rfc: 'VECJ880326XXX',
+              fiscal_regime: 'Incorporación Fiscal'
+            },
+            {
+              name: 'Manuel López',
+              rfc: 'JCVE880326XXX',
+              fiscal_regime: 'Servicios Profesionales'
+            },
+            {
+              name: 'Amalia de la Cruz',
+              rfc: 'ANAS81636XXX',
+              fiscal_regime: 'Intereses'
+            },
+          ],
           total: 40,
           declarados: 20,
           no_declarados: 18,
@@ -74,6 +93,23 @@ export class InicioDespachoComponent implements OnInit {
           municipality: 'Tepic'
         },
         taxpayer: {
+          taxpayers: [
+            {
+              name: 'Lorena Jimenez',
+              rfc: 'VECJ880326XXX',
+              fiscal_regime: 'Incorporación Fiscal'
+            },
+            {
+              name: 'Joaquín Lugo',
+              rfc: 'JCVE880326XXX',
+              fiscal_regime: 'Servicios Profesionales'
+            },
+            {
+              name: 'Ana González',
+              rfc: 'ANAS81636XXX',
+              fiscal_regime: 'Intereses'
+            },
+          ],
           total: 50,
           declarados: 25,
           no_declarados: 5,
@@ -96,16 +132,34 @@ export class InicioDespachoComponent implements OnInit {
           municipality: 'Tepic'
         },
         taxpayer: {
+          taxpayers: [
+            {
+              name: 'Enrique Vera',
+              rfc: 'VECJ880326XXX',
+              fiscal_regime: 'Incorporación Fiscal'
+            },
+            {
+              name: 'Jose Manuel Martínez',
+              rfc: 'JCVE880326XXX',
+              fiscal_regime: 'Servicios Profesionales'
+            },
+            {
+              name: 'Francisco Zavala',
+              rfc: 'ANAS81636XXX',
+              fiscal_regime: 'Intereses'
+            },
+          ],
           total: 10,
           declarados: 8,
           no_declarados: 1,
           fuera_de_limite: 1
-        }
+        },
       }
     ];
   }
 
   onCreate(ev) {
+    this.stopPropagation(ev);
     // call modal to register new Contador
     const accountant = this.accountantModal(this.selectedAccountant, false, 'Nuevo Contador');
     accountant.afterClosed().subscribe((data) => {
@@ -125,6 +179,11 @@ export class InicioDespachoComponent implements OnInit {
         this.notification.success('Exito', 'Se guardo correctamente');
       });
     });
+  }
+
+  onReasignTaxpayer(ev) {
+    this.stopPropagation(ev);
+    this.taxPayersListModal(this.selectedAccountant.taxpayer.taxpayers, 'Contribuyentes asociados');
   }
 
   onRowChecked(ev: RtCheckEvent) {
@@ -154,6 +213,7 @@ export class InicioDespachoComponent implements OnInit {
   }
 
   onView(ev) {
+    this.stopPropagation(ev);
     // call modal to see Contador personal info
     this.accountantModal(this.selectedAccountant, true, 'Detalle');
   }
@@ -168,7 +228,19 @@ export class InicioDespachoComponent implements OnInit {
       }
     });
   }
-  onContadorDetail() {
+
+  taxPayersListModal(taxpayer: any, title: string) {
+    return this.dialogCtrl.open(TaxpayerCatalogComponent, {
+      disableClose: false,
+      data: {
+        title: title,
+        taxpayer: taxpayer
+      }
+    });
+  }
+
+  onContadorDetail(ev) {
+    this.stopPropagation(ev);
     // see page as Contador
     this.router.navigate(['/contador/incio', { contador: this.selectedAccountant.name }]);
   }
@@ -189,4 +261,7 @@ export class InicioDespachoComponent implements OnInit {
     document.getElementById(card).style.background = 'lightgreen';
   }
 
+  stopPropagation(ev: Event) {
+    if (ev) { ev.stopPropagation(); }
+  }
 }

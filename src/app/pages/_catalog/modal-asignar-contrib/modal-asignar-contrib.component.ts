@@ -22,6 +22,7 @@ export class ModalAsignarContribComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    console.log('hola');
     this.loadData();
   }
   private loadData() {

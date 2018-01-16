@@ -3,6 +3,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 
 @Component({
+  // tslint:disable-next-line:component-selector
   selector: 'confirm',
   templateUrl: './confirm.component.html',
   styleUrls: ['./confirm.component.scss']

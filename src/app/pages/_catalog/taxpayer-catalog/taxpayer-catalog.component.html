@@ -1,0 +1,33 @@
+<section class="taxpayer-catalog">
+  <header class="header">
+    <h3 class="title">{{ title }}</h3>
+    <button mat-icon-button (click)="onClose()">
+      <mat-icon>close</mat-icon>
+    </button>
+  </header>
+
+  <section class="body">
+    <div class="container">
+      <rt-datatable (selected)="onTaxpayerSelected($event)" (checked)="onTaxpayerChecked($event)" searchWait="600"
+        [showRowNumber]="false" [headers]="headers" [action]="action" [data]="taxpayers">
+        <section class="actions">
+          <button mat-icon-button (click)="onCheckAll($event)" *ngIf="!checkedTaxpayers">
+            <mat-icon matTooltip="Seleccionar" matTooltipPosition="above">check_box_outline_blank</mat-icon>
+          </button>
+          <button mat-icon-button (click)="onCheckAll($event)" *ngIf="checkedTaxpayers">
+            <mat-icon matTooltip="Seleccionar" matTooltipPosition="above">check_box</mat-icon>
+          </button>
+        </section>
+      </rt-datatable>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <button mat-button (click)="onClose()">
+      Cancelar
+    </button>
+    <button mat-raised-button color="primary" [disabled]="!checkedTaxpayers" (click)="onSave($event)">
+      Guardar
+    </button>
+  </footer>
+</section>

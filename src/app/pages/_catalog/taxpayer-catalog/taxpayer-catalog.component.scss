@@ -1,0 +1,83 @@
+.taxpayer-catalog {
+    $bd-divider: 1px solid #ccc;
+    
+    width: 100%;
+    max-width: 600px;
+
+    .header,
+    .body,
+    .footer {
+        padding: 16px;
+    }
+
+    .header {
+        display: flex;
+        justify-content: space-between;
+        border-bottom: $bd-divider;
+
+        .mat-icon {
+            align-self: flex-end;
+        }
+
+        .title {
+            margin-top: 10px;
+            font-weight: 400;
+            font-size: 22px;
+            line-height: 22px;
+        }
+    }
+
+    .body {
+        .mat-input-container {
+            width: 100%;
+        }
+
+        .row:last-child {
+            margin-top: 8px;
+        }
+
+        .file-picker {
+
+            .file-btn {
+                position: relative;
+                display: inline-block;
+                overflow: hidden;
+                padding: 8px 16px;
+                border-radius: 4px;
+                border: 1px solid #ccc;
+
+                .picker {
+                    position: absolute;
+                    left: 0;
+                    top: 0;
+                    right: 0;
+                    bottom: 0;
+                    opacity: 0;
+                }
+            }
+
+            .filename {
+                display: block;
+                color: #444;
+            }
+        }
+    }
+
+    .footer {
+        margin-top: 16px;
+        text-align: right;
+        border-top: $bd-divider;
+    }
+}
+
+:host ::ng-deep {
+    mat-form-field {
+        .mat-form-field-prefix {
+            margin-right: 8px;
+        }
+
+        .mat-icon {
+            color: #666;
+        }
+    }
+}

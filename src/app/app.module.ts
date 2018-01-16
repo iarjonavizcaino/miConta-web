@@ -67,6 +67,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { InicioComponent } from './pages/contribuyente/inicio/inicio.component';
 import { importType } from '@angular/compiler/src/output/output_ast';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+
+// Pages
 import { InicioContadorComponent } from './pages/contador/inicio/inicio-contador.component';
 import { ImpuestosComponent } from './pages/contribuyente/impuestos/impuestos.component';
 import { EgresosComponent } from './pages/contribuyente/egresos/egresos.component';
@@ -81,6 +83,7 @@ import { NotificacionesComponent } from './pages/contador/notificaciones/notific
 import { CrearNotificacionComponent } from './pages/_catalog/crear-notificacion/crear-notificacion.component';
 import { ModalContadorComponent } from './pages/_catalog/modal-contador/modal-contador.component';
 import { ModalAsignarContribComponent } from './pages/_catalog/modal-asignar-contrib/modal-asignar-contrib.component';
+import { TaxpayerCatalogComponent } from './pages/_catalog/taxpayer-catalog/taxpayer-catalog.component';
 
 
 // all routes pages
@@ -115,7 +118,8 @@ const routes: Routes = [
     CrearNotificacionComponent,
     ModalContadorComponent,
     ConfirmComponent,
-    ModalAsignarContribComponent
+    ModalAsignarContribComponent,
+    TaxpayerCatalogComponent
   ],
   declarations: [
     AppComponent,
@@ -125,6 +129,7 @@ const routes: Routes = [
     ModalCrearContribuyenteComponent,
     CrearNotificacionComponent,
     ModalContadorComponent,
+    TaxpayerCatalogComponent,
 
     // components
     AlertComponent,
