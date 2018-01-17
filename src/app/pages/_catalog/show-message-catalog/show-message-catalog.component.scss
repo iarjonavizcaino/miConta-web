@@ -20,7 +20,7 @@
         }
 
         .title {
-            margin-top: 10px;
+            margin-bottom: 10px;
             font-weight: 400;
             font-size: 22px;
             line-height: 22px;
@@ -71,6 +71,9 @@
 }
 
 :host ::ng-deep {
+    mat-icon {
+        color: #666;        
+    }
     mat-form-field {
         .mat-form-field-prefix {
             margin-right: 8px;

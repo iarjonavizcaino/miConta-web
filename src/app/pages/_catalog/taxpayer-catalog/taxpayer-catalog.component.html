@@ -17,17 +17,17 @@
           <button mat-icon-button (click)="onCheckAll($event)" *ngIf="checkedTaxpayers">
             <mat-icon matTooltip="Seleccionar" matTooltipPosition="above">check_box</mat-icon>
           </button>
+          <button mat-icon-button (click)="onChange($event)" *ngIf="checkedTaxpayers">
+            <mat-icon matTooltip="Reasignar contador" matTooltipPosition="above">swap_horiz</mat-icon>
+          </button>
         </section>
       </rt-datatable>
     </div>
   </section>
 
   <footer class="footer">
-    <button mat-button (click)="onClose()">
+    <button mat-raised-button color="primary" (click)="onClose()">
       Cancelar
-    </button>
-    <button mat-raised-button color="primary" [disabled]="!checkedTaxpayers" (click)="onSave($event)">
-      Guardar
     </button>
   </footer>
 </section>

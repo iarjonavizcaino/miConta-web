@@ -111,9 +111,10 @@ export class CrudContribuyentesComponent implements OnInit {
 
   }
   onEdit(ev) {
-
+    this.stopPropagation(ev);
   }
-  onCreate() {
+  onCreate(ev) {
+    this.stopPropagation(ev);
     this.taxpayerModal(null, true, 'Nuevo contribuyente');
   }
   stopPropagation(ev: Event) {

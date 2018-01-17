@@ -18,7 +18,7 @@
           <mat-icon matPrefix>person</mat-icon>
           <input [(ngModel)]="selectedAccountant" matInput type="text" placeholder="Nuevo Contador" aria-label="Number" matInput [formControl]="myControl" [matAutocomplete]="auto">
           <mat-autocomplete #auto="matAutocomplete">
-            <mat-option *ngFor="let option of options" [value]="option.accountant">
+            <mat-option *ngFor="let option of accountants" [value]="option.accountant">
               {{ option.accountant }}
             </mat-option>
           </mat-autocomplete>

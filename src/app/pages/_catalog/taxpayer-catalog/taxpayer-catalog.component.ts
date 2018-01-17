@@ -6,7 +6,6 @@ import { NotificationsService } from 'angular2-notifications';
 import { MatDialog, MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { ModalAsignarContribComponent } from '../modal-asignar-contrib/modal-asignar-contrib.component';
 
-
 @Component({
   selector: 'app-taxpayer-catalog',
   templateUrl: './taxpayer-catalog.component.html',
@@ -16,7 +15,7 @@ import { ModalAsignarContribComponent } from '../modal-asignar-contrib/modal-asi
 export class TaxpayerCatalogComponent implements OnInit {
   allChecked: boolean;
   taxpayers = [];
-  checkedTaxpayers: any;
+  checkedTaxpayers = 0;
   selectedTaxpayer: any;
 
   headers: Array<RtHeader> = [
@@ -27,29 +26,6 @@ export class TaxpayerCatalogComponent implements OnInit {
   ];
   action = new Subject<RtAction>();
   title: string;
-  accountants = [
-    {
-      checked: false,
-      accountant: 'Denis Adrian Jiménez Ortiz',
-      taxpayer: 'Saúl Jiménez',
-      rfc: 'VECJ880326XXX',
-      regimen_fiscal: 'RIF'
-    },
-    {
-      checked: false,
-      accountant: 'Roberto Herrera Ortiz',
-      taxpayer: 'Manuel Perez',
-      rfc: 'JCVE880326XXX',
-      regimen_fiscal: 'RIF'
-    },
-    {
-      checked: false,
-      accountant: 'Guadalupe Alcaraz Tizando',
-      taxpayer: 'Ernesto de la Cruz',
-      rfc: 'ANAS81636XXX',
-      regimen_fiscal: 'RIF'
-    }
-  ];
 
   constructor(
     private notify: NotificationsService,
@@ -66,7 +42,16 @@ export class TaxpayerCatalogComponent implements OnInit {
   }
 
   onTaxpayerSelected(ev) {
-    this.selectedTaxpayer = ev.data;
+    if (ev.data) {
+      if (ev.data.checked) {
+        ev.data.checked = false;
+        this.checkedTaxpayers = this.checkedTaxpayers - 1 === 0 ? 0 : this.checkedTaxpayers - 1;
+      } else {
+        ev.data.checked = true;
+        this.checkedTaxpayers++;
+      }
+      this.selectedTaxpayer = ev.data;
+    }
   }
 
   onClose() {
@@ -77,10 +62,12 @@ export class TaxpayerCatalogComponent implements OnInit {
     if (!ev.item.checked) {
       this.checkedTaxpayers++;
       ev.item.checked = !ev.item.checked;
-      this.checkedTaxpayers = ev.item;
+      this.selectedTaxpayer = ev.item;
     } else {
       this.checkedTaxpayers--;
     }
+    console.log(this.taxpayers);
+    console.log(this.checkedTaxpayers);
   }
 
   onCheckAll(ev) {
@@ -101,14 +88,16 @@ export class TaxpayerCatalogComponent implements OnInit {
     }
   }
 
-  onSave(ev) {
+  onChange(ev) {
+    this.stopPropagation(ev);
     const dialogRef = this.reasignModal('Contribuyentes asociados');
-
     dialogRef.afterClosed().subscribe((data) => {
       if (!data) { return; }
-      this.taxpayers.forEach((element) => {
+      const res = this.taxpayers.slice();
+      res.forEach((element) => {
         if (element.checked) {
           element.accountant = data;
+          this.action.next({name: RtActionName.DELETE, itemId: element._id, newItem: data});
         }
         element.checked = false;
       });
@@ -121,7 +110,6 @@ export class TaxpayerCatalogComponent implements OnInit {
       data: {
         title: title,
         todayAccontant: this.selectedTaxpayer ? this.selectedTaxpayer.accountant : '',
-        options: this.accountants,
         selectedAll: this.allChecked
       }
     });

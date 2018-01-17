@@ -14,7 +14,31 @@ export class ModalAsignarContribComponent implements OnInit {
   todayAccontant: '';
   selectedAll = false;
   selectedAccountant = '';
-  options = [];
+
+  accountants = [
+    {
+      checked: false,
+      accountant: 'Denis Adrian Jiménez Ortiz',
+      taxpayer: 'Saúl Jiménez',
+      rfc: 'VECJ880326XXX',
+      regimen_fiscal: 'RIF'
+    },
+    {
+      checked: false,
+      accountant: 'Roberto Herrera Ortiz',
+      taxpayer: 'Manuel Perez',
+      rfc: 'JCVE880326XXX',
+      regimen_fiscal: 'RIF'
+    },
+    {
+      checked: false,
+      accountant: 'Guadalupe Alcaraz Tizando',
+      taxpayer: 'Ernesto de la Cruz',
+      rfc: 'ANAS81636XXX',
+      regimen_fiscal: 'RIF'
+    }
+  ];
+
   constructor(
     private dialogCtrl: MatDialog,
     private dialogRef: MatDialogRef<ModalAsignarContribComponent>,
@@ -22,13 +46,11 @@ export class ModalAsignarContribComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    console.log('hola');
     this.loadData();
   }
   private loadData() {
     if (this.data.options) {
       this.todayAccontant = this.data.todayAccontant;
-      this.options = this.data.options;
       this.selectedAll = this.data.selectedAll;
     }
   }

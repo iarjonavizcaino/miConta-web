@@ -66,7 +66,6 @@ import { HttpModule } from '@angular/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { InicioComponent } from './pages/contribuyente/inicio/inicio.component';
 import { importType } from '@angular/compiler/src/output/output_ast';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 // Pages
 import { InicioContadorComponent } from './pages/contador/inicio/inicio-contador.component';
@@ -129,6 +128,7 @@ const routes: Routes = [
     ModalCrearContribuyenteComponent,
     CrearNotificacionComponent,
     ModalContadorComponent,
+    ModalAsignarContribComponent,
     TaxpayerCatalogComponent,
 
     // components
@@ -156,7 +156,6 @@ const routes: Routes = [
     InicioDespachoComponent,
     NotificacionesDespachoComponent,
     AsignarContribuyentesComponent,
-    ModalAsignarContribComponent
   ],
   imports: [
     BrowserModule,
@@ -166,8 +165,6 @@ const routes: Routes = [
     FormsModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
-    NoopAnimationsModule,
-
     //  Material Modules
     MatSidenavModule,
     MatToolbarModule,

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { RtAction, RtActionName, RtHeader, RtCheckEvent } from '../../../components/rt-datatable/rt-datatable.component';
 import { ConfirmComponent } from '../../../components/confirm/confirm.component';
 import { Subject } from 'rxjs/Subject';
-import { MatDialog } from '@angular/material';
+import { MatDialog, MatDialogRef } from '@angular/material';
 import { ModalContadorComponent } from '../../_catalog/modal-contador/modal-contador.component';
 import { Router } from '@angular/router';
 import { NotificationsService } from 'angular2-notifications';
@@ -56,16 +56,19 @@ export class InicioDespachoComponent implements OnInit {
         taxpayer: {
           taxpayers: [
             {
+              _id: '1',
               name: 'Juan Ramírez',
               rfc: 'VECJ880326XXX',
               fiscal_regime: 'Incorporación Fiscal'
             },
             {
+              _id: '2',
               name: 'Manuel López',
               rfc: 'JCVE880326XXX',
               fiscal_regime: 'Servicios Profesionales'
             },
             {
+              _id: '3',
               name: 'Amalia de la Cruz',
               rfc: 'ANAS81636XXX',
               fiscal_regime: 'Intereses'
@@ -95,16 +98,19 @@ export class InicioDespachoComponent implements OnInit {
         taxpayer: {
           taxpayers: [
             {
+              _id: '1',
               name: 'Lorena Jimenez',
               rfc: 'VECJ880326XXX',
               fiscal_regime: 'Incorporación Fiscal'
             },
             {
+              _id: '2',
               name: 'Joaquín Lugo',
               rfc: 'JCVE880326XXX',
               fiscal_regime: 'Servicios Profesionales'
             },
             {
+              _id: '3',
               name: 'Ana González',
               rfc: 'ANAS81636XXX',
               fiscal_regime: 'Intereses'
@@ -134,16 +140,19 @@ export class InicioDespachoComponent implements OnInit {
         taxpayer: {
           taxpayers: [
             {
+              _id: '1',
               name: 'Enrique Vera',
               rfc: 'VECJ880326XXX',
               fiscal_regime: 'Incorporación Fiscal'
             },
             {
+              _id: '2',
               name: 'Jose Manuel Martínez',
               rfc: 'JCVE880326XXX',
               fiscal_regime: 'Servicios Profesionales'
             },
             {
+              _id: '3',
               name: 'Francisco Zavala',
               rfc: 'ANAS81636XXX',
               fiscal_regime: 'Intereses'

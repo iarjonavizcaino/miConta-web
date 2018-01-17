@@ -1,8 +1,8 @@
 .showMessage-catalog {
     $bd-divider: 1px solid #ccc;
     
-    // min-width: 600px;
     width: 600px;
+    // max-width: 600px;
 
     .header,
     .body,
@@ -35,32 +35,6 @@
         .row:last-child {
             margin-top: 8px;
         }
-
-        .file-picker {
-
-            .file-btn {
-                position: relative;
-                display: inline-block;
-                overflow: hidden;
-                padding: 8px 16px;
-                border-radius: 4px;
-                border: 1px solid #ccc;
-
-                .picker {
-                    position: absolute;
-                    left: 0;
-                    top: 0;
-                    right: 0;
-                    bottom: 0;
-                    opacity: 0;
-                }
-            }
-
-            .filename {
-                display: block;
-                color: #444;
-            }
-        }
     }
 
     .footer {
@@ -80,10 +54,4 @@
             color: #666;
         }
     }
-}
-.little-icon{
-    font-size: 1.2em;
-}
-.little-margin-left{
-    margin-left: 2.3%;
 }

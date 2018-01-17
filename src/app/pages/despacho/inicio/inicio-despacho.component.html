@@ -96,32 +96,28 @@
 </div>
 <br>
 <br>
-<div class="row">
-  <div class="col-12">
-    <rt-datatable 
-      (selected)="onContadorSelected($event)" 
-      (checked)="onRowChecked($event)"
-      [showRowNumber]="true"
-      searchWait="600" 
-      [headers]="headers"
-      [action]="action"
-      [data]="data">
-      <section class="actions">
-        <button mat-icon-button (click)="onCreate($event)">
-          <mat-icon matTooltip="Nuevo" matTooltipPosition="above">add</mat-icon>
-        </button>
-        <ng-container *ngIf="selectedAccountant">
-          <button mat-icon-button (click)="onView($event)">
-            <mat-icon matTooltip="Ver detalles" matTooltipPosition="above">visibility</mat-icon>
-          </button>
-          <button mat-icon-button (click)="onContadorDetail($event)">
-            <mat-icon matTooltip="Resumen" matTooltipPosition="above">assessment</mat-icon>
-          </button>
-          <button mat-icon-button (click)="onReasignTaxpayer($event)">
-            <mat-icon matTooltip="Reasignar constribuyentes del contador" matTooltipPosition="above">assignment_ind</mat-icon>
-          </button>
-        </ng-container>
-      </section>
-    </rt-datatable>
-  </div>
-</div>
+<rt-datatable 
+  (selected)="onContadorSelected($event)" 
+  (checked)="onRowChecked($event)"
+  [showRowNumber]="true"
+  searchWait="600" 
+  [headers]="headers"
+  [action]="action"
+  [data]="data">
+  <section class="actions">
+    <button mat-icon-button (click)="onCreate($event)">
+      <mat-icon matTooltip="Nuevo" matTooltipPosition="above">add</mat-icon>
+    </button>
+    <ng-container *ngIf="selectedAccountant">
+      <button mat-icon-button (click)="onView($event)">
+        <mat-icon matTooltip="Ver detalles" matTooltipPosition="above">visibility</mat-icon>
+      </button>
+      <button mat-icon-button (click)="onContadorDetail($event)">
+        <mat-icon matTooltip="Resumen" matTooltipPosition="above">assessment</mat-icon>
+      </button>
+      <button mat-icon-button (click)="onReasignTaxpayer($event)">
+        <mat-icon matTooltip="Reasignar constribuyentes del contador" matTooltipPosition="above">assignment_ind</mat-icon>
+      </button>
+    </ng-container>
+  </section>
+</rt-datatable>

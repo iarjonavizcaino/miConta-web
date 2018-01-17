@@ -1,5 +1,6 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { ModalAsignarContribComponent } from '../modal-asignar-contrib/modal-asignar-contrib.component';
 
 @Component({
   selector: 'app-modal-contador',

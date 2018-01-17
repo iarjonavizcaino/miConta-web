@@ -33,7 +33,8 @@ export class InicioContadorComponent implements OnInit {
     this.stopPropagation(ev);
     this.taxpayerModal(this.selectedTaxpayer, true, 'Detalle contribuyente');
   }
-  onCreate() {
+  onCreate(ev) {
+    this.stopPropagation(ev);
     this.taxpayerModal(null, true, 'Nuevo contribuyente');
   }
   filtrar(card: string) {
