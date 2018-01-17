@@ -185,7 +185,7 @@ export class InicioDespachoComponent implements OnInit {
       });
       // tslint:disable-next-line:no-shadowed-variable
       dialogRef.afterClosed().subscribe((data) => {
-        this.notification.success('Exito', 'Se guardo correctamente');
+        this.notification.success('Acción exitosa', `El contador se guardó correctamente`);
       });
     });
   }

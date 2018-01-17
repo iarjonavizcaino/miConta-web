@@ -5,6 +5,8 @@ import { MatDialog, MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import * as moment from 'moment';
 import { Component, OnInit, Inject } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+const RFC_REGEX = /^([A-ZÑ]{3,4}([0-9]{2})(0[1-9]|1[0-2])(0[1-9]|1[0-9]|2[0-9]|3[0-1]))([A-Z\d]{3})?$/;
 
 @Component({
   selector: 'app-modal-crear-contribuyente',
@@ -24,6 +26,9 @@ export class ModalCrearContribuyenteComponent implements OnInit {
     vigencia_sellos: '',
     password: '',
   };
+
+  taxpayerForm: FormGroup;
+  readonly: boolean;
   statement: any = [];
   selectedStatement: any;
   regimen = 'RIF';
@@ -36,20 +41,33 @@ export class ModalCrearContribuyenteComponent implements OnInit {
   constructor(
     private dialogCtrl: MatDialog,
     private dialogRef: MatDialogRef<ModalCrearContribuyenteComponent>,
-    @Inject(MAT_DIALOG_DATA) private data: any
-  ) { }
+    @Inject(MAT_DIALOG_DATA) private data: any,
+    private fb: FormBuilder
+  ) {
+    this.taxpayerForm = fb.group({
+      name: [null, Validators.required],
+      rfc: [null, Validators.compose([Validators.required, Validators.pattern(RFC_REGEX)])],
+      fiscal_regime: [null, Validators.required],
+      suspension_date: '',
+      regimen_change: '',
+      vigencia_fiel: [null, Validators.required],
+      vigencia_sellos: [null, Validators.required],
+      password: [null, Validators.required]
+    });
+  }
 
   ngOnInit() {
+    this.readonly = this.data.readonly;
+    this.title = this.data.title;
+    console.log(this.data);
     // no esta trabajando bien esto
-    if (this.data.taxPayer == null) {  // data: info from table
-      // new taxpayer
-      this.title = this.data.title;
-      console.log('Nuevo');
-    } else { // detail
-      this.title = this.data.title;
+    if (this.data.taxPayer) {   // detail
       this.taxPayer = this.data.taxPayer;
       this.statement = this.data.taxPayer.statement;
       console.log('detalle', this.data);
+    } else {
+      // new taxpayer
+      console.log('Nuevo');
     }
   }
 
@@ -57,7 +75,8 @@ export class ModalCrearContribuyenteComponent implements OnInit {
     this.selectedStatement = ev.data;
   }
   onSave() {
-    this.dialogRef.close();
+    this.taxPayer.fiscal_regime = this.regimen;
+    this.dialogRef.close(this.taxPayer);
   }
   onClose() {
     this.dialogRef.close();

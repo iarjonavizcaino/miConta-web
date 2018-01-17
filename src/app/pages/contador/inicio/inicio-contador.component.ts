@@ -4,6 +4,8 @@ import { Subject } from 'rxjs/Subject';
 import { MatDialog } from '@angular/material';
 import { ModalCrearContribuyenteComponent } from '../../_catalog/modal-crear-contribuyente/modal-crear-contribuyente.component';
 import { Router } from '@angular/router';
+import { ConfirmComponent } from '../../../components/confirm/confirm.component';
+import { NotificationsService } from 'angular2-notifications';
 
 @Component({
   selector: 'app-inicio-contador',
@@ -20,7 +22,10 @@ export class InicioContadorComponent implements OnInit {
   selectedTaxpayer: any;
   data = [];
   action = new Subject<RtAction>();
-  constructor(private router: Router, private dialogCtrl: MatDialog) { }
+  constructor(
+    private router: Router,
+    private dialogCtrl: MatDialog,
+    private notification: NotificationsService) { }
 
   ngOnInit() {
     this.loadData();
@@ -33,10 +38,28 @@ export class InicioContadorComponent implements OnInit {
     this.stopPropagation(ev);
     this.taxpayerModal(this.selectedTaxpayer, true, 'Detalle contribuyente');
   }
+
   onCreate(ev) {
     this.stopPropagation(ev);
-    this.taxpayerModal(null, true, 'Nuevo contribuyente');
+    const taxpayer = this.taxpayerModal(null, false, 'Nuevo contribuyente');
+    taxpayer.afterClosed().subscribe((data) => {
+      if (!data) { return; }
+      // Make HTTP request to create contadores
+      this.action.next({ name: RtActionName.CREATE, newItem: data }); // save data
+      const dialogRef = this.dialogCtrl.open(ConfirmComponent, {
+        data: {
+          title: 'Creedenciales de Acceso',
+          message: 'usuario: 123, password: 123',
+          type: 'warn'
+        }
+      });
+      // tslint:disable-next-line:no-shadowed-variable
+      dialogRef.afterClosed().subscribe((data) => {
+        this.notification.success('Acción exitosa', `El contribuyente se guardó correctamente`);
+      });
+    });
   }
+
   filtrar(card: string) {
     this.setBgCard(card);
     console.log('filtrar en tabla');
