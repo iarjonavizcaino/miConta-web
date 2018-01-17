@@ -1,7 +1,9 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { ConfirmComponent } from '../../../components/confirm/confirm.component';
 import { MatDialog, MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
-import {FormControl} from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/operator/startWith';
 
 @Component({
   selector: 'app-modal-asignar-contrib',
@@ -9,11 +11,12 @@ import {FormControl} from '@angular/forms';
   styleUrls: ['./modal-asignar-contrib.component.scss']
 })
 export class ModalAsignarContribComponent implements OnInit {
-  myControl: FormControl = new FormControl();
+  filteredAccountants: Observable<any[]>;
+  accountantForm: FormGroup;
 
   todayAccontant: '';
   selectedAll = false;
-  selectedAccountant = '';
+  selectedAccountant: any;
 
   accountants = [
     {
@@ -42,10 +45,19 @@ export class ModalAsignarContribComponent implements OnInit {
   constructor(
     private dialogCtrl: MatDialog,
     private dialogRef: MatDialogRef<ModalAsignarContribComponent>,
+    private fb: FormBuilder,
     @Inject(MAT_DIALOG_DATA) private data: any
-  ) { }
+  ) {
+    this.accountantForm = fb.group({
+      'accountant': [null, Validators.required]
+    });
+  }
 
   ngOnInit() {
+    this.filteredAccountants = this.accountantForm.get('accountant').valueChanges
+      .startWith(null)
+      .map(accountant => accountant && typeof accountant === 'object' ? accountant.accountant : accountant)
+      .map(name => name ? this.filterAccountant(name) : this.accountants.slice());
     this.loadData();
   }
   private loadData() {
@@ -54,6 +66,17 @@ export class ModalAsignarContribComponent implements OnInit {
       this.selectedAll = this.data.selectedAll;
     }
   }
+
+  displayFnAccountant(accountant: any): any {
+    this.selectedAccountant = accountant ? accountant : accountant;
+    return accountant ? accountant.accountant : accountant;
+  }
+
+  filterAccountant(name: string): any[] {
+    return this.accountants.filter(option =>
+      option.accountant.toLowerCase().indexOf(name.toLowerCase()) === 0);
+  }
+
   onSave() {
     console.log(this.selectedAccountant);
     this.dialogRef.close(this.selectedAccountant);

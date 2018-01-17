@@ -14,9 +14,9 @@ import { NotificationsService } from 'angular2-notifications';
 export class NotificacionesDespachoComponent implements OnInit {
 
   headers: Array<RtHeader> = [
-    { name: 'Asunto', prop: 'subject', default: '' },
-    { name: 'Contador', prop: 'taxpayer', default: '' },
-    { name: 'Fecha', prop: 'date', moment: true, default: 'No date' },
+    { name: 'Asunto', prop: 'subject', default: 'Sin asunto' },
+    { name: 'Contador', prop: 'destinatary.name', default: 'Sin destinatario' },
+    { name: 'Fecha', prop: 'date', moment: true, default: 'Sin fecha' },
   ];
   selectedMessage: any;
   data = [];
@@ -29,20 +29,20 @@ export class NotificacionesDespachoComponent implements OnInit {
     this.data = [
       {
         subject: 'PAGO ATRASADO',
-        taxpayer: 'Saúl Jimenez',
+        destinatary: {name: 'Saúl Jimenez'},
         date: '09-19-1995',
         // tslint:disable-next-line:max-line-length
         message: 'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Nisi dolores expedita cumque eligendi ratione, fugit, fuga consequatur autem quas soluta,.'
       },
       {
         subject: 'PRODUCTO NO VALIDO',
-        taxpayer: 'Manuel Pérez',
+        destinatary: {name: 'Manuel Pérez'},
         date: '01-12-2015',
         message: 'El producto facturado no es válido'
       },
       {
         subject: 'FECHA DEL SIGUIENTE CORTE',
-        taxpayer: 'Ernesto de la Cruz',
+        destinatary: {name: 'Ernesto de la Cruz'},
         date: '01-22-2018',
         message: '02 MAR 18'
       }
@@ -55,9 +55,8 @@ export class NotificacionesDespachoComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe((data) => {
       if (!data) { return; }
-      // Make HTTP request to create employee
-      // console.log(data);
-      // this.data.push(data);
+      // Make HTTP request to create notification
+      console.log(data);
       this.action.next({name: RtActionName.CREATE, newItem: data, order: '-1'});
       this.noti.success('Exito', 'Se envió correctamente');
     });

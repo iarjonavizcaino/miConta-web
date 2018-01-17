@@ -7,68 +7,141 @@
   </header>
 
   <section class="body">
-    <div class="container">
-      <div class="row">
-        <div class="col-12">
-          <mat-form-field>
-            <mat-icon matPrefix>person</mat-icon>
-            <input [readonly]="false" matInput placeholder="Nombre" [(ngModel)]="accountant.name">
-          </mat-form-field>
+    <form [formGroup]="accountantForm">
+      <div class="container">
+        <div class="row">
+          <div class="col-12">
+            <mat-form-field>
+              <mat-icon matPrefix>person</mat-icon>
+              <input [readonly]="false" matInput placeholder="Nombre" [(ngModel)]="accountant.name" [formControl]="accountantForm.controls['name']">
+              <mat-error *ngIf="accountantForm.controls['name'].hasError('required')">
+                Campo
+                <strong>requerido</strong>
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="col-12 col-md-6">
+            <mat-form-field>
+              <mat-icon matPrefix>email</mat-icon>
+              <input [readonly]="false" matInput placeholder="Email" [(ngModel)]="accountant.email" [formControl]="accountantForm.controls['email']">
+              <mat-error *ngIf="accountantForm.controls['email'].hasError('required')">
+                Campo
+                <strong>requerido</strong>
+              </mat-error>
+              <mat-error *ngIf="accountantForm.controls['email'].hasError('pattern') && accountantForm.controls['email'].touched">
+                Email
+                <strong>inválido</strong>
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="col-12 col-md-6">
+            <mat-form-field>
+              <mat-icon matPrefix>phone</mat-icon>
+              <input [readonly]="false" matInput placeholder="Teléfono" [(ngModel)]="accountant.phone" [formControl]="accountantForm.controls['phone']">
+              <mat-error *ngIf="accountantForm.controls['phone'].hasError('required')">
+                Campo
+                <strong>requerido</strong>
+              </mat-error>
+            </mat-form-field>
+          </div>
         </div>
-        <div class="col-6">
-          <mat-form-field>
-            <mat-icon matPrefix>email</mat-icon>
-            <input [readonly]="false" matInput placeholder="Email" [(ngModel)]="accountant.email">
-          </mat-form-field>
+        <div class="row">
+          <div class="col-12 col-md-6">
+            <mat-form-field>
+              <mat-icon matPrefix>location_on</mat-icon>
+              <input [readonly]="false" matInput required placeholder="Calle" [(ngModel)]="accountant.address.street" [formControl]="accountantForm.controls['street']">
+              <mat-error *ngIf="accountantForm.controls['street'].hasError('required')">
+                Campo
+                <strong>requerido</strong>
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="col-12 col-md-6">
+            <mat-form-field>
+              <mat-icon matPrefix>streetview</mat-icon>
+              <input [readonly]="false" required matInput type="number" placeholder="Número" [(ngModel)]="accountant.address.number" [formControl]="accountantForm.controls['number']">
+              <mat-error *ngIf="accountantForm.controls['number'].hasError('required')">
+                Campo
+                <strong>requerido</strong>
+              </mat-error>
+            </mat-form-field>
+          </div>
         </div>
-        <div class="col-6">
-          <mat-form-field>
-            <mat-icon matPrefix>phone</mat-icon>
-            <input [readonly]="false" matInput type="number" placeholder="Teléfono" [(ngModel)]="accountant.phone">
-          </mat-form-field>
+        <div class="row">
+          <div class="col-12 col-md-6">
+            <mat-form-field>
+              <mat-icon matPrefix>location_on</mat-icon>
+              <input [readonly]="false" required matInput placeholder="Colonia" [(ngModel)]="accountant.address.neighborhood" [formControl]="accountantForm.controls['neighborhood']">
+              <mat-error *ngIf="accountantForm.controls['neighborhood'].hasError('required')">
+                Campo
+                <strong>requerido</strong>
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="col-12 col-md-6">
+            <mat-form-field>
+              <mat-icon matPrefix>streetview</mat-icon>
+              <input [readonly]="false" type="number" type="text" required minlength="5" maxlength="5" [formControl]="accountantForm.controls['zipcode']"
+                matInput placeholder="Código Postal" [(ngModel)]="accountant.address.zipcode">
+              <mat-error *ngIf="accountantForm.controls['zipcode'].hasError('required')">
+                Campo
+                <strong>requerido</strong>
+              </mat-error>
+              <mat-error *ngIf="accountantForm.controls['zipcode'].hasError('minlength') || accountantForm.controls['zipcode'].hasError('maxlength')">
+                Código postal es de
+                <strong>5 caracteres</strong>
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12 col-md-6">
+            <mat-form-field>
+              <mat-icon matPrefix>location_on</mat-icon>
+              <input [readonly]="false" required matInput placeholder="Ciudad" [(ngModel)]="accountant.address.city" [formControl]="accountantForm.controls['city']">
+              <mat-error *ngIf="accountantForm.controls['city'].hasError('required')">
+                Campo
+                <strong>requerido</strong>
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="col-12 col-md-6">
+            <mat-form-field>
+              <mat-icon matPrefix>location_on</mat-icon>
+              <input [readonly]="false" matInput placeholder="Municipio" [(ngModel)]="accountant.address.municipality" [formControl]="accountantForm.controls['municipality']">
+              <mat-error *ngIf="accountantForm.controls['city'].hasError('required')">
+                Campo
+                <strong>requerido</strong>
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12 col-md-6">
+            <mat-form-field>
+              <mat-icon matPrefix>location_on</mat-icon>
+              <input type="text" [readonly]="false" required placeholder="Estado" matInput [formControl]="accountantForm.controls['state']"
+                [matAutocomplete]="state" [(ngModel)]="currentState">
+              <mat-autocomplete #state="matAutocomplete" [displayWith]="displayFnState">
+                <mat-option *ngFor="let option of filteredStates | async" [value]="option">
+                  {{ option.name }}
+                </mat-option>
+              </mat-autocomplete>
+              <mat-error *ngIf="accountantForm.controls['state'].hasError('required')">
+                Campo
+                <strong>requerido</strong>
+              </mat-error>
+            </mat-form-field>
+          </div>
         </div>
       </div>
-      <div class="row">
-        <div class="col-6">
-          <mat-form-field>
-            <mat-icon matPrefix>location_on</mat-icon>
-            <input [readonly]="false" matInput required placeholder="Calle" [(ngModel)]="accountant.address.street">
-          </mat-form-field>
-          <mat-form-field>
-            <mat-icon matPrefix>streetview</mat-icon>
-            <input [readonly]="false" required matInput type="number" placeholder="Número" [(ngModel)]="accountant.address.number">
-          </mat-form-field>
-          <mat-form-field>
-            <mat-icon matPrefix>location_on</mat-icon>
-            <input [readonly]="false" required matInput placeholder="Colonia" [(ngModel)]="accountant.address.neighborhood">
-          </mat-form-field>
-          <mat-form-field>
-            <mat-icon matPrefix>streetview</mat-icon>
-            <input [readonly]="false" type="number" required minlength="5" maxlength="5" matInput placeholder="Código Postal" [(ngModel)]="accountant.address.zipcode">
-          </mat-form-field>
-        </div>
-        <div class="col-6">
-          <mat-form-field>
-            <mat-icon matPrefix>location_on</mat-icon>
-            <input [readonly]="false" required matInput placeholder="Ciudad" [(ngModel)]="accountant.address.city">
-          </mat-form-field>
-          <mat-form-field>
-            <mat-icon matPrefix>location_on</mat-icon>
-            <input [readonly]="false" matInput placeholder="Municipio" [(ngModel)]="accountant.address.municipality">
-          </mat-form-field>
-          <mat-form-field>
-            <mat-icon matPrefix>location_on</mat-icon>
-            <input [readonly]="false" matInput required placeholder="Estado" [(ngModel)]="accountant.address.state">
-          </mat-form-field>
-        </div>
-      </div>
-    </div>
+    </form>
   </section>
   <footer class="footer">
     <button mat-button (click)="onClose()">
       Cancelar
     </button>
-    <button mat-raised-button color="primary" (click)="onSave()">
+    <button mat-raised-button color="primary" [disabled]="!accountantForm.valid" (click)="onSave()">
       Guardar
     </button>
   </footer>

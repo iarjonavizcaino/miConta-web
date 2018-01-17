@@ -170,7 +170,7 @@ export class InicioDespachoComponent implements OnInit {
   onCreate(ev) {
     this.stopPropagation(ev);
     // call modal to register new Contador
-    const accountant = this.accountantModal(this.selectedAccountant, false, 'Nuevo Contador');
+    const accountant = this.accountantModal(null, false, 'Nuevo Contador');
     accountant.afterClosed().subscribe((data) => {
       if (!data) { return; }
       // Make HTTP request to create contadores
