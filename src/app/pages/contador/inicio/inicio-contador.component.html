@@ -75,7 +75,7 @@
   </div>
 </div>
 <br>
-<rt-datatable (selected)="onTaxpayerSelected($event)" [showRowNumber]="true" searchWait="600" [showRowNumber]="false" [headers]="headers"
+<rt-datatable (selected)="onTaxpayerSelected($event)" [showRowNumber]="true" searchWait="600" [headers]="headers"
   [action]="action" [data]="data">
   <section class="actions">
     <button mat-icon-button (click)="onCreate($event)">
@@ -96,6 +96,9 @@
       </button>
       <button mat-icon-button (click)="taxpayerDetail('contribuyente/obligaciones')">
         <mat-icon matTooltip="Obligaciones" matTooltipPosition="above">list</mat-icon>
+      </button>
+      <button mat-icon-button (click)="onUploadXML($event)">
+        <mat-icon matTooltip="Subir XML" matTooltipPosition="above">code</mat-icon>
       </button>
     </ng-container>
   </section>

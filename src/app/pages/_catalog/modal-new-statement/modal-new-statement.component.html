@@ -1,0 +1,48 @@
+<section class="new-statement-catalog">
+    <header class="header">
+      <h3 class="title">
+        {{title}}</h3>
+      <button mat-icon-button (click)="onClose()">
+        <mat-icon>close</mat-icon>
+      </button>
+    </header>
+  
+    <div class="body">
+      <form [formGroup]="statementForm">
+        <div class="container">
+          <mat-form-field>
+            <mat-select placeholder="Seleccione un año" [(ngModel)]="statement.year" [formControl]="statementForm.controls['year']">
+              <mat-option *ngFor="let year of years" [value]="year">
+                {{ year }}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="statementForm.controls['year'].hasError('required')">
+              Campo
+              <strong>requerido</strong>
+            </mat-error>
+          </mat-form-field>
+  
+          <mat-form-field>
+            <mat-select [disabled]="!statement.year" placeholder="Seleccione un bimestre" [(ngModel)]="statement.bimester" [formControl]="statementForm.controls['bimester']">
+              <mat-option *ngFor="let bimester of bimesters" [value]="bimester">
+                {{ bimester }}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="statementForm.controls['bimester'].hasError('required')">
+              Campo
+              <strong>requerido</strong>
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </form>
+    </div>
+  
+    <footer class="footer">
+      <button mat-button (click)="onClose()">
+        Cancelar
+      </button>
+      <button mat-raised-button color="primary" [disabled]="!statementForm.valid" (click)="onSave()">
+        Aceptar
+      </button>
+    </footer>
+  </section>

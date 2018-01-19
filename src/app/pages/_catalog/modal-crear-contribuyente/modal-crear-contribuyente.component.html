@@ -138,25 +138,34 @@
       </div> -->
         <br>
         <ng-container *ngIf="readonly">
+
           <rt-datatable (selected)="onSelected($event)" searchWait="600" [showRowNumber]="true" [headers]="headers" [action]="action"
             [data]="statement">
             <section class="actions">
-              <!-- <ng-container *ngIf="selectedStatement">
-               <button mat-icon-button (click)="onView($event)">
-                <mat-icon matTooltip="Ver detalles" matTooltipPosition="above">visibility</mat-icon>
+              <button mat-icon-button (click)="onCreate($event)">
+                <mat-icon matTooltip="Nueva declaración" matTooltipPosition="above">add</mat-icon>
               </button>
-                <button mat-icon-button (click)="onEdit($event)">
-              <mat-icon matTooltip="Editar" matTooltipPosition="above">edit</mat-icon>
-            </button>
-                <mat-slide-toggle (click)="printSelected()">Activar / Desactivar</mat-slide-toggle>
-              </ng-container> -->
+              <ng-container *ngIf="selectedStatement">
+                <button mat-icon-button (click)="onChangeStatus($event)">
+                  <mat-icon matTooltip="Cambiar estatus" matTooltipPosition="above">refresh</mat-icon>
+                </button>
+                <button mat-icon-button (click)="onUploadFiles($event)">
+                  <mat-icon matTooltip="Subir archivos" matTooltipPosition="above">file_upload</mat-icon>
+                </button>
+                <!-- <button mat-icon-button (click)="onEdit($event)">
+                  <mat-icon matTooltip="Editar" matTooltipPosition="above">edit</mat-icon>
+                </button>
+                <mat-slide-toggle (click)="printSelected()">Activar / Desactivar</mat-slide-toggle> -->
+              </ng-container>
             </section>
           </rt-datatable>
+          <br>
+          <br>
           <div class="row">
             <div class="col-12 col-md-6">
               <mat-form-field>
                 <mat-icon matPrefix>today</mat-icon>
-                <input [(ngModel)]="taxPayer.regimen_change" matInput [matDatepicker]="picker" placeholder="Suspención de actividades" [formControl]="taxpayerForm.controls['regimen_change']">
+                <input [(ngModel)]="taxPayer.regimen_change" matInput [matDatepicker]="picker" placeholder="Suspensión de actividades" [formControl]="taxpayerForm.controls['regimen_change']">
                 <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                 <mat-datepicker #picker></mat-datepicker>
                 <mat-error *ngIf="taxpayerForm.controls['regimen_change'].hasError('required')">

@@ -83,6 +83,10 @@ import { CrearNotificacionComponent } from './pages/_catalog/crear-notificacion/
 import { ModalContadorComponent } from './pages/_catalog/modal-contador/modal-contador.component';
 import { ModalAsignarContribComponent } from './pages/_catalog/modal-asignar-contrib/modal-asignar-contrib.component';
 import { TaxpayerCatalogComponent } from './pages/_catalog/taxpayer-catalog/taxpayer-catalog.component';
+import { ModalChangeStatusComponent } from './pages/_catalog/modal-change-status/modal-change-status.component';
+import { UploadXmlComponent } from './pages/_catalog/upload-xml/upload-xml.component';
+import { ModalNewStatementComponent } from './pages/_catalog/modal-new-statement/modal-new-statement.component';
+import { UploadStatementFileComponent } from './pages/_catalog/upload-statement-file/upload-statement-file.component';
 
 
 // all routes pages
@@ -118,7 +122,11 @@ const routes: Routes = [
     ModalContadorComponent,
     ConfirmComponent,
     ModalAsignarContribComponent,
-    TaxpayerCatalogComponent
+    TaxpayerCatalogComponent,
+    ModalChangeStatusComponent,
+    UploadXmlComponent,
+    UploadStatementFileComponent,
+    ModalNewStatementComponent
   ],
   declarations: [
     AppComponent,
@@ -130,6 +138,10 @@ const routes: Routes = [
     ModalContadorComponent,
     ModalAsignarContribComponent,
     TaxpayerCatalogComponent,
+    ModalChangeStatusComponent,
+    UploadXmlComponent,
+    UploadStatementFileComponent,
+    ModalNewStatementComponent,
 
     // components
     AlertComponent,
@@ -156,6 +168,10 @@ const routes: Routes = [
     InicioDespachoComponent,
     NotificacionesDespachoComponent,
     AsignarContribuyentesComponent,
+    ModalChangeStatusComponent,
+    UploadXmlComponent,
+    ModalNewStatementComponent,
+    UploadStatementFileComponent,
   ],
   imports: [
     BrowserModule,

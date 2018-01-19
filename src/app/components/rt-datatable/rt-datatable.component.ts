@@ -321,6 +321,7 @@ export interface RtHeader {
   color?: boolean;
   number?: boolean;
   chip?: boolean;
+  link?: boolean;
 }
 
 export interface RtAction {

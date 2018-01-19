@@ -17,12 +17,12 @@ import { TaxpayerCatalogComponent } from '../../_catalog/taxpayer-catalog/taxpay
 export class InicioDespachoComponent implements OnInit {
 
   headers: Array<RtHeader> = [
-    { name: 'Contador', prop: 'name', default: '' },
-    { name: 'Total de Contribuyentes', prop: 'taxpayer.total', default: '0', align: 'center' },
-    { name: 'Contribuyentes Declarados', prop: 'taxpayer.declarados', default: '0', align: 'center' },
-    { name: 'Contrib. No Declarados', prop: 'taxpayer.no_declarados', default: '0', align: 'center' },
-    { name: 'Fuera de Límite', prop: 'taxpayer.fuera_de_limite', default: '0', align: 'center' },
-    { name: 'Activo', prop: 'active', input: 'toggle' }
+    { name: 'Contador', prop: 'name', default: 'Sin nombre', width: '20' },
+    { name: 'Total de Contribuyentes', prop: 'taxpayer.total', default: '0', align: 'center', width: '15' },
+    { name: 'Contribuyentes Declarados', prop: 'taxpayer.declarados', default: '0', align: 'center', width: '15' },
+    { name: 'Contrib. No Declarados', prop: 'taxpayer.no_declarados', default: '0', align: 'center', width: '15' },
+    { name: 'Fuera de Límite', prop: 'taxpayer.fuera_de_limite', default: '0', align: 'center', width: '15' },
+    { name: 'Activo', prop: 'active', input: 'toggle', width: '12' }
   ];
   selectedAccountant: any;
   data = [];

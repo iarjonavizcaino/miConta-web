@@ -1,0 +1,66 @@
+<section class="upload-file-catalog">
+  <header class="header">
+    <h3 class="title">
+      {{ title }}</h3>
+    <button mat-icon-button (click)="onClose()">
+      <mat-icon>close</mat-icon>
+    </button>
+  </header>
+
+  <div class="body">
+    <div class="container">
+      <mat-accordion>
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              Archivo 1
+            </mat-panel-title>
+            <mat-panel-description>
+              Sube el archivo
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+
+          <div class="file-picker">
+            <div class="file-btn">
+              Seleccionar
+              <input class="picker" type="file" (change)="onFile1($event)">
+            </div>
+            <span class="filename">
+              {{ file1?.name || 'Ningún archivo seleccionado' }}
+            </span>
+          </div>
+        </mat-expansion-panel>
+
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              Archivo 2
+            </mat-panel-title>
+            <mat-panel-description>
+              Sube el archivo
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+
+          <div class="file-picker">
+            <div class="file-btn">
+              Seleccionar
+              <input class="picker" type="file" (change)="onFile2($event)">
+            </div>
+            <span class="filename">
+              {{ file2?.name || 'Ningún archivo seleccionado' }}
+            </span>
+          </div>
+        </mat-expansion-panel>
+      </mat-accordion>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <button mat-button (click)="onClose()">
+      Cancelar
+    </button>
+    <button mat-raised-button color="primary" [disabled]="!file1 || !file2" (click)="onSave()">
+      Aceptar
+    </button>
+  </footer>
+</section>

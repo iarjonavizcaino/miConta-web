@@ -30,12 +30,12 @@
           </mat-error>
         </mat-form-field>
       </form>
-      <mat-checkbox required *ngIf="selectedAll" color="warn">
+      <!-- <mat-checkbox required *ngIf="selectedAll" color="warn">
         Entiendo las atrocidades que esto puede desencadenar.
         <br> Cómo cuando el profe le pidió a Jessi que cambiara algo.
         <br>
         <strong>Sólo yo seré responsables de tales actos barbáricos</strong>
-      </mat-checkbox>
+      </mat-checkbox> -->
     </div>
   </div>
 
@@ -43,11 +43,11 @@
     <button mat-button (click)="onClose()">
       Cancelar
     </button>
-    <button *ngIf="!selectedAll" mat-raised-button color="primary" [disabled]="!accountantForm.valid" (click)="onSave()">
+    <button mat-raised-button color="primary" [disabled]="!accountantForm.valid" (click)="onSave()">
       Aceptar
     </button>
-    <button *ngIf="selectedAll" color="warn" mat-raised-button [disabled]="!accountantForm.valid" (click)="onSave()">
+    <!-- <button *ngIf="selectedAll" color="warn" mat-raised-button [disabled]="!accountantForm.valid" (click)="onSave()">
       ¡MotherFucker! Nigga bitch!
-    </button>
+    </button> -->
   </footer>
 </section>

@@ -1,0 +1,36 @@
+<section class="modal-change-status-catalog">
+  <header class="header">
+    <h3 class="title"> {{title}} </h3>
+    <button mat-icon-button (click)="onClose()">
+      <mat-icon>close</mat-icon>
+    </button>
+  </header>
+
+  <div class="body">
+    <div class="container">
+      <form class="example-form" [formGroup]="statusForm">
+        <mat-form-field class="example-full-width">
+          <mat-icon matPrefix>person</mat-icon>
+          <mat-select placeholder="Seleccionar estatus" [formControl]="statusForm.controls['status']" >
+            <mat-option *ngFor="let status of status" [value]="status">
+              {{ status }}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="statusForm.controls['status'].hasError('required')">
+            Campo
+            <strong>requerido</strong>
+          </mat-error>
+        </mat-form-field>
+      </form>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <button mat-button (click)="onClose()">
+      Cancelar
+    </button>
+    <button mat-raised-button color="primary" [disabled]="!statusForm.valid" (click)="onSave()">
+      Aceptar
+    </button>
+  </footer>
+</section>

@@ -1,0 +1,32 @@
+<section class="upload-xml-catalog">
+  <header class="header">
+    <h3 class="title">
+      {{title}}</h3>
+    <button mat-icon-button (click)="onClose()">
+      <mat-icon>close</mat-icon>
+    </button>
+  </header>
+
+  <div class="body">
+    <div class="container">
+      <div class="file-picker">
+        <div class="file-btn">
+          Seleccionar
+          <input class="picker" type="file" (change)="onFile($event)">
+        </div>
+        <span class="filename">
+          {{ xml?.name || 'Ningún archivo seleccionado' }}
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <button mat-button (click)="onClose()">
+      Cancelar
+    </button>
+    <button mat-raised-button color="primary" [disabled]="!xml" (click)="onSave()">
+      Aceptar
+    </button>
+  </footer>
+</section>

@@ -59,56 +59,61 @@
                 </mat-chip>
               </mat-chip-list>
               </ng-container>
-            <ng-template #noChip>   
-            <ng-container *ngIf="h.input; else noInput" [ngSwitch]="h.input">
-              <ng-container *ngSwitchCase="'checkbox'">
-                  <mat-checkbox
-                    [disabled] = "row['closed'] ? true : false"
-                    (click)="$event.stopPropagation()"
-                    (ngModelChange)="onCheckboxChanged(row, h)"
-                    [(ngModel)]="row[h.prop]"></mat-checkbox>
-              </ng-container>
-              <ng-container *ngSwitchCase="'toggle'">
-                <mat-slide-toggle
-                  [disabled] = "row['closed'] ? true : false"
-                  (click)="$event.stopPropagation()"
-                  (ngModelChange)="onCheckboxChanged(row, h)"
-                  [(ngModel)]="row[h.prop]"></mat-slide-toggle>
-              </ng-container>
-              <ng-container *ngSwitchDefault>
-                <div>
-                  <label *ngIf="h.priceSymbol" style="width: 7px; float: left">$</label>
-                  <input
-                      min="1"
-                      required
-                      [readonly]="readonly ? !row['active']: h.disabled"
-                      class="rtInput"
-                      [style.textAlign]="h.align ? h.align : 'left'"
-                      (input)="onInputChanged(row, h)"
-                      [type]="h.input"
-                      [placeholder]="h.placeholder || ''"
-                      [(ngModel)]="row[h.prop]"
-                      (click)="$event.stopPropagation()">
-                  <label *ngIf="h.percentSymbol" style="width: 7px; float: right">%</label>
-                  <mat-error *ngIf="emptyInput" style="font-size: 10px; text-align: left;" >
-                    Campo
-                    <strong>requerido</strong>
-                  </mat-error>
-                  </div>
-              </ng-container>
-            </ng-container>
-          </ng-template>
-            <ng-template #noInput>
-                <span style="color: red" *ngIf="h.color && isNegative(value(row, h, false))">
-                  {{ h.accounting ? accounting.formatMoney(value(row, h, false), '$ ', 2) : h.number ? (value(row, h, false) | number: '1.0-0') : h.moment ? value(row, h, false) ? moment(value(row, h, false)).format('DD/MMM/YYYY') : h.default : value(row, h, false) || h.default }}
-                </span>
-                <span *ngIf="h.color && !isNegative(value(row, h, false))">
-                  {{ h.accounting ? accounting.formatMoney(value(row, h, false), '$ ', 2) : h.number ? (value(row, h, false) | number: '1.0-0') : h.moment ? value(row, h, false) ? moment(value(row, h, false)).format('DD/MMM/YYYY') : h.default : value(row, h, false) || h.default }}
-                </span>
-                <span *ngIf="!h.color">
-                  {{ h.accounting ? accounting.formatMoney(value(row, h, false), '$ ', 2) : h.number ? (value(row, h, false) | number: '1.0-0') : h.moment ? value(row, h, false) ? moment(value(row, h, false)).format('DD/MMM/YYYY') : h.default : value(row, h, false) || h.default }}
-                </span>
+            <ng-template #noChip>
+                <ng-container *ngIf="h.input; else noInput" [ngSwitch]="h.input">
+                  <ng-container *ngSwitchCase="'checkbox'">
+                      <mat-checkbox
+                        [disabled] = "row['closed'] ? true : false"
+                        (click)="$event.stopPropagation()"
+                        (ngModelChange)="onCheckboxChanged(row, h)"
+                        [(ngModel)]="row[h.prop]"></mat-checkbox>
+                  </ng-container>
+                  <ng-container *ngSwitchCase="'toggle'">
+                    <mat-slide-toggle
+                      [disabled] = "row['closed'] ? true : false"
+                      (click)="$event.stopPropagation()"
+                      (ngModelChange)="onCheckboxChanged(row, h)"
+                      [(ngModel)]="row[h.prop]"></mat-slide-toggle>
+                  </ng-container>
+                  <ng-container *ngSwitchDefault>
+                    <div>
+                      <label *ngIf="h.priceSymbol" style="width: 7px; float: left">$</label>
+                      <input
+                          min="1"
+                          required
+                          [readonly]="readonly ? !row['active']: h.disabled"
+                          class="rtInput"
+                          [style.textAlign]="h.align ? h.align : 'left'"
+                          (input)="onInputChanged(row, h)"
+                          [type]="h.input"
+                          [placeholder]="h.placeholder || ''"
+                          [(ngModel)]="row[h.prop]"
+                          (click)="$event.stopPropagation()">
+                      <label *ngIf="h.percentSymbol" style="width: 7px; float: right">%</label>
+                      <mat-error *ngIf="emptyInput" style="font-size: 10px; text-align: left;" >
+                        Campo
+                        <strong>requerido</strong>
+                      </mat-error>
+                      </div>
+                  </ng-container>
+                </ng-container>
               </ng-template>
+                <ng-template #noInput>
+                  <ng-container *ngIf="h.link; else noLink">
+                    <a [href]="row[h.prop]" target="_blank"><mat-icon>insert_drive_file</mat-icon></a>
+                  </ng-container>
+                  <ng-template #noLink>
+                    <span style="color: red" *ngIf="h.color && isNegative(value(row, h, false))">
+                      {{ h.accounting ? accounting.formatMoney(value(row, h, false), '$ ', 2) : h.number ? (value(row, h, false) | number: '1.0-0') : h.moment ? value(row, h, false) ? moment(value(row, h, false)).format('DD/MMM/YYYY') : h.default : value(row, h, false) || h.default }}
+                    </span>
+                    <span *ngIf="h.color && !isNegative(value(row, h, false))">
+                      {{ h.accounting ? accounting.formatMoney(value(row, h, false), '$ ', 2) : h.number ? (value(row, h, false) | number: '1.0-0') : h.moment ? value(row, h, false) ? moment(value(row, h, false)).format('DD/MMM/YYYY') : h.default : value(row, h, false) || h.default }}
+                    </span>
+                    <span *ngIf="!h.color">
+                      {{ h.accounting ? accounting.formatMoney(value(row, h, false), '$ ', 2) : h.number ? (value(row, h, false) | number: '1.0-0') : h.moment ? value(row, h, false) ? moment(value(row, h, false)).format('DD/MMM/YYYY') : h.default : value(row, h, false) || h.default }}
+                    </span>
+                  </ng-template>
+                </ng-template>
           </td>        
         </tr>
       </tbody>
