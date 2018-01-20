@@ -1,7 +1,7 @@
 import { Component, OnInit, HostListener, ViewChild } from '@angular/core';
 import { SidemenuComponent } from './components/sidemenu/sidemenu.component';
 import { MatSidenav } from '@angular/material';
-import { Observable } from 'rxjs/Rx';
+import { Observable } from 'rxjs/Observable';
 import { Router } from '@angular/router';
 import { SessionService } from './services/session.serv';
 import { trigger, transition, style, animate } from '@angular/animations';

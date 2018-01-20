@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { RtAction, RtActionName, RtHeader } from '../../../components/rt-datatable/rt-datatable.component';
 import { Subject } from 'rxjs/Subject';
 import { MatDialog } from '@angular/material';
@@ -10,7 +10,7 @@ import { Router, ActivatedRoute } from '@angular/router';
   templateUrl: './resumen-contribuyente.component.html',
   styleUrls: ['./resumen-contribuyente.component.scss']
 })
-export class ResumenContribuyenteComponent implements OnInit {
+export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
   headersIngresos: Array<RtHeader> = [
     { name: 'Fecha', prop: 'date', default: 'No date', moment: true },
     { name: 'Cliente', prop: 'customer.name', default: 'No customer' },
@@ -49,13 +49,17 @@ export class ResumenContribuyenteComponent implements OnInit {
       .subscribe(params => {
         console.log('params', params);
         // tslint:disable-next-line:triple-equals
-        if (params.name != 0) {
+        if (params.name) {
           this.contribuyente = params.name;
         }
       });
 
     this.loadIngresosData();
     this.loadEgresosData();
+  }
+
+  ngOnDestroy() {
+    this.sub.unsubscribe();
   }
   onBillSelected(ev) {
     this.selectedBill = ev.data;

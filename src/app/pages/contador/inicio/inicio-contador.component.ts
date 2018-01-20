@@ -1,9 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { RtAction, RtActionName, RtHeader } from '../../../components/rt-datatable/rt-datatable.component';
 import { Subject } from 'rxjs/Subject';
 import { MatDialog } from '@angular/material';
 import { ModalCrearContribuyenteComponent } from '../../_catalog/modal-crear-contribuyente/modal-crear-contribuyente.component';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { ConfirmComponent } from '../../../components/confirm/confirm.component';
 import { NotificationsService } from 'angular2-notifications';
 import { UploadXmlComponent } from '../../_catalog/upload-xml/upload-xml.component';
@@ -13,7 +13,7 @@ import { UploadXmlComponent } from '../../_catalog/upload-xml/upload-xml.compone
   templateUrl: './inicio-contador.component.html',
   styleUrls: ['./inicio-contador.component.css']
 })
-export class InicioContadorComponent implements OnInit {
+export class InicioContadorComponent implements OnInit, OnDestroy {
 
   headers: Array<RtHeader> = [
     { name: 'Contribuyente', prop: 'name', default: '' },
@@ -23,15 +23,33 @@ export class InicioContadorComponent implements OnInit {
   selectedTaxpayer: any;
   data = [];
   action = new Subject<RtAction>();
+  sub: any;
+  contador: string;
   constructor(
     private router: Router,
     private dialogCtrl: MatDialog,
-    private notification: NotificationsService) { }
+    private notification: NotificationsService,
+    private route: ActivatedRoute) { }
 
   ngOnInit() {
+    this.sub = this.route
+      .queryParams
+      .subscribe(params => {
+        console.log('params', params);
+        if (params.name != 0) {
+          this.contador = params.name;
+          console.log(this.contador);
+        }
+      });
+
     this.loadData();
     this.setBgCard('card1');
   }
+
+  ngOnDestroy() {
+    this.sub.unsubscribe();
+  }
+
   onTaxpayerSelected(ev) {
     this.selectedTaxpayer = ev.data;
   }
@@ -74,7 +92,7 @@ export class InicioContadorComponent implements OnInit {
     document.getElementById(card).style.background = 'lightgreen';
   }
   taxpayerDetail(page: string) {
-    this.router.navigate([page], {queryParams: { name: 'Jessica' }});
+    this.router.navigate([page], {queryParams: { name: this.selectedTaxpayer.name }});
   }
   onUploadXML(ev) {
     this.stopPropagation(ev);

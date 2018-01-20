@@ -33,7 +33,7 @@ export class LoginComponent implements OnInit {
     switch (this.loginForm.get('username').value) {
       case 'contribuyente':
         emp = {
-          name: this.loginForm.get('username').value,
+          name: 'Juan Antonio Rojas Hernández',
           role: {
             name: 'contribuyente'
           }
@@ -42,7 +42,7 @@ export class LoginComponent implements OnInit {
         break;
       case 'contador':
         emp = {
-          name: this.loginForm.get('username').value,
+          name: 'Ernesto Lago',
           role: {
             name: 'contador'
           }
@@ -51,7 +51,7 @@ export class LoginComponent implements OnInit {
         break;
       case 'despacho':
         emp = {
-          name: this.loginForm.get('username').value,
+          name: 'Andrea Ramírez',
           role: {
             name: 'despacho'
           }

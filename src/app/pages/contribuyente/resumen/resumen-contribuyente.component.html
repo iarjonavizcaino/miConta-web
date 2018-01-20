@@ -3,7 +3,7 @@
     <a routerLink="/inicio" routerLinkActive="active">Inicio</a>
   </li>
   <li class="selected">Resumen</li>
-  <li class="float-right selected"><strong>{{contribuyente}}</strong></li>
+  <li *ngIf="contribuyente" class="float-right selected"><strong>{{ contribuyente }}</strong></li>
 </ul>
 <div class="row">
   <div class="col-6">

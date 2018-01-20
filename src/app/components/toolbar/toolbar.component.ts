@@ -15,6 +15,7 @@ import { AuthService } from '../../services/auth.serv';
 export class ToolbarComponent {
   user$: Observable<any>;
   role: string;
+  name: string;
   // tslint:disable-next-line:no-output-rename
   @Output('menu') menuEmitter = new EventEmitter();
 
@@ -25,11 +26,16 @@ export class ToolbarComponent {
     private dialogCtrl: MatDialog,
   ) {
     this.user$ = this.session.user;
+
     this.user$.subscribe(data => {
       if (data) {
-        this.role = data.role._id;
+        // this.role = data.role._id;
+        this.role = data.role.name;
+        console.log(this.role);
       }
     });
+    this.role = JSON.parse(localStorage.getItem('user')).role.name;
+    this.name = JSON.parse(localStorage.getItem('user')).name;
   }
 
   onMenu() {

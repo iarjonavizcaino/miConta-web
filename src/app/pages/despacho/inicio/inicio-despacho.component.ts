@@ -249,9 +249,10 @@ export class InicioDespachoComponent implements OnInit {
   }
 
   onContadorDetail(ev) {
-    this.stopPropagation(ev);
+    // this.stopPropagation(ev);
     // see page as Contador
-    this.router.navigate(['/contador/incio', { contador: this.selectedAccountant.name }]);
+    console.log(this.selectedAccountant.name);
+    this.router.navigate(['/contador/incio'], {queryParams: { name: this.selectedAccountant.name }});
   }
 
   onContadorSelected(ev) {
