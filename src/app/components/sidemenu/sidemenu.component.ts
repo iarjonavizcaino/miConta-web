@@ -30,21 +30,32 @@ export class SidemenuComponent implements OnInit {
             this.permission = {
               contribuyente: true,
               contador: false,
-              despacho: false
+              despacho: false,
+              superadmin: false,
             };
             break;
           case 'contador':
             this.permission = {
               contribuyente: false,
               contador: true,
-              despacho: false
+              despacho: false,
+              superadmin: false,
             };
             break;
           case 'despacho':
             this.permission = {
               contribuyente: false,
               contador: false,
-              despacho: true
+              despacho: true,
+              superadmin: false,
+            };
+            break;
+          case 'superadmin':
+            this.permission = {
+              contribuyente: false,
+              contador: false,
+              despacho: false,
+              superadmin: true,
             };
         }// switch
       }

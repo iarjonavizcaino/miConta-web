@@ -73,6 +73,11 @@ import { ImpuestosComponent } from './pages/contribuyente/impuestos/impuestos.co
 import { EgresosComponent } from './pages/contribuyente/egresos/egresos.component';
 import { IngresosComponent } from './pages/contribuyente/ingresos/ingresos.component';
 import { ResumenContribuyenteComponent } from './pages/contribuyente/resumen/resumen-contribuyente.component';
+import { InicioSuperadminComponent } from './pages/superadmin/inicio/inicio-superadmin.component';
+import { DespachosComponent } from './pages/superadmin/despachos/despachos.component';
+import { PerfilesComponent } from './pages/superadmin/perfiles/perfiles.component';
+import { ConceptosComponent } from './pages/superadmin/conceptos/conceptos.component';
+import { ObligacionesCrudComponent } from './pages/superadmin/obligaciones/obligaciones-crud.component';
 
 // App catalog
 import { BillingCatalogComponent } from './pages/_catalog/billing-catalog/billing-catalog.component';
@@ -110,6 +115,13 @@ const routes: Routes = [
   { path: 'despacho/inicio', component: InicioDespachoComponent },
   { path: 'despacho/notificaciones', component: NotificacionesDespachoComponent },
   { path: 'despacho/asignar', component: AsignarContribuyentesComponent },
+
+  // superadmin
+  { path: 'superadmin/inicio', component: InicioSuperadminComponent },
+  { path: 'superadmin/despachos', component: DespachosComponent },
+  { path: 'superadmin/perfiles', component: PerfilesComponent },
+  { path: 'superadmin/conceptos', component: ConceptosComponent },
+  { path: 'superadmin/obligaciones', component: ObligacionesCrudComponent },
 ];
 
 @NgModule({
@@ -172,6 +184,11 @@ const routes: Routes = [
     UploadXmlComponent,
     ModalNewStatementComponent,
     UploadStatementFileComponent,
+    InicioSuperadminComponent,
+    PerfilesComponent,
+    DespachosComponent,
+    ConceptosComponent,
+    ObligacionesCrudComponent
   ],
   imports: [
     BrowserModule,
