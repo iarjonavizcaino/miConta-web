@@ -48,7 +48,8 @@ export class NotificacionesDespachoComponent implements OnInit {
       }
     ];
   }
-  onCreate() {
+  onCreate(ev: any) {
+    this.stopPropagation(ev);
     const dialogRef = this.dialogCtrl.open(CrearNotificacionComponent, {
       disableClose: false,
       data: 'Contador'

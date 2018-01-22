@@ -92,6 +92,8 @@ import { ModalChangeStatusComponent } from './pages/_catalog/modal-change-status
 import { UploadXmlComponent } from './pages/_catalog/upload-xml/upload-xml.component';
 import { ModalNewStatementComponent } from './pages/_catalog/modal-new-statement/modal-new-statement.component';
 import { UploadStatementFileComponent } from './pages/_catalog/upload-statement-file/upload-statement-file.component';
+import { ModalObligacionesComponent } from './pages/_catalog/modal-obligaciones/modal-obligaciones.component';
+import { ModalConceptosComponent } from './pages/_catalog/modal-conceptos/modal-conceptos.component';
 
 
 // all routes pages
@@ -138,7 +140,9 @@ const routes: Routes = [
     ModalChangeStatusComponent,
     UploadXmlComponent,
     UploadStatementFileComponent,
-    ModalNewStatementComponent
+    ModalNewStatementComponent,
+    ModalObligacionesComponent,
+    ModalConceptosComponent
   ],
   declarations: [
     AppComponent,
@@ -154,6 +158,8 @@ const routes: Routes = [
     UploadXmlComponent,
     UploadStatementFileComponent,
     ModalNewStatementComponent,
+    ModalObligacionesComponent,
+    ModalConceptosComponent,
 
     // components
     AlertComponent,
@@ -188,7 +194,7 @@ const routes: Routes = [
     PerfilesComponent,
     DespachosComponent,
     ConceptosComponent,
-    ObligacionesCrudComponent
+    ObligacionesCrudComponent,
   ],
   imports: [
     BrowserModule,

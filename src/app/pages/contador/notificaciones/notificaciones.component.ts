@@ -48,7 +48,8 @@ export class NotificacionesComponent implements OnInit {
       }
     ];
   }
-  onCreate() {
+  onCreate(ev: any) {
+    this.stopPropagation(ev);
     const dialogRef = this.dialogCtrl.open(CrearNotificacionComponent, {
       disableClose: false,
       data: 'Contribuyente', // placeholder to auto-complete in select user

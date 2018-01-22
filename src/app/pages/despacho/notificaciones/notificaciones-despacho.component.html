@@ -8,7 +8,7 @@
 <rt-datatable (selected)="onMessageSelected($event)" [showRowNumber]="true" searchWait="600" [showRowNumber]="false" [headers]="headers"
   [action]="action" [data]="data">
   <section class="actions">
-    <button mat-icon-button (click)="onCreate()">
+    <button mat-icon-button (click)="onCreate($event)">
       <mat-icon matTooltip="Nuevo" matTooltipPosition="above">add</mat-icon>
     </button>
     <ng-container *ngIf="selectedMessage">
