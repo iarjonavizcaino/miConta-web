@@ -1,8 +1,8 @@
-.billing-catalog {
+.showMessage-catalog {
     $bd-divider: 1px solid #ccc;
     
-    width: 100%;
-    max-width: 700px;
+    // min-width: 600px;
+    width: 600px;
 
     .header,
     .body,
@@ -20,7 +20,7 @@
         }
 
         .title {
-            margin-top: 10px;
+            margin-bottom: 10px;
             font-weight: 400;
             font-size: 22px;
             line-height: 22px;
@@ -71,6 +71,9 @@
 }
 
 :host ::ng-deep {
+    mat-icon {
+        color: #666;        
+    }
     mat-form-field {
         .mat-form-field-prefix {
             margin-right: 8px;
@@ -81,14 +84,6 @@
         }
     }
 }
-.float-left{
-    float: left;
-}
-.float-right{
-    float: right;
-}
-.bg-card1{
-    background: #ECE9E6;  /* fallback for old browsers */
-    background: -webkit-linear-gradient(to right, #FFFFFF, #ECE9E6);  /* Chrome 10-25, Safari 5.1-6 */
-    background: linear-gradient(to right, #FFFFFF, #ECE9E6); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */    
+.little-icon{
+    font-size: 1.2em;
 }

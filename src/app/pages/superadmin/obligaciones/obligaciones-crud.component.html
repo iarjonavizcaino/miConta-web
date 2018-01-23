@@ -1,0 +1,24 @@
+<ul class="breadcrumb">
+  <li>
+    <a routerLink="/superadmin/inicio" routerLinkActive="active">Inicio</a>
+  </li>
+  <li class="selected">Obligaciones</li>
+</ul>
+
+<rt-datatable (selected)="onObligationSelected($event)" 
+[showRowNumber]="true" searchWait="600" [showRowNumber]="false" [headers]="headers"
+  [action]="action" [data]="data">
+  <section class="actions">
+    <button mat-icon-button (click)="onCreate($event)">
+      <mat-icon matTooltip="Nuevo" matTooltipPosition="above">add</mat-icon>
+    </button>
+    <ng-container *ngIf="obligationSelected">
+      <button mat-icon-button (click)="onEdit($event)">
+        <mat-icon matTooltip="Editar" matTooltipPosition="above">edit</mat-icon>
+      </button>
+      <button mat-icon-button (click)="onDelete($event)">
+        <mat-icon matTooltip="Eliminar" matTooltipPosition="above">delete</mat-icon>
+      </button>
+    </ng-container>
+  </section>
+</rt-datatable>

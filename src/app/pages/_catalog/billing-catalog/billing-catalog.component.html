@@ -2,7 +2,7 @@
   <header class="header">
     <h3 class="title float-left">{{ title }}:</h3>
     <h4 class="title float-right">No. 316844775</h4>
-    <h3 class="title float-left">{{infoBill.date}}</h3>
+    <!-- <h3 class="title float-left">{{infoBill.date}}</h3> -->
     <button mat-icon-button (click)="onClose()">
       <mat-icon>close</mat-icon>
     </button>
@@ -10,7 +10,7 @@
 
   <section class="body">
     <div class="container">
-      <!-- <div class="row">
+      <div class="row">
         <div class="col-7"></div>
         <div class="col-5">
           <mat-form-field>
@@ -18,7 +18,7 @@
             <input [readonly]="true" matInput placeholder="Fecha" [(ngModel)]="infoBill.date">
           </mat-form-field>
         </div>
-      </div> -->
+      </div>
       <mat-card class="bg-card1">
         <mat-card-header>
           <mat-card-title>
@@ -125,7 +125,7 @@
           </div>
         </mat-card-content>
       </mat-card>
-      
+
       <br>
 
       <rt-datatable searchWait="600" [showRowNumber]="true" [headers]="headers" [action]="action" [data]="products">

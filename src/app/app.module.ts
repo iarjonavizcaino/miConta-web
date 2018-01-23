@@ -73,6 +73,11 @@ import { ImpuestosComponent } from './pages/contribuyente/impuestos/impuestos.co
 import { EgresosComponent } from './pages/contribuyente/egresos/egresos.component';
 import { IngresosComponent } from './pages/contribuyente/ingresos/ingresos.component';
 import { ResumenContribuyenteComponent } from './pages/contribuyente/resumen/resumen-contribuyente.component';
+import { InicioSuperadminComponent } from './pages/superadmin/inicio/inicio-superadmin.component';
+import { DespachosComponent } from './pages/superadmin/despachos/despachos.component';
+import { PerfilesComponent } from './pages/superadmin/perfiles/perfiles.component';
+import { ConceptosComponent } from './pages/superadmin/conceptos/conceptos.component';
+import { ObligacionesCrudComponent } from './pages/superadmin/obligaciones/obligaciones-crud.component';
 
 // App catalog
 import { BillingCatalogComponent } from './pages/_catalog/billing-catalog/billing-catalog.component';
@@ -87,6 +92,8 @@ import { ModalChangeStatusComponent } from './pages/_catalog/modal-change-status
 import { UploadXmlComponent } from './pages/_catalog/upload-xml/upload-xml.component';
 import { ModalNewStatementComponent } from './pages/_catalog/modal-new-statement/modal-new-statement.component';
 import { UploadStatementFileComponent } from './pages/_catalog/upload-statement-file/upload-statement-file.component';
+import { ModalObligacionesComponent } from './pages/_catalog/modal-obligaciones/modal-obligaciones.component';
+import { ModalConceptosComponent } from './pages/_catalog/modal-conceptos/modal-conceptos.component';
 
 
 // all routes pages
@@ -110,6 +117,13 @@ const routes: Routes = [
   { path: 'despacho/inicio', component: InicioDespachoComponent },
   { path: 'despacho/notificaciones', component: NotificacionesDespachoComponent },
   { path: 'despacho/asignar', component: AsignarContribuyentesComponent },
+
+  // superadmin
+  { path: 'superadmin/inicio', component: InicioSuperadminComponent },
+  { path: 'superadmin/despachos', component: DespachosComponent },
+  { path: 'superadmin/perfiles', component: PerfilesComponent },
+  { path: 'superadmin/conceptos', component: ConceptosComponent },
+  { path: 'superadmin/obligaciones', component: ObligacionesCrudComponent },
 ];
 
 @NgModule({
@@ -126,7 +140,9 @@ const routes: Routes = [
     ModalChangeStatusComponent,
     UploadXmlComponent,
     UploadStatementFileComponent,
-    ModalNewStatementComponent
+    ModalNewStatementComponent,
+    ModalObligacionesComponent,
+    ModalConceptosComponent
   ],
   declarations: [
     AppComponent,
@@ -142,6 +158,8 @@ const routes: Routes = [
     UploadXmlComponent,
     UploadStatementFileComponent,
     ModalNewStatementComponent,
+    ModalObligacionesComponent,
+    ModalConceptosComponent,
 
     // components
     AlertComponent,
@@ -172,6 +190,11 @@ const routes: Routes = [
     UploadXmlComponent,
     ModalNewStatementComponent,
     UploadStatementFileComponent,
+    InicioSuperadminComponent,
+    PerfilesComponent,
+    DespachosComponent,
+    ConceptosComponent,
+    ObligacionesCrudComponent,
   ],
   imports: [
     BrowserModule,

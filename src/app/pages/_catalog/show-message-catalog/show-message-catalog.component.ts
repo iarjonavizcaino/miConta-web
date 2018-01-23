@@ -2,8 +2,6 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 
 import { ConfirmComponent } from '../../../components/confirm/confirm.component';
-import { RtAction, RtActionName, RtHeader } from '../../../components/rt-datatable/rt-datatable.component';
-import { NotificationsService } from 'angular2-notifications';
 import { MatDialog, MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import * as moment from 'moment';
 
@@ -17,7 +15,6 @@ export class ShowMessageCatalogComponent implements OnInit {
   message: any;
   moment = moment;
   constructor(
-    private notify: NotificationsService,
     private dialogCtrl: MatDialog,
     private dialogRef: MatDialogRef<ShowMessageCatalogComponent>,
     @Inject(MAT_DIALOG_DATA) private data: any
