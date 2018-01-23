@@ -5,6 +5,12 @@
   <li>Mi Perfil</li>
   <li class="selected">Mis Obligaciones</li>
 </ul>
+<ng-container *ngIf="contribuyente">
+  <div style="color:#1565C0; font-size: 1.3em">
+    <strong>Contribuyente: {{ contribuyente }}</strong>
+  </div>
+  <hr>
+</ng-container>
 <br>
 <mat-accordion class="example-headers-align">
 

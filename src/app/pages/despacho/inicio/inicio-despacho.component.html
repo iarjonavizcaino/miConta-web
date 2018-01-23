@@ -1,109 +1,88 @@
 <div class="row">
-  <div class="col-4">
-    <mat-card id="card1" class="example-card pointer bg-gray new-padding" (click)="filtrar('card1')">
-      <mat-card-header>
-      </mat-card-header>
-      <mat-card-content>
-        <p class="text-center remove-margin-bottom">
-          <i class="material-icons big-icon">people</i>
-        </p>
-        <h3 class="text-center jessi-color">Total de Contadores</h3>
-        <h2 class="text-center">40</h2>
-      </mat-card-content>
+  <div class="col-6 col-md-4">
+    <mat-card id="card1" class="example-card pointer bg-gray new-padding" (click)="filtrar('1')">
+      <div id="div1" class="dashboard-card-icon">
+        <i class="material-icons big-icon">people</i>
+      </div>
+      <div class="dashboard-card-text">
+        <h1 class="text-center big-font remove-margin-bottom">40</h1>
+        <h6 class="text-center jessi-color">Total contadores</h6>
+      </div>
     </mat-card>
   </div>
-  <div class="col-4">
-    <mat-card id="card2" class="example-card pointer bg-gray new-padding" (click)="filtrar('card2')">
-      <mat-card-header>
-      </mat-card-header>
-      <mat-card-content>
-        <p class="text-center remove-margin-bottom">
-          <i class="material-icons big-icon">warning</i>
-        </p>
-        <h3 class="text-center jessi-color">Contadores con Retraso</h3>
-        <h2 class="text-center">20</h2>
-      </mat-card-content>
+  <div class="col-6 col-md-4">
+    <mat-card id="card2" class="example-card pointer bg-gray new-padding" (click)="filtrar('2')">
+      <div id="div2" class="dashboard-card-icon">
+        <i class="material-icons big-icon">warning</i>
+      </div>
+      <div class="dashboard-card-text ">
+        <h1 class="text-center big-font remove-margin-bottom">20</h1>
+        <h6 class="text-center jessi-color remove-margin-bottom">Contadores con retraso</h6>
+      </div>
     </mat-card>
   </div>
-  <div class="col-4">
-    <mat-card id="card3" class="example-card pointer bg-gray new-padding" (click)="filtrar('card3')">
-      <mat-card-header>
-      </mat-card-header>
-      <mat-card-content>
-        <p class="text-center remove-margin-bottom">
-          <i class="material-icons big-icon">done</i>
-        </p>
-        <h3 class="text-center jessi-color">Contadores sin Retraso</h3>
-        <h2 class="text-center">18</h2>
-      </mat-card-content>
+  <div class="col-6 col-md-4">
+    <mat-card id="card3" class="example-card pointer bg-gray new-padding" (click)="filtrar('3')">
+      <div id="div3" class="dashboard-card-icon">
+        <i class="material-icons big-icon">done</i>
+      </div>
+      <div class="dashboard-card-text">
+        <h1 class="text-center big-font remove-margin-bottom">18</h1>
+        <h6 class="text-center jessi-color">Contadores sin restraso</h6>
+      </div>
     </mat-card>
   </div>
 </div>
 <br>
 <div class="row">
-  <div class="col-3">
-    <mat-card id="card4" class="example-card pointer bg-gray new-padding" (click)="filtrar('card4')">
-      <mat-card-header>
-      </mat-card-header>
-      <mat-card-content>
-        <p class="text-center remove-margin-bottom">
+    <div class="col-6 col-md-3">
+      <mat-card id="card4" class="example-card pointer bg-gray new-padding" (click)="filtrar('4')">
+        <div id = "div4" class="dashboard-card-icon">
           <i class="material-icons big-icon">people</i>
-        </p>
-        <h3 class="text-center jessi-color">Total de Contribuyentes</h3>
-        <h2 class="text-center">40</h2>
-      </mat-card-content>
-    </mat-card>
-  </div>
-  <div class="col-3">
-    <mat-card id="card5" class="example-card pointer bg-gray new-padding" (click)="filtrar('card5')">
-      <mat-card-header>
-      </mat-card-header>
-      <mat-card-content>
-        <p class="text-center remove-margin-bottom">
+        </div>
+        <div class="dashboard-card-text">
+          <h1 class="text-center big-font remove-margin-bottom">40</h1>
+          <h6 class="text-center jessi-color">Total contribuyentes</h6>
+        </div>
+      </mat-card>
+    </div>
+    <div class="col-6 col-md-3">
+      <mat-card id="card5" class="example-card pointer bg-gray new-padding" (click)="filtrar('5')">
+        <div id = "div5" class="dashboard-card-icon">
           <i class="material-icons big-icon">done</i>
-        </p>
-        <h3 class="text-center jessi-color">Contribuyentes Declarados</h3>
-        <h2 class="text-center">20</h2>
-      </mat-card-content>
-    </mat-card>
-  </div>
-  <div class="col-3">
-    <mat-card id="card6" class="example-card pointer bg-gray new-padding" (click)="filtrar('card6')">
-      <mat-card-header>
-      </mat-card-header>
-      <mat-card-content>
-        <p class="text-center remove-margin-bottom">
+        </div>
+        <div class="dashboard-card-text ">
+          <h1 class="text-center big-font remove-margin-bottom">20</h1>
+          <h6 class="text-center jessi-color remove-margin-bottom">Contribuyentes declarados</h6>
+        </div>
+      </mat-card>
+    </div>
+    <div class="col-6 col-md-3">
+      <mat-card id="card6" class="example-card pointer bg-gray new-padding" (click)="filtrar('6')">
+        <div id = "div6" class="dashboard-card-icon">
           <i class="material-icons big-icon">close</i>
-        </p>
-        <h3 class="text-center jessi-color">Contrib. No Declarados</h3>
-        <h2 class="text-center">18</h2>
-      </mat-card-content>
-    </mat-card>
-  </div>
-  <div class="col-3">
-    <mat-card id="card7" class="example-card pointer bg-gray new-padding" (click)="filtrar('card7')">
-      <mat-card-header>
-      </mat-card-header>
-      <mat-card-content>
-        <p class="text-center remove-margin-bottom">
+        </div>
+        <div class="dashboard-card-text">
+          <h1 class="text-center big-font remove-margin-bottom">18</h1>
+          <h6 class="text-center jessi-color">Contribuyentes no declarados</h6>
+        </div>
+      </mat-card>
+    </div>
+    <div class="col-6 col-md-3">
+      <mat-card id="card7" class="example-card pointer bg-gray new-padding" (click)="filtrar('7')">
+        <div id = "div7" class="dashboard-card-icon">
           <i class="material-icons big-icon">warning</i>
-        </p>
-        <h3 class="text-center jessi-color">Contrib. Fuera de Límite</h3>
-        <h2 class="text-center">2</h2>
-      </mat-card-content>
-    </mat-card>
-  </div>
-</div>
+        </div>
+        <div class="dashboard-card-text ">
+          <h1 class="text-center big-font remove-margin-bottom">2</h1>
+          <h6 class="text-center jessi-color">Contribuyentes fuera de límite</h6>
+        </div>
+      </mat-card>
+    </div>
+  </div>  
 <br>
-<br>
-<rt-datatable 
-  (selected)="onContadorSelected($event)" 
-  (checked)="onRowChecked($event)"
-  [showRowNumber]="true"
-  searchWait="600" 
-  [headers]="headers"
-  [action]="action"
-  [data]="data">
+<rt-datatable (selected)="onContadorSelected($event)" (checked)="onRowChecked($event)" [showRowNumber]="true" searchWait="600"
+  [headers]="headers" [action]="action" [data]="data">
   <section class="actions">
     <button mat-icon-button (click)="onCreate($event)">
       <mat-icon matTooltip="Nuevo" matTooltipPosition="above">add</mat-icon>

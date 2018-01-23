@@ -36,6 +36,7 @@ export class InicioContadorComponent implements OnInit, OnDestroy {
       .queryParams
       .subscribe(params => {
         console.log('params', params);
+        // tslint:disable-next-line:triple-equals
         if (params.name != 0) {
           this.contador = params.name;
           console.log(this.contador);
@@ -43,7 +44,7 @@ export class InicioContadorComponent implements OnInit, OnDestroy {
       });
 
     this.loadData();
-    this.setBgCard('card1');
+    this.setBgCard('1');
   }
 
   ngOnDestroy() {
@@ -84,12 +85,16 @@ export class InicioContadorComponent implements OnInit, OnDestroy {
     console.log('filtrar en tabla');
   }
   private setBgCard(card: string) {
+    console.log('card' + card);
+    console.log('div' + card);
     const numCards = 4;
     for (let i = 1; i <= numCards; i++) {
-      document.getElementById('card' + i).style.background = 'lightgrey';
+      document.getElementById('card' + i).style.background = '#F5F5F5';
+      document.getElementById('div' + i).style.background = '#E0E0E0';
     }
 
-    document.getElementById(card).style.background = 'lightgreen';
+    document.getElementById('card' + card).style.background = '#98FB98';
+    document.getElementById('div' + card).style.background = '#7bea7b';
   }
   taxpayerDetail(page: string) {
     this.router.navigate([page], {queryParams: { name: this.selectedTaxpayer.name }});

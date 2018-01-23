@@ -5,7 +5,13 @@
   <li>Mi Perfil</li>
   <li class="selected">Mis Limites</li>
 </ul>
-
+<ng-container *ngIf="contribuyente">
+  <div style="color:#1565C0; font-size: 1.3em">
+    <strong>Contribuyente: {{ contribuyente }}</strong>
+  </div>
+  <hr>
+  <br>
+</ng-container>
 <mat-accordion>
   <mat-expansion-panel>
     <mat-expansion-panel-header>
@@ -27,8 +33,7 @@
         </span>
       </div>
       <div class="col-6 remove-padding">
-        <mat-progress-bar matTooltip="40%" color="primary" matTooltipPosition="right" class="bar-progress"
-          mode="determinate" value="40"></mat-progress-bar>
+        <mat-progress-bar matTooltip="40%" color="primary" matTooltipPosition="right" class="bar-progress" mode="determinate" value="40"></mat-progress-bar>
         <p class="text-center">
           <br> $400,000 / $2,000,000.00
         </p>
@@ -46,8 +51,8 @@
         </span>
       </div>
       <div class="col-6 remove-padding">
-        <mat-progress-bar matTooltip="50%" color="accent" matTooltipPosition="right" class="bar-progress status-yellow"
-          mode="determinate" value="50"></mat-progress-bar>
+        <mat-progress-bar matTooltip="50%" color="accent" matTooltipPosition="right" class="bar-progress status-yellow" mode="determinate"
+          value="50"></mat-progress-bar>
         <p class="text-center">
           <br> $1,000,000 / $2,000,000.00
         </p>
@@ -65,8 +70,7 @@
         </span>
       </div>
       <div class="col-6 remove-padding">
-        <mat-progress-bar matTooltip="80%" matTooltipPosition="right" class="bar-progress"
-          mode="determinate" value="80" color="warn"></mat-progress-bar>
+        <mat-progress-bar matTooltip="80%" matTooltipPosition="right" class="bar-progress" mode="determinate" value="80" color="warn"></mat-progress-bar>
         <p class="text-center">
           <br> $1,600,000 / $2,000,000.00
         </p>

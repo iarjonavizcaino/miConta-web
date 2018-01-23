@@ -1,25 +1,40 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { RtAction, RtActionName, RtHeader } from '../../../components/rt-datatable/rt-datatable.component';
 import { Subject } from 'rxjs/Subject';
 import { MatDialog } from '@angular/material';
 import { ShowMessageCatalogComponent } from '../../_catalog/show-message-catalog/show-message-catalog.component';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-notificaciones-contribuyente',
   templateUrl: './notificaciones-contribuyente.component.html',
   styleUrls: ['./notificaciones-contribuyente.component.css']
 })
-export class NotificacionesContribuyenteComponent implements OnInit {
+export class NotificacionesContribuyenteComponent implements OnInit, OnDestroy {
   headers: Array<RtHeader> = [
     { name: 'Asunto', prop: 'subject', default: ''},
     { name: 'Fecha', prop: 'date', moment: true, default: 'No date' },
   ];
   selectedMessage: any;
   data = [];
+  sub: any;
+  contribuyente: any;
   action = new Subject<RtAction>();
-  constructor(private dialogCtrl: MatDialog) { }
+
+  constructor(private dialogCtrl: MatDialog, private route: ActivatedRoute) { }
 
   ngOnInit() {
+
+    this.sub = this.route
+    .queryParams
+    .subscribe(params => {
+      console.log('params', params);
+      // tslint:disable-next-line:triple-equals
+      if (params.name) {
+        this.contribuyente = params.name;
+      }
+    });
+
     this.data = [
       {
         subject: 'PAGO ATRASADO',
@@ -39,6 +54,10 @@ export class NotificacionesContribuyenteComponent implements OnInit {
       }
     ];
   }// ngOnInit
+
+  ngOnDestroy() {
+    this.sub.unsubscribe();
+  }
 
   onMessageSelected(ev) {
     this.selectedMessage = ev.data;

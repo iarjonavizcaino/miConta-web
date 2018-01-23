@@ -4,7 +4,13 @@
   </li>
   <li class="selected">Notificaciones</li>
 </ul>
-
+<ng-container *ngIf="contribuyente">
+  <div style="color:#1565C0; font-size: 1.3em">
+    <strong>Contribuyente: {{ contribuyente }}</strong>
+  </div>
+  <hr>
+  <br>
+</ng-container>
 <rt-datatable (selected)="onMessageSelected($event)" [showRowNumber]="true" searchWait="600" [showRowNumber]="false" [headers]="headers"
   [action]="action" [data]="data">
   <section class="actions">

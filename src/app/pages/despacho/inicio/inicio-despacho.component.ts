@@ -19,8 +19,8 @@ export class InicioDespachoComponent implements OnInit {
   headers: Array<RtHeader> = [
     { name: 'Contador', prop: 'name', default: 'Sin nombre', width: '20' },
     { name: 'Total de Contribuyentes', prop: 'taxpayer.total', default: '0', align: 'center', width: '15' },
-    { name: 'Contribuyentes Declarados', prop: 'taxpayer.declarados', default: '0', align: 'center', width: '15' },
-    { name: 'Contrib. No Declarados', prop: 'taxpayer.no_declarados', default: '0', align: 'center', width: '15' },
+    { name: 'Declarados', prop: 'taxpayer.declarados', default: '0', align: 'center', width: '15' },
+    { name: 'No Declarados', prop: 'taxpayer.no_declarados', default: '0', align: 'center', width: '15' },
     { name: 'Fuera de Límite', prop: 'taxpayer.fuera_de_limite', default: '0', align: 'center', width: '15' },
     { name: 'Activo', prop: 'active', input: 'toggle', width: '12' }
   ];
@@ -34,7 +34,7 @@ export class InicioDespachoComponent implements OnInit {
 
   ngOnInit() {
     this.loadData();
-    this.setBgCard('card1');
+    this.setBgCard('1');
   }
   private loadData() {
     this.data = [
@@ -266,9 +266,11 @@ export class InicioDespachoComponent implements OnInit {
   private setBgCard(card: string) {
     const numCards = 7;
     for (let i = 1; i <= numCards; i++) {
-      document.getElementById('card' + i).style.background = 'lightgrey';
+      document.getElementById('card' + i).style.background = '#F5F5F5';
+      document.getElementById('div' + i).style.background = '#E0E0E0';
     }
-    document.getElementById(card).style.background = 'lightgreen';
+    document.getElementById('card' + card).style.background = '#98FB98';
+    document.getElementById('div' + card).style.background = '#7bea7b';
   }
 
   stopPropagation(ev: Event) {

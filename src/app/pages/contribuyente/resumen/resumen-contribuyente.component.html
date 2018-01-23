@@ -3,8 +3,14 @@
     <a routerLink="/inicio" routerLinkActive="active">Inicio</a>
   </li>
   <li class="selected">Resumen</li>
-  <li *ngIf="contribuyente" class="float-right selected"><strong>{{ contribuyente }}</strong></li>
 </ul>
+<ng-container *ngIf="contribuyente">
+  <div style="color:#1565C0; font-size: 1.3em">
+    <strong>Contribuyente: {{ contribuyente }}</strong>
+  </div>
+  <hr>
+  <br>
+</ng-container>
 <div class="row">
   <div class="col-6">
     <mat-card class="example-card">
