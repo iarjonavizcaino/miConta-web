@@ -18,7 +18,7 @@ export class InicioDespachoComponent implements OnInit {
 
   headers: Array<RtHeader> = [
     { name: 'Contador', prop: 'name', default: 'Sin nombre', width: '20' },
-    { name: 'Total de Contribuyentes', prop: 'taxpayer.total', default: '0', align: 'center', width: '15' },
+    { name: 'Contribuyentes', prop: 'taxpayer.total', default: '0', align: 'center', width: '15' },
     { name: 'Declarados', prop: 'taxpayer.declarados', default: '0', align: 'center', width: '15' },
     { name: 'No Declarados', prop: 'taxpayer.no_declarados', default: '0', align: 'center', width: '15' },
     { name: 'Fuera de Límite', prop: 'taxpayer.fuera_de_limite', default: '0', align: 'center', width: '15' },
