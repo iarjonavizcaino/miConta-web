@@ -1,10 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { RtAction, RtActionName, RtHeader, RtCheckEvent } from '../../../components/rt-datatable/rt-datatable.component';
 import { ConfirmComponent } from '../../../components/confirm/confirm.component';
 import { Subject } from 'rxjs/Subject';
 import { MatDialog, MatDialogRef } from '@angular/material';
 import { ModalContadorComponent } from '../../_catalog/modal-contador/modal-contador.component';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { NotificationsService } from 'angular2-notifications';
 import { ModalAsignarContribComponent } from '../../_catalog/modal-asignar-contrib/modal-asignar-contrib.component';
 import { TaxpayerCatalogComponent } from '../../_catalog/taxpayer-catalog/taxpayer-catalog.component';
@@ -14,7 +14,7 @@ import { TaxpayerCatalogComponent } from '../../_catalog/taxpayer-catalog/taxpay
   templateUrl: './inicio-despacho.component.html',
   styleUrls: ['./inicio-despacho.component.css']
 })
-export class InicioDespachoComponent implements OnInit {
+export class InicioDespachoComponent implements OnInit, OnDestroy {
 
   headers: Array<RtHeader> = [
     { name: 'Contador', prop: 'name', default: 'Sin nombre', width: '20' },
@@ -25,16 +25,32 @@ export class InicioDespachoComponent implements OnInit {
     { name: 'Activo', prop: 'active', input: 'toggle', width: '12' }
   ];
   selectedAccountant: any;
+  sub: any; // this is for superadmin view into despacho
+  despacho: string; // this is for superadmin view into despacho
   data = [];
   action = new Subject<RtAction>();
   constructor(
     private notification: NotificationsService,
     private router: Router,
-    private dialogCtrl: MatDialog) { }
+    private dialogCtrl: MatDialog,
+    private route: ActivatedRoute) { }
 
   ngOnInit() {
+    this.sub = this.route
+      .queryParams
+      .subscribe(params => {
+        console.log('params', params);
+        // tslint:disable-next-line:triple-equals
+        if (params.name != 0) {
+          this.despacho = params.name;
+        }
+      });
+
     this.loadData();
     this.setBgCard('1');
+  }
+  ngOnDestroy() {
+    this.sub.unsubscribe();
   }
   private loadData() {
     this.data = [
@@ -252,7 +268,7 @@ export class InicioDespachoComponent implements OnInit {
     // this.stopPropagation(ev);
     // see page as Contador
     console.log(this.selectedAccountant.name);
-    this.router.navigate(['/contador/incio'], {queryParams: { name: this.selectedAccountant.name }});
+    this.router.navigate(['/contador/inicio'], { queryParams: { name: this.selectedAccountant.name } });
   }
 
   onContadorSelected(ev) {

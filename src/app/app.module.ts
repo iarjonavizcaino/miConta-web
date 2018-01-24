@@ -110,7 +110,7 @@ const routes: Routes = [
   { path: 'contribuyente/limites', component: LimitesComponent },
   { path: 'contribuyente/notificaciones', component: NotificacionesContribuyenteComponent },
   // contador routes
-  { path: 'contador/incio', component: InicioContadorComponent },
+  { path: 'contador/inicio', component: InicioContadorComponent },
   { path: 'contador/contribuyentes', component: CrudContribuyentesComponent },
   { path: 'contador/notificaciones', component: NotificacionesComponent },
   // despacho routes

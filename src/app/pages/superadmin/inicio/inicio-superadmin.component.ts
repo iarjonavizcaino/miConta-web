@@ -20,7 +20,6 @@ export class InicioSuperadminComponent implements OnInit {
     { name: 'Despacho', prop: 'name', default: 'Sin nombre', width: '20' },
     { name: 'Contadores', prop: 'accountant', default: '0', align: 'center', width: '15' },
     { name: 'Contribuyentes', prop: 'taxpayer', default: '0', align: 'center', width: '15' },
-    { name: 'Domicilio', prop: 'taxpayer.no_declarados', default: '0', align: 'center', width: '40' },
   ];
   despachoSelected: any;
   data = [];
@@ -40,6 +39,17 @@ export class InicioSuperadminComponent implements OnInit {
         name: 'Andrea Ramírez',
         accountant: 42,
         taxpayer: 45,
+        email: '',
+        phone: '',
+        address: {
+          street: '',
+          number: '',
+          neighborhood: '',
+          zipcode: '',
+          city: '',
+          state: '',
+          municipality: ''
+        }
       }
     ];
   }
@@ -56,6 +66,20 @@ export class InicioSuperadminComponent implements OnInit {
       this.action.next({ name: RtActionName.CREATE, newItem: {name: data.name, accountant: 0, taxpayer: 0} });
       this.notification.success('Exito', 'Despacho creado');
     });
+  }
+  onView(ev: any) {
+    this.stopPropagation(ev);
+    this.dialogCtrl.open(ModalContadorComponent, {
+      disableClose: false,
+      data: {
+        title: 'Detalle Despacho',
+        accountant: this.despachoSelected
+      }
+    });
+  }
+  onDespachoDetail(ev: any) {
+    this.stopPropagation(ev);
+    this.router.navigate(['/despacho/inicio'], {queryParams: { name: this.despachoSelected.name }});
   }
   onDespachoSelected(ev: any) {
     this.despachoSelected = ev.data;
@@ -75,7 +99,7 @@ export class InicioSuperadminComponent implements OnInit {
     document.getElementById('card' + card).style.background = '#98FB98';
     // document.getElementById('div' + card).style.background = '#7bea7b';
   }
-  stopPropagation(ev: Event) {
+  private stopPropagation(ev: Event) {
     if (ev) {
       ev.stopPropagation();
     }
