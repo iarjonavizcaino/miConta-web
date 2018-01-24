@@ -12,6 +12,7 @@ export class ModalChangeStatusComponent implements OnInit {
 
   status = ['Presentada', 'Pagada', 'Pendiente'];
   title: string;
+  statement: string;
 
   constructor(
     private fb: FormBuilder,
@@ -24,6 +25,7 @@ export class ModalChangeStatusComponent implements OnInit {
   }
   ngOnInit() {
     this.title = this.data.title;
+    this.statement = this.data.status;
   }
 
   onSave() {

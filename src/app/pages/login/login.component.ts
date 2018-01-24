@@ -47,7 +47,7 @@ export class LoginComponent implements OnInit {
             name: 'contador'
           }
         };
-        root = '/contador/incio';
+        root = '/contador/inicio';
         break;
       case 'despacho':
         emp = {

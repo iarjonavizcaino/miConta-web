@@ -93,7 +93,8 @@ export class ModalCrearContribuyenteComponent implements OnInit {
     return this.dialogCtrl.open(ModalChangeStatusComponent, {
       disableClose: false,
       data: {
-        title: title
+        title: title,
+        status: this.selectedStatement.type
       }
     });
   }
