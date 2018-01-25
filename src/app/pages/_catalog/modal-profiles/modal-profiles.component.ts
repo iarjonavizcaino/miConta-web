@@ -154,6 +154,24 @@ export class ModalProfilesComponent implements OnInit {
     this.dialogRef.close(this.profile);
   }
 
+  key(ev: any) {
+    if (ev.keyCode === 13) {
+      this.onSave();
+    }
+  }
+
+  keyConcept(ev: any) {
+    if (ev.keyCode === 13) {
+      this.addConcept();
+    }
+  }
+
+  keyObligation(ev: any) {
+    if (ev.keyCode === 13) {
+      this.addObligation();
+    }
+  }
+
   loadData() {
     this.allConcepts = [
       {

@@ -151,6 +151,12 @@ export class ModalCrearContribuyenteComponent implements OnInit {
     console.log(this.selectedStatement);
   }
 
+  key(ev: any) {
+    if (ev.keyCode === 13) {
+      this.onSave();
+    }
+  }
+
   stopPropagation(ev: Event) {
     if (ev) { ev.stopPropagation(); }
   }

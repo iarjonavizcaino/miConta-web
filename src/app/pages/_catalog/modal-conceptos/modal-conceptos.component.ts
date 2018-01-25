@@ -22,7 +22,7 @@ export class ModalConceptosComponent implements OnInit {
       'code': [null, Validators.required],
       'concept': [null, Validators.required],
     });
-   }
+  }
 
   ngOnInit() {
     this.title = this.data.title || 'Título del modal';
@@ -42,6 +42,7 @@ export class ModalConceptosComponent implements OnInit {
   onSave() {
     this.dialogRef.close(this.concept);
   }
+
   key(ev: any) {
     if (ev.keyCode === 13) {
       this.onSave();

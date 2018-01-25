@@ -13,7 +13,7 @@
         <input readonly="true" matInput placeholder="Estado actual" [value]="statement">
       </mat-form-field>
 
-      <form class="example-form" [formGroup]="statusForm">
+      <form class="example-form" [formGroup]="statusForm" (keydown)="key($event)">
         <mat-form-field class="example-full-width">
           <mat-icon matPrefix>swap_horiz</mat-icon>
           <mat-select placeholder="Seleccionar nuevo estatus" [formControl]="statusForm.controls['status']">

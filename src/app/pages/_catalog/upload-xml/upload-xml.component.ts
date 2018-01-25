@@ -30,4 +30,9 @@ export class UploadXmlComponent implements OnInit {
     this.xml = ev.target.files[0];
   }
 
+  key(ev: any) {
+    if (ev.keyCode === 13) {
+      this.onSave();
+    }
+  }
 }

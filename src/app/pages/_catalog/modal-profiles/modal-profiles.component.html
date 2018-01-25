@@ -38,7 +38,7 @@
               <input type="text" placeholder="Seleccionar concepto" matInput [formControl]="profileForm.controls['concept']" [matAutocomplete]="concept"
                 [(ngModel)]="currentConcept">
               <mat-autocomplete #concept="matAutocomplete" [displayWith]="displayFnConcept">
-                <mat-option *ngFor="let option of filteredConcepts | async" [value]="option" (blur)="addConcept()">
+                <mat-option *ngFor="let option of filteredConcepts | async" [value]="option" (keydown)="keyConcept($event)" (blur)="addConcept()">
                   {{ option.concept }}
                 </mat-option>
               </mat-autocomplete>
@@ -74,7 +74,7 @@
               <input type="text" placeholder="Seleccionar obligación" matInput [formControl]="profileForm.controls['obligation']"
                 [matAutocomplete]="obligation" [(ngModel)]="currentObligation">
               <mat-autocomplete #obligation="matAutocomplete" [displayWith]="displayFnObligation">
-                <mat-option *ngFor="let option of filteredObligations | async" [value]="option" (blur)="addObligation()">
+                <mat-option *ngFor="let option of filteredObligations | async" [value]="option" (keydown)="keyObligation($event)" (blur)="addObligation()">
                   <small>{{ option.type }}</small> |
                   <small>{{option.description}}</small>
                 </mat-option>

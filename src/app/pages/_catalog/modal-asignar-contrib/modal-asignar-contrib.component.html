@@ -13,7 +13,7 @@
         <mat-icon matPrefix>person</mat-icon>
         <input [readonly]="true" matInput placeholder="Contador Actual" [(ngModel)]="todayAccontant">
       </mat-form-field> -->
-      <form class="example-form" [formGroup]="accountantForm">
+      <form class="example-form" [formGroup]="accountantForm" (keydown)="key($event)">
         <mat-form-field class="example-full-width">
           <mat-icon matPrefix>person</mat-icon>
           <input type="text" required placeholder="Nuevo contador" matInput 

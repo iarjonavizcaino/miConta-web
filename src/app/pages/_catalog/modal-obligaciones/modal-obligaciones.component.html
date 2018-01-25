@@ -9,28 +9,31 @@
 
   <div class="body">
     <div class="container">
-      <div class="row">
-        <div class="col-6">
-          <mat-form-field>
-            <mat-select placeholder="Tipo" [(ngModel)]="obligation.type">
-              <mat-option value="Plazos">
-                Plazos
-              </mat-option>
-              <mat-option value="Informativas">
-                Informativas
-              </mat-option>
-              <mat-option value="Montos">
-                Montos
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
+      <form [formGroup]="obligationForm">  
+        <div class="row">
+          <div class="col-6">
+            <mat-form-field>
+              <mat-select required placeholder="Tipo" [(ngModel)]="obligation.type" formControlName="type">
+                <mat-option value="Plazos">
+                  Plazos
+                </mat-option>
+                <mat-option value="Informativas">
+                  Informativas
+                </mat-option>
+                <mat-option value="Montos">
+                  Montos
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div class="col-12">
+            <mat-form-field>
+              <textarea required formControlName="description" [(ngModel)]="obligation.description" matInput placeholder="Descripción"
+                rows="6"></textarea>
+            </mat-form-field>
+          </div>
         </div>
-        <div class="col-12">
-          <mat-form-field>
-            <textarea [(ngModel)]="obligation.description" matInput placeholder="Descripción" rows="6"></textarea>
-          </mat-form-field>
-        </div>
-      </div>
+      </form>
     </div>
   </div>
 
@@ -38,7 +41,7 @@
     <button mat-raised-button (click)="onClose()">
       Cancelar
     </button>
-    <button mat-raised-button color="primary" (click)="onSave()">
+    <button mat-raised-button color="primary" [disabled]="!obligationForm.valid" (click)="onSave()">
       Guardar
     </button>
   </footer>

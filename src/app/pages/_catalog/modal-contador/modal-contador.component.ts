@@ -89,4 +89,9 @@ export class ModalContadorComponent implements OnInit {
     }
   }
 
+  key(ev: any) {
+    if (ev.keyCode === 13) {
+      this.onSave();
+    }
+  }
 }

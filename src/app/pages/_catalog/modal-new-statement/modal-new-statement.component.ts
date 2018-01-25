@@ -43,4 +43,9 @@ export class ModalNewStatementComponent implements OnInit {
     this.dialogRef.close(this.statement);
   }
 
+  key(ev: any) {
+    if (ev.keyCode === 13) {
+      this.onSave();
+    }
+  }
 }

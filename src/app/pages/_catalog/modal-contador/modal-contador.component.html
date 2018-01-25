@@ -7,7 +7,7 @@
   </header>
 
   <section class="body">
-    <form [formGroup]="accountantForm">
+    <form [formGroup]="accountantForm" (keydown)="key($event)">
       <div class="container">
         <div class="row">
           <div class="col-12">

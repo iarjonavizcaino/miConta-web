@@ -70,4 +70,9 @@ export class CrearNotificacionComponent implements OnInit {
     this.notification.date = new Date();
     this.dialogRef.close(this.notification); // return data to save
   }
+  key(ev: any) {
+    if (ev.keyCode === 13) {
+      this.onSave();
+    }
+  }
 }// class

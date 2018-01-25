@@ -36,4 +36,9 @@ export class ModalChangeStatusComponent implements OnInit {
     this.dialogRef.close();
   }
 
+  key(ev: any) {
+    if (ev.keyCode === 13) {
+      this.onSave();
+    }
+  }
 }
