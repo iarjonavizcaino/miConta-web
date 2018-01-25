@@ -1,3 +1,113 @@
-<p>
-  inicio-superadmin works!
-</p>
+<div class="row">
+  <div class="col-6 col-md-3">
+    <mat-card id="card1" class="example-card pointer bg-gray new-padding" (click)="filtrar('1')">
+      <div id="div1" class="dashboard-card-icon">
+        <i class="material-icons big-icon">people</i>
+      </div>
+      <div class="dashboard-card-text">
+        <h1 class="text-center big-font remove-margin-bottom">40</h1>
+        <h6 class="text-center jessi-color">Total despachos</h6>
+      </div>
+    </mat-card>
+  </div>
+  <div class="col-6 col-md-3">
+    <mat-card id="card8" class="example-card pointer bg-gray new-padding" (click)="filtrar('8')">
+      <div id="div8" class="dashboard-card-icon">
+        <i class="material-icons big-icon">people</i>
+      </div>
+      <div class="dashboard-card-text">
+        <h1 class="text-center big-font remove-margin-bottom">40</h1>
+        <h6 class="text-center jessi-color">Total contadores</h6>
+      </div>
+    </mat-card>
+  </div>
+  <div class="col-6 col-md-3">
+    <mat-card id="card2" class="example-card pointer bg-gray new-padding" (click)="filtrar('2')">
+      <div id="div2" class="dashboard-card-icon">
+        <i class="material-icons big-icon">warning</i>
+      </div>
+      <div class="dashboard-card-text ">
+        <h1 class="text-center big-font remove-margin-bottom">20</h1>
+        <h6 class="text-center jessi-color remove-margin-bottom">Contadores con retraso</h6>
+      </div>
+    </mat-card>
+  </div>
+  <div class="col-6 col-md-3">
+    <mat-card id="card3" class="example-card pointer bg-gray new-padding" (click)="filtrar('3')">
+      <div id="div3" class="dashboard-card-icon">
+        <i class="material-icons big-icon">done</i>
+      </div>
+      <div class="dashboard-card-text">
+        <h1 class="text-center big-font remove-margin-bottom">18</h1>
+        <h6 class="text-center jessi-color">Contadores sin restraso</h6>
+      </div>
+    </mat-card>
+  </div>
+</div>
+<br>
+<div class="row">
+    <div class="col-6 col-md-3">
+      <mat-card id="card4" class="example-card pointer bg-gray new-padding" (click)="filtrar('4')">
+        <div id = "div4" class="dashboard-card-icon">
+          <i class="material-icons big-icon">people</i>
+        </div>
+        <div class="dashboard-card-text">
+          <h1 class="text-center big-font remove-margin-bottom">40</h1>
+          <h6 class="text-center jessi-color">Total contribuyentes</h6>
+        </div>
+      </mat-card>
+    </div>
+    <div class="col-6 col-md-3">
+      <mat-card id="card5" class="example-card pointer bg-gray new-padding" (click)="filtrar('5')">
+        <div id = "div5" class="dashboard-card-icon">
+          <i class="material-icons big-icon">done</i>
+        </div>
+        <div class="dashboard-card-text ">
+          <h1 class="text-center big-font remove-margin-bottom">20</h1>
+          <h6 class="text-center jessi-color remove-margin-bottom">Contribuyentes declarados</h6>
+        </div>
+      </mat-card>
+    </div>
+    <div class="col-6 col-md-3">
+      <mat-card id="card6" class="example-card pointer bg-gray new-padding" (click)="filtrar('6')">
+        <div id = "div6" class="dashboard-card-icon">
+          <i class="material-icons big-icon">close</i>
+        </div>
+        <div class="dashboard-card-text">
+          <h1 class="text-center big-font remove-margin-bottom">18</h1>
+          <h6 class="text-center jessi-color">Contribuyentes no declarados</h6>
+        </div>
+      </mat-card>
+    </div>
+    <div class="col-6 col-md-3">
+      <mat-card id="card7" class="example-card pointer bg-gray new-padding" (click)="filtrar('7')">
+        <div id = "div7" class="dashboard-card-icon">
+          <i class="material-icons big-icon">warning</i>
+        </div>
+        <div class="dashboard-card-text ">
+          <h1 class="text-center big-font remove-margin-bottom">2</h1>
+          <h6 class="text-center jessi-color">Contribuyentes fuera de límite</h6>
+        </div>
+      </mat-card>
+    </div>
+  </div>  
+<br>
+<rt-datatable (selected)="onDespachoSelected($event)" (checked)="onRowChecked($event)" [showRowNumber]="true" searchWait="600"
+  [headers]="headers" [action]="action" [data]="data">
+  <section class="actions">
+    <button mat-icon-button (click)="onCreate($event)">
+      <mat-icon matTooltip="Nuevo" matTooltipPosition="above">add</mat-icon>
+    </button>
+    <ng-container *ngIf="despachoSelected">
+      <button mat-icon-button (click)="onView($event)">
+        <mat-icon matTooltip="Ver detalles" matTooltipPosition="above">visibility</mat-icon>
+      </button>
+      <button mat-icon-button (click)="onDespachoDetail($event)">
+        <mat-icon matTooltip="Resumen" matTooltipPosition="above">assessment</mat-icon>
+      </button>
+      <button mat-icon-button (click)="onReasignTaxpayer($event)">
+        <mat-icon matTooltip="Reasignar constribuyentes del contador" matTooltipPosition="above">assignment_ind</mat-icon>
+      </button>
+    </ng-container>
+  </section>
+</rt-datatable>

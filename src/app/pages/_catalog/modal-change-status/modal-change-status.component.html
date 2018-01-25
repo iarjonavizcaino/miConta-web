@@ -8,10 +8,15 @@
 
   <div class="body">
     <div class="container">
+      <mat-form-field>
+        <mat-icon matPrefix>keyboard_arrow_down</mat-icon>
+        <input readonly="true" matInput placeholder="Estado actual" [value]="statement">
+      </mat-form-field>
+
       <form class="example-form" [formGroup]="statusForm">
         <mat-form-field class="example-full-width">
-          <mat-icon matPrefix>person</mat-icon>
-          <mat-select placeholder="Seleccionar estatus" [formControl]="statusForm.controls['status']" >
+          <mat-icon matPrefix>swap_horiz</mat-icon>
+          <mat-select placeholder="Seleccionar nuevo estatus" [formControl]="statusForm.controls['status']">
             <mat-option *ngFor="let status of status" [value]="status">
               {{ status }}
             </mat-option>
