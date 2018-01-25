@@ -1,13 +1,9 @@
-<ul class="breadcrumb">
-  <li>
-    <a routerLink="/inicio" routerLinkActive="active">Inicio</a>
-  </li>
-</ul>
 <ng-container *ngIf="contador">
   <div style="color:#1565C0; font-size: 1.3em">
     <strong>Contador: {{ contador }}</strong>
   </div>
   <hr>
+  <br>
 </ng-container>
 <!-- <div class="row" style="height: 40px;">
   <div class="col-12">
@@ -25,7 +21,6 @@
     </mat-card>
   </div>
 </div> -->
-<br>
 <div class="row">
   <div class="col-6 col-md-3">
     <mat-card id="card1" class="example-card pointer  new-padding" (click)="filtrar('1')">

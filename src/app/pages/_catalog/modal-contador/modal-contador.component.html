@@ -13,7 +13,7 @@
           <div class="col-12">
             <mat-form-field>
               <mat-icon matPrefix>person</mat-icon>
-              <input [readonly]="false" matInput placeholder="Nombre" [(ngModel)]="accountant.name" [formControl]="accountantForm.controls['name']">
+              <input [readonly]="false" required matInput placeholder="Nombre" [(ngModel)]="accountant.name" [formControl]="accountantForm.controls['name']">
               <mat-error *ngIf="accountantForm.controls['name'].hasError('required')">
                 Campo
                 <strong>requerido</strong>
@@ -23,7 +23,7 @@
           <div class="col-12 col-md-6">
             <mat-form-field>
               <mat-icon matPrefix>email</mat-icon>
-              <input [readonly]="false" matInput placeholder="Email" [(ngModel)]="accountant.email" [formControl]="accountantForm.controls['email']">
+              <input [readonly]="false" required matInput placeholder="Email" [(ngModel)]="accountant.email" [formControl]="accountantForm.controls['email']">
               <mat-error *ngIf="accountantForm.controls['email'].hasError('required')">
                 Campo
                 <strong>requerido</strong>
@@ -37,7 +37,7 @@
           <div class="col-12 col-md-6">
             <mat-form-field>
               <mat-icon matPrefix>phone</mat-icon>
-              <input [readonly]="false" matInput placeholder="Teléfono" [(ngModel)]="accountant.phone" [formControl]="accountantForm.controls['phone']">
+              <input [readonly]="false" required matInput placeholder="Teléfono" [(ngModel)]="accountant.phone" [formControl]="accountantForm.controls['phone']">
               <mat-error *ngIf="accountantForm.controls['phone'].hasError('required')">
                 Campo
                 <strong>requerido</strong>

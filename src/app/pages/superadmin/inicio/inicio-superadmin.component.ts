@@ -17,9 +17,11 @@ import { TaxpayerCatalogComponent } from '../../_catalog/taxpayer-catalog/taxpay
 export class InicioSuperadminComponent implements OnInit {
 
   headers: Array<RtHeader> = [
-    { name: 'Despacho', prop: 'name', default: 'Sin nombre', width: '20' },
-    { name: 'Contadores', prop: 'accountant', default: '0', align: 'center', width: '15' },
-    { name: 'Contribuyentes', prop: 'taxpayer', default: '0', align: 'center', width: '15' },
+    { name: 'Despacho', prop: 'name', default: 'Sin nombre' },
+    { name: 'Teléfono', prop: 'phone', default: 'sin teléfono' },
+    { name: 'Email', prop: 'email', default: 'Sin email' },
+    { name: 'Contadores', prop: 'accountant', default: '0', align: 'center' },
+    { name: 'Contribuyentes', prop: 'taxpayer', default: '0', align: 'center' },
   ];
   despachoSelected: any;
   data = [];
@@ -31,56 +33,69 @@ export class InicioSuperadminComponent implements OnInit {
 
   ngOnInit() {
     this.loadData();
+    this.setBgCard('1');
   }
 
   loadData() {
     this.data = [
       {
+        _id: '1',
         name: 'Andrea Ramírez',
         accountant: 42,
         taxpayer: 45,
-        email: '',
-        phone: '',
+        email: 'andrea@gmail.com',
+        phone: '3114598725',
         address: {
-          street: '',
-          number: '',
-          neighborhood: '',
-          zipcode: '',
-          city: '',
-          state: '',
-          municipality: ''
+          street: 'Calle 6',
+          number: '57',
+          neighborhood: 'El Rodeo',
+          zipcode: '63117',
+          city: 'Tepic',
+          state: 'Nayarit',
+          municipality: 'Tepic'
         }
       }
     ];
   }
+
   onCreate(ev: any) {
     this.stopPropagation(ev);
-    const dialogRef = this.dialogCtrl.open(ModalContadorComponent, {
-      disableClose: false,
-      data: {
-        title: 'Nuevo Despacho'
-      }
-    });
+    const dialogRef = this.modalDespacho('Nuevo despacho', null);
     dialogRef.afterClosed().subscribe((data) => {
       if (!data) { return; }
-      this.action.next({ name: RtActionName.CREATE, newItem: {name: data.name, accountant: 0, taxpayer: 0} });
-      this.notification.success('Exito', 'Despacho creado');
+      data = { name: data.name, accountant: 0, taxpayer: 0 };
+      this.action.next({ name: RtActionName.CREATE, newItem: data });
+      this.despachoSelected = data;
+      this.notification.success('Acción exitosa', `Nuevo despacho creado: ${ this.despachoSelected.name }`);
     });
   }
+
   onView(ev: any) {
     this.stopPropagation(ev);
-    this.dialogCtrl.open(ModalContadorComponent, {
+    const dialogRef = this.modalDespacho('Detalle despacho', this.despachoSelected);
+    dialogRef.afterClosed().subscribe((data) => {
+      if (!data) { return; }
+      this.action.next({ name: RtActionName.UPDATE, itemId: data._id, newItem: data });
+      this.notification.success('Acción exitosa', `Nuevo despacho creado: ${ this.despachoSelected.name }`);
+      this.despachoSelected = data;
+    });
+  }
+
+  modalDespacho(title: string, despacho: any) {
+    return this.dialogCtrl.open(ModalContadorComponent, {
       disableClose: false,
       data: {
-        title: 'Detalle Despacho',
-        accountant: this.despachoSelected
+        title: title,
+        accountant: despacho
       }
     });
   }
+
   onDespachoDetail(ev: any) {
     this.stopPropagation(ev);
-    this.router.navigate(['/despacho/inicio'], {queryParams: { name: this.despachoSelected.name }});
+    this.router.navigate(['/despacho/inicio'], { queryParams: { name: this.despachoSelected.name } });
   }
+
   onDespachoSelected(ev: any) {
     this.despachoSelected = ev.data;
   }
@@ -99,6 +114,7 @@ export class InicioSuperadminComponent implements OnInit {
     document.getElementById('card' + card).style.background = '#98FB98';
     document.getElementById('div' + card).style.background = '#7bea7b';
   }
+
   private stopPropagation(ev: Event) {
     if (ev) {
       ev.stopPropagation();
