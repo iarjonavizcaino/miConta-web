@@ -81,6 +81,25 @@ export class InicioSuperadminComponent implements OnInit {
     });
   }
 
+  onDelete(ev: any) {
+    this.stopPropagation(ev);
+    const dialogRef = this.dialogCtrl.open(ConfirmComponent, {
+      disableClose: true,
+      data: {
+        title: '¡ATENCIÓN!',
+        message: `Está seguro de eliminar el despacho ${ this.despachoSelected.name }?`
+      }
+    });
+    dialogRef.afterClosed().subscribe((data) => {
+      if (!data) { return; }
+      console.log(data);
+      // DO IT
+      this.action.next({ name: RtActionName.DELETE, itemId: this.despachoSelected._id, newItem: data });
+      this.notification.success('Acción exitosa', `Despacho ${ this.despachoSelected.name } eliminado`);
+      this.despachoSelected = null;
+    });
+  }
+
   modalDespacho(title: string, despacho: any) {
     return this.dialogCtrl.open(ModalContadorComponent, {
       disableClose: false,

@@ -90,6 +90,25 @@ export class InicioContadorComponent implements OnInit, OnDestroy {
     });
   }
 
+  onDelete(ev: any) {
+    this.stopPropagation(ev);
+    const dialogRef = this.dialogCtrl.open(ConfirmComponent, {
+      disableClose: true,
+      data: {
+        title: '¡ATENCIÓN!',
+        message: `¿Está seguro de eliminar el contador ${ this.selectedTaxpayer.name }?`
+      }
+    });
+    dialogRef.afterClosed().subscribe((data) => {
+      if (!data) { return; }
+      console.log(data);
+      // DO IT
+      this.action.next({ name: RtActionName.DELETE, itemId: this.selectedTaxpayer._id, newItem: data });
+      this.notification.success('Acción exitosa', `Contador ${ this.selectedTaxpayer.name } eliminado`);
+      this.selectedTaxpayer = null;
+    });
+  }
+
   filtrar(card: string) {
     this.setBgCard(card);
     console.log('filtrar en tabla');

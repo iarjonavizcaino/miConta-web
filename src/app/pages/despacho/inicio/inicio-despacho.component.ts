@@ -255,6 +255,25 @@ export class InicioDespachoComponent implements OnInit, OnDestroy {
     });
   }
 
+  onDelete(ev: any) {
+    this.stopPropagation(ev);
+    const dialogRef = this.dialogCtrl.open(ConfirmComponent, {
+      disableClose: true,
+      data: {
+        title: '¡ATENCIÓN!',
+        message: `¿Está seguro de eliminar el contador ${ this.selectedAccountant.name }?`
+      }
+    });
+    dialogRef.afterClosed().subscribe((data) => {
+      if (!data) { return; }
+      console.log(data);
+      // DO IT
+      this.action.next({ name: RtActionName.DELETE, itemId: this.selectedAccountant._id, newItem: data });
+      this.notification.success('Acción exitosa', `Contador ${ this.selectedAccountant.name } eliminado`);
+      this.selectedAccountant = null;
+    });
+  }
+
   accountantModal(accountant: any, readonly: boolean, title: string) {
     return this.dialogCtrl.open(ModalContadorComponent, {
       disableClose: false,
