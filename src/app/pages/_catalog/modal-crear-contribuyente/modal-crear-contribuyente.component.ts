@@ -96,8 +96,13 @@ export class ModalCrearContribuyenteComponent implements OnInit {
         vigencia_fiel: '',
         vigencia_sellos: '',
         password: '',
-        profile: null
+        profile: {
+          name: '',
+          concepts: [],
+          obligations: []
+        }
       };
+      this.currentProfile = this.taxPayer.profile;
       console.log('Nuevo');
     }
     this.loadData();
