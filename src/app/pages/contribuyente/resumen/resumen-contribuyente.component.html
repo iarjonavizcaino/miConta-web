@@ -141,6 +141,12 @@
               <button mat-icon-button (click)="onViewBill($event)">
                 <mat-icon matTooltip="Ver detalles" matTooltipPosition="above">visibility</mat-icon>
               </button>
+              <button mat-icon-button (click)="onDownloadXML($event)">
+                <mat-icon matTooltip="Descargar XML" matTooltipPosition="above">code</mat-icon>
+              </button>
+              <button mat-icon-button (click)="onDownloadPDF($event)">
+                <mat-icon matTooltip="Descargar PDF" matTooltipPosition="above">picture_as_pdf</mat-icon>
+              </button>
             </ng-container>
           </section>
         </rt-datatable>
@@ -162,6 +168,12 @@
             <ng-container *ngIf="selectedBill">
               <button mat-icon-button (click)="onViewBill($event)">
                 <mat-icon matTooltip="Ver detalles" matTooltipPosition="above">visibility</mat-icon>
+              </button>
+              <button mat-icon-button (click)="onDownloadXML($event)">
+                <mat-icon matTooltip="Descargar XML" matTooltipPosition="above">code</mat-icon>
+              </button>
+              <button mat-icon-button (click)="onDownloadPDF($event)">
+                <mat-icon matTooltip="Descargar PDF" matTooltipPosition="above">picture_as_pdf</mat-icon>
               </button>
             </ng-container>
           </section>

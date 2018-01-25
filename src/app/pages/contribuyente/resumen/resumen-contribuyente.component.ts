@@ -91,6 +91,15 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
       }
     });
   }
+
+  onDownloadXML(ev) {
+    this.stopPropagation(ev);
+  }
+
+  onDownloadPDF(ev) {
+    this.stopPropagation(ev);
+  }
+
   stopPropagation(ev: Event) {
     if (ev) { ev.stopPropagation(); }
   }
