@@ -97,7 +97,7 @@ export class InicioSuperadminComponent implements OnInit {
       document.getElementById('div' + i).style.background = '#E0E0E0';
     }
     document.getElementById('card' + card).style.background = '#98FB98';
-    // document.getElementById('div' + card).style.background = '#7bea7b';
+    document.getElementById('div' + card).style.background = '#7bea7b';
   }
   private stopPropagation(ev: Event) {
     if (ev) {
