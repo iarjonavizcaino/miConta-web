@@ -20,6 +20,8 @@ const RFC_REGEX = /^([A-ZÑ]{3,4}([0-9]{2})(0[1-9]|1[0-2])(0[1-9]|1[0-9]|2[0-9]|
   styleUrls: ['./modal-crear-contribuyente.component.scss']
 })
 export class ModalCrearContribuyenteComponent implements OnInit {
+  obligations = [];
+  concepts = [];
   wrongLimit: boolean;
   obligationSelected: any;
   conceptSelected: any;
@@ -67,14 +69,14 @@ export class ModalCrearContribuyenteComponent implements OnInit {
     private notification: NotificationsService
   ) {
     this.taxpayerForm = fb.group({
-      name: [null, Validators.required],
-      rfc: [null, Validators.compose([Validators.required, Validators.pattern(RFC_REGEX)])],
-      fiscal_regime: [null, Validators.required],
+      name: ['nuevo', Validators.required],
+      rfc: ['VECJ880326', Validators.compose([Validators.required, Validators.pattern(RFC_REGEX)])],
+      fiscal_regime: ['RIF', Validators.required],
       suspension_date: '',
       regimen_change: '',
       vigencia_fiel: [null, Validators.required],
       vigencia_sellos: [null, Validators.required],
-      password: [null, Validators.required],
+      password: ['null', Validators.required],
       profile: [null, Validators.required]
     });
   }
@@ -87,6 +89,9 @@ export class ModalCrearContribuyenteComponent implements OnInit {
       this.taxPayer = this.data.taxPayer;
       this.statement = this.data.taxPayer.statement;
       this.currentProfile = this.data.taxPayer.profile;
+      this.concepts = this.currentProfile.concepts;
+      this.obligations = this.currentProfile.obligations;
+      console.log(this.currentProfile);
     } else {
       // new taxpayer
       this.taxPayer = {
@@ -98,6 +103,7 @@ export class ModalCrearContribuyenteComponent implements OnInit {
         vigencia_fiel: '',
         vigencia_sellos: '',
         password: '',
+        statement: [],
         profile: {
           name: '',
           concepts: [],
@@ -179,6 +185,8 @@ export class ModalCrearContribuyenteComponent implements OnInit {
     this.selectedStatement = ev.data;
   }
   onSave() {
+    this.currentProfile.concepts = this.concepts;
+    this.currentProfile.obligations = this.obligations;
     this.taxPayer.profile = this.currentProfile;
     this.taxPayer.fiscal_regime = this.regimen;
     this.dialogRef.close(this.taxPayer);
@@ -201,11 +209,21 @@ export class ModalCrearContribuyenteComponent implements OnInit {
   }
 
   displayFnProfile(profile: any): any {
-    this.currentProfile = profile ? profile : profile;
+    // console.log(profile);
+    // this.currentProfile = profile ? profile : profile;
     return profile ? profile.name : profile;
   }
 
   filterProfile(name: string): any[] {
+    this.concepts = [];
+    this.obligations = [];
+    this.profiles.forEach(profile => {
+      if (profile.name.toLowerCase() === name.toLowerCase()) {
+        this.currentProfile = profile;
+        this.concepts = profile.concepts;
+        this.obligations = profile.obligations;
+      }
+    });
     return this.profiles.filter(option =>
       option.name.toLowerCase().indexOf(name.toLowerCase()) === 0);
   }
