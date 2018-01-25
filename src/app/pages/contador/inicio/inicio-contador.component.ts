@@ -18,7 +18,8 @@ export class InicioContadorComponent implements OnInit, OnDestroy {
   headers: Array<RtHeader> = [
     { name: 'Contribuyente', prop: 'name', default: '' },
     { name: 'RFC', prop: 'rfc', default: 'XXXX-XXX-XXXX' },
-    { name: 'Régimen fiscal', prop: 'fiscal_regime', default: '' },
+    { name: 'Perfil', prop: 'profile.name', default: 'Sin perfil' },
+    { name: 'Régimen fiscal', prop: 'fiscal_regime', default: 'RIF' },
   ];
   selectedTaxpayer: any;
   data = [];
@@ -172,6 +173,36 @@ export class InicioContadorComponent implements OnInit, OnDestroy {
         regimen_change: new Date('6/10/2018'),
         vigencia_fiel: new Date('8/12/2018'),
         vigencia_sellos: new Date('10/02/2018'),
+        profile: {
+          _id: '1',
+          name: 'Tienda de abarrotes',
+          concepts: [
+            {
+              _id: '1',
+              code: '553686',
+              concept: 'Gasolina'
+            },
+            {
+              _id: '2',
+              code: '523536',
+              concept: 'Materiales de Limpieza'
+            }
+          ],
+          obligations: [
+            {
+              _id: '1',
+              type: 'Informativas',
+              // tslint:disable-next-line:max-line-length
+              description: 'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ex, aliquam porro itaque aperiam perspiciatis doloremque, facere blanditiis rem voluptate ad veniam placeat tempore quaerat facilis iusto obcaecati repellendus! Tempore, quas?'
+            },
+            {
+              _id: '2',
+              type: 'Plazos',
+              // tslint:disable-next-line:max-line-length
+              description: 'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ex, aliquam porro itaque aperiam perspiciatis doloremque, facere blanditiis rem voluptate ad veniam placeat tempore quaerat facilis iusto obcaecati repellendus! Tempore, quas?'
+            }
+          ]
+        },
         statement: [
           {
             _id: 1,
@@ -206,6 +237,36 @@ export class InicioContadorComponent implements OnInit, OnDestroy {
         password: '1234',
         suspension_date: new Date('10/15/2014'),
         regimen_change: new Date('11/10/2015'),
+        profile: {
+          _id: '2',
+          name: 'Papelería',
+          concepts: [
+            {
+              _id: '1',
+              code: '553686',
+              concept: 'Gasolina'
+            },
+            {
+              _id: '2',
+              code: '523536',
+              concept: 'Materiales de Limpieza'
+            }
+          ],
+          obligations: [
+            {
+              _id: '1',
+              type: 'Informativas',
+              // tslint:disable-next-line:max-line-length
+              description: 'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ex, aliquam porro itaque aperiam perspiciatis doloremque, facere blanditiis rem voluptate ad veniam placeat tempore quaerat facilis iusto obcaecati repellendus! Tempore, quas?'
+            },
+            {
+              _id: '2',
+              type: 'Plazos',
+              // tslint:disable-next-line:max-line-length
+              description: 'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ex, aliquam porro itaque aperiam perspiciatis doloremque, facere blanditiis rem voluptate ad veniam placeat tempore quaerat facilis iusto obcaecati repellendus! Tempore, quas?'
+            }
+          ]
+        },
         statement: [
           {
             _id: 1,
@@ -240,6 +301,36 @@ export class InicioContadorComponent implements OnInit, OnDestroy {
         password: '1234',
         suspension_date: new Date('09/21/2018'),
         regimen_change: new Date('07/13/2018'),
+        profile: {
+          _id: '3',
+          name: 'Farmacia',
+          concepts: [
+            {
+              _id: '1',
+              code: '553686',
+              concept: 'Gasolina'
+            },
+            {
+              _id: '2',
+              code: '523536',
+              concept: 'Materiales de Limpieza'
+            }
+          ],
+          obligations: [
+            {
+              _id: '1',
+              type: 'Informativas',
+              // tslint:disable-next-line:max-line-length
+              description: 'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ex, aliquam porro itaque aperiam perspiciatis doloremque, facere blanditiis rem voluptate ad veniam placeat tempore quaerat facilis iusto obcaecati repellendus! Tempore, quas?'
+            },
+            {
+              _id: '2',
+              type: 'Plazos',
+              // tslint:disable-next-line:max-line-length
+              description: 'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ex, aliquam porro itaque aperiam perspiciatis doloremque, facere blanditiis rem voluptate ad veniam placeat tempore quaerat facilis iusto obcaecati repellendus! Tempore, quas?'
+            }
+          ]
+        },
         file: 'hola.html',
         statement: [
           {

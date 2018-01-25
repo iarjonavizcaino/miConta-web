@@ -8,6 +8,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
   styleUrls: ['./modal-conceptos.component.scss']
 })
 export class ModalConceptosComponent implements OnInit {
+  readonly: boolean;
 
   title: string;
   concept: any;
@@ -26,6 +27,7 @@ export class ModalConceptosComponent implements OnInit {
 
   ngOnInit() {
     this.title = this.data.title || 'Título del modal';
+    this.readonly = this.data.readonly;
     console.log(this.data);
     if (this.data.concept) {  // data: info from table
       this.concept = this.data.concept;

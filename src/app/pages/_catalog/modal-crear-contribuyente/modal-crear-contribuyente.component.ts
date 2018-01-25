@@ -9,6 +9,9 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ModalChangeStatusComponent } from '../modal-change-status/modal-change-status.component';
 import { UploadStatementFileComponent } from '../upload-statement-file/upload-statement-file.component';
 import { ModalNewStatementComponent } from '../modal-new-statement/modal-new-statement.component';
+import { Observable } from 'rxjs/Observable';
+import { ModalConceptosComponent } from '../modal-conceptos/modal-conceptos.component';
+import { ModalObligacionesComponent } from '../modal-obligaciones/modal-obligaciones.component';
 const RFC_REGEX = /^([A-ZÑ]{3,4}([0-9]{2})(0[1-9]|1[0-2])(0[1-9]|1[0-9]|2[0-9]|3[0-1]))([A-Z\d]{3})?$/;
 
 @Component({
@@ -17,32 +20,43 @@ const RFC_REGEX = /^([A-ZÑ]{3,4}([0-9]{2})(0[1-9]|1[0-2])(0[1-9]|1[0-9]|2[0-9]|
   styleUrls: ['./modal-crear-contribuyente.component.scss']
 })
 export class ModalCrearContribuyenteComponent implements OnInit {
-  action = new Subject<RtAction>();
+  obligationSelected: any;
+  conceptSelected: any;
+  currentProfile: any;
+  actionStatement = new Subject<RtAction>();
+  actionConcept = new Subject<RtAction>();
+  actionObligation = new Subject<RtAction>();
   title: string;
 
-  taxPayer: any = {
-    name: '',
-    rfc: '',
-    fiscal_regime: '',
-    suspension_date: '',
-    regimen_change: '',
-    vigencia_fiel: '',
-    vigencia_sellos: '',
-    password: '',
-  };
+  profiles = [];
+  filteredProfiles: Observable<any[]>;
+
+  taxPayer: any;
 
   taxpayerForm: FormGroup;
   readonly: boolean;
   statement: any = [];
   selectedStatement: any;
   regimen = 'RIF';
-  headers: Array<RtHeader> = [
+
+  headersStatement: Array<RtHeader> = [
     { name: 'Año', prop: 'year', default: '' },
     { name: 'Bimestre', prop: 'bimester', default: 'XXXX-XXX-XXXX' },
     { name: 'Estatus', prop: 'type', default: '', chip: true },
     { name: 'Archivo', prop: 'file1', default: 'No archivo', link: true },
     { name: 'Archivo', prop: 'file2', default: 'No archivo', link: true }
   ];
+
+  headersConcepts: Array<RtHeader> = [
+    { name: 'Código', prop: 'code', default: '' },
+    { name: 'Concepto', prop: 'concept', default: '' },
+  ];
+
+  headersObligations: Array<RtHeader> = [
+    { name: 'Tipo', prop: 'type', default: '', width: '20' },
+    { name: 'Descripción', prop: 'description', default: '', width: '72' },
+  ];
+
   constructor(
     private dialogCtrl: MatDialog,
     private dialogRef: MatDialogRef<ModalCrearContribuyenteComponent>,
@@ -58,7 +72,8 @@ export class ModalCrearContribuyenteComponent implements OnInit {
       regimen_change: '',
       vigencia_fiel: [null, Validators.required],
       vigencia_sellos: [null, Validators.required],
-      password: [null, Validators.required]
+      password: [null, Validators.required],
+      profile: [null, Validators.required]
     });
   }
 
@@ -66,14 +81,30 @@ export class ModalCrearContribuyenteComponent implements OnInit {
     this.readonly = this.data.readonly;
     this.title = this.data.title;
     console.log(this.data);
-    // no esta trabajando bien esto
     if (this.data.taxPayer) {   // detail
       this.taxPayer = this.data.taxPayer;
       this.statement = this.data.taxPayer.statement;
+      this.currentProfile = this.data.taxPayer.profile;
     } else {
       // new taxpayer
+      this.taxPayer = {
+        name: '',
+        rfc: '',
+        fiscal_regime: '',
+        suspension_date: '',
+        regimen_change: '',
+        vigencia_fiel: '',
+        vigencia_sellos: '',
+        password: '',
+        profile: null
+      };
       console.log('Nuevo');
     }
+    this.loadData();
+    this.filteredProfiles = this.taxpayerForm.get('profile').valueChanges
+      .startWith(null)
+      .map(profile => profile && typeof profile === 'object' ? profile.name : profile)
+      .map(name => name ? this.filterProfile(name) : this.profiles.slice());
   }
 
   onChangeStatus (ev) {
@@ -84,7 +115,7 @@ export class ModalCrearContribuyenteComponent implements OnInit {
       const statement = this.selectedStatement;
       statement.type = data;
       // Mke http request to update
-      this.action.next({ name: RtActionName.UPDATE, itemId: statement._id, newItem: statement });
+      this.actionStatement.next({ name: RtActionName.UPDATE, itemId: statement._id, newItem: statement });
       this.selectedStatement = statement;
     });
   }
@@ -123,7 +154,7 @@ export class ModalCrearContribuyenteComponent implements OnInit {
     dialogRef.afterClosed().subscribe(data => {
       if (!data) { return; }
       console.log(data);
-      this.action.next({ name: RtActionName.CREATE, newItem: data }); // save data
+      this.actionStatement.next({ name: RtActionName.CREATE, newItem: data }); // save data
       this.notification.success('Acción exitosa', 'La declaración se creó correctamente');
     });
   }
@@ -141,6 +172,7 @@ export class ModalCrearContribuyenteComponent implements OnInit {
     this.selectedStatement = ev.data;
   }
   onSave() {
+    this.taxPayer.profile = this.currentProfile;
     this.taxPayer.fiscal_regime = this.regimen;
     this.dialogRef.close(this.taxPayer);
   }
@@ -159,5 +191,161 @@ export class ModalCrearContribuyenteComponent implements OnInit {
 
   stopPropagation(ev: Event) {
     if (ev) { ev.stopPropagation(); }
+  }
+
+  displayFnProfile(profile: any): any {
+    this.currentProfile = profile ? profile : profile;
+    return profile ? profile.name : profile;
+  }
+
+  filterProfile(name: string): any[] {
+    return this.profiles.filter(option =>
+      option.name.toLowerCase().indexOf(name.toLowerCase()) === 0);
+  }
+
+  onConceptSelected(ev: any) {
+    this.conceptSelected = ev.data;
+  }
+
+  onObligationSelected(ev) {
+    this.obligationSelected = ev.data;
+  }
+
+  onViewConcept(ev: any) {
+    this.stopPropagation(ev);
+    this.dialogCtrl.open(ModalConceptosComponent, {
+      disableClose: false,
+      data: {
+        title: 'Detalle concepto',
+        concept: this.conceptSelected,
+        readonly: true
+      }
+    });
+  }
+
+  onViewObligation(ev) {
+    this.dialogCtrl.open(ModalObligacionesComponent, {
+      disableClose: false,
+      data: {
+        title: 'Detalle obligación',
+        obligation: this.obligationSelected,
+        readonly: true
+      }
+    });
+  }
+
+  loadData () {
+    this.profiles = [
+      {
+        _id: '1',
+        name: 'Tienda de abarrotes',
+        concepts: [
+          {
+            _id: '1',
+            code: '553686',
+            concept: 'Gasolina'
+          },
+          {
+            _id: '2',
+            code: '523536',
+            concept: 'Materiales de Limpieza'
+          }
+        ],
+        obligations: [
+          {
+            _id: '1',
+            type: 'Informativas',
+            // tslint:disable-next-line:max-line-length
+            description: 'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ex, aliquam porro itaque aperiam perspiciatis doloremque, facere blanditiis rem voluptate ad veniam placeat tempore quaerat facilis iusto obcaecati repellendus! Tempore, quas?'
+          },
+          {
+            _id: '2',
+            type: 'Plazos',
+            // tslint:disable-next-line:max-line-length
+            description: 'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ex, aliquam porro itaque aperiam perspiciatis doloremque, facere blanditiis rem voluptate ad veniam placeat tempore quaerat facilis iusto obcaecati repellendus! Tempore, quas?'
+          }
+        ]
+      },
+      {
+        _id: '2',
+        name: 'Papelería',
+        obligations: [
+          {
+            _id: '1',
+            type: 'Informativas',
+            // tslint:disable-next-line:max-line-length
+            description: 'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ex, aliquam porro itaque aperiam perspiciatis doloremque, facere blanditiis rem voluptate ad veniam placeat tempore quaerat facilis iusto obcaecati repellendus! Tempore, quas?'
+          },
+          {
+            _id: '2',
+            type: 'Plazos',
+            // tslint:disable-next-line:max-line-length
+            description: 'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ex, aliquam porro itaque aperiam perspiciatis doloremque, facere blanditiis rem voluptate ad veniam placeat tempore quaerat facilis iusto obcaecati repellendus! Tempore, quas?'
+          },
+          {
+            _id: '3',
+            type: 'Montos',
+            // tslint:disable-next-line:max-line-length
+            description: 'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ex, aliquam porro itaque aperiam perspiciatis doloremque, facere blanditiis rem voluptate ad veniam placeat tempore quaerat facilis iusto obcaecati repellendus! Tempore, quas?'
+          }
+        ],
+        concepts: [
+          {
+            _id: '3',
+            code: '112626',
+            concept: 'Consumibles de cómputo'
+          },
+          {
+            _id: '4',
+            code: '334168',
+            concept: 'Material eléctrico'
+          },
+          {
+            _id: '5',
+            code: '664173',
+            concept: 'Gasolina otra vez'
+          }
+        ]
+      },
+      {
+        _id: '3',
+        name: 'Farmacia',
+        concepts: [
+          {
+            _id: '1',
+            code: '553686',
+            concept: 'Gasolina'
+          },
+          {
+            _id: '2',
+            code: '523536',
+            concept: 'Materiales de Limpieza'
+          },
+          {
+            _id: '3',
+            code: '112626',
+            concept: 'Consumibles de cómputo'
+          },
+          {
+            _id: '4',
+            code: '334168',
+            concept: 'Material eléctrico'
+          },
+          {
+            _id: '5',
+            code: '664173',
+            concept: 'Gasolina otra vez'
+          }
+        ],
+        obligations: [
+          {
+            _id: '3',
+            type: 'Montos',
+            // tslint:disable-next-line:max-line-length
+            description: 'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ex, aliquam porro itaque aperiam perspiciatis doloremque, facere blanditiis rem voluptate ad veniam placeat tempore quaerat facilis iusto obcaecati repellendus! Tempore, quas?'
+          }
+        ]
+      }
+    ];
   }
 }

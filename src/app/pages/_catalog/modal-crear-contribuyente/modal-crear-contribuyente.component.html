@@ -88,6 +88,66 @@
             </mat-form-field>
           </div>
         </div>
+        <div class="row">
+          <div class="col-12">
+            <mat-form-field class="example-full-width">
+              <mat-icon matPrefix>account_box</mat-icon>
+              <input type="text" required placeholder="Perfil" matInput [formControl]="taxpayerForm.controls['profile']" [matAutocomplete]="auto"
+                [(ngModel)]="currentProfile">
+              <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFnProfile">
+                <mat-option *ngFor="let option of filteredProfiles | async" [value]="option">
+                  {{ option.name }}
+                </mat-option>
+              </mat-autocomplete>
+              <mat-error *ngIf="taxpayerForm.controls['profile'].hasError('required')">
+                Campo
+                <strong>requerido</strong>
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12">
+            <mat-expansion-panel>
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  Perfil
+                </mat-panel-title>
+                <mat-panel-description>
+                  Detalle del perfil
+                </mat-panel-description>
+              </mat-expansion-panel-header>
+
+              <mat-tab-group>
+                <mat-tab label="Conceptos">
+                  <rt-datatable (selected)="onConceptSelected($event)" [showRowNumber]="true" searchWait="600" [showRowNumber]="false" [headers]="headersConcepts"
+                    [action]="actionConcept" [data]="currentProfile.concepts">
+                    <section class="actions">
+                      <ng-container *ngIf="conceptSelected">
+                        <button mat-icon-button (click)="onViewConcept($event)">
+                          <mat-icon matTooltip="Ver detalles" matTooltipPosition="above">visibility</mat-icon>
+                        </button>
+                      </ng-container>
+                    </section>
+                  </rt-datatable>
+                </mat-tab>
+                <mat-tab label="Obligaciones">
+                  <rt-datatable (selected)="onObligationSelected($event)" [showRowNumber]="true" searchWait="600" [showRowNumber]="false" [headers]="headersObligations"
+                    [action]="actionObligation" [data]="currentProfile.obligations">
+                    <section class="actions">
+                      <ng-container *ngIf="obligationSelected">
+                        <button mat-icon-button (click)="onViewObligation($event)">
+                          <mat-icon matTooltip="Ver detalles" matTooltipPosition="above">visibility</mat-icon>
+                        </button>
+                      </ng-container>
+                    </section>
+                  </rt-datatable>
+                </mat-tab>
+              </mat-tab-group>
+
+            </mat-expansion-panel>
+          </div>
+        </div>
         <!-- <div class="row">
         <div class="col-12">
           <mat-accordion>
@@ -139,7 +199,7 @@
         <br>
         <ng-container *ngIf="readonly">
 
-          <rt-datatable (selected)="onSelected($event)" searchWait="600" [showRowNumber]="true" [headers]="headers" [action]="action"
+          <rt-datatable (selected)="onSelected($event)" searchWait="600" [showRowNumber]="true" [headers]="headersStatement" [action]="actionStatement"
             [data]="statement">
             <section class="actions">
               <button mat-icon-button (click)="onCreate($event)">
