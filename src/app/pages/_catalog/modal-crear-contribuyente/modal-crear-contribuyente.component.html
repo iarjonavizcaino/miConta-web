@@ -121,7 +121,7 @@
               <mat-tab-group>
                 <mat-tab label="Conceptos">
                   <rt-datatable (selected)="onConceptSelected($event)" [showRowNumber]="true" searchWait="600" [showRowNumber]="false" [headers]="headersConcepts"
-                    [action]="actionConcept" [data]="currentProfile.concepts">
+                    [action]="actionConcept" [data]="currentProfile.concepts" (changed)="inputChange($event)">
                     <section class="actions">
                       <ng-container *ngIf="conceptSelected">
                         <button mat-icon-button (click)="onViewConcept($event)">
@@ -256,7 +256,7 @@
     <button mat-button (click)="onClose()">
       Cancelar
     </button>
-    <button mat-raised-button color="primary" [disabled]="!taxpayerForm.valid" (click)="onSave()">
+    <button mat-raised-button color="primary" [disabled]="!taxpayerForm.valid || wrongLimit" (click)="onSave()">
       Guardar
     </button>
   </footer>

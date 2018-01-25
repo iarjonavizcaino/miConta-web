@@ -180,12 +180,14 @@ export class InicioContadorComponent implements OnInit, OnDestroy {
             {
               _id: '1',
               code: '553686',
-              concept: 'Gasolina'
+              concept: 'Gasolina',
+              limit: 700.00
             },
             {
               _id: '2',
               code: '523536',
-              concept: 'Materiales de Limpieza'
+              concept: 'Materiales de Limpieza',
+              limit: 200.00
             }
           ],
           obligations: [
@@ -244,12 +246,14 @@ export class InicioContadorComponent implements OnInit, OnDestroy {
             {
               _id: '1',
               code: '553686',
-              concept: 'Gasolina'
+              concept: 'Gasolina',
+              limit: 1000.00
             },
             {
               _id: '2',
               code: '523536',
-              concept: 'Materiales de Limpieza'
+              concept: 'Materiales de Limpieza',
+              limit: 700.00
             }
           ],
           obligations: [
@@ -308,12 +312,14 @@ export class InicioContadorComponent implements OnInit, OnDestroy {
             {
               _id: '1',
               code: '553686',
-              concept: 'Gasolina'
+              concept: 'Gasolina',
+              limit: 500.00
             },
             {
               _id: '2',
               code: '523536',
-              concept: 'Materiales de Limpieza'
+              concept: 'Materiales de Limpieza',
+              limit: 200.00
             }
           ],
           obligations: [

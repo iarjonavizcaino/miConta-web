@@ -20,6 +20,7 @@ const RFC_REGEX = /^([A-ZÑ]{3,4}([0-9]{2})(0[1-9]|1[0-2])(0[1-9]|1[0-9]|2[0-9]|
   styleUrls: ['./modal-crear-contribuyente.component.scss']
 })
 export class ModalCrearContribuyenteComponent implements OnInit {
+  wrongLimit: boolean;
   obligationSelected: any;
   conceptSelected: any;
   currentProfile: any;
@@ -50,6 +51,7 @@ export class ModalCrearContribuyenteComponent implements OnInit {
   headersConcepts: Array<RtHeader> = [
     { name: 'Código', prop: 'code', default: '' },
     { name: 'Concepto', prop: 'concept', default: '' },
+    { name: 'Límite', prop: 'limit', default: '0.00', priceSymbol: true, input: 'number', align: 'right', width: '20' }
   ];
 
   headersObligations: Array<RtHeader> = [
@@ -112,7 +114,7 @@ export class ModalCrearContribuyenteComponent implements OnInit {
       .map(name => name ? this.filterProfile(name) : this.profiles.slice());
   }
 
-  onChangeStatus (ev) {
+  onChangeStatus(ev) {
     this.stopPropagation(ev);
     const dialogRef = this.changeStatusModal('Cambiar estatus de declaración');
     dialogRef.afterClosed().subscribe(data => {
@@ -135,7 +137,7 @@ export class ModalCrearContribuyenteComponent implements OnInit {
     });
   }
 
-  uploadFilesModal (title: string) {
+  uploadFilesModal(title: string) {
     return this.dialogCtrl.open(UploadStatementFileComponent, {
       disableClose: false,
       data: {
@@ -144,7 +146,7 @@ export class ModalCrearContribuyenteComponent implements OnInit {
     });
   }
 
-  createStatementModal (title: string) {
+  createStatementModal(title: string) {
     return this.dialogCtrl.open(ModalNewStatementComponent, {
       disableClose: false,
       data: {
@@ -216,6 +218,11 @@ export class ModalCrearContribuyenteComponent implements OnInit {
     this.obligationSelected = ev.data;
   }
 
+  inputChange(ev) {
+    console.log(ev);
+    this.wrongLimit = !ev.data.limit || ev.data.limit <= 0 ? true : false;
+  }
+
   onViewConcept(ev: any) {
     this.stopPropagation(ev);
     this.dialogCtrl.open(ModalConceptosComponent, {
@@ -239,7 +246,7 @@ export class ModalCrearContribuyenteComponent implements OnInit {
     });
   }
 
-  loadData () {
+  loadData() {
     this.profiles = [
       {
         _id: '1',
@@ -248,12 +255,14 @@ export class ModalCrearContribuyenteComponent implements OnInit {
           {
             _id: '1',
             code: '553686',
-            concept: 'Gasolina'
+            concept: 'Gasolina',
+            limit: 0.00
           },
           {
             _id: '2',
             code: '523536',
-            concept: 'Materiales de Limpieza'
+            concept: 'Materiales de Limpieza',
+            limit: 0.00
           }
         ],
         obligations: [
@@ -298,17 +307,20 @@ export class ModalCrearContribuyenteComponent implements OnInit {
           {
             _id: '3',
             code: '112626',
-            concept: 'Consumibles de cómputo'
+            concept: 'Consumibles de cómputo',
+            limit: 0.00
           },
           {
             _id: '4',
             code: '334168',
-            concept: 'Material eléctrico'
+            concept: 'Material eléctrico',
+            limit: 0.00
           },
           {
             _id: '5',
             code: '664173',
-            concept: 'Gasolina otra vez'
+            concept: 'Gasolina otra vez',
+            limit: 0.00
           }
         ]
       },
@@ -319,27 +331,32 @@ export class ModalCrearContribuyenteComponent implements OnInit {
           {
             _id: '1',
             code: '553686',
-            concept: 'Gasolina'
+            concept: 'Gasolina',
+            limit: 0.00
           },
           {
             _id: '2',
             code: '523536',
-            concept: 'Materiales de Limpieza'
+            concept: 'Materiales de Limpieza',
+            limit: 0.00
           },
           {
             _id: '3',
             code: '112626',
-            concept: 'Consumibles de cómputo'
+            concept: 'Consumibles de cómputo',
+            limit: 0.00
           },
           {
             _id: '4',
             code: '334168',
-            concept: 'Material eléctrico'
+            concept: 'Material eléctrico',
+            limit: 0.00
           },
           {
             _id: '5',
             code: '664173',
-            concept: 'Gasolina otra vez'
+            concept: 'Gasolina otra vez',
+            limit: 0.00
           }
         ],
         obligations: [
