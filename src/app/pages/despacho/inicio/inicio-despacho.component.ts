@@ -280,11 +280,7 @@ export class InicioDespachoComponent implements OnInit, OnDestroy {
     // this.stopPropagation(ev);
     // see page as Contador
     console.log(this.selectedAccountant.name);
-<<<<<<< HEAD
-    this.router.navigate(['/contador/incio'], { queryParams: { name: this.selectedAccountant.name } });
-=======
     this.router.navigate(['/contador/inicio'], { queryParams: { name: this.selectedAccountant.name } });
->>>>>>> 6cabd43d0154aecba56a87f39c2c22019ed26046
   }
 
   onContadorSelected(ev) {
