@@ -62,50 +62,57 @@ export class ConceptosComponent implements OnInit {
 
   onCreate(ev: any) {
     this.stopPropagation(ev);
-    const dialogRef = this.dialogCtrl.open(ModalConceptosComponent, {
-      disableClose: false,
-      data: {
-        title: 'Nuevo Concepto'
-      }
-    });
+    const dialogRef = this.conceptModal('Nuevo concepto', null);
     dialogRef.afterClosed().subscribe((data) => {
       if (!data) { return; }
       console.log(data);
       this.action.next({ name: RtActionName.CREATE, newItem: data });
-      this.noti.success('Exito', 'Concepto moficada');
+      this.conceptSelected = data;
+      this.noti.success('Acción exitosa', `Nuevo concepto creado: ${ this.conceptSelected.concept }`);
+
     });
   }
+
   onEdit(ev: any) {
     this.stopPropagation(ev);
-    const dialogRef = this.dialogCtrl.open(ModalConceptosComponent, {
-      disableClose: false,
-      data: {
-        title: 'Editar Concepto',
-        concept: this.conceptSelected
-      }
-    });
+    const dialogRef = this.conceptModal('Modificar concepto', this.conceptSelected);
+
     dialogRef.afterClosed().subscribe((data) => {
       if (!data) { return; }
       this.action.next({ name: RtActionName.UPDATE, itemId: data._id, newItem: data });
-      this.noti.success('Exito', 'Concepto moficada');
+      this.noti.success('Acción exitosa', `Concepto ${ this.conceptSelected.concept } moficado`);
+      this.conceptSelected = data;
     });
   }
+
   onDelete(ev: any) {
     this.stopPropagation(ev);
     const dialogRef = this.dialogCtrl.open(ConfirmComponent, {
       disableClose: true,
       data: {
-        title: 'ATENCIÓN!',
-        message: 'Estás seguro de eliminar éste concepto?'
+        title: '¸ATENCIÓN!',
+        message: `¿Está seguro de eliminar el concepto: ${ this.conceptSelected.concept }?`
       }
     });
     dialogRef.afterClosed().subscribe((data) => {
       if (!data) { return; }
       // DO IT
       this.action.next({ name: RtActionName.DELETE, itemId: this.conceptSelected._id, newItem: data });
-      this.noti.success('Exito', 'Concepto eliminado');
+      this.noti.success('Acción exitosa', `Concepto ${ this.conceptSelected.concept } eliminado`);
+      this.conceptSelected = null;
     });
   }
+
+  conceptModal(title: string, concept: any) {
+    return this.dialogCtrl.open(ModalConceptosComponent, {
+      disableClose: false,
+      data: {
+        title: title,
+        concept: concept
+      }
+    });
+  }
+
   stopPropagation(ev: Event) {
     if (ev) { ev.stopPropagation(); }
   }

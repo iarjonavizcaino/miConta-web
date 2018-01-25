@@ -22,9 +22,11 @@ export class NotificacionesComponent implements OnInit {
   data = [];
   action = new Subject<RtAction>();
   constructor(private noti: NotificationsService, private dialogCtrl: MatDialog) { }
+
   ngOnInit() {
     this.loadData();
   }
+
   loadData() {
     this.data = [
       {
@@ -48,6 +50,7 @@ export class NotificacionesComponent implements OnInit {
       }
     ];
   }
+
   onCreate(ev: any) {
     this.stopPropagation(ev);
     const dialogRef = this.dialogCtrl.open(CrearNotificacionComponent, {
@@ -59,17 +62,21 @@ export class NotificacionesComponent implements OnInit {
       // Make HTTP request to create employee
       // console.log(data);
       // this.data.push(data);
-      this.action.next({name: RtActionName.CREATE, newItem: data, order: '-1'});
-      this.noti.success('Exito', 'Se envió correctamente');
+      this.action.next({ name: RtActionName.CREATE, newItem: data, order: '-1' });
+      this.selectedMessage = data;
+      this.noti.success('Acción exitosa', 'La notificación se envió correctamente');
     });
   }
+
   onMessageSelected(ev) {
     this.selectedMessage = ev.data;
   }
+
   onView(ev) {
     this.stopPropagation(ev);
-    this.showMessage(this.selectedMessage, true, 'Notificación');
+    this.showMessage(this.selectedMessage, true, 'Detalle notificación');
   }
+
   stopPropagation(ev: Event) {
     if (ev) { ev.stopPropagation(); }
   }

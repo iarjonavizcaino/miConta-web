@@ -30,12 +30,14 @@ export class InicioDespachoComponent implements OnInit {
   constructor(
     private notification: NotificationsService,
     private router: Router,
-    private dialogCtrl: MatDialog) { }
+    private dialogCtrl: MatDialog
+  ) { }
 
   ngOnInit() {
     this.loadData();
     this.setBgCard('1');
   }
+
   private loadData() {
     this.data = [
       {
@@ -176,6 +178,7 @@ export class InicioDespachoComponent implements OnInit {
       // Make HTTP request to create contadores
       data.taxpayer = { total: 0, declarados: 0, no_declarados: 0, fuera_de_limite: 0 };
       this.action.next({ name: RtActionName.CREATE, newItem: data }); // save data
+      this.selectedAccountant = data;
       const dialogRef = this.dialogCtrl.open(ConfirmComponent, {
         data: {
           title: 'Creedenciales de Acceso',
@@ -185,7 +188,7 @@ export class InicioDespachoComponent implements OnInit {
       });
       // tslint:disable-next-line:no-shadowed-variable
       dialogRef.afterClosed().subscribe((data) => {
-        this.notification.success('Acción exitosa', `El contador se guardó correctamente`);
+        this.notification.success('Acción exitosa', `Contador creado correctamente: ${this.selectedAccountant.name}`);
       });
     });
   }
@@ -224,7 +227,15 @@ export class InicioDespachoComponent implements OnInit {
   onView(ev) {
     this.stopPropagation(ev);
     // call modal to see Contador personal info
-    this.accountantModal(this.selectedAccountant, true, 'Detalle');
+    const dialogRef = this.accountantModal(this.selectedAccountant, true, 'Detalle contador');
+
+    dialogRef.afterClosed().subscribe((data) => {
+      if (!data) { return; }
+      console.log('hola');
+      this.action.next({ name: RtActionName.UPDATE, itemId: data._id, newItem: data });
+      this.notification.success('Acción exitosa', `Contador ${this.selectedAccountant.name} modificado`);
+      this.selectedAccountant = data;
+    });
   }
 
   accountantModal(accountant: any, readonly: boolean, title: string) {
@@ -252,7 +263,7 @@ export class InicioDespachoComponent implements OnInit {
     // this.stopPropagation(ev);
     // see page as Contador
     console.log(this.selectedAccountant.name);
-    this.router.navigate(['/contador/incio'], {queryParams: { name: this.selectedAccountant.name }});
+    this.router.navigate(['/contador/incio'], { queryParams: { name: this.selectedAccountant.name } });
   }
 
   onContadorSelected(ev) {

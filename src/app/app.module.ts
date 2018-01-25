@@ -94,6 +94,7 @@ import { ModalNewStatementComponent } from './pages/_catalog/modal-new-statement
 import { UploadStatementFileComponent } from './pages/_catalog/upload-statement-file/upload-statement-file.component';
 import { ModalObligacionesComponent } from './pages/_catalog/modal-obligaciones/modal-obligaciones.component';
 import { ModalConceptosComponent } from './pages/_catalog/modal-conceptos/modal-conceptos.component';
+import { ModalProfilesComponent } from './pages/_catalog/modal-profiles/modal-profiles.component';
 
 
 // all routes pages
@@ -142,7 +143,8 @@ const routes: Routes = [
     UploadStatementFileComponent,
     ModalNewStatementComponent,
     ModalObligacionesComponent,
-    ModalConceptosComponent
+    ModalConceptosComponent,
+    ModalProfilesComponent
   ],
   declarations: [
     AppComponent,
@@ -160,6 +162,7 @@ const routes: Routes = [
     ModalNewStatementComponent,
     ModalObligacionesComponent,
     ModalConceptosComponent,
+    ModalProfilesComponent,
 
     // components
     AlertComponent,
@@ -195,6 +198,7 @@ const routes: Routes = [
     DespachosComponent,
     ConceptosComponent,
     ObligacionesCrudComponent,
+    ModalProfilesComponent,
   ],
   imports: [
     BrowserModule,

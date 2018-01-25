@@ -46,50 +46,44 @@ export class ObligacionesCrudComponent implements OnInit {
       }
     ];
   }
+
   onObligationSelected(ev) {
     this.obligationSelected = ev.data;
   }
+
   onCreate(ev: any) {
     this.stopPropagation(ev);
-    const dialogRef = this.dialogCtrl.open(ModalObligacionesComponent, {
-      disableClose: false,
-      data: {
-        title: 'Nueva Obligación'
-      }
-    });
+    const dialogRef = this.obligationModal('Nueva obligación', null);
     dialogRef.afterClosed().subscribe((data) => {
       if (!data) { return; }
       // Make HTTP request to create notification
       console.log(data);
       this.action.next({ name: RtActionName.CREATE, newItem: data });
-      this.noti.success('Exito', 'Obligación creada');
+      this.noti.success('Acción exitosa', 'Nueva obligación creada');
+      this.obligationSelected = data;
     });
   }
+
   onEdit(ev: any) {
     this.stopPropagation(ev);
-    const dialogRef = this.dialogCtrl.open(ModalObligacionesComponent, {
-      disableClose: false,
-      data: {
-        title: 'Editar Obligación',
-        // tslint:disable-next-line:max-line-length
-        obligation: {_id: this.obligationSelected._id, type: this.obligationSelected.type, description: this.obligationSelected.description }
-      }
-    });
+    const dialogRef = this.obligationModal('Modificar obligación', this.obligationSelected);
     dialogRef.afterClosed().subscribe((data) => {
       if (!data) { return; }
       // Make HTTP request to create notification
       console.log(data);
       this.action.next({ name: RtActionName.UPDATE, itemId: data._id, newItem: data });
-      this.noti.success('Exito', 'Obligación moficada');
+      this.noti.success('Acción exitosa', 'Obligación moficada');
+      this.obligationSelected = data;
     });
   }
+
   onDelete(ev: any) {
     this.stopPropagation(ev);
     const dialogRef = this.dialogCtrl.open(ConfirmComponent, {
       disableClose: true,
       data: {
-        title: 'ATENCIÓN!',
-        message: 'Estás seguro de eliminar ésta obligación?'
+        title: '¡ATENCIÓN!',
+        message: 'Está seguro de eliminar ésta obligación?'
       }
     });
     dialogRef.afterClosed().subscribe((data) => {
@@ -97,9 +91,21 @@ export class ObligacionesCrudComponent implements OnInit {
       console.log(data);
       // DO IT
       this.action.next({ name: RtActionName.DELETE, itemId: this.obligationSelected._id, newItem: data });
-      this.noti.success('Exito', 'Obligación eliminada');
+      this.noti.success('Acción exitosa', 'Obligación eliminada');
+      this.obligationSelected = null;
     });
   }
+
+  obligationModal (title: string, obligation: any) {
+    return this.dialogCtrl.open(ModalObligacionesComponent, {
+      disableClose: false,
+      data: {
+        title: title,
+        obligation: obligation
+      }
+    });
+  }
+
   stopPropagation(ev: Event) {
     if (ev) { ev.stopPropagation(); }
   }

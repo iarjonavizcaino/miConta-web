@@ -54,9 +54,18 @@ export class InicioContadorComponent implements OnInit, OnDestroy {
   onTaxpayerSelected(ev) {
     this.selectedTaxpayer = ev.data;
   }
+
   onView(ev) {
     this.stopPropagation(ev);
-    this.taxpayerModal(this.selectedTaxpayer, true, 'Detalle contribuyente');
+    const dialogRef = this.taxpayerModal(this.selectedTaxpayer, true, 'Detalle contribuyente');
+
+    dialogRef.afterClosed().subscribe((data) => {
+      if (!data) { return; }
+      this.action.next({ name: RtActionName.UPDATE, itemId: data._id, newItem: data });
+      this.notification.success('Acción exitosa', `Contribuyente ${this.selectedTaxpayer.name} modificado`);
+      this.selectedTaxpayer = data;
+    });
+
   }
 
   onCreate(ev) {
@@ -66,6 +75,7 @@ export class InicioContadorComponent implements OnInit, OnDestroy {
       if (!data) { return; }
       // Make HTTP request to create contadores
       this.action.next({ name: RtActionName.CREATE, newItem: data }); // save data
+      this.selectedTaxpayer = data;
       const dialogRef = this.dialogCtrl.open(ConfirmComponent, {
         data: {
           title: 'Creedenciales de Acceso',
@@ -75,7 +85,7 @@ export class InicioContadorComponent implements OnInit, OnDestroy {
       });
       // tslint:disable-next-line:no-shadowed-variable
       dialogRef.afterClosed().subscribe((data) => {
-        this.notification.success('Acción exitosa', `El contribuyente se guardó correctamente`);
+        this.notification.success('Acción exitosa', `Nuevo contribuyente creado: ${this.selectedTaxpayer.name}`);
       });
     });
   }

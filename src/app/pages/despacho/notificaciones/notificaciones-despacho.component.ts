@@ -59,7 +59,7 @@ export class NotificacionesDespachoComponent implements OnInit {
       // Make HTTP request to create notification
       console.log(data);
       this.action.next({name: RtActionName.CREATE, newItem: data, order: '-1'});
-      this.noti.success('Exito', 'Se envió correctamente');
+      this.noti.success('Acción exitosa', 'Se envió correctamente');
     });
   }
   onMessageSelected(ev) {

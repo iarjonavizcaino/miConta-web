@@ -1,0 +1,112 @@
+<section class="profile-catalog">
+  <header class="header">
+    <h3 class="title">{{ title }}</h3>
+    <button mat-icon-button (click)="onClose()">
+      <mat-icon>close</mat-icon>
+    </button>
+  </header>
+
+  <div class="body">
+    <div class="container">
+      <form class="example-form" [formGroup]="profileForm">
+        <div class="row">
+          <div class="col-12">
+            <mat-form-field class="example-full-width">
+              <mat-icon matPrefix>person</mat-icon>
+              <input type="text" required placeholder="Nombre del perfil" matInput [formControl]="profileForm.controls['name']" [(ngModel)]="profile.name">
+              <mat-error *ngIf="profileForm.controls['name'].hasError('required')">
+                Campo
+                <strong>requerido</strong>
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+        <br>
+        <mat-accordion>
+          <mat-expansion-panel>
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                Conceptos
+              </mat-panel-title>
+              <mat-panel-description>
+                Despliegue para añadir conceptos
+              </mat-panel-description>
+            </mat-expansion-panel-header>
+
+            <mat-form-field class="example-full-width">
+              <mat-icon matPrefix>card_giftcard</mat-icon>
+              <input type="text" placeholder="Seleccionar concepto" matInput [formControl]="profileForm.controls['concept']" [matAutocomplete]="concept"
+                [(ngModel)]="currentConcept">
+              <mat-autocomplete #concept="matAutocomplete" [displayWith]="displayFnConcept">
+                <mat-option *ngFor="let option of filteredConcepts | async" [value]="option" (blur)="addConcept()">
+                  {{ option.concept }}
+                </mat-option>
+              </mat-autocomplete>
+            </mat-form-field>
+            <br><br>
+            <rt-datatable (selected)="onConceptSelected($event)" [showRowNumber]="true" searchWait="600" [showRowNumber]="false" [headers]="headersConcepts"
+              [action]="actionConcepts" [data]="profile.concepts">
+              <section class="actions">
+                <ng-container *ngIf="conceptSelected">
+                  <button mat-icon-button (click)="onConceptDetail($event)">
+                    <mat-icon matTooltip="Ver detalles" matTooltipPosition="above">visibility</mat-icon>
+                  </button>
+                  <button mat-icon-button (click)="onDeleteConcept($event)">
+                    <mat-icon matTooltip="Eliminar" matTooltipPosition="above">delete</mat-icon>
+                  </button>
+                </ng-container>
+              </section>
+            </rt-datatable>
+
+          </mat-expansion-panel>
+          <mat-expansion-panel>
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                Obligaciones
+              </mat-panel-title>
+              <mat-panel-description>
+                Despliegue para añadir obligaciones
+              </mat-panel-description>
+            </mat-expansion-panel-header>
+
+            <mat-form-field class="example-full-width">
+              <mat-icon matPrefix>person</mat-icon>
+              <input type="text" placeholder="Seleccionar obligación" matInput [formControl]="profileForm.controls['obligation']"
+                [matAutocomplete]="obligation" [(ngModel)]="currentObligation">
+              <mat-autocomplete #obligation="matAutocomplete" [displayWith]="displayFnObligation">
+                <mat-option *ngFor="let option of filteredObligations | async" [value]="option" (blur)="addObligation()">
+                  <small>{{ option.type }}</small> |
+                  <small>{{option.description}}</small>
+                </mat-option>
+              </mat-autocomplete>              
+            </mat-form-field>
+            <br><br>
+            <rt-datatable (selected)="onObligationSelected($event)" [showRowNumber]="true" searchWait="600" [showRowNumber]="false" [headers]="headersObligations"
+              [action]="actionObligations" [data]="profile.obligations">
+              <section class="actions">
+                <ng-container *ngIf="obligationSelected">
+                  <button mat-icon-button (click)="onObligationDetail($event)">
+                    <mat-icon matTooltip="Ver detalles" matTooltipPosition="above">visibility</mat-icon>
+                  </button>
+                  <button mat-icon-button (click)="onDeleteObligation($event)">
+                    <mat-icon matTooltip="Eliminar" matTooltipPosition="above">delete</mat-icon>
+                  </button>
+                </ng-container>
+              </section>
+            </rt-datatable>
+
+          </mat-expansion-panel>
+        </mat-accordion>
+      </form>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <button mat-button (click)="onClose()">
+      Cancelar
+    </button>
+    <button mat-raised-button color="primary" [disabled]="!profileForm.valid || !profile.concepts.length || !profile.obligations.length" (click)="onSave()">
+      Guardar
+    </button>
+  </footer>
+</section>

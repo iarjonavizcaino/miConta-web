@@ -30,6 +30,6 @@ export class MisDatosComponent implements OnInit {
 
   showNotification() {
     console.log(':(');
-    this.notification.success('Exito', 'Se guardo actualizo correctamente');
+    this.notification.success('Acción exitosa', 'Se guardo actualizo correctamente');
   }
 }
