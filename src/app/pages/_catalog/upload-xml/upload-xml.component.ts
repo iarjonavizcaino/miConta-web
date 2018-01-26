@@ -1,3 +1,7 @@
+/**
+ * dropzone
+ * https://github.com/zefoy/ngx-dropzone-wrapper
+ */
 import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 
@@ -25,7 +29,12 @@ export class UploadXmlComponent implements OnInit {
   onClose() {
     this.dialogRef.close();
   }
-
+  onUploadSuccess(ev: any) {
+    console.log(ev[1].files.file);  // XML text
+  }
+  onUploadError(ev: any) {
+    console.log('No puedes subir archivos de este tipo');
+  }
   onFile(ev) {
     this.xml = ev.target.files[0];
   }

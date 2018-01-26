@@ -5,6 +5,18 @@ import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
 import { SessionService, AuthService } from './services/services';
 
+// dropzone
+import { DropzoneModule } from 'ngx-dropzone-wrapper';
+import { DROPZONE_CONFIG } from 'ngx-dropzone-wrapper';
+import { DropzoneConfigInterface } from 'ngx-dropzone-wrapper';
+
+const DEFAULT_DROPZONE_CONFIG: DropzoneConfigInterface = {
+  // Change this to your upload POST address:
+   url: 'https://httpbin.org/post',
+   maxFilesize: 50,
+   acceptedFiles: '.xml'
+ };
+
 //  Angular Material
 import {
   MatSidenavModule,
@@ -228,7 +240,8 @@ const routes: Routes = [
     MatTabsModule,
     MatButtonToggleModule,
     MatRadioModule,
-    MatProgressBarModule
+    MatProgressBarModule,
+    DropzoneModule
   ],
   providers: [
     //  Services
@@ -242,7 +255,11 @@ const routes: Routes = [
     RoleGuard,
     AuthGuard,*/
     SessionService,
-    AuthService
+    AuthService,
+    {
+      provide: DROPZONE_CONFIG,
+      useValue: DEFAULT_DROPZONE_CONFIG
+    }
   ],
   bootstrap: [AppComponent]
 })
