@@ -10,15 +10,6 @@
   <div class="body">
     <div class="container" (keydown)="key($event)">
       <dropzone [config]="config" [message]="'Click o suelta los archivos aquí'" (error)="onUploadError($event)" (success)="onUploadSuccess($event)"></dropzone>
-      <!--<div class="file-picker">
-        <div class="file-btn">
-          Seleccionar
-          <input class="picker" type="file" (change)="onFile($event)">
-        </div>
-        <span class="filename">
-          {{ xml?.name || 'Ningún archivo seleccionado' }}
-        </span>
-      </div> -->
       </div>
     </div>
 
