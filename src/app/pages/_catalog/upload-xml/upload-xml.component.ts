@@ -11,8 +11,8 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 
-import * as fastXmlParser from 'fast-xml-parser';
-import * as xmlData from 'xml-parse';
+// import * as fastXmlParser from 'fast-xml-parser';
+// import * as xmlData from 'xml-parse';
 
 @Component({
   selector: 'app-upload-xml',
@@ -23,8 +23,8 @@ import * as xmlData from 'xml-parse';
 export class UploadXmlComponent implements OnInit {
   xml = false;
   title: string;
-  fastXmlParser = fastXmlParser;
-  xmlData = xmlData;
+  // fastXmlParser = fastXmlParser;
+  // xmlData = xmlData;
   files = [];
   constructor(
     private dialogRef: MatDialogRef<UploadXmlComponent>,
