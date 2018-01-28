@@ -46,14 +46,14 @@ export class ModalCrearContribuyenteComponent implements OnInit {
     { name: 'Año', prop: 'year', default: '' },
     { name: 'Bimestre', prop: 'bimester', default: 'XXXX-XXX-XXXX' },
     { name: 'Estatus', prop: 'type', default: '', chip: true },
-    { name: 'Archivo', prop: 'file1', default: 'No archivo', link: true },
-    { name: 'Archivo', prop: 'file2', default: 'No archivo', link: true }
+    { name: 'Acuse', prop: 'file1', default: 'No archivo', link: true },
+    { name: 'Línea de captura', prop: 'file2', default: 'No archivo', link: true }
   ];
 
   headersConcepts: Array<RtHeader> = [
     { name: 'Código', prop: 'code', default: '' },
     { name: 'Concepto', prop: 'concept', default: '' },
-    { name: 'Límite', prop: 'limit', default: '0.00', priceSymbol: true, input: 'number', align: 'right', width: '20' }
+    { name: 'Límite Bimestral', prop: 'limit', default: '0.00', priceSymbol: true, input: 'number', align: 'right', width: '20' }
   ];
 
   headersObligations: Array<RtHeader> = [
