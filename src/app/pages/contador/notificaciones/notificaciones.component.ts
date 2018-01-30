@@ -5,6 +5,7 @@ import { MatDialog } from '@angular/material';
 import { ShowMessageCatalogComponent } from '../../_catalog/show-message-catalog/show-message-catalog.component';
 import { CrearNotificacionComponent } from '../../_catalog/crear-notificacion/crear-notificacion.component';
 import { NotificationsService } from 'angular2-notifications';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-notificaciones',
@@ -13,14 +14,22 @@ import { NotificationsService } from 'angular2-notifications';
 })
 
 export class NotificacionesComponent implements OnInit {
+  moment = moment;
   headers: Array<RtHeader> = [
-    { name: 'Asunto', prop: 'subject', default: '' },
-    { name: 'Contribuyente', prop: 'taxpayer', default: '' },
-    { name: 'Fecha', prop: 'date', moment: true, default: 'No date' },
+    { name: 'Asunto', prop: 'subject', default: 'Sin asunto' },
+    { name: 'Contribuyente', prop: 'name', default: 'Sin destinatario' },
+    { name: 'Fecha', prop: 'date', moment: true, default: 'Sin fecha' },
   ];
   selectedMessage: any;
   data = [];
   action = new Subject<RtAction>();
+
+  // users that role can send message
+  destinataries = [
+    { checked: false, name: 'Saúl Jiménez', type: 'Contribuyente' },
+    { checked: false, name: 'Manuel Pérez', type: 'Contribuyente' },
+    { checked: false, name: 'Ernesto de la Cruz', type: 'Contribuyente' }
+  ];
   constructor(private noti: NotificationsService, private dialogCtrl: MatDialog) { }
 
   ngOnInit() {
@@ -31,20 +40,20 @@ export class NotificacionesComponent implements OnInit {
     this.data = [
       {
         subject: 'PAGO ATRASADO',
-        taxpayer: 'Saúl Jimenez',
+        name: 'Saúl Jimenez',
         date: '09-19-1995',
         // tslint:disable-next-line:max-line-length
         message: 'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Nisi dolores expedita cumque eligendi ratione, fugit, fuga consequatur autem quas soluta,.'
       },
       {
         subject: 'PRODUCTO NO VALIDO',
-        taxpayer: 'Manuel Pérez',
+        name: 'Manuel Pérez',
         date: '01-12-2015',
         message: 'El producto facturado no es válido'
       },
       {
         subject: 'FECHA DEL SIGUIENTE CORTE',
-        taxpayer: 'Ernesto de la Cruz',
+        name: 'Ernesto de la Cruz',
         date: '01-22-2018',
         message: '02 MAR 18'
       }
@@ -55,14 +64,18 @@ export class NotificacionesComponent implements OnInit {
     this.stopPropagation(ev);
     const dialogRef = this.dialogCtrl.open(CrearNotificacionComponent, {
       disableClose: false,
-      data: 'Contribuyente', // placeholder to auto-complete in select user
+      data: this.destinataries, // placeholder to auto-complete in select user
     });
     dialogRef.afterClosed().subscribe((data) => {
       if (!data) { return; }
       // Make HTTP request to create employee
-      // console.log(data);
-      // this.data.push(data);
-      this.action.next({ name: RtActionName.CREATE, newItem: data, order: '-1' });
+      console.log(this.moment(data.date).format('l'));
+      data.destinatary.forEach(element => {
+        // tslint:disable-next-line:max-line-length
+        this.action.next({ name: RtActionName.CREATE, newItem: {subject: data.subject, name: element.name, date: this.moment(data.date).format('L'), message: element.message}, order: '-1' });
+      });
+
+      // show notifications success
       this.selectedMessage = data;
       this.noti.success('Acción exitosa', 'La notificación se envió correctamente');
     });

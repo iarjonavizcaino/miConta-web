@@ -12,10 +12,10 @@ import { DropzoneConfigInterface } from 'ngx-dropzone-wrapper';
 
 const DEFAULT_DROPZONE_CONFIG: DropzoneConfigInterface = {
   // Change this to your upload POST address:
-   url: 'https://httpbin.org/post',
-   maxFilesize: 50,
-   acceptedFiles: '.xml'
- };
+  url: 'https://httpbin.org/post',
+  maxFilesize: 50,
+  acceptedFiles: '.xml'
+};
 
 //  Angular Material
 import {
@@ -90,6 +90,7 @@ import { DespachosComponent } from './pages/superadmin/despachos/despachos.compo
 import { PerfilesComponent } from './pages/superadmin/perfiles/perfiles.component';
 import { ConceptosComponent } from './pages/superadmin/conceptos/conceptos.component';
 import { ObligacionesCrudComponent } from './pages/superadmin/obligaciones/obligaciones-crud.component';
+import { NotificacionesSuperadminComponent } from './pages/superadmin/notificaciones-superadmin/notificaciones-superadmin.component';
 
 // App catalog
 import { BillingCatalogComponent } from './pages/_catalog/billing-catalog/billing-catalog.component';
@@ -137,6 +138,7 @@ const routes: Routes = [
   { path: 'superadmin/perfiles', component: PerfilesComponent },
   { path: 'superadmin/conceptos', component: ConceptosComponent },
   { path: 'superadmin/obligaciones', component: ObligacionesCrudComponent },
+  { path: 'superadmin/notificaciones', component: NotificacionesSuperadminComponent },
 ];
 
 @NgModule({
@@ -211,6 +213,7 @@ const routes: Routes = [
     ConceptosComponent,
     ObligacionesCrudComponent,
     ModalProfilesComponent,
+    NotificacionesSuperadminComponent,
   ],
   imports: [
     BrowserModule,
