@@ -5,6 +5,18 @@ import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
 import { SessionService, AuthService } from './services/services';
 
+// dropzone
+import { DropzoneModule } from 'ngx-dropzone-wrapper';
+import { DROPZONE_CONFIG } from 'ngx-dropzone-wrapper';
+import { DropzoneConfigInterface } from 'ngx-dropzone-wrapper';
+
+const DEFAULT_DROPZONE_CONFIG: DropzoneConfigInterface = {
+  // Change this to your upload POST address:
+  url: 'https://httpbin.org/post',
+  maxFilesize: 50,
+  acceptedFiles: '.xml'
+};
+
 //  Angular Material
 import {
   MatSidenavModule,
@@ -78,6 +90,7 @@ import { DespachosComponent } from './pages/superadmin/despachos/despachos.compo
 import { PerfilesComponent } from './pages/superadmin/perfiles/perfiles.component';
 import { ConceptosComponent } from './pages/superadmin/conceptos/conceptos.component';
 import { ObligacionesCrudComponent } from './pages/superadmin/obligaciones/obligaciones-crud.component';
+import { NotificacionesSuperadminComponent } from './pages/superadmin/notificaciones-superadmin/notificaciones-superadmin.component';
 
 // App catalog
 import { BillingCatalogComponent } from './pages/_catalog/billing-catalog/billing-catalog.component';
@@ -125,6 +138,7 @@ const routes: Routes = [
   { path: 'superadmin/perfiles', component: PerfilesComponent },
   { path: 'superadmin/conceptos', component: ConceptosComponent },
   { path: 'superadmin/obligaciones', component: ObligacionesCrudComponent },
+  { path: 'superadmin/notificaciones', component: NotificacionesSuperadminComponent },
 ];
 
 @NgModule({
@@ -199,6 +213,7 @@ const routes: Routes = [
     ConceptosComponent,
     ObligacionesCrudComponent,
     ModalProfilesComponent,
+    NotificacionesSuperadminComponent,
   ],
   imports: [
     BrowserModule,
@@ -208,14 +223,16 @@ const routes: Routes = [
     FormsModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
+
     //  Material Modules
+    MatIconModule,
+    MatInputModule,
+    MatTabsModule,
     MatSidenavModule,
     MatToolbarModule,
-    MatIconModule,
     MatButtonModule,
     MatSelectModule,
     MatDialogModule,
-    MatInputModule,
     MatCheckboxModule,
     MatChipsModule,
     MatDatepickerModule,
@@ -225,10 +242,10 @@ const routes: Routes = [
     MatSlideToggleModule,
     MatTooltipModule,
     MatCardModule,
-    MatTabsModule,
     MatButtonToggleModule,
     MatRadioModule,
-    MatProgressBarModule
+    MatProgressBarModule,
+    DropzoneModule
   ],
   providers: [
     //  Services
@@ -242,7 +259,11 @@ const routes: Routes = [
     RoleGuard,
     AuthGuard,*/
     SessionService,
-    AuthService
+    AuthService,
+    {
+      provide: DROPZONE_CONFIG,
+      useValue: DEFAULT_DROPZONE_CONFIG
+    }
   ],
   bootstrap: [AppComponent]
 })

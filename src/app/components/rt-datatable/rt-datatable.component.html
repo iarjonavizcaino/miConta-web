@@ -48,13 +48,13 @@
           <td *ngFor="let h of headers" [style.textAlign]="h.align ? h.align : 'left'">
             <ng-container *ngIf="h.chip; else noChip">
               <mat-chip-list>
-                <mat-chip *ngIf="row[h.prop] === 'Presentada'" selected="true" style="background: #64B5F6;">
+                <mat-chip *ngIf="row[h.prop] === 'Presentada' || row[h.prop] === 'AUTOMATICA'" selected="true" style="background: #64B5F6;">
                   {{row[h.prop]}}
                 </mat-chip>
-                <mat-chip *ngIf="row[h.prop] === 'Pagada'" selected="true" style="background: #81C784;">
+                <mat-chip *ngIf="row[h.prop] === 'Pagada' || row[h.prop] === 'XML'" selected="true" style="background: #81C784;">
                     {{row[h.prop]}}
                 </mat-chip>
-                <mat-chip *ngIf="row[h.prop] === 'Pendiente'" selected="true" style="background: #E57373;">
+                <mat-chip *ngIf="row[h.prop] === 'Pendiente' || row[h.prop] === 'MANUAL'" selected="true" style="background: #E57373;">
                     {{row[h.prop]}}
                 </mat-chip>
               </mat-chip-list>

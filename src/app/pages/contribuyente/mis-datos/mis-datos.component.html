@@ -10,7 +10,7 @@
   <div class="col-6">
     <mat-card>
       <mat-card-header>
-        <mat-card-title>General</mat-card-title>
+        <mat-card-title><strong>General</strong></mat-card-title>
       </mat-card-header>
       <mat-card-content>
         <div class="row">
@@ -44,8 +44,7 @@
   <div class="col-6">
     <mat-card>
       <mat-card-header>
-        <mat-card-title>Cambiar contraseña de acceso</mat-card-title>
-        <!-- <mat-card-subtitle>Cambiar contraseña de acceso</mat-card-subtitle> -->
+        <mat-card-title><strong>Cambiar contraseña de acceso</strong></mat-card-title>
       </mat-card-header>
       <mat-card-content>
         <div class="row">
@@ -67,6 +66,90 @@
             <button mat-raised-button color="primary" (click)="showNotification()">Cambiar</button>
           </div>
         </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>
+<br>
+<div class="row">
+  <div class="col-6">
+    <mat-card class="example-card">
+      <strong>Archivos</strong>
+      <mat-card-header>
+        <mat-card-subtitle></mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <mat-accordion class="example-headers-align">
+          <mat-expansion-panel>
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                <strong>Archivo de situación fiscal</strong>
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+            <mat-card>
+              <mat-card-content>
+                <div class="file-picker">
+                  <div class="file-btn">
+                    Seleccionar
+                    <input class="picker" type="file" (change)="onSituationFile($event)">
+                  </div>
+                  <span class="filename">
+                    {{ situationFile?.name || 'Ningún archivo seleccionado' }}
+                  </span>
+                </div>
+                <br>
+                <mat-icon>insert_drive_file</mat-icon>
+                <a target="_blank" href="http://archivo.html">Ver archivo</a>
+              </mat-card-content>
+            </mat-card>
+          </mat-expansion-panel>
+          <mat-expansion-panel>
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                <strong>Fiel</strong>
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+            <mat-card>
+              <mat-card-content>
+                <div class="file-picker">
+                  <div class="file-btn">
+                    Seleccionar
+                    <input class="picker" type="file" (change)="onLoyalFile($event)">
+                  </div>
+                  <span class="filename">
+                    {{ loyalFile?.name || 'Ningún archivo seleccionado' }}
+                  </span>
+                </div>
+                <br>
+                <mat-icon>insert_drive_file</mat-icon>
+                <a target="_blank" href="http://archivo.html">Ver archivo</a>
+              </mat-card-content>
+            </mat-card>
+          </mat-expansion-panel>
+          <mat-expansion-panel>
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                <strong>Sellos</strong>
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+            <mat-card>
+              <mat-card-content>
+                <div class="file-picker">
+                  <div class="file-btn">
+                    Seleccionar
+                    <input class="picker" type="file" (change)="onSealFile($event)">
+                  </div>
+                  <span class="filename">
+                    {{ sealFile?.name || 'Ningún archivo seleccionado' }}
+                  </span>
+                </div>
+                <br>
+                <mat-icon>insert_drive_file</mat-icon>
+                <a target="_blank" href="http://archivo.html">Ver archivo</a>
+              </mat-card-content>
+            </mat-card>
+          </mat-expansion-panel>
+        </mat-accordion>
       </mat-card-content>
     </mat-card>
   </div>
@@ -117,7 +200,7 @@
               <mat-icon matPrefix>location_on</mat-icon>
               <input [readonly]="false" matInput required placeholder="Estado" [(ngModel)]="user.address.state">
             </mat-form-field>
-            <button mat-raised-button class="float-right" color="primary" (click)="showNotification()">Cambiar</button>            
+            <button mat-raised-button class="float-right" color="primary" (click)="showNotification()">Cambiar</button>
           </div>
         </div>
       </mat-expansion-panel>

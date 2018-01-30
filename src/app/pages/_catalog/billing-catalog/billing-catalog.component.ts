@@ -20,6 +20,7 @@ import * as moment from 'moment';
 export class BillingCatalogComponent implements OnInit {
 
   headers: Array<RtHeader> = [
+    { name: 'Concepto', prop: 'code', default: '', width: '32' },
     { name: 'Producto', prop: 'name', default: 'No name', width: '32' },
     { name: 'Cantidad', prop: 'quantity', default: '0', width: '20', align: 'right' },
     { name: 'Precio unitario', prop: 'price', default: '$ 0.00', align: 'right', accounting: true, width: '20' },

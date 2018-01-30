@@ -192,6 +192,16 @@ ul.breadcrumb li.selected {
     cursor: pointer;
 }
 
+// separator
+.separator{
+    // border-left: 1px solid #5f656d; /* Border on the left */
+    width: 1px; /* Width instead of height */
+    height: 200px;
+    background:#717171;
+    border-left: 2px solid black;
+    font-weight: bold;
+}
+
 .dashboard-card-icon {
     float: left;
     width: 38%;

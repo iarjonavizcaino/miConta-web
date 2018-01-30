@@ -1,8 +1,7 @@
 .upload-xml-catalog {
     $bd-divider: 1px solid #ccc;
     
-    width: 300px;
-    // max-width: 600px;
+    min-width: 600px;
 
     .header,
     .body,

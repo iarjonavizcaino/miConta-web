@@ -1,9 +1,12 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
-import { FormBuilder, FormGroup, Validators} from '@angular/forms';
-import * as moment from 'moment';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+// import * as moment from 'moment';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/startWith';
+import { ConfirmComponent } from '../../../components/confirm/confirm.component';
+import { RtAction, RtActionName, RtHeader } from '../../../components/rt-datatable/rt-datatable.component';
+import { Subject } from 'rxjs/Subject';
 
 @Component({
   selector: 'app-crear-notificacion',
@@ -11,64 +14,72 @@ import 'rxjs/add/operator/startWith';
   styleUrls: ['./crear-notificacion.component.scss']
 })
 export class CrearNotificacionComponent implements OnInit {
-  filteredDestinataries: Observable<any[]>;
+  headers: Array<RtHeader> = [
+    { name: 'Seleccionar', prop: 'checked', input: 'checkbox', default: '', align: 'center' },
+    { name: 'Usuario', prop: 'name', default: '' },
+    { name: 'Tipo', prop: 'type', default: '', align: 'center' },
+  ];
+  action = new Subject<RtAction>();
+  dataUsers = [];
+  numDestinataries = 0;
+
   notificationForm: FormGroup;
 
-  currentDestinatary: any;
-  moment = moment;
-  placeholder = 'asd';
+  // moment = moment;
   notification: any = {
-    destinatary: '',
+    destinatary: [],
     subject: '',
     date: '',
     message: ''
   };
-  destinataries = [
-    { name: 'Saúl Jiménez' },
-    { name: 'Manuel Pérez' },
-    { name: 'Ernesto de la Cruz' }
-   ];
 
   constructor(
     private dialogRef: MatDialogRef<CrearNotificacionComponent>,
     @Inject(MAT_DIALOG_DATA) private data: any,
-    private fb: FormBuilder
+    private fb: FormBuilder, private dialogCtrl: MatDialog
   ) {
     this.notificationForm = fb.group({
-      'destinatary': [null, Validators.required],
       'subject': [null, Validators.required],
       'message': [null, Validators.required]
     });
-   }
+  }
 
   ngOnInit() {
     if (!this.data) { return; }
-    this.placeholder = this.data;
-    // this.placeholder = this.data.placeholder;
-
-    this.filteredDestinataries = this.notificationForm.get('destinatary').valueChanges
-      .startWith(null)
-      .map(destinatary => destinatary && typeof destinatary === 'object' ? destinatary.name : destinatary)
-      .map(name => name ? this.filterDestinatary(name) : this.destinataries.slice());
+    this.dataUsers = this.data;
   }
 
-  displayFn(destinatary: any): any {
-    this.currentDestinatary = destinatary ? destinatary : destinatary;
-    return destinatary ? destinatary.name : destinatary;
-  }
-
-  filterDestinatary(name: string): any[] {
-    return this.destinataries.filter(option =>
-      option.name.toLowerCase().indexOf(name.toLowerCase()) === 0);
+  onChecked(ev: any) {
+    if (!ev.item.checked) {
+      this.numDestinataries++;
+      ev.item.checked = !ev.item.checked;
+    } else {
+      this.numDestinataries--;
+    }
   }
 
   onClose() {
     this.dialogRef.close();
   }
   onSave() {
-    this.notification.destinatary = this.currentDestinatary;
-    this.notification.date = new Date();
-    this.dialogRef.close(this.notification); // return data to save
+    if (this.numDestinataries > 0) {  // user has check
+      this.dataUsers.forEach((user) => {
+        if (user.checked) {
+          this.notification.destinatary.push(user);
+        }
+      });
+      this.notification.date = new Date();
+      this.dialogRef.close(this.notification); // return data to save
+    } else {
+      // show warning. Need to select a least a person
+      this.dialogCtrl.open(ConfirmComponent, {
+        disableClose: true,
+        data: {
+          title: 'Atención!',
+          message: 'Debes seleccionar al menos 1 usuario'
+        }
+      });
+    }
   }
   key(ev: any) {
     if (ev.keyCode === 13) {
