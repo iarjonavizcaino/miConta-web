@@ -254,6 +254,7 @@ export class ModalCrearContribuyenteComponent implements OnInit {
   }
 
   onViewObligation(ev) {
+    this.stopPropagation(ev);
     this.dialogCtrl.open(ModalObligacionesComponent, {
       disableClose: false,
       data: {

@@ -5,6 +5,8 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { RtHeader, RtAction, RtActionName } from '../../../components/rt-datatable/rt-datatable.component';
 import { Subject } from 'rxjs/Subject';
 import { Observable } from 'rxjs/Observable';
+import { ModalConceptosComponent } from '../modal-conceptos/modal-conceptos.component';
+import { ModalObligacionesComponent } from '../modal-obligaciones/modal-obligaciones.component';
 
 @Component({
   selector: 'app-modal-profiles',
@@ -122,10 +124,26 @@ export class ModalProfilesComponent implements OnInit {
 
   onConceptDetail(ev) {
     this.stopPropagation(ev);
+    this.dialogCtrl.open(ModalConceptosComponent, {
+      disableClose: false,
+      data: {
+        title: 'Detalle concepto',
+        concept: this.conceptSelected,
+        readonly: true
+      }
+    });
    }
 
   onObligationDetail(ev) {
     this.stopPropagation(ev);
+    this.dialogCtrl.open(ModalObligacionesComponent, {
+      disableClose: false,
+      data: {
+        title: 'Detalle obligación',
+        obligation: this.obligationSelected,
+        readonly: true
+      }
+    });
    }
 
   onDeleteConcept(ev) {
