@@ -1,7 +1,7 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
-
+import { ConfirmComponent } from '../../../components/confirm/confirm.component';
 @Component({
   selector: 'app-modal-change-status',
   templateUrl: './modal-change-status.component.html',
@@ -13,9 +13,12 @@ export class ModalChangeStatusComponent implements OnInit {
   status = ['Presentada', 'Pagada', 'Pendiente'];
   title: string;
   statement: string;
+  inputDate = false;
+  datePay = '';
 
   constructor(
     private fb: FormBuilder,
+    private dialogCtrl: MatDialog,
     private dialogRef: MatDialogRef<ModalChangeStatusComponent>,
     @Inject(MAT_DIALOG_DATA) private data: any,
   ) {
@@ -27,9 +30,28 @@ export class ModalChangeStatusComponent implements OnInit {
     this.title = this.data.title;
     this.statement = this.data.status;
   }
-
+  onChangeStatus(ev: any) {
+    this.inputDate = ev.value === 'Pagada' ? true : false;
+  }
   onSave() {
-    this.dialogRef.close(this.statusForm.get('status').value);
+    // validate date if inputDate is true (must have a value)
+    if (this.inputDate) {
+      if (this.datePay !== '') {
+        // send date here
+        this.dialogRef.close(this.statusForm.get('status').value);
+      } else {
+        this.dialogCtrl.open(ConfirmComponent, {
+          disableClose: true,
+          data: {
+            title: 'Atención!',
+            message: 'El campo de fecha no puede estár vacío'
+          }
+        });
+      }
+    } else {
+      // just send the new status, in this point must be: Pendiente or Presentada
+      this.dialogRef.close(this.statusForm.get('status').value);
+    }
   }
 
   onClose() {

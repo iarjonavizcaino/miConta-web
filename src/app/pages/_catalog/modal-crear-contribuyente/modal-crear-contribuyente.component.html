@@ -108,44 +108,74 @@
         </div>
         <div class="row">
           <div class="col-12">
-            <mat-expansion-panel>
-              <mat-expansion-panel-header>
-                <mat-panel-title>
-                  Perfil
-                </mat-panel-title>
-                <mat-panel-description>
-                  Detalle del perfil
-                </mat-panel-description>
-              </mat-expansion-panel-header>
+            <mat-accordion>
+              <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                  <mat-panel-title>
+                    Perfil
+                  </mat-panel-title>
+                  <mat-panel-description>
+                    Detalle del perfil
+                  </mat-panel-description>
+                </mat-expansion-panel-header>
 
-              <mat-tab-group>
-                <mat-tab label="Conceptos">
-                  <rt-datatable (selected)="onConceptSelected($event)" [showRowNumber]="true" searchWait="600" [showRowNumber]="false" [headers]="headersConcepts"
-                    [action]="actionConcept" [data]="concepts" (changed)="inputChange($event)">
-                    <section class="actions">
-                      <ng-container *ngIf="conceptSelected">
-                        <button mat-icon-button (click)="onViewConcept($event)">
-                          <mat-icon matTooltip="Ver detalles" matTooltipPosition="above">visibility</mat-icon>
-                        </button>
-                      </ng-container>
-                    </section>
-                  </rt-datatable>
-                </mat-tab>
-                <mat-tab label="Obligaciones">
-                  <rt-datatable (selected)="onObligationSelected($event)" [showRowNumber]="true" searchWait="600" [showRowNumber]="false" [headers]="headersObligations"
-                    [action]="actionObligation" [data]="obligations">
-                    <section class="actions">
-                      <ng-container *ngIf="obligationSelected">
-                        <button mat-icon-button (click)="onViewObligation($event)">
-                          <mat-icon matTooltip="Ver detalles" matTooltipPosition="above">visibility</mat-icon>
-                        </button>
-                      </ng-container>
-                    </section>
-                  </rt-datatable>
-                </mat-tab>
-              </mat-tab-group>
+                <mat-tab-group>
+                  <mat-tab label="Conceptos">
+                    <rt-datatable (selected)="onConceptSelected($event)" [showRowNumber]="true" searchWait="600" [showRowNumber]="false" [headers]="headersConcepts"
+                      [action]="actionConcept" [data]="concepts" (changed)="inputChange($event)">
+                      <section class="actions">
+                        <ng-container *ngIf="conceptSelected">
+                          <button mat-icon-button (click)="onViewConcept($event)">
+                            <mat-icon matTooltip="Ver detalles" matTooltipPosition="above">visibility</mat-icon>
+                          </button>
+                        </ng-container>
+                      </section>
+                    </rt-datatable>
+                  </mat-tab>
+                  <mat-tab label="Obligaciones">
+                    <rt-datatable (selected)="onObligationSelected($event)" [showRowNumber]="true" searchWait="600" [showRowNumber]="false" [headers]="headersObligations"
+                      [action]="actionObligation" [data]="obligations">
+                      <section class="actions">
+                        <ng-container *ngIf="obligationSelected">
+                          <button mat-icon-button (click)="onViewObligation($event)">
+                            <mat-icon matTooltip="Ver detalles" matTooltipPosition="above">visibility</mat-icon>
+                          </button>
+                        </ng-container>
+                      </section>
+                    </rt-datatable>
+                  </mat-tab>
+                </mat-tab-group>
+              </mat-expansion-panel>
 
-            </mat-expansion-panel>
+              <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                  <mat-panel-title>
+                    Achivos
+                  </mat-panel-title>
+                  <mat-panel-description>
+                    Fiel y Sellos
+                  </mat-panel-description>
+                </mat-expansion-panel-header>
+                <div class="row">
+                  <div class="col-2"></div>
+                  <div class="col-3">
+                    <a href="#" target="_blank" class="no-style">
+                      <mat-icon class="big-icon">insert_drive_file</mat-icon>
+                      <br>
+                      <span class="text-center">Archivo de Fiel</span>
+                    </a>
+                  </div>
+                  <div class="col-3" class="center">
+                    <a href="#" target="_blank" class="no-style">
+                      <mat-icon class="big-icon">insert_drive_file</mat-icon>
+                      <br>
+                      <span class="text-center">Archivo de Sellos</span>
+                    </a>
+                  </div>
+                  <div class="col-2"></div>
+                </div>
+              </mat-expansion-panel>
+            </mat-accordion>
           </div>
         </div>
         <!-- <div class="row">
@@ -155,34 +185,6 @@
               <mat-expansion-panel-header>
                 <mat-panel-title>
                   <strong>Archivo de situación fiscal</strong>
-                </mat-panel-title>
-              </mat-expansion-panel-header>
-              <mat-card>
-                <mat-card-content>
-                  <input placeholder="Archivo" type="file">
-                  <br>
-                  <a target="_blank" href="http://archivo.html">Ver archivo</a>
-                </mat-card-content>
-              </mat-card>
-            </mat-expansion-panel>
-            <mat-expansion-panel>
-              <mat-expansion-panel-header>
-                <mat-panel-title>
-                  <strong>Fiel</strong>
-                </mat-panel-title>
-              </mat-expansion-panel-header>
-              <mat-card>
-                <mat-card-content>
-                  <input placeholder="Archivo" type="file">
-                  <br>
-                  <a target="_blank" href="http://archivo.html">Ver archivo</a>
-                </mat-card-content>
-              </mat-card>
-            </mat-expansion-panel>
-            <mat-expansion-panel>
-              <mat-expansion-panel-header>
-                <mat-panel-title>
-                  <strong>Sellos</strong>
                 </mat-panel-title>
               </mat-expansion-panel-header>
               <mat-card>

@@ -29,6 +29,7 @@ export class InicioDespachoComponent implements OnInit, OnDestroy {
   despacho: string; // this is for superadmin view into despacho
   data = [];
   action = new Subject<RtAction>();
+  roleUp = '';
   constructor(
     private notification: NotificationsService,
     private router: Router,
@@ -37,6 +38,7 @@ export class InicioDespachoComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
+    this.roleUp = JSON.parse(localStorage.getItem('user')).role.name;
     this.sub = this.route
       .queryParams
       .subscribe(params => {

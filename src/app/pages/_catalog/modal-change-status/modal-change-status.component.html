@@ -16,7 +16,7 @@
       <form class="example-form" [formGroup]="statusForm" (keydown)="key($event)">
         <mat-form-field class="example-full-width">
           <mat-icon matPrefix>swap_horiz</mat-icon>
-          <mat-select placeholder="Seleccionar nuevo estatus" [formControl]="statusForm.controls['status']">
+          <mat-select (change)="onChangeStatus($event)" placeholder="Seleccionar nuevo estatus" [formControl]="statusForm.controls['status']">
             <mat-option *ngFor="let status of status" [value]="status">
               {{ status }}
             </mat-option>
@@ -27,6 +27,11 @@
           </mat-error>
         </mat-form-field>
       </form>
+      <mat-form-field *ngIf="inputDate">
+        <input [(ngModel)]="datePay" matInput [matDatepicker]="picker" placeholder="Fecha de pago">
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
     </div>
   </div>
 

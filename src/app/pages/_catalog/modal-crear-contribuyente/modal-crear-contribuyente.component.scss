@@ -79,6 +79,9 @@
         .mat-icon {
             color: #666;
         }
+        .mat-expansion-panel-body{
+            overflow-x: hidden;
+        }
     }
 }
 .little-icon{
@@ -86,4 +89,8 @@
 }
 .little-margin-left{
     margin-left: 2.3%;
+}
+.no-style{
+    text-decoration: none;
+    color: inherit;
 }

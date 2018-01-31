@@ -26,6 +26,7 @@ export class InicioContadorComponent implements OnInit, OnDestroy {
   action = new Subject<RtAction>();
   sub: any;
   contador: string;
+  roleUp = '';
   constructor(
     private router: Router,
     private dialogCtrl: MatDialog,
@@ -33,6 +34,7 @@ export class InicioContadorComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute) { }
 
   ngOnInit() {
+    this.roleUp = JSON.parse(localStorage.getItem('user')).role.name;
     this.sub = this.route
       .queryParams
       .subscribe(params => {
@@ -97,7 +99,7 @@ export class InicioContadorComponent implements OnInit, OnDestroy {
       disableClose: true,
       data: {
         title: '¡ATENCIÓN!',
-        message: `¿Está seguro de eliminar el contador ${ this.selectedTaxpayer.name }?`
+        message: `¿Está seguro de eliminar el contador ${this.selectedTaxpayer.name}?`
       }
     });
     dialogRef.afterClosed().subscribe((data) => {
@@ -105,7 +107,7 @@ export class InicioContadorComponent implements OnInit, OnDestroy {
       console.log(data);
       // DO IT
       this.action.next({ name: RtActionName.DELETE, itemId: this.selectedTaxpayer._id, newItem: data });
-      this.notification.success('Acción exitosa', `Contador ${ this.selectedTaxpayer.name } eliminado`);
+      this.notification.success('Acción exitosa', `Contador ${this.selectedTaxpayer.name} eliminado`);
       this.selectedTaxpayer = null;
     });
   }
@@ -127,7 +129,7 @@ export class InicioContadorComponent implements OnInit, OnDestroy {
     document.getElementById('div' + card).style.background = '#7bea7b';
   }
   taxpayerDetail(page: string) {
-    this.router.navigate([page], {queryParams: { name: this.selectedTaxpayer.name }});
+    this.router.navigate([page], { queryParams: { name: this.selectedTaxpayer.name} });
   }
   onUploadXML(ev) {
     this.stopPropagation(ev);

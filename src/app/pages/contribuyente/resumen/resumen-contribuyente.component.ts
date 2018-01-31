@@ -20,9 +20,10 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
   ];
   headersEgresos: Array<RtHeader> = [
     { name: 'Fecha', prop: 'date', default: 'No date', moment: true },
+    { name: 'Estado', prop: 'status', default: 'Pendiente', chip: true },
     { name: 'Proveedor', prop: 'customer.name', default: 'No customer' },
-    { name: 'RFC', prop: 'customer.rfc', default: 'XXXX-XXX-XXXX' },
-    { name: 'Tipo', prop: 'type', default: '', align: 'center', chip: true },
+    // { name: 'RFC', prop: 'customer.rfc', default: 'XXXX-XXX-XXXX' },
+    { name: 'Tipo de factura', prop: 'type', default: '', align: 'center', chip: true },
     { name: 'Total', prop: 'total', default: '$ 0.00', align: 'right', accounting: true }
   ];
 
@@ -45,10 +46,16 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
   years = [];
   bimesters = [];
 
+  currentBimester = 'ENE-FEB 2018';
+  selectedYear = '';
+  selectedBimester = '';
+
+  // to hadle breadcrumb
+  roleUp = '';
   constructor(private router: Router, private dialogCtrl: MatDialog, private route: ActivatedRoute) { }
 
   ngOnInit() {
-
+    this.roleUp = JSON.parse(localStorage.getItem('user')).role.name;
     this.sub = this.route
       .queryParams
       .subscribe(params => {
@@ -326,6 +333,7 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
   loadEgresosData() {
     this.dataEgresos = [
       {
+        status: 'Cobrado',
         type: 'MANUAL',
         active: false,
         provider: true,
@@ -371,6 +379,7 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
         ]
       },
       {
+        status: 'Pendiente',
         type: 'AUTOMATICA',
         active: false,
         provider: true,
@@ -416,6 +425,7 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
         ]
       },
       {
+        status: 'Cobrado',
         type: 'XML',
         active: false,
         provider: true,
@@ -487,5 +497,9 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
         name: 'NOV-DIC'
       }
     ];
+  }
+
+  getBimesterInfo(ev: any) {
+    this.currentBimester = this.selectedBimester + ' ' + this.selectedYear;
   }
 }// class
