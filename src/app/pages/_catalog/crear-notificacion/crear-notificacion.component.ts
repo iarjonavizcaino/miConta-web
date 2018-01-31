@@ -15,9 +15,9 @@ import { Subject } from 'rxjs/Subject';
 })
 export class CrearNotificacionComponent implements OnInit {
   headers: Array<RtHeader> = [
-    { name: 'Seleccionar', prop: 'checked', input: 'checkbox', default: '', align: 'center' },
+    { name: 'Seleccionar', prop: 'checked', input: 'checkbox', default: '' },
     { name: 'Usuario', prop: 'name', default: '' },
-    { name: 'Tipo', prop: 'type', default: '', align: 'center' },
+    { name: 'Tipo', prop: 'type', default: '' },
   ];
   action = new Subject<RtAction>();
   dataUsers = [];
