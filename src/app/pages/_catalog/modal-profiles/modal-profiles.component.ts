@@ -7,6 +7,7 @@ import { Subject } from 'rxjs/Subject';
 import { Observable } from 'rxjs/Observable';
 import { ModalConceptosComponent } from '../modal-conceptos/modal-conceptos.component';
 import { ModalObligacionesComponent } from '../modal-obligaciones/modal-obligaciones.component';
+import { ConceptProvider, ObligationProvider } from '../../../providers/providers';
 
 @Component({
   selector: 'app-modal-profiles',
@@ -45,6 +46,8 @@ export class ModalProfilesComponent implements OnInit {
     private fb: FormBuilder,
     private dialogCtrl: MatDialog,
     private dialogRef: MatDialogRef<ModalProfilesComponent>,
+    private conceptProv: ConceptProvider,
+    private obligationProv: ObligationProvider,
     @Inject(MAT_DIALOG_DATA) private data: any
   ) {
     this.profileForm = fb.group({
@@ -55,8 +58,7 @@ export class ModalProfilesComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log(this.data);
-    this.loadData();
+
     if (this.data.profile) {
       this.title = this.data.title;
       this.profile = this.data.profile;
@@ -67,15 +69,23 @@ export class ModalProfilesComponent implements OnInit {
         obligations: []
       };
     }
-    this.filteredConcepts = this.profileForm.get('concept').valueChanges
-      .startWith(null)
-      .map(concept => concept && typeof concept === 'object' ? concept.concept : concept)
-      .map(name => name ? this.filterConcept(name) : this.allConcepts.slice());
 
-    this.filteredObligations = this.profileForm.get('obligation').valueChanges
-      .startWith(null)
-      .map(obligation => obligation && typeof obligation === 'object' ? obligation.description : obligation)
-      .map(name => name ? this.filterObligation(name) : this.allObligations.slice());
+    this.conceptProv.getAll().subscribe(data => {
+      this.allConcepts = data.concepts;
+
+      this.filteredConcepts = this.profileForm.get('concept').valueChanges
+        .startWith(null)
+        .map(concept => concept && typeof concept === 'object' ? concept.concept : concept)
+        .map(name => name ? this.filterConcept(name) : this.allConcepts.slice());
+    });
+    this.obligationProv.getAll().subscribe(data => {
+      this.allObligations = data.obligations;
+
+      this.filteredObligations = this.profileForm.get('obligation').valueChanges
+        .startWith(null)
+        .map(obligation => obligation && typeof obligation === 'object' ? obligation.description : obligation)
+        .map(name => name ? this.filterObligation(name) : this.allObligations.slice());
+    });
   }
 
   displayFnConcept(concept: any): any {
@@ -132,7 +142,7 @@ export class ModalProfilesComponent implements OnInit {
         readonly: true
       }
     });
-   }
+  }
 
   onObligationDetail(ev) {
     this.stopPropagation(ev);
@@ -144,19 +154,19 @@ export class ModalProfilesComponent implements OnInit {
         readonly: true
       }
     });
-   }
+  }
 
   onDeleteConcept(ev) {
     this.stopPropagation(ev);
     this.actionConcepts.next({ name: RtActionName.DELETE, itemId: this.conceptSelected._id, newItem: this.currentConcept });
     this.conceptSelected = null;
-   }
+  }
 
   onDeleteObligation(ev) {
     this.stopPropagation(ev);
     this.actionObligations.next({ name: RtActionName.DELETE, itemId: this.obligationSelected._id, newItem: this.currentConcept });
     this.obligationSelected = null;
-   }
+  }
 
   stopPropagation(ev: Event) {
     if (ev) { ev.stopPropagation(); }
@@ -188,56 +198,5 @@ export class ModalProfilesComponent implements OnInit {
     if (ev.keyCode === 13) {
       this.addObligation();
     }
-  }
-
-  loadData() {
-    this.allConcepts = [
-      {
-        _id: '1',
-        code: '553686',
-        concept: 'Gasolina'
-      },
-      {
-        _id: '2',
-        code: '523536',
-        concept: 'Materiales de Limpieza'
-      },
-      {
-        _id: '3',
-        code: '112626',
-        concept: 'Consumibles de cómputo'
-      },
-      {
-        _id: '4',
-        code: '334168',
-        concept: 'Material eléctrico'
-      },
-      {
-        _id: '5',
-        code: '664173',
-        concept: 'Gasolina otra vez'
-      }
-    ];
-
-    this.allObligations = [
-      {
-        _id: '1',
-        type: 'Informativas',
-        // tslint:disable-next-line:max-line-length
-        description: 'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ex, aliquam porro itaque aperiam perspiciatis doloremque, facere blanditiis rem voluptate ad veniam placeat tempore quaerat facilis iusto obcaecati repellendus! Tempore, quas?'
-      },
-      {
-        _id: '2',
-        type: 'Plazos',
-        // tslint:disable-next-line:max-line-length
-        description: 'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ex, aliquam porro itaque aperiam perspiciatis doloremque, facere blanditiis rem voluptate ad veniam placeat tempore quaerat facilis iusto obcaecati repellendus! Tempore, quas?'
-      },
-      {
-        _id: '3',
-        type: 'Montos',
-        // tslint:disable-next-line:max-line-length
-        description: 'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ex, aliquam porro itaque aperiam perspiciatis doloremque, facere blanditiis rem voluptate ad veniam placeat tempore quaerat facilis iusto obcaecati repellendus! Tempore, quas?'
-      }
-    ];
   }
 }

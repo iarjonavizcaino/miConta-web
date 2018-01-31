@@ -92,8 +92,8 @@
   </div>
 </div>
 <br>
-<rt-datatable (selected)="onDespachoSelected($event)" [showRowNumber]="true" searchWait="600"
-  [headers]="headers" [action]="action" [data]="data">
+<rt-datatable (selected)="onDespachoSelected($event)" [showRowNumber]="true" searchWait="600" [headers]="headers" [action]="action"
+  [data]="data">
   <section class="actions">
     <button mat-icon-button (click)="onCreate($event)">
       <mat-icon matTooltip="Nuevo" matTooltipPosition="above">add</mat-icon>
@@ -102,11 +102,11 @@
       <button mat-icon-button (click)="onView($event)">
         <mat-icon matTooltip="Ver detalles" matTooltipPosition="above">visibility</mat-icon>
       </button>
-      <button mat-icon-button (click)="onDespachoDetail($event)">
-        <mat-icon matTooltip="Resumen" matTooltipPosition="above">assessment</mat-icon>
-      </button>
       <button mat-icon-button (click)="onDelete($event)">
         <mat-icon matTooltip="Eliminar" matTooltipPosition="above">delete</mat-icon>
+      </button>
+      <button mat-icon-button (click)="onDespachoDetail($event)">
+        <mat-icon matTooltip="Resumen" matTooltipPosition="above">assessment</mat-icon>
       </button>
     </ng-container>
   </section>

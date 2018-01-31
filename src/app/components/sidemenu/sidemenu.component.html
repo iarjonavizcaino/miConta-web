@@ -29,13 +29,6 @@
   </li>
   <li>
     <button *ngIf="permission.superadmin" mat-button class="home-item" [routerLinkActiveOptions]="{ exact: true }" [routerLinkActive]="['is-active']"
-      routerLink="/superadmin/perfiles" (click)="selectedOption ='home'; home=true;">
-      <mat-icon class="home-icon">supervisor_account</mat-icon>
-      <div class="home-item-title">Perfiles</div>
-    </button>
-  </li>
-  <li>
-    <button *ngIf="permission.superadmin" mat-button class="home-item" [routerLinkActiveOptions]="{ exact: true }" [routerLinkActive]="['is-active']"
       routerLink="/superadmin/conceptos" (click)="selectedOption ='home'; home=true;">
       <mat-icon class="home-icon">list</mat-icon>
       <div class="home-item-title">Conceptos</div>
@@ -46,6 +39,13 @@
       routerLink="/superadmin/obligaciones" (click)="selectedOption ='home'; home=true;">
       <mat-icon class="home-icon">pregnant_woman</mat-icon>
       <div class="home-item-title">Obligaciones</div>
+    </button>
+  </li>
+  <li>
+    <button *ngIf="permission.superadmin" mat-button class="home-item" [routerLinkActiveOptions]="{ exact: true }" [routerLinkActive]="['is-active']"
+      routerLink="/superadmin/perfiles" (click)="selectedOption ='home'; home=true;">
+      <mat-icon class="home-icon">supervisor_account</mat-icon>
+      <div class="home-item-title">Perfiles</div>
     </button>
   </li>
   <li>

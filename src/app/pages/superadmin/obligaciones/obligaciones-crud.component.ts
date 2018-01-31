@@ -5,6 +5,7 @@ import { Subject } from 'rxjs/Subject';
 import { MatDialog } from '@angular/material';
 import { ModalObligacionesComponent } from '../../_catalog/modal-obligaciones/modal-obligaciones.component';
 import { NotificationsService } from 'angular2-notifications';
+import { ObligationProvider } from '../../../providers/providers';
 
 @Component({
   selector: 'app-obligaciones-crud',
@@ -20,31 +21,16 @@ export class ObligacionesCrudComponent implements OnInit {
   data = [];
   action = new Subject<RtAction>();
 
-  constructor(private noti: NotificationsService, private dialogCtrl: MatDialog) { }
+  constructor(
+    private noti: NotificationsService,
+    private dialogCtrl: MatDialog,
+    private obligationProv: ObligationProvider
+  ) { }
+
   ngOnInit() {
-    this.loadData();
-  }
-  loadData() {
-    this.data = [
-      {
-        _id: '1',
-        type: 'Informativas',
-        // tslint:disable-next-line:max-line-length
-        description: 'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ex, aliquam porro itaque aperiam perspiciatis doloremque, facere blanditiis rem voluptate ad veniam placeat tempore quaerat facilis iusto obcaecati repellendus! Tempore, quas?'
-      },
-      {
-        _id: '2',
-        type: 'Plazos',
-        // tslint:disable-next-line:max-line-length
-        description: 'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ex, aliquam porro itaque aperiam perspiciatis doloremque, facere blanditiis rem voluptate ad veniam placeat tempore quaerat facilis iusto obcaecati repellendus! Tempore, quas?'
-      },
-      {
-        _id: '3',
-        type: 'Montos',
-        // tslint:disable-next-line:max-line-length
-        description: 'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ex, aliquam porro itaque aperiam perspiciatis doloremque, facere blanditiis rem voluptate ad veniam placeat tempore quaerat facilis iusto obcaecati repellendus! Tempore, quas?'
-      }
-    ];
+    this.obligationProv.getAll().subscribe(data => {
+      this.data = data.obligations;
+    });
   }
 
   onObligationSelected(ev) {
@@ -54,26 +40,34 @@ export class ObligacionesCrudComponent implements OnInit {
   onCreate(ev: any) {
     this.stopPropagation(ev);
     const dialogRef = this.obligationModal('Nueva obligación', null);
-    dialogRef.afterClosed().subscribe((data) => {
-      if (!data) { return; }
+    dialogRef.afterClosed().subscribe((obligation) => {
+      if (!obligation) { return; }
       // Make HTTP request to create notification
-      console.log(data);
-      this.action.next({ name: RtActionName.CREATE, newItem: data });
-      this.noti.success('Acción exitosa', 'Nueva obligación creada');
-      this.obligationSelected = data;
+      this.obligationProv.create(obligation).subscribe(data => {
+        obligation = data.obligation;
+        this.action.next({ name: RtActionName.CREATE, newItem: obligation });
+        this.noti.success('Acción exitosa', 'Nueva obligación creada');
+        this.obligationSelected = obligation;
+      }, err => {
+        this.noti.error('Error', 'No se pudo crear la obligación');
+      });
     });
   }
 
   onEdit(ev: any) {
     this.stopPropagation(ev);
     const dialogRef = this.obligationModal('Modificar obligación', this.obligationSelected);
-    dialogRef.afterClosed().subscribe((data) => {
-      if (!data) { return; }
+    dialogRef.afterClosed().subscribe((obligation) => {
+      if (!obligation) { return; }
       // Make HTTP request to create notification
-      console.log(data);
-      this.action.next({ name: RtActionName.UPDATE, itemId: data._id, newItem: data });
-      this.noti.success('Acción exitosa', 'Obligación moficada');
-      this.obligationSelected = data;
+      this.obligationProv.update(obligation).subscribe(data => {
+        obligation = data.obligation;
+        this.action.next({ name: RtActionName.UPDATE, itemId: obligation._id, newItem: obligation });
+        this.noti.success('Acción exitosa', 'Obligación moficada');
+        this.obligationSelected = obligation;
+      }, err => {
+        this.noti.error('Error', 'No se pudo modificar la obligación');
+      });
     });
   }
 
@@ -86,17 +80,21 @@ export class ObligacionesCrudComponent implements OnInit {
         message: '¿Está seguro de eliminar esta obligación?'
       }
     });
-    dialogRef.afterClosed().subscribe((data) => {
-      if (!data) { return; }
-      console.log(data);
-      // DO IT
-      this.action.next({ name: RtActionName.DELETE, itemId: this.obligationSelected._id, newItem: data });
-      this.noti.success('Acción exitosa', 'Obligación eliminada');
-      this.obligationSelected = null;
+    dialogRef.afterClosed().subscribe((res) => {
+      if (!res) { return; }
+      console.log(res);
+      this.obligationProv.delete(this.obligationSelected._id).subscribe(data => {
+        res = data.obligation;
+        this.action.next({ name: RtActionName.DELETE, itemId: this.obligationSelected._id });
+        this.noti.success('Acción exitosa', 'Obligación eliminada');
+        this.obligationSelected = null;
+      }, err => {
+        this.noti.error('Error', 'No se pudo modificar la obligación');
+      });
     });
   }
 
-  obligationModal (title: string, obligation: any) {
+  obligationModal(title: string, obligation: any) {
     return this.dialogCtrl.open(ModalObligacionesComponent, {
       disableClose: false,
       data: {

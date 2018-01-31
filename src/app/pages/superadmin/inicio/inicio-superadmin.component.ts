@@ -8,6 +8,7 @@ import { Router } from '@angular/router';
 import { NotificationsService } from 'angular2-notifications';
 import { ModalAsignarContribComponent } from '../../_catalog/modal-asignar-contrib/modal-asignar-contrib.component';
 import { TaxpayerCatalogComponent } from '../../_catalog/taxpayer-catalog/taxpayer-catalog.component';
+import { OfficeProvider } from '../../../providers/providers';
 
 @Component({
   selector: 'app-inicio-superadmin',
@@ -20,8 +21,8 @@ export class InicioSuperadminComponent implements OnInit {
     { name: 'Despacho', prop: 'name', default: 'Sin nombre' },
     { name: 'Teléfono', prop: 'phone', default: 'sin teléfono' },
     { name: 'Email', prop: 'email', default: 'Sin email' },
-    { name: 'Contadores', prop: 'accountant', default: '0', align: 'center' },
-    { name: 'Contribuyentes', prop: 'taxpayer', default: '0', align: 'center' },
+    { name: 'Contadores', prop: 'totalAccountant', default: '0', align: 'center' },
+    { name: 'Contribuyentes', prop: 'totalTaxpayer', default: '0', align: 'center' },
   ];
   despachoSelected: any;
   data = [];
@@ -29,55 +30,47 @@ export class InicioSuperadminComponent implements OnInit {
   constructor(
     private notification: NotificationsService,
     private router: Router,
-    private dialogCtrl: MatDialog) { }
+    private dialogCtrl: MatDialog,
+    private officeProv: OfficeProvider) { }
 
   ngOnInit() {
-    this.loadData();
+    this.officeProv.getAll().subscribe(data => {
+      this.data = data.offices;
+    });
     this.setBgCard('1');
-  }
-
-  loadData() {
-    this.data = [
-      {
-        _id: '1',
-        name: 'Andrea Ramírez',
-        accountant: 42,
-        taxpayer: 45,
-        email: 'andrea@gmail.com',
-        phone: '3114598725',
-        address: {
-          street: 'Calle 6',
-          number: '57',
-          neighborhood: 'El Rodeo',
-          zipcode: '63117',
-          city: 'Tepic',
-          state: 'Nayarit',
-          municipality: 'Tepic'
-        }
-      }
-    ];
   }
 
   onCreate(ev: any) {
     this.stopPropagation(ev);
     const dialogRef = this.modalDespacho('Nuevo despacho', null);
-    dialogRef.afterClosed().subscribe((data) => {
-      if (!data) { return; }
-      data = { name: data.name, accountant: 0, taxpayer: 0 };
-      this.action.next({ name: RtActionName.CREATE, newItem: data });
-      this.despachoSelected = data;
-      this.notification.success('Acción exitosa', `Nuevo despacho creado: ${ this.despachoSelected.name }`);
+    dialogRef.afterClosed().subscribe((office) => {
+      if (!office) { return; }
+      this.officeProv.create(office).subscribe(data => {
+        office = data.office;
+        // office = { name: office.name, accountant: 0, taxpayer: 0 };
+        this.action.next({ name: RtActionName.CREATE, newItem: office });
+        this.despachoSelected = office;
+        this.notification.success('Acción exitosa', `Nuevo despacho creado: ${this.despachoSelected.name}`);
+      }, err => {
+        this.notification.success('Error', 'No se pudo crear el despacho');
+      });
     });
   }
 
   onView(ev: any) {
     this.stopPropagation(ev);
     const dialogRef = this.modalDespacho('Detalle despacho', this.despachoSelected);
-    dialogRef.afterClosed().subscribe((data) => {
-      if (!data) { return; }
-      this.action.next({ name: RtActionName.UPDATE, itemId: data._id, newItem: data });
-      this.notification.success('Acción exitosa', `Nuevo despacho creado: ${ this.despachoSelected.name }`);
-      this.despachoSelected = data;
+    dialogRef.afterClosed().subscribe((office) => {
+      if (!office) { return; }
+
+      this.officeProv.update(office).subscribe(data => {
+        office = data.office;
+        this.action.next({ name: RtActionName.UPDATE, itemId: office._id, newItem: office });
+        this.despachoSelected = office;
+        this.notification.success('Acción exitosa', `Despacho modificado: ${this.despachoSelected.name}`);
+      }, err => {
+        this.notification.success('Error', 'No se pudo modificar el despacho');
+      });
     });
   }
 
@@ -87,16 +80,20 @@ export class InicioSuperadminComponent implements OnInit {
       disableClose: true,
       data: {
         title: '¡ATENCIÓN!',
-        message: `Está seguro de eliminar el despacho ${ this.despachoSelected.name }?`
+        message: `Está seguro de eliminar el despacho ${this.despachoSelected.name}?`
       }
     });
-    dialogRef.afterClosed().subscribe((data) => {
-      if (!data) { return; }
-      console.log(data);
-      // DO IT
-      this.action.next({ name: RtActionName.DELETE, itemId: this.despachoSelected._id, newItem: data });
-      this.notification.success('Acción exitosa', `Despacho ${ this.despachoSelected.name } eliminado`);
-      this.despachoSelected = null;
+    dialogRef.afterClosed().subscribe((res) => {
+      if (!res) { return; }
+
+      this.officeProv.delete(this.despachoSelected._id).subscribe(data => {
+        res = data.office;
+        this.notification.success('Acción exitosa', `Despacho ${this.despachoSelected.name} eliminado`);
+        this.action.next({ name: RtActionName.DELETE, itemId: this.despachoSelected._id });
+        this.despachoSelected = null;
+      }, err => {
+        this.notification.success('Error', 'No se pudo eliminar el despacho');
+      });
     });
   }
 

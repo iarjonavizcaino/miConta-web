@@ -33,7 +33,6 @@ export class ModalObligacionesComponent implements OnInit {
       this.obligation = this.data.obligation;
     } else {
       this.obligation = {
-        _id: '200',
         type: '',
         description: ''
       };

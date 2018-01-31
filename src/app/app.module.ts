@@ -43,6 +43,11 @@ import {
 
 //  Types
 import { Credentials, Employee, Role } from './types/types';
+
+// Providers
+import { Api } from '../app/providers/api';
+import { ConceptProvider, ObligationProvider, TaxpayerProvider, ProfileProvider, NotificationProvider, AccountantProvider, OfficeProvider } from './providers/providers';
+
 // Pages
 import { LoginComponent } from './pages/login/login.component';
 import { MisDatosComponent } from './pages/contribuyente/mis-datos/mis-datos.component';
@@ -248,6 +253,16 @@ const routes: Routes = [
     DropzoneModule
   ],
   providers: [
+    // Providers
+    Api,
+    ConceptProvider,
+    ObligationProvider,
+    TaxpayerProvider,
+    ProfileProvider,
+    NotificationProvider,
+    AccountantProvider,
+    OfficeProvider,
+
     //  Services
     /*UserService,
     InputResolve,
