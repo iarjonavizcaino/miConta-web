@@ -1,18 +1,29 @@
 <ul class="breadcrumb">
-  <li>
-    <a routerLink="/inicio" routerLinkActive="active">Inicio</a>
+  <li *ngIf="roleUp === 'superadmin'">
+    <a routerLink="/superadmin/inicio" routerLinkActive="active">Superadmin</a>
   </li>
-  <li class="selected">Resumen</li>
+  <li *ngIf="roleUp === 'superadmin' || roleUp === 'despacho'">
+    <a routerLink="/despacho/inicio" routerLinkActive="active">Despacho</a>
+  </li>
+  <li *ngIf="roleUp === 'contador' || roleUp === 'despacho' || roleUp === 'superadmin'">
+    <a routerLink="/contador/inicio" routerLinkActive="active">Contador</a>
+  </li>
+  <li class="selected" *ngIf="roleUp === 'contador' || roleUp === 'despacho' || roleUp === 'superadmin'"><span class="accent">Contribuyente</span></li>
+  <!-- this is when only the contribuyente get access-->
+  <li *ngIf="roleUp === 'contribuyente'">
+    <a routerLink="/contribuyente/inicio" routerLinkActive="active">Inicio</a>
+  </li>
+  <li class="selected" *ngIf="roleUp === 'contribuyente'">Resumen</li>
 </ul>
 <ng-container *ngIf="contribuyente">
   <div class="row">
     <div class="col-6">
       <div style="color:#1565C0; font-size: 1.3em">
-        <strong>Contribuyente: {{ contribuyente }}</strong>
+        <strong>Contribuyente: <span class="accent">{{ contribuyente }}</span></strong>
       </div>
     </div>
     <div class="col-6">
-        <h2 class="float-right">{{currentBimester}}</h2>
+      <h2 class="float-right">{{currentBimester}}</h2>
     </div>
   </div>
   <hr>
@@ -61,12 +72,13 @@
         </mat-form-field>
         <br>
         <mat-form-field>
-          <mat-select placeholder="Seleccionar Bimestre">
+          <mat-select placeholder="Seleccionar Bimestre" [(ngModel)]="selectedBimester">
             <mat-option *ngFor="let b of bimesters" [value]="b.name">
               {{ b.name }}
             </mat-option>
           </mat-select>
         </mat-form-field>
+        <br>
         <button mat-raised-button color="primary" (click)="getBimesterInfo()">Aceptar</button>
       </mat-card-content>
     </mat-card>

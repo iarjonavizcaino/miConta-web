@@ -49,10 +49,13 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
   currentBimester = 'ENE-FEB 2018';
   selectedYear = '';
   selectedBimester = '';
+
+  // to hadle breadcrumb
+  roleUp = '';
   constructor(private router: Router, private dialogCtrl: MatDialog, private route: ActivatedRoute) { }
 
   ngOnInit() {
-
+    this.roleUp = JSON.parse(localStorage.getItem('user')).role.name;
     this.sub = this.route
       .queryParams
       .subscribe(params => {
