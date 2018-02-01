@@ -1,8 +1,6 @@
 <section class="billing-catalog">
   <header class="header">
     <h3 class="title float-left">{{ title }}:</h3>
-    <h4 class="title float-right">No. 316844775</h4>
-    <!-- <h3 class="title float-left">{{infoBill.date}}</h3> -->
     <button mat-icon-button (click)="onClose()">
       <mat-icon>close</mat-icon>
     </button>
@@ -11,7 +9,10 @@
   <section class="body">
     <div class="container">
       <div class="row">
-        <div class="col-7"></div>
+        <div class="col-7">
+          <br>
+          <h3 class="">No. 316844775</h3>
+        </div>
         <div class="col-5">
           <mat-form-field>
             <mat-icon matPrefix>today</mat-icon>
@@ -54,7 +55,7 @@
             <div class="col-6">
               <mat-form-field>
                 <mat-icon matPrefix>mail</mat-icon>
-                <input [readonly]="true" matInput required placeholder="Coreo electrónico" [(ngModel)]="infoBill.customer.email">
+                <input [readonly]="true" matInput required placeholder="Correo electrónico" [(ngModel)]="infoBill.customer.email">
               </mat-form-field>
             </div>
           </div>
@@ -142,8 +143,12 @@
         </div>
         <hr>
         <div class="row" style="text-align: right;">
-          <div class="col-9"><strong>Total:</strong></div>
-          <div class="col-3"><strong>{{total | currency:'USD':true:'2.2-4'}}</strong></div>
+          <div class="col-9">
+            <strong>Total:</strong>
+          </div>
+          <div class="col-3">
+            <strong>{{total | currency:'USD':true:'2.2-4'}}</strong>
+          </div>
         </div>
         <br>
       </div>
