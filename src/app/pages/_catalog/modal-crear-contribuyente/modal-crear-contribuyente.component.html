@@ -173,6 +173,16 @@
                     </a>
                   </div>
                   <div class="col-2"></div>
+                  <div class="col-2"></div>
+                  <div class="col-6">
+                    <br>
+                    <mat-form-field>
+                      <input matInput [matDatepicker]="picker" placeholder="Fecha">
+                      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                      <mat-datepicker #picker></mat-datepicker>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-2"></div>
                 </div>
               </mat-expansion-panel>
             </mat-accordion>

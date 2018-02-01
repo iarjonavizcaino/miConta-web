@@ -46,8 +46,8 @@ export class ModalCrearContribuyenteComponent implements OnInit {
     { name: 'Año', prop: 'year', default: '' },
     { name: 'Bimestre', prop: 'bimester', default: 'XXXX-XXX-XXXX' },
     { name: 'Estatus', prop: 'type', default: '', chip: true },
-    { name: 'Acuse', prop: 'file1', default: 'No archivo', link: true },
-    { name: 'Línea de captura', prop: 'file2', default: 'No archivo', link: true }
+    { name: 'Acuse', prop: 'file1', default: 'No archivo', align: 'center', link: true },
+    { name: 'Línea de captura', prop: 'file2', default: 'No archivo', align: 'center', link: true }
   ];
 
   headersConcepts: Array<RtHeader> = [

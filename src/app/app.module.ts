@@ -46,6 +46,7 @@ import { Credentials, Employee, Role } from './types/types';
 
 // Providers
 import { Api } from '../app/providers/api';
+// tslint:disable-next-line:max-line-length
 import { ConceptProvider, ObligationProvider, TaxpayerProvider, ProfileProvider, NotificationProvider, AccountantProvider, OfficeProvider } from './providers/providers';
 
 // Pages
@@ -86,9 +87,6 @@ import { importType } from '@angular/compiler/src/output/output_ast';
 
 // Pages
 import { InicioContadorComponent } from './pages/contador/inicio/inicio-contador.component';
-import { ImpuestosComponent } from './pages/contribuyente/impuestos/impuestos.component';
-import { EgresosComponent } from './pages/contribuyente/egresos/egresos.component';
-import { IngresosComponent } from './pages/contribuyente/ingresos/ingresos.component';
 import { ResumenContribuyenteComponent } from './pages/contribuyente/resumen/resumen-contribuyente.component';
 import { InicioSuperadminComponent } from './pages/superadmin/inicio/inicio-superadmin.component';
 import { DespachosComponent } from './pages/superadmin/despachos/despachos.component';
@@ -121,9 +119,6 @@ const routes: Routes = [
   // contribuyente routes
   { path: 'contribuyente/inicio', component: InicioComponent },
   { path: 'contribuyente/resumen', component: ResumenContribuyenteComponent },
-  { path: 'contribuyente/impuestos', component: ImpuestosComponent },
-  { path: 'contribuyente/ingresos', component: IngresosComponent },
-  { path: 'contribuyente/egresos', component: EgresosComponent },
   { path: 'contribuyente/misDatos', component: MisDatosComponent },
   { path: 'contribuyente/obligaciones', component: ObligacionesComponent },
   { path: 'contribuyente/limites', component: LimitesComponent },
@@ -195,9 +190,6 @@ const routes: Routes = [
     LoginComponent,
     InicioComponent,
     InicioContadorComponent,
-    ImpuestosComponent,
-    EgresosComponent,
-    IngresosComponent,
     MisDatosComponent,
     ObligacionesComponent,
     LimitesComponent,
