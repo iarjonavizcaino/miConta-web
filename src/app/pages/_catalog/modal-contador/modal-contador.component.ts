@@ -24,6 +24,14 @@ export class ModalContadorComponent implements OnInit {
     name: '',
     email: '',
     phone: '',
+    account: {
+      user: '',
+      password: ''
+    },
+    role: {
+      name: '',
+      _id: ''
+    },
     address: {
       street: '',
       number: '',
@@ -49,12 +57,19 @@ export class ModalContadorComponent implements OnInit {
       zipcode: [null, Validators.compose([Validators.minLength(5), Validators.maxLength(5), Validators.required])],
       city: [null, Validators.required],
       state: [null, Validators.required],
-      municipality: [null, Validators.required]
+      municipality: [null, Validators.required],
+      user: [null, Validators.required],
+      password: [null, Validators.required]
     });
   }
 
   ngOnInit() {
-    this.loadData();
+    this.title = this.data.title;
+    if (this.data.accountant) {
+      this.accountant = this.data.accountant;
+      const index = this.states.findIndex(state => state.name === this.accountant.address.state);
+      this.currentState = this.states[index];
+    }
 
     this.filteredStates = this.accountantForm.get('state').valueChanges
       .startWith(null)
@@ -73,20 +88,15 @@ export class ModalContadorComponent implements OnInit {
   }
 
   onSave() {
+    this.accountant.role = {
+      '_id': '5a728f43b15f741695e35c95',
+      'name': 'Despacho'
+    };
     this.accountant.address.state = this.currentState.name;
     this.dialogRef.close(this.accountant); // send data
   }
   onClose() {
     this.dialogRef.close();
-  }
-  private loadData() {
-    this.title = this.data.title;
-    if (this.data.accountant) {
-      this.accountant = this.data.accountant;
-      const index = this.states.findIndex(state => state.name === this.accountant.address.state);
-      this.currentState = this.states[index];
-      console.log(this.data);
-    }
   }
 
   key(ev: any) {

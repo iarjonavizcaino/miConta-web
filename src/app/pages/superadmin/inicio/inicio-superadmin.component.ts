@@ -49,10 +49,19 @@ export class InicioSuperadminComponent implements OnInit {
         office = data.office;
         // office = { name: office.name, accountant: 0, taxpayer: 0 };
         this.action.next({ name: RtActionName.CREATE, newItem: office });
-        this.despachoSelected = office;
-        this.notification.success('Acción exitosa', `Nuevo despacho creado: ${this.despachoSelected.name}`);
+        const dialogRef2 = this.dialogCtrl.open(ConfirmComponent, {
+          data: {
+            title: 'Creedenciales de Acceso',
+            message: `Usuario: ${office.account.user}, Contraseña: ${office.account.password}`,
+            type: 'warn'
+          }
+        });
+        // tslint:disable-next-line:no-shadowed-variable
+        dialogRef2.afterClosed().subscribe((data) => {
+          this.notification.success('Acción exitosa', `Nuevo despacho creado: ${office.name}`);
+        });
       }, err => {
-        this.notification.success('Error', 'No se pudo crear el despacho');
+        this.notification.error('Error', 'No se pudo crear el despacho');
       });
     });
   }
@@ -66,10 +75,10 @@ export class InicioSuperadminComponent implements OnInit {
       this.officeProv.update(office).subscribe(data => {
         office = data.office;
         this.action.next({ name: RtActionName.UPDATE, itemId: office._id, newItem: office });
-        this.despachoSelected = office;
         this.notification.success('Acción exitosa', `Despacho modificado: ${this.despachoSelected.name}`);
+        this.despachoSelected = office;
       }, err => {
-        this.notification.success('Error', 'No se pudo modificar el despacho');
+        this.notification.error('Error', 'No se pudo modificar el despacho');
       });
     });
   }
@@ -92,7 +101,7 @@ export class InicioSuperadminComponent implements OnInit {
         this.action.next({ name: RtActionName.DELETE, itemId: this.despachoSelected._id });
         this.despachoSelected = null;
       }, err => {
-        this.notification.success('Error', 'No se pudo eliminar el despacho');
+        this.notification.error('Error', 'No se pudo eliminar el despacho');
       });
     });
   }

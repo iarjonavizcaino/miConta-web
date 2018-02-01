@@ -46,8 +46,7 @@ export class ConceptosComponent implements OnInit {
       this.conceptProv.create(concept).subscribe(data => {
         concept = data.concept;
         this.action.next({ name: RtActionName.CREATE, newItem: concept });
-        this.conceptSelected = concept;
-        this.noti.success('Acción exitosa', `Nuevo concepto creado: ${this.conceptSelected.concept}`);
+        this.noti.success('Acción exitosa', `Nuevo concepto creado: ${concept.concept}`);
       }, err => {
         this.noti.error('Error', `No se pudo crear el concepto`);
       });
@@ -63,8 +62,8 @@ export class ConceptosComponent implements OnInit {
       this.conceptProv.update(concept).subscribe(data => {
         concept = data.concept;
         this.action.next({ name: RtActionName.UPDATE, itemId: concept._id, newItem: concept });
-        this.conceptSelected = concept;
         this.noti.success('Acción exitosa', `Concepto ${this.conceptSelected.concept} moficado`);
+        this.conceptSelected = concept;
       }, err => {
         this.noti.error('Error', `No se pudo modificar el concepto`);
       });

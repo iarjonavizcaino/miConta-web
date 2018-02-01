@@ -7,6 +7,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { ConfirmComponent } from '../../../components/confirm/confirm.component';
 import { NotificationsService } from 'angular2-notifications';
 import { UploadXmlComponent } from '../../_catalog/upload-xml/upload-xml.component';
+import { TaxpayerProvider } from '../../../providers/providers';
 
 @Component({
   selector: 'app-inicio-contador',
@@ -16,10 +17,10 @@ import { UploadXmlComponent } from '../../_catalog/upload-xml/upload-xml.compone
 export class InicioContadorComponent implements OnInit, OnDestroy {
 
   headers: Array<RtHeader> = [
-    { name: 'Contribuyente', prop: 'name', default: '' },
+    { name: 'Contribuyente', prop: 'socialReason', default: '' },
     { name: 'RFC', prop: 'rfc', default: 'XXXX-XXX-XXXX' },
     { name: 'Perfil', prop: 'profile.name', default: 'Sin perfil' },
-    { name: 'Régimen fiscal', prop: 'fiscal_regime', default: 'RIF' },
+    { name: 'Régimen fiscal', prop: 'fiscalRegime', default: 'RIF' },
   ];
   selectedTaxpayer: any;
   data = [];
@@ -31,22 +32,22 @@ export class InicioContadorComponent implements OnInit, OnDestroy {
     private router: Router,
     private dialogCtrl: MatDialog,
     private notification: NotificationsService,
-    private route: ActivatedRoute) { }
+    private route: ActivatedRoute,
+    private taxpayerProv: TaxpayerProvider) { }
 
   ngOnInit() {
     this.roleUp = JSON.parse(localStorage.getItem('user')).role.name;
     this.sub = this.route
       .queryParams
       .subscribe(params => {
-        console.log('params', params);
         // tslint:disable-next-line:triple-equals
         if (params.name != 0) {
           this.contador = params.name;
-          console.log(this.contador);
         }
       });
-
-    this.loadData();
+    this.taxpayerProv.getAll().subscribe(data => {
+      this.data = data.taxpayers;
+    });
     this.setBgCard('1');
   }
 
@@ -61,34 +62,42 @@ export class InicioContadorComponent implements OnInit, OnDestroy {
   onView(ev) {
     this.stopPropagation(ev);
     const dialogRef = this.taxpayerModal(this.selectedTaxpayer, true, 'Detalle contribuyente');
-
-    dialogRef.afterClosed().subscribe((data) => {
-      if (!data) { return; }
-      this.action.next({ name: RtActionName.UPDATE, itemId: data._id, newItem: data });
-      this.notification.success('Acción exitosa', `Contribuyente ${this.selectedTaxpayer.name} modificado`);
-      this.selectedTaxpayer = data;
+    dialogRef.afterClosed().subscribe((taxpayer) => {
+      if (!taxpayer) { return; }
+      this.taxpayerProv.update(taxpayer).subscribe(data => {
+        taxpayer = data.taxpayer;
+        this.action.next({ name: RtActionName.UPDATE, itemId: taxpayer._id, newItem: taxpayer });
+        this.notification.success('Acción exitosa', `Contribuyente ${this.selectedTaxpayer.socialReason} modificado`);
+        this.selectedTaxpayer = taxpayer;
+      }, err => {
+        this.notification.error('Error', 'No se pudo modificar el contribuyente');
+      });
     });
 
   }
 
   onCreate(ev) {
     this.stopPropagation(ev);
-    const taxpayer = this.taxpayerModal(null, false, 'Nuevo contribuyente');
-    taxpayer.afterClosed().subscribe((data) => {
-      if (!data) { return; }
+    const dialogRef = this.taxpayerModal(null, false, 'Nuevo contribuyente');
+    dialogRef.afterClosed().subscribe((taxpayer) => {
+      if (!taxpayer) { return; }
       // Make HTTP request to create contadores
-      this.action.next({ name: RtActionName.CREATE, newItem: data }); // save data
-      this.selectedTaxpayer = data;
-      const dialogRef = this.dialogCtrl.open(ConfirmComponent, {
-        data: {
-          title: 'Creedenciales de Acceso',
-          message: 'usuario: 123, password: 123',
-          type: 'warn'
-        }
-      });
-      // tslint:disable-next-line:no-shadowed-variable
-      dialogRef.afterClosed().subscribe((data) => {
-        this.notification.success('Acción exitosa', `Nuevo contribuyente creado: ${this.selectedTaxpayer.name}`);
+      this.taxpayerProv.create(taxpayer).subscribe(data => {
+        taxpayer = data.taxPayer;
+        this.action.next({ name: RtActionName.CREATE, newItem: taxpayer });
+        const dialogRef2 = this.dialogCtrl.open(ConfirmComponent, {
+          data: {
+            title: 'Creedenciales de Acceso',
+            message: `Usuario: ${taxpayer.account.user}, Contraseña: ${taxpayer.account.password}`,
+            type: 'warn'
+          }
+        });
+        // tslint:disable-next-line:no-shadowed-variable
+        dialogRef2.afterClosed().subscribe((data) => {
+          this.notification.success('Acción exitosa', `Nuevo contribuyente creado: ${taxpayer.socialReason}`);
+        });
+      }, err => {
+        this.notification.error('Error', 'No se pudo crear el contribuyente');
       });
     });
   }
@@ -99,16 +108,18 @@ export class InicioContadorComponent implements OnInit, OnDestroy {
       disableClose: true,
       data: {
         title: '¡ATENCIÓN!',
-        message: `¿Está seguro de eliminar el contador ${this.selectedTaxpayer.name}?`
+        message: `¿Está seguro de eliminar el contribuyente ${this.selectedTaxpayer.socialReason}?`
       }
     });
-    dialogRef.afterClosed().subscribe((data) => {
-      if (!data) { return; }
-      console.log(data);
-      // DO IT
-      this.action.next({ name: RtActionName.DELETE, itemId: this.selectedTaxpayer._id, newItem: data });
-      this.notification.success('Acción exitosa', `Contador ${this.selectedTaxpayer.name} eliminado`);
-      this.selectedTaxpayer = null;
+    dialogRef.afterClosed().subscribe((res) => {
+      if (!res) { return; }
+      this.taxpayerProv.delete(this.selectedTaxpayer._id).subscribe(data => {
+        res = data.taxpayer;
+        this.notification.success('Acción exitosa', `Contribuyente ${this.selectedTaxpayer.socialReason} eliminado`);
+        this.action.next({ name: RtActionName.DELETE, itemId: this.selectedTaxpayer._id });
+      });
+    }, err => {
+      this.notification.error('Error', 'No se pudo modificar el contribuyente');
     });
   }
 
@@ -117,8 +128,6 @@ export class InicioContadorComponent implements OnInit, OnDestroy {
     console.log('filtrar en tabla');
   }
   private setBgCard(card: string) {
-    console.log('card' + card);
-    console.log('div' + card);
     const numCards = 4;
     for (let i = 1; i <= numCards; i++) {
       document.getElementById('card' + i).style.background = '#F5F5F5';
@@ -129,7 +138,7 @@ export class InicioContadorComponent implements OnInit, OnDestroy {
     document.getElementById('div' + card).style.background = '#7bea7b';
   }
   taxpayerDetail(page: string) {
-    this.router.navigate([page], { queryParams: { name: this.selectedTaxpayer.name} });
+    this.router.navigate([page], { queryParams: { name: this.selectedTaxpayer.socialReason } });
   }
   onUploadXML(ev) {
     this.stopPropagation(ev);
@@ -162,211 +171,5 @@ export class InicioContadorComponent implements OnInit, OnDestroy {
         title: title
       }
     });
-  }
-
-  loadData() {
-    this.data = [
-      {
-        name: 'Saúl Jimenez',
-        rfc: 'VECJ880326XXX',
-        fiscal_regime: 'Incorporación Fiscal',
-        password: '1234',
-        suspension_date: new Date('1/4/2018'),
-        regimen_change: new Date('6/10/2018'),
-        vigencia_fiel: new Date('8/12/2018'),
-        vigencia_sellos: new Date('10/02/2018'),
-        profile: {
-          _id: '1',
-          name: 'Tienda de abarrotes',
-          concepts: [
-            {
-              _id: '1',
-              code: '553686',
-              concept: 'Gasolina',
-              limit: 700.00
-            },
-            {
-              _id: '2',
-              code: '523536',
-              concept: 'Materiales de Limpieza',
-              limit: 200.00
-            }
-          ],
-          obligations: [
-            {
-              _id: '1',
-              type: 'Informativas',
-              // tslint:disable-next-line:max-line-length
-              description: 'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ex, aliquam porro itaque aperiam perspiciatis doloremque, facere blanditiis rem voluptate ad veniam placeat tempore quaerat facilis iusto obcaecati repellendus! Tempore, quas?'
-            },
-            {
-              _id: '2',
-              type: 'Plazos',
-              // tslint:disable-next-line:max-line-length
-              description: 'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ex, aliquam porro itaque aperiam perspiciatis doloremque, facere blanditiis rem voluptate ad veniam placeat tempore quaerat facilis iusto obcaecati repellendus! Tempore, quas?'
-            }
-          ]
-        },
-        statement: [
-          {
-            _id: 1,
-            year: '2015',
-            bimester: 'ENE/FEB',
-            type: 'Presentada',
-            file1: 'declaracion_1',
-            file2: 'otra_declaracion_1',
-          },
-          {
-            _id: 2,
-            year: '2016',
-            bimester: 'MAR/ABR',
-            type: 'Pagada',
-            file1: 'declaracion_2',
-            file2: 'otra_declaracion_2',
-          },
-          {
-            _id: 3,
-            year: '2017',
-            bimester: 'MAY/JUN',
-            type: 'Pendiente',
-            file1: 'declaracion_3',
-            file2: 'otra_declaracion_3',
-          }
-        ]
-      },
-      {
-        name: 'Manuel Perez',
-        rfc: 'JCVE880326XXX',
-        fiscal_regime: 'Servicios Profesionales',
-        password: '1234',
-        suspension_date: new Date('10/15/2014'),
-        regimen_change: new Date('11/10/2015'),
-        profile: {
-          _id: '2',
-          name: 'Papelería',
-          concepts: [
-            {
-              _id: '1',
-              code: '553686',
-              concept: 'Gasolina',
-              limit: 1000.00
-            },
-            {
-              _id: '2',
-              code: '523536',
-              concept: 'Materiales de Limpieza',
-              limit: 700.00
-            }
-          ],
-          obligations: [
-            {
-              _id: '1',
-              type: 'Informativas',
-              // tslint:disable-next-line:max-line-length
-              description: 'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ex, aliquam porro itaque aperiam perspiciatis doloremque, facere blanditiis rem voluptate ad veniam placeat tempore quaerat facilis iusto obcaecati repellendus! Tempore, quas?'
-            },
-            {
-              _id: '2',
-              type: 'Plazos',
-              // tslint:disable-next-line:max-line-length
-              description: 'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ex, aliquam porro itaque aperiam perspiciatis doloremque, facere blanditiis rem voluptate ad veniam placeat tempore quaerat facilis iusto obcaecati repellendus! Tempore, quas?'
-            }
-          ]
-        },
-        statement: [
-          {
-            _id: 1,
-            year: '2017',
-            bimester: 'JUL/AGO',
-            type: 'Presentada',
-            file1: 'declaracion_1',
-            file2: 'otra_declaracion_1',
-          },
-          {
-            _id: 2,
-            year: '2017',
-            bimester: 'JUL/AGO',
-            type: 'Pagada',
-            file1: 'declaracion_2',
-            file2: 'otra_declaracion_2',
-          },
-          {
-            _id: 3,
-            year: '2017',
-            bimester: 'JUL/AGO',
-            type: 'Pendiente',
-            file1: 'declaracion_3',
-            file2: 'otra_declaracion_3',
-          }
-        ]
-      },
-      {
-        name: 'Ernesto de la Cruz',
-        rfc: 'ANAS81636XXX',
-        fiscal_regime: 'Intereses',
-        password: '1234',
-        suspension_date: new Date('09/21/2018'),
-        regimen_change: new Date('07/13/2018'),
-        profile: {
-          _id: '3',
-          name: 'Farmacia',
-          concepts: [
-            {
-              _id: '1',
-              code: '553686',
-              concept: 'Gasolina',
-              limit: 500.00
-            },
-            {
-              _id: '2',
-              code: '523536',
-              concept: 'Materiales de Limpieza',
-              limit: 200.00
-            }
-          ],
-          obligations: [
-            {
-              _id: '1',
-              type: 'Informativas',
-              // tslint:disable-next-line:max-line-length
-              description: 'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ex, aliquam porro itaque aperiam perspiciatis doloremque, facere blanditiis rem voluptate ad veniam placeat tempore quaerat facilis iusto obcaecati repellendus! Tempore, quas?'
-            },
-            {
-              _id: '2',
-              type: 'Plazos',
-              // tslint:disable-next-line:max-line-length
-              description: 'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ex, aliquam porro itaque aperiam perspiciatis doloremque, facere blanditiis rem voluptate ad veniam placeat tempore quaerat facilis iusto obcaecati repellendus! Tempore, quas?'
-            }
-          ]
-        },
-        file: 'hola.html',
-        statement: [
-          {
-            _id: 1,
-            year: '2017',
-            bimester: 'SEP/OCT',
-            type: 'Presentada',
-            file1: 'declaracion_1',
-            file2: 'otra_declaracion_1',
-          },
-          {
-            _id: 2,
-            year: '2017',
-            bimester: 'NOV/DIC',
-            type: 'Pagada',
-            file1: 'declaracion_2',
-            file2: 'otra_declaracion_2',
-          },
-          {
-            _id: 3,
-            year: '2018',
-            bimester: 'ENE/FEB',
-            type: 'Pendiente',
-            file1: 'declaracion_3',
-            file2: 'otra_declaracion_3',
-          }
-        ]
-      },
-    ];
   }
 }
