@@ -20,11 +20,11 @@ import * as moment from 'moment';
 export class BillingCatalogComponent implements OnInit {
 
   headers: Array<RtHeader> = [
-    { name: 'Concepto', prop: 'code', default: ''},
-    { name: 'Producto', prop: 'name', default: 'No name'},
-    { name: 'Cant.', prop: 'quantity', default: '0', align: 'right' },
-    { name: 'Precio unitario', prop: 'price', default: '$ 0.00', align: 'right', accounting: true },
-    { name: 'Importe', prop: 'amount', default: '$ 0.00', align: 'right', accounting: true }
+    { name: 'Concepto', prop: 'code', default: '', width: '14'},
+    { name: 'Producto', prop: 'name', default: 'No name', width: '32'},
+    { name: 'Cant', prop: 'quantity', default: '0', align: 'right', width: '8' },
+    { name: 'Precio unitario', prop: 'price', default: '$ 0.00', align: 'right', accounting: true, width: '17' },
+    { name: 'Importe', prop: 'amount', default: '$ 0.00', align: 'right', accounting: true, width: '17' }
   ];
 
   action = new Subject<RtAction>();
@@ -71,7 +71,7 @@ export class BillingCatalogComponent implements OnInit {
       console.log(this.data);
       this.infoBill = this.data.bill;
       this.infoBill.customer.phone = this.formatPhone(this.infoBill.customer.phone);
-      // this.infoBill.date = moment(this.infoBill.date).format('LL');
+      // this.infoBill.date = moment(this.infoBill.date).format('L');
       this.products = this.data.bill.products;
       this.getTotal(this.products);
     }

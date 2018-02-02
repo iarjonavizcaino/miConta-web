@@ -1,0 +1,236 @@
+<section class="billing-catalog">
+  <header class="header">
+    <h3 class="title float-left">Nueva Factura</h3>
+    <button mat-icon-button (click)="onClose($event)">
+      <mat-icon>close</mat-icon>
+    </button>
+  </header>
+  <section class="body">
+    <form [formGroup]="billForm">
+      <!--(keydown)="key($event)"-->
+      <div class="container">
+        <div class="row">
+          <div class="col-7">
+            <mat-form-field>
+              <mat-select placeholder="Estado de la factura" [(ngModel)]="bill.status" [formControl]="billForm.controls['status']">
+                <mat-option value="Cobrado">
+                  Cobrado
+                </mat-option>
+                <mat-option value="Pendiente">
+                  Pendiente
+                </mat-option>
+              </mat-select>
+              <mat-error *ngIf="billForm.controls['status'].hasError('required')">
+                Campo
+                <strong>requerido</strong>
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="col-5">
+            <mat-form-field>
+              <mat-icon matPrefix>today</mat-icon>
+              <input [readonly]="true" matInput placeholder="Fecha" [(ngModel)]="bill.date" [formControl]="billForm.controls['date']">
+              <mat-error *ngIf="billForm.controls['date'].hasError('required')">
+                Campo
+                <strong>requerido</strong>
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+        <mat-card class="bg-card1">
+          <mat-card-header>
+            <mat-card-title>
+              <strong>Cliente / Proveedor</strong>
+            </mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+            <div class="row">
+              <div class="col-12">
+                <mat-form-field>
+                  <mat-icon matPrefix>person</mat-icon>
+                  <input matInput placeholder="Cliente / Proveedor" [(ngModel)]="bill.customer.name" [formControl]="billForm.controls['name']">
+                  <mat-error *ngIf="billForm.controls['name'].hasError('required')">
+                    Campo
+                    <strong>requerido</strong>
+                  </mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-12">
+                <mat-form-field>
+                  <mat-icon matPrefix>work</mat-icon>
+                  <input required matInput placeholder="RFC" [(ngModel)]="bill.customer.rfc" [formControl]="billForm.controls['rfc']">
+                  <mat-error *ngIf="billForm.controls['rfc'].hasError('required')">
+                    Campo
+                    <strong>requerido</strong>
+                  </mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-6">
+                <mat-form-field>
+                  <mat-icon matPrefix>phone</mat-icon>
+                  <input type="tel" required matInput placeholder="Teléfono" [(ngModel)]="bill.customer.phone" [formControl]="billForm.controls['phone']">
+                  <mat-error *ngIf="billForm.controls['phone'].hasError('required')">
+                    Campo
+                    <strong>requerido</strong>
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="col-6">
+                <mat-form-field>
+                  <mat-icon matPrefix>mail</mat-icon>
+                  <input matInput required placeholder="Correo electrónico" [(ngModel)]="bill.customer.email" [formControl]="billForm.controls['email']">
+                  <mat-error *ngIf="billForm.controls['email'].hasError('required')">
+                    Campo
+                    <strong>requerido</strong>
+                  </mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+          </mat-card-content>
+        </mat-card>
+        <br>
+        <mat-card class="bg-card1">
+          <mat-card-header>
+            <mat-card-title>
+              <strong>Domicilio</strong>
+            </mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+            <div class="row">
+              <div class="col-9">
+                <mat-form-field>
+                  <mat-icon matPrefix>location_on</mat-icon>
+                  <input matInput required placeholder="Calle" [(ngModel)]="bill.address.street" [formControl]="billForm.controls['street']">
+                  <mat-error *ngIf="billForm.controls['street'].hasError('required')">
+                    Campo
+                    <strong>requerido</strong>
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="col-3">
+                <mat-form-field>
+                  <mat-icon matPrefix>streetview</mat-icon>
+                  <input required matInput type="number" placeholder="Número" [(ngModel)]="bill.address.number" [formControl]="billForm.controls['number']">
+                  <mat-error *ngIf="billForm.controls['number'].hasError('required')">
+                    Campo
+                    <strong>requerido</strong>
+                  </mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-9">
+                <mat-form-field>
+                  <mat-icon matPrefix>location_on</mat-icon>
+                  <input required matInput placeholder="Colonia" [(ngModel)]="bill.address.neighborhood" [formControl]="billForm.controls['neighborhood']">
+                  <mat-error *ngIf="billForm.controls['neighborhood'].hasError('required')">
+                    Campo
+                    <strong>requerido</strong>
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="col-3">
+                <mat-form-field>
+                  <mat-icon matPrefix>streetview</mat-icon>
+                  <input type="text" required minlength="5" maxlength="5" matInput placeholder="CP" [(ngModel)]="bill.address.zipcode" [formControl]="billForm.controls['zipcode']">
+                  <mat-error *ngIf="billForm.controls['zipcode'].hasError('required')">
+                    Campo
+                    <strong>requerido</strong>
+                  </mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-12 col-md-6">
+                <mat-form-field>
+                  <mat-icon matPrefix>location_on</mat-icon>
+                  <input required matInput placeholder="Ciudad" [(ngModel)]="bill.address.city" [formControl]="billForm.controls['city']">
+                  <mat-error *ngIf="billForm.controls['city'].hasError('required')">
+                    Campo
+                    <strong>requerido</strong>
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="col-12 col-md-6">
+                <mat-form-field>
+                  <mat-icon matPrefix>location_on</mat-icon>
+                  <input matInput placeholder="Municipio" [(ngModel)]="bill.address.municipality" [formControl]="billForm.controls['municipality']">
+                  <mat-error *ngIf="billForm.controls['municipality'].hasError('required')">
+                    Campo
+                    <strong>requerido</strong>
+                  </mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-12 col-md-6">
+                <mat-form-field>
+                  <mat-icon matPrefix>location_on</mat-icon>
+                  <input type="text" required placeholder="Estado" matInput [(ngModel)]="bill.address.state" [formControl]="billForm.controls['state']"
+                    [matAutocomplete]="state" [(ngModel)]="currentState">
+                  <mat-autocomplete #state="matAutocomplete" [displayWith]="displayFnState">
+                    <mat-option *ngFor="let option of filteredStates | async" [value]="option">
+                      {{ option.name }}
+                    </mat-option>
+                  </mat-autocomplete>
+                  <mat-error *ngIf="billForm.controls['state'].hasError('required')">
+                    Campo
+                    <strong>requerido</strong>
+                  </mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </form>
+    <br>
+    <rt-datatable searchWait="600" (selected)="onSelected($event)" [showRowNumber]="true" [headers]="headers" [action]="action"
+      [data]="bill.products">
+      <section class="actions">
+        <button mat-icon-button (click)="onCreate($event)">
+          <mat-icon matTooltip="Nuevo" matTooltipPosition="above">add</mat-icon>
+        </button>
+        <ng-container *ngIf="selectedItem">
+          <button mat-icon-button (click)="onDelete($event)">
+            <mat-icon matTooltip="Eliminar" matTooltipPosition="above">delete</mat-icon>
+          </button>
+        </ng-container>
+      </section>
+    </rt-datatable>
+    <div>
+      <div class="row" style="text-align: right; padding-top: 10px">
+        <div class="col-9">Subtotal: </div>
+        <div class="col-3">{{bill.subtotal | currency:'USD':true:'2.2-4'}}</div>
+      </div>
+      <hr>
+      <div class="row" style="text-align: right;">
+        <div class="col-9">IVA:</div>
+        <div class="col-3">{{bill.taxes | currency:'USD':true:'2.2-4'}}</div>
+      </div>
+      <hr>
+      <div class="row" style="text-align: right;">
+        <div class="col-9">
+          <strong>Total:</strong>
+        </div>
+        <div class="col-3">
+          <strong>{{bill.total | currency:'USD':true:'2.2-4'}}</strong>
+        </div>
+      </div>
+    </div>
+  </section>
+  <footer class="footer">
+    <button mat-button (click)="onClose()">
+      Cancelar
+    </button>
+    <button mat-raised-button color="primary" [disabled]="!billForm.valid" (click)="onSave($event)">
+      Aceptar
+    </button>
+  </footer>
+</section>

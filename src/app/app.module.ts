@@ -112,6 +112,7 @@ import { ModalObligacionesComponent } from './pages/_catalog/modal-obligaciones/
 import { ModalConceptosComponent } from './pages/_catalog/modal-conceptos/modal-conceptos.component';
 import { ModalProfilesComponent } from './pages/_catalog/modal-profiles/modal-profiles.component';
 import { NewBillComponent } from './pages/_catalog/new-bill/new-bill.component';
+import { NewItemProductComponent } from './pages/_catalog/new-item-product/new-item-product.component';
 
 
 // all routes pages
@@ -160,7 +161,8 @@ const routes: Routes = [
     ModalObligacionesComponent,
     ModalConceptosComponent,
     ModalProfilesComponent,
-    NewBillComponent
+    NewBillComponent,
+    NewItemProductComponent
   ],
   declarations: [
     AppComponent,
@@ -213,6 +215,7 @@ const routes: Routes = [
     ObligacionesCrudComponent,
     NotificacionesSuperadminComponent,
     NewBillComponent,
+    NewItemProductComponent,
   ],
   imports: [
     BrowserModule,

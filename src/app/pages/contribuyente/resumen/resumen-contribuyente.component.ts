@@ -4,6 +4,7 @@ import { Subject } from 'rxjs/Subject';
 import { MatDialog } from '@angular/material';
 import { BillingCatalogComponent } from '../../_catalog/billing-catalog/billing-catalog.component';
 import { Router, ActivatedRoute } from '@angular/router';
+import { NewBillComponent } from '../../_catalog/new-bill/new-bill.component';
 
 @Component({
   selector: 'app-resumen-contribuyente',
@@ -76,6 +77,16 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.sub.unsubscribe();
+  }
+  onManualBill(ev: any) {
+    this.stopPropagation(ev);
+    const dialogRef = this.dialogCtrl.open(NewBillComponent, {
+      disableClose: false,
+    });
+    dialogRef.afterClosed().subscribe((newBill) => {
+      console.log('new bill', newBill);
+      this.actionEgresos.next({ name: RtActionName.CREATE, newItem: newBill });
+    });
   }
   onEgresosSelected(ev: any) {
     if (ev.data) {

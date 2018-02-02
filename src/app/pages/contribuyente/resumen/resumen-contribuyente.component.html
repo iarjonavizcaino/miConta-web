@@ -8,7 +8,9 @@
   <li *ngIf="roleUp === 'contador' || roleUp === 'despacho' || roleUp === 'superadmin'">
     <a routerLink="/contador/inicio" routerLinkActive="active">Contador</a>
   </li>
-  <li class="selected" *ngIf="roleUp === 'contador' || roleUp === 'despacho' || roleUp === 'superadmin'"><span class="accent">Contribuyente</span></li>
+  <li class="selected" *ngIf="roleUp === 'contador' || roleUp === 'despacho' || roleUp === 'superadmin'">
+    <span class="accent">Contribuyente</span>
+  </li>
   <!-- this is when only the contribuyente get access-->
   <li *ngIf="roleUp === 'contribuyente'">
     <a routerLink="/contribuyente/inicio" routerLinkActive="active">Inicio</a>
@@ -19,11 +21,10 @@
   <div class="row">
     <div class="col-6">
       <div style="color:#1565C0; font-size: 1.3em">
-        <strong>Contribuyente: <span class="accent">{{ contribuyente }}</span></strong>
+        <strong>Contribuyente:
+          <span class="accent">{{ contribuyente }}</span>
+        </strong>
       </div>
-    </div>
-    <div class="col-6">
-      <h2 class="float-right">{{currentBimester}}</h2>
     </div>
   </div>
   <hr>
@@ -58,27 +59,33 @@
   </div>
   <div class="col-6">
     <mat-card class="example-card">
-      <h5 class="text-center">FILTROS</h5>
+      <h2 class="text-center">
+        {{currentBimester}}
+      </h2>
       <mat-card-header>
         <mat-card-subtitle></mat-card-subtitle>
       </mat-card-header>
       <mat-card-content>
-        <mat-form-field>
-          <mat-select placeholder="Seleccionar Año" [(ngModel)]="selectedYear">
-            <mat-option *ngFor="let y of years" [value]="y">
-              {{ y }}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
-        <br>
-        <mat-form-field>
-          <mat-select placeholder="Seleccionar Bimestre" [(ngModel)]="selectedBimester">
-            <mat-option *ngFor="let b of bimesters" [value]="b.name">
-              {{ b.name }}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
-        <br>
+        <div class="row">
+          <div class="col-6">
+            <mat-form-field>
+              <mat-select placeholder="Seleccionar Año" [(ngModel)]="selectedYear">
+                <mat-option *ngFor="let y of years" [value]="y">
+                  {{ y }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div class="col-6">
+            <mat-form-field>
+              <mat-select placeholder="Seleccionar Bimestre" [(ngModel)]="selectedBimester">
+                <mat-option *ngFor="let b of bimesters" [value]="b.name">
+                  {{ b.name }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
         <button mat-raised-button color="primary" (click)="getBimesterInfo()">Aceptar</button>
       </mat-card-content>
     </mat-card>
@@ -108,8 +115,8 @@
               <button mat-icon-button (click)="onDownloadPDF($event)">
                 <mat-icon matTooltip="Descargar PDF" matTooltipPosition="above">picture_as_pdf</mat-icon>
               </button>
-              <span class="separator"></span>
               <span *ngIf="contribuyente">
+                <span class="separator"></span>
                 <button mat-icon-button (click)="onCheckAllIngresos($event)" *ngIf="!allIngresosChecked">
                   <mat-icon matTooltip="Seleccionar" matTooltipPosition="above">check_box_outline_blank</mat-icon>
                 </button>
@@ -141,6 +148,9 @@
         <rt-datatable (selected)="onEgresosSelected($event)" (checked)="onEgresosChecked($event)" searchWait="600" [showRowNumber]="false"
           [headers]="headersEgresos" [action]="actionEgresos" [data]="dataEgresos">
           <section class="actions">
+            <button mat-icon-button (click)="onManualBill($event)">
+              <mat-icon matTooltip="Factura Manual" matTooltipPosition="above">add</mat-icon>
+            </button>
             <ng-container *ngIf="selectedEgresos">
               <button mat-icon-button (click)="onViewBillEgresos($event)">
                 <mat-icon matTooltip="Ver detalles" matTooltipPosition="above">visibility</mat-icon>
@@ -148,8 +158,8 @@
               <button mat-icon-button (click)="onDownloadPDF($event)">
                 <mat-icon matTooltip="Descargar PDF" matTooltipPosition="above">picture_as_pdf</mat-icon>
               </button>
-              <span class="separator"></span>
               <span *ngIf="contribuyente">
+                <span class="separator"></span>
                 <button mat-icon-button (click)="onCheckAllEgresos($event)" *ngIf="!allEgresosChecked">
                   <mat-icon matTooltip="Seleccionar" matTooltipPosition="above">check_box_outline_blank</mat-icon>
                 </button>

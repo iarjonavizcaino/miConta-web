@@ -10,8 +10,10 @@
     <div class="container">
       <div class="row">
         <div class="col-7">
-          <br>
-          <h3 class="">No. 316844775</h3>
+          <mat-form-field>
+            <mat-icon matPrefix>clear_all</mat-icon>
+            <input matInput type="text" placeholder="No." value="316844775">
+          </mat-form-field>
         </div>
         <div class="col-5">
           <mat-form-field>
@@ -64,7 +66,9 @@
       <br>
       <mat-card class="bg-card1">
         <mat-card-header>
-          <strong>Domicilio</strong>
+          <mat-card-title>
+            <strong>Domicilio</strong>
+          </mat-card-title>
         </mat-card-header>
         <mat-card-content>
           <div class="row">
@@ -144,10 +148,10 @@
         <hr>
         <div class="row" style="text-align: right;">
           <div class="col-9">
-            <strong>Total:</strong>
+            <h3><strong>Total:</strong></h3>
           </div>
           <div class="col-3">
-            <strong>{{total | currency:'USD':true:'2.2-4'}}</strong>
+            <h3><strong>{{total | currency:'USD':true:'2.2-4'}}</strong></h3>
           </div>
         </div>
         <br>
