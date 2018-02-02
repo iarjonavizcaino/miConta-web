@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialog, MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { RtAction, RtActionName, RtHeader } from '../../../components/rt-datatable/rt-datatable.component';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
@@ -57,9 +57,10 @@ export class NewBillComponent implements OnInit {
   currentState: any;
   filteredStates: Observable<any[]>;
   states = states;
-
+  ingresos = true;
   selectedItem: any;
-  constructor(private fb: FormBuilder, private dialogCtrl: MatDialog, private dialogRef: MatDialogRef<NewBillComponent>) {
+  // tslint:disable-next-line:max-line-length
+  constructor( @Inject(MAT_DIALOG_DATA) private data: any, private fb: FormBuilder, private dialogCtrl: MatDialog, private dialogRef: MatDialogRef<NewBillComponent>) {
     this.billForm = fb.group({
       status: [null, Validators.required],
       date: [null, Validators.required],
@@ -78,6 +79,8 @@ export class NewBillComponent implements OnInit {
   }
 
   ngOnInit() {
+    if (!this.data) { return; }
+    this.ingresos = this.data.ingresos;
     this.bill.date = moment(new Date()).format('L');
     this.filteredStates = this.billForm.get('state').valueChanges
       .startWith(null)

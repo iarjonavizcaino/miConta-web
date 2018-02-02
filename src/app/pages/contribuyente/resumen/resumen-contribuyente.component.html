@@ -108,6 +108,9 @@
         <rt-datatable (selected)="onIngresosSelected($event)" (checked)="onIngresosChecked($event)" [showRowNumber]="true" searchWait="600"
           [showRowNumber]="false" [headers]="headersIngresos" [action]="actionIngresos" [data]="dataIngresos">
           <section class="actions">
+            <button mat-icon-button (click)="onManualBillIngresos($event)">
+              <mat-icon matTooltip="Factura Manual" matTooltipPosition="above">add</mat-icon>
+            </button>
             <ng-container *ngIf="selectedIngresos">
               <button mat-icon-button (click)="onViewBillIngresos($event)">
                 <mat-icon matTooltip="Ver detalles" matTooltipPosition="above">visibility</mat-icon>
@@ -148,7 +151,7 @@
         <rt-datatable (selected)="onEgresosSelected($event)" (checked)="onEgresosChecked($event)" searchWait="600" [showRowNumber]="false"
           [headers]="headersEgresos" [action]="actionEgresos" [data]="dataEgresos">
           <section class="actions">
-            <button mat-icon-button (click)="onManualBill($event)">
+            <button mat-icon-button (click)="onManualBillEgresos($event)">
               <mat-icon matTooltip="Factura Manual" matTooltipPosition="above">add</mat-icon>
             </button>
             <ng-container *ngIf="selectedEgresos">

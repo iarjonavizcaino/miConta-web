@@ -78,14 +78,30 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.sub.unsubscribe();
   }
-  onManualBill(ev: any) {
+  onManualBillEgresos(ev: any) {
     this.stopPropagation(ev);
-    const dialogRef = this.dialogCtrl.open(NewBillComponent, {
-      disableClose: false,
-    });
+    const dialogRef = this.manualBill(false);
     dialogRef.afterClosed().subscribe((newBill) => {
+      if (!newBill) { return; }
       console.log('new bill', newBill);
       this.actionEgresos.next({ name: RtActionName.CREATE, newItem: newBill });
+    });
+  }
+  onManualBillIngresos(ev: any) {
+    this.stopPropagation(ev);
+    const dialogRef = this.manualBill(true);
+    dialogRef.afterClosed().subscribe((newBill) => {
+      if (!newBill) { return; }
+      console.log('new bill', newBill);
+      this.actionIngresos.next({ name: RtActionName.CREATE, newItem: newBill });
+    });
+  }
+  private manualBill(type: boolean) {
+    return this.dialogCtrl.open(NewBillComponent, {
+      disableClose: false,
+      data: {
+        ingresos: type
+      }
     });
   }
   onEgresosSelected(ev: any) {

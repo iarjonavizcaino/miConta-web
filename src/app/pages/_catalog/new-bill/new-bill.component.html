@@ -40,7 +40,8 @@
         <mat-card class="bg-card1">
           <mat-card-header>
             <mat-card-title>
-              <strong>Cliente / Proveedor</strong>
+              <strong *ngIf="ingresos">Cliente</strong>
+              <strong *ngIf="!ingresos">Proveedor</strong>              
             </mat-card-title>
           </mat-card-header>
           <mat-card-content>
@@ -48,7 +49,8 @@
               <div class="col-12">
                 <mat-form-field>
                   <mat-icon matPrefix>person</mat-icon>
-                  <input matInput placeholder="Cliente / Proveedor" [(ngModel)]="bill.customer.name" [formControl]="billForm.controls['name']">
+                  <input *ngIf="ingresos" matInput placeholder="Cliente" [(ngModel)]="bill.customer.name" [formControl]="billForm.controls['name']">                  
+                  <input *ngIf="!ingresos" matInput placeholder="Proveedor" [(ngModel)]="bill.customer.name" [formControl]="billForm.controls['name']">
                   <mat-error *ngIf="billForm.controls['name'].hasError('required')">
                     Campo
                     <strong>requerido</strong>
