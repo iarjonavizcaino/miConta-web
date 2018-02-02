@@ -46,8 +46,7 @@ export class PerfilesComponent implements OnInit {
       this.profileProv.create(profile).subscribe(data => {
         profile = data.profile;
         this.action.next({ name: RtActionName.CREATE, newItem: profile });
-        this.profileSelected = profile;
-        this.noti.success('Acción exitosa', `Nuevo perfil creado: ${this.profileSelected.name}`);
+        this.noti.success('Acción exitosa', `Nuevo perfil creado: ${profile.name}`);
       }, err => {
         this.noti.error('Error', `No se pudo crear el perfil`);
       });

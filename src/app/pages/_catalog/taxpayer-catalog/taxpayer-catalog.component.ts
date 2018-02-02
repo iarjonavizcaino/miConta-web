@@ -97,7 +97,7 @@ export class TaxpayerCatalogComponent implements OnInit {
       res.forEach((element) => {
         if (element.checked) {
           element.accountant = data;
-          this.action.next({name: RtActionName.DELETE, itemId: element._id, newItem: data});
+          this.action.next({name: RtActionName.DELETE, itemId: element._id });
         }
         element.checked = false;
       });

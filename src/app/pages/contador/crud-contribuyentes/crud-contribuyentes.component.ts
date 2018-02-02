@@ -135,7 +135,6 @@ export class CrudContribuyentesComponent implements OnInit {
       if (!data) { return; }
       // Make HTTP request to create contadores
       this.action.next({ name: RtActionName.CREATE, newItem: data }); // save data
-      this.selectedTaxpayer = data;
       const dialogRef = this.dialogCtrl.open(ConfirmComponent, {
         data: {
           title: 'Creedenciales de Acceso',

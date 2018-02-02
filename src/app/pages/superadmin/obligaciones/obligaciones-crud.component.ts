@@ -47,7 +47,6 @@ export class ObligacionesCrudComponent implements OnInit {
         obligation = data.obligation;
         this.action.next({ name: RtActionName.CREATE, newItem: obligation });
         this.noti.success('Acción exitosa', 'Nueva obligación creada');
-        this.obligationSelected = obligation;
       }, err => {
         this.noti.error('Error', 'No se pudo crear la obligación');
       });
@@ -85,8 +84,8 @@ export class ObligacionesCrudComponent implements OnInit {
       console.log(res);
       this.obligationProv.delete(this.obligationSelected._id).subscribe(data => {
         res = data.obligation;
-        this.action.next({ name: RtActionName.DELETE, itemId: this.obligationSelected._id });
         this.noti.success('Acción exitosa', 'Obligación eliminada');
+        this.action.next({ name: RtActionName.DELETE, itemId: this.obligationSelected._id });
         this.obligationSelected = null;
       }, err => {
         this.noti.error('Error', 'No se pudo modificar la obligación');

@@ -12,6 +12,7 @@ import { ModalNewStatementComponent } from '../modal-new-statement/modal-new-sta
 import { Observable } from 'rxjs/Observable';
 import { ModalConceptosComponent } from '../modal-conceptos/modal-conceptos.component';
 import { ModalObligacionesComponent } from '../modal-obligaciones/modal-obligaciones.component';
+import { ProfileProvider } from '../../../providers/providers';
 const RFC_REGEX = /^([A-ZÑ]{3,4}([0-9]{2})(0[1-9]|1[0-2])(0[1-9]|1[0-9]|2[0-9]|3[0-1]))([A-Z\d]{3})?$/;
 
 @Component({
@@ -66,17 +67,19 @@ export class ModalCrearContribuyenteComponent implements OnInit {
     private dialogRef: MatDialogRef<ModalCrearContribuyenteComponent>,
     @Inject(MAT_DIALOG_DATA) private data: any,
     private fb: FormBuilder,
-    private notification: NotificationsService
+    private notification: NotificationsService,
+    private profileProv: ProfileProvider
   ) {
     this.taxpayerForm = fb.group({
-      name: ['nuevo', Validators.required],
-      rfc: ['VECJ880326', Validators.compose([Validators.required, Validators.pattern(RFC_REGEX)])],
-      fiscal_regime: ['RIF', Validators.required],
+      name: ['', Validators.required],
+      rfc: ['', Validators.compose([Validators.required, Validators.pattern(RFC_REGEX)])],
+      fiscal_regime: ['', Validators.required],
       suspension_date: '',
       regimen_change: '',
       vigencia_fiel: [null, Validators.required],
       vigencia_sellos: [null, Validators.required],
-      password: ['null', Validators.required],
+      password: [null, Validators.required],
+      user: [null, Validators.required],
       profile: [null, Validators.required]
     });
   }
@@ -84,25 +87,26 @@ export class ModalCrearContribuyenteComponent implements OnInit {
   ngOnInit() {
     this.readonly = this.data.readonly;
     this.title = this.data.title;
-    console.log(this.data);
     if (this.data.taxPayer) {   // detail
       this.taxPayer = this.data.taxPayer;
-      this.statement = this.data.taxPayer.statement;
+      this.statement = this.data.taxPayer.statements;
       this.currentProfile = this.data.taxPayer.profile;
       this.concepts = this.currentProfile.concepts;
       this.obligations = this.currentProfile.obligations;
-      console.log(this.currentProfile);
     } else {
       // new taxpayer
       this.taxPayer = {
-        name: '',
+        socialReason: '',
         rfc: '',
-        fiscal_regime: '',
-        suspension_date: '',
-        regimen_change: '',
-        vigencia_fiel: '',
-        vigencia_sellos: '',
-        password: '',
+        fiscalRegime: '',
+        activitySuspension: '',
+        regimeChangey: '',
+        loyalValidity: '',
+        sealValidity: '',
+        account: {
+          user: '',
+          password: '',
+        },
         statement: [],
         profile: {
           name: '',
@@ -111,13 +115,14 @@ export class ModalCrearContribuyenteComponent implements OnInit {
         }
       };
       this.currentProfile = this.taxPayer.profile;
-      console.log('Nuevo');
     }
-    this.loadData();
-    this.filteredProfiles = this.taxpayerForm.get('profile').valueChanges
-      .startWith(null)
-      .map(profile => profile && typeof profile === 'object' ? profile.name : profile)
-      .map(name => name ? this.filterProfile(name) : this.profiles.slice());
+    this.profileProv.getAll().subscribe(data => {
+      this.profiles = data.profiles;
+      this.filteredProfiles = this.taxpayerForm.get('profile').valueChanges
+        .startWith(null)
+        .map(profile => profile && typeof profile === 'object' ? profile.name : profile)
+        .map(name => name ? this.filterProfile(name) : this.profiles.slice());
+    });
   }
 
   onChangeStatus(ev) {
@@ -188,7 +193,7 @@ export class ModalCrearContribuyenteComponent implements OnInit {
     this.currentProfile.concepts = this.concepts;
     this.currentProfile.obligations = this.obligations;
     this.taxPayer.profile = this.currentProfile;
-    this.taxPayer.fiscal_regime = this.regimen;
+    this.taxPayer.fiscalRegime = this.regimen;
     this.dialogRef.close(this.taxPayer);
   }
   onClose() {
@@ -263,130 +268,5 @@ export class ModalCrearContribuyenteComponent implements OnInit {
         readonly: true
       }
     });
-  }
-
-  loadData() {
-    this.profiles = [
-      {
-        _id: '1',
-        name: 'Tienda de abarrotes',
-        concepts: [
-          {
-            _id: '1',
-            code: '553686',
-            concept: 'Gasolina',
-            limit: 0.00
-          },
-          {
-            _id: '2',
-            code: '523536',
-            concept: 'Materiales de Limpieza',
-            limit: 0.00
-          }
-        ],
-        obligations: [
-          {
-            _id: '1',
-            type: 'Informativas',
-            // tslint:disable-next-line:max-line-length
-            description: 'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ex, aliquam porro itaque aperiam perspiciatis doloremque, facere blanditiis rem voluptate ad veniam placeat tempore quaerat facilis iusto obcaecati repellendus! Tempore, quas?'
-          },
-          {
-            _id: '2',
-            type: 'Plazos',
-            // tslint:disable-next-line:max-line-length
-            description: 'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ex, aliquam porro itaque aperiam perspiciatis doloremque, facere blanditiis rem voluptate ad veniam placeat tempore quaerat facilis iusto obcaecati repellendus! Tempore, quas?'
-          }
-        ]
-      },
-      {
-        _id: '2',
-        name: 'Papelería',
-        obligations: [
-          {
-            _id: '1',
-            type: 'Informativas',
-            // tslint:disable-next-line:max-line-length
-            description: 'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ex, aliquam porro itaque aperiam perspiciatis doloremque, facere blanditiis rem voluptate ad veniam placeat tempore quaerat facilis iusto obcaecati repellendus! Tempore, quas?'
-          },
-          {
-            _id: '2',
-            type: 'Plazos',
-            // tslint:disable-next-line:max-line-length
-            description: 'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ex, aliquam porro itaque aperiam perspiciatis doloremque, facere blanditiis rem voluptate ad veniam placeat tempore quaerat facilis iusto obcaecati repellendus! Tempore, quas?'
-          },
-          {
-            _id: '3',
-            type: 'Montos',
-            // tslint:disable-next-line:max-line-length
-            description: 'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ex, aliquam porro itaque aperiam perspiciatis doloremque, facere blanditiis rem voluptate ad veniam placeat tempore quaerat facilis iusto obcaecati repellendus! Tempore, quas?'
-          }
-        ],
-        concepts: [
-          {
-            _id: '3',
-            code: '112626',
-            concept: 'Consumibles de cómputo',
-            limit: 0.00
-          },
-          {
-            _id: '4',
-            code: '334168',
-            concept: 'Material eléctrico',
-            limit: 0.00
-          },
-          {
-            _id: '5',
-            code: '664173',
-            concept: 'Gasolina otra vez',
-            limit: 0.00
-          }
-        ]
-      },
-      {
-        _id: '3',
-        name: 'Farmacia',
-        concepts: [
-          {
-            _id: '1',
-            code: '553686',
-            concept: 'Gasolina',
-            limit: 0.00
-          },
-          {
-            _id: '2',
-            code: '523536',
-            concept: 'Materiales de Limpieza',
-            limit: 0.00
-          },
-          {
-            _id: '3',
-            code: '112626',
-            concept: 'Consumibles de cómputo',
-            limit: 0.00
-          },
-          {
-            _id: '4',
-            code: '334168',
-            concept: 'Material eléctrico',
-            limit: 0.00
-          },
-          {
-            _id: '5',
-            code: '664173',
-            concept: 'Gasolina otra vez',
-            limit: 0.00
-          }
-        ],
-        obligations: [
-          {
-            _id: '3',
-            type: 'Montos',
-            // tslint:disable-next-line:max-line-length
-            description: 'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ex, aliquam porro itaque aperiam perspiciatis doloremque, facere blanditiis rem voluptate ad veniam placeat tempore quaerat facilis iusto obcaecati repellendus! Tempore, quas?'
-          }
-        ]
-      }
-    ];
   }
 }

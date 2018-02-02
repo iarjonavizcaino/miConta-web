@@ -71,6 +71,12 @@
 }
 
 :host ::ng-deep {
+    .mat-icon {
+        color: #666;
+    }
+    .mat-expansion-panel-body{
+        overflow-x: hidden;
+    }
     mat-form-field {
         .mat-form-field-prefix {
             margin-right: 8px;

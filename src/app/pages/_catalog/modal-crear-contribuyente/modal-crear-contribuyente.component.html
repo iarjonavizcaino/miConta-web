@@ -10,20 +10,22 @@
     <form [formGroup]="taxpayerForm" (keydown)="key($event)">
       <div class="container">
         <div class="row">
-          <div class="col-12 col-md-6">
+          <div class="col-12">
             <mat-form-field>
               <mat-icon matPrefix>account_balance</mat-icon>
-              <input [readonly]="false" matInput placeholder="Razón Social" [(ngModel)]="taxPayer.name" [formControl]="taxpayerForm.controls['name']">
+              <input [readonly]="false" matInput required placeholder="Razón Social" [(ngModel)]="taxPayer.socialReason" [formControl]="taxpayerForm.controls['name']">
               <mat-error *ngIf="taxpayerForm.controls['name'].hasError('required')">
                 Campo
                 <strong>requerido</strong>
               </mat-error>
             </mat-form-field>
           </div>
+        </div>
+        <div class="row">
           <div class="col-12 col-md-6">
             <mat-form-field>
               <mat-icon matPrefix>work</mat-icon>
-              <input [readonly]="false" matInput placeholder="RFC" [(ngModel)]="taxPayer.rfc" [formControl]="taxpayerForm.controls['rfc']">
+              <input [readonly]="false" matInput required placeholder="RFC" [(ngModel)]="taxPayer.rfc" [formControl]="taxpayerForm.controls['rfc']">
               <mat-error *ngIf="taxpayerForm.controls['rfc'].hasError('required')">
                 Campo
                 <strong>requerido</strong>
@@ -34,21 +36,9 @@
               </mat-error>
             </mat-form-field>
           </div>
-        </div>
-        <div class="row">
           <div class="col-12 col-md-6">
             <mat-form-field>
-              <mat-icon matPrefix>lock</mat-icon>
-              <input [readonly]="false" type="password" matInput placeholder="Contraseña" [(ngModel)]="taxPayer.password" [formControl]="taxpayerForm.controls['password']">
-              <mat-error *ngIf="taxpayerForm.controls['password'].hasError('required')">
-                Campo
-                <strong>requerido</strong>
-              </mat-error>
-            </mat-form-field>
-          </div>
-          <div class="col-12 col-md-6">
-            <mat-form-field>
-              <mat-select placeholder="Régimen Fiscal" [(ngModel)]="regimen" [formControl]="taxpayerForm.controls['fiscal_regime']">
+              <mat-select placeholder="Régimen Fiscal" required [(ngModel)]="regimen" [formControl]="taxpayerForm.controls['fiscal_regime']">
                 <mat-option value="RIF">
                   RIF
                 </mat-option>
@@ -65,7 +55,7 @@
           <div class="col-12 col-md-6">
             <mat-form-field>
               <mat-icon matPrefix>today</mat-icon>
-              <input [(ngModel)]="taxPayer.vigencia_fiel" matInput [matDatepicker]="picker3" placeholder="Vigencia de fiel" [formControl]="taxpayerForm.controls['vigencia_fiel']">
+              <input [(ngModel)]="taxPayer.loyalValidity" required matInput [matDatepicker]="picker3" placeholder="Vigencia de fiel" [formControl]="taxpayerForm.controls['vigencia_fiel']">
               <mat-datepicker-toggle matSuffix [for]="picker3"></mat-datepicker-toggle>
               <mat-datepicker #picker3></mat-datepicker>
               <mat-error *ngIf="taxpayerForm.controls['vigencia_fiel'].hasError('required')">
@@ -78,7 +68,7 @@
           <div class="col-12 col-md-6">
             <mat-form-field>
               <mat-icon matPrefix>today</mat-icon>
-              <input [(ngModel)]="taxPayer.vigencia_sellos" matInput [matDatepicker]="picker4" placeholder="Vigencia de sellos" [formControl]="taxpayerForm.controls['vigencia_sellos']">
+              <input [(ngModel)]="taxPayer.sealValidity" required matInput [matDatepicker]="picker4" placeholder="Vigencia de sellos" [formControl]="taxpayerForm.controls['vigencia_sellos']">
               <mat-datepicker-toggle matSuffix [for]="picker4"></mat-datepicker-toggle>
               <mat-datepicker #picker4></mat-datepicker>
               <mat-error *ngIf="taxpayerForm.controls['vigencia_sellos'].hasError('required')">
@@ -150,7 +140,7 @@
               <mat-expansion-panel>
                 <mat-expansion-panel-header>
                   <mat-panel-title>
-                    Achivos
+                    Archivos
                   </mat-panel-title>
                   <mat-panel-description>
                     Fiel y Sellos
@@ -186,6 +176,35 @@
                 </div>
               </mat-expansion-panel>
             </mat-accordion>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12 col-md-12">
+            <br>
+            <h5 style="color:dimgrey">Cuenta de usuario</h5>
+            <hr>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12 col-md-6">
+            <mat-form-field>
+              <mat-icon matPrefix>person</mat-icon>
+              <input [readonly]="false" required matInput placeholder="Usuario" [(ngModel)]="taxPayer.account.user" [formControl]="taxpayerForm.controls['user']">
+              <mat-error *ngIf="taxpayerForm.controls['user'].hasError('required')">
+                Campo
+                <strong>requerido</strong>
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="col-12 col-md-6">
+            <mat-form-field>
+              <mat-icon matPrefix>vpn_key</mat-icon>
+              <input [readonly]="false" type="password" required matInput placeholder="Contraseña" [(ngModel)]="taxPayer.account.password" [formControl]="taxpayerForm.controls['password']">
+              <mat-error *ngIf="taxpayerForm.controls['password'].hasError('required')">
+                Campo
+                <strong>requerido</strong>
+              </mat-error>
+            </mat-form-field>
           </div>
         </div>
         <!-- <div class="row">
@@ -237,7 +256,7 @@
             <div class="col-12 col-md-6">
               <mat-form-field>
                 <mat-icon matPrefix>today</mat-icon>
-                <input [(ngModel)]="taxPayer.regimen_change" matInput [matDatepicker]="picker" placeholder="Suspensión de actividades" [formControl]="taxpayerForm.controls['regimen_change']">
+                <input [(ngModel)]="taxPayer.regimeChange" matInput [matDatepicker]="picker" placeholder="Suspensión de actividades" [formControl]="taxpayerForm.controls['regimen_change']">
                 <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                 <mat-datepicker #picker></mat-datepicker>
                 <mat-error *ngIf="taxpayerForm.controls['regimen_change'].hasError('required')">
@@ -249,7 +268,7 @@
             <div class="col-12 col-md-6">
               <mat-form-field>
                 <mat-icon matPrefix>today</mat-icon>
-                <input [(ngModel)]="taxPayer.suspension_date" matInput [matDatepicker]="picker2" placeholder="Cambio de régimen" [formControl]="taxpayerForm.controls['suspension_date']">
+                <input [(ngModel)]="taxPayer.activitySuspension" matInput [matDatepicker]="picker2" placeholder="Cambio de régimen" [formControl]="taxpayerForm.controls['suspension_date']">
                 <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
                 <mat-datepicker #picker2></mat-datepicker>
                 <mat-error *ngIf="taxpayerForm.controls['suspension_date'].hasError('required')">

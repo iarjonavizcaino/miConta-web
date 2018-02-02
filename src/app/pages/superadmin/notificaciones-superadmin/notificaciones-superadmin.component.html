@@ -5,7 +5,7 @@
   <li class="selected">Notificaciones</li>
 </ul>
 
-<rt-datatable (selected)="onMessageSelected($event)" [showRowNumber]="true" searchWait="600" [showRowNumber]="false" [headers]="headers"
+<rt-datatable (selected)="onMessageSelected($event)" searchWait="600" [showRowNumber]="true" [headers]="headers"
   [action]="action" [data]="data">
   <section class="actions">
     <button mat-icon-button (click)="onCreate($event)">
