@@ -46,12 +46,6 @@ import { Credentials, Employee, Role } from './types/types';
 
 // Providers
 import { Api } from '../app/providers/api';
-<<<<<<< HEAD
-// tslint:disable-next-line:max-line-length
-import { ConceptProvider, ObligationProvider, TaxpayerProvider, ProfileProvider, NotificationProvider, AccountantProvider, OfficeProvider } from './providers/providers';
-||||||| merged common ancestors
-import { ConceptProvider, ObligationProvider, TaxpayerProvider, ProfileProvider, NotificationProvider, AccountantProvider, OfficeProvider } from './providers/providers';
-=======
 import {
   ConceptProvider,
   ObligationProvider,
@@ -61,7 +55,6 @@ import {
   AccountantProvider,
   OfficeProvider
 } from './providers/providers';
->>>>>>> ab0baeb8bc301dc332a60e13910f9937223f9db1
 
 // Pages
 import { LoginComponent } from './pages/login/login.component';
