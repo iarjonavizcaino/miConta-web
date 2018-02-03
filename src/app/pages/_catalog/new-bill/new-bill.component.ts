@@ -62,7 +62,7 @@ export class NewBillComponent implements OnInit {
   // tslint:disable-next-line:max-line-length
   constructor( @Inject(MAT_DIALOG_DATA) private data: any, private fb: FormBuilder, private dialogCtrl: MatDialog, private dialogRef: MatDialogRef<NewBillComponent>) {
     this.billForm = fb.group({
-      status: [null, Validators.required],
+      status: '',
       date: [null, Validators.required],
       name: [null, Validators.required],
       rfc: ['VECJ880326', Validators.compose([Validators.required, Validators.pattern(RFC_REGEX)])],
@@ -116,6 +116,7 @@ export class NewBillComponent implements OnInit {
     }
   }
   onSave(ev: any) {
+    console.log(this.bill.active);
     this.stopPropagation(ev);
     if (this.bill.products.length === 0) {
       this.dialogCtrl.open(ConfirmComponent, {

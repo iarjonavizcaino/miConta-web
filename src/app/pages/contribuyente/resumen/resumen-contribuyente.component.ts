@@ -17,7 +17,8 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
     { name: 'Cliente', prop: 'customer.name', default: 'No customer' },
     { name: 'RFC', prop: 'customer.rfc', default: 'XXXX-XXX-XXXX' },
     { name: 'Tipo', prop: 'type', default: '', align: 'center', chip: true },
-    { name: 'Total', prop: 'total', default: '$ 0.00', align: 'right', accounting: true }
+    { name: 'Total', prop: 'total', default: '$ 0.00', align: 'right', accounting: true },
+    { name: 'Cobrada', prop: 'active', input: 'toggle' },
   ];
   headersEgresos: Array<RtHeader> = [
     { name: 'Fecha', prop: 'date', default: 'No date', moment: true },
@@ -25,7 +26,8 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
     { name: 'Proveedor', prop: 'customer.name', default: 'No customer' },
     // { name: 'RFC', prop: 'customer.rfc', default: 'XXXX-XXX-XXXX' },
     { name: 'Tipo de factura', prop: 'type', default: '', align: 'center', chip: true },
-    { name: 'Total', prop: 'total', default: '$ 0.00', align: 'right', accounting: true }
+    { name: 'Total', prop: 'total', default: '$ 0.00', align: 'right', accounting: true },
+    { name: 'Pagada', prop: 'active', input: 'toggle' },
   ];
 
   // ingresos
@@ -223,6 +225,7 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
   loadIngresosData() {
     this.dataIngresos = [
       {
+        active: true,
         type: 'XML',
         checked: false,
         total: 456,
@@ -267,6 +270,7 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
         ]
       },
       {
+        active: false,
         type: 'Manual',
         checked: false,
         total: 12500,
@@ -311,6 +315,7 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
         ]
       },
       {
+        active: false,
         type: 'Automática',
         checked: false,
         total: 70,
@@ -360,9 +365,10 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
   loadEgresosData() {
     this.dataEgresos = [
       {
-        status: 'Cobrado',
+        // status: 'Cobrado',
+        cobrada: true,
         type: 'Manual',
-        active: false,
+        active: true,
         provider: true,
         total: 1325,
         date: '09/19/1995',
@@ -406,7 +412,8 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
         ]
       },
       {
-        status: 'Pendiente',
+        cobrada: false,
+        // status: 'Pendiente',
         type: 'Automática',
         active: false,
         provider: true,
@@ -452,9 +459,10 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
         ]
       },
       {
-        status: 'Cobrado',
+        cobrada: true,
+        // status: 'Cobrado',
         type: 'XML',
-        active: false,
+        active: true,
         provider: true,
         total: 6931,
         date: '11/04/2015',

@@ -37,6 +37,7 @@ export class BillingCatalogComponent implements OnInit {
   infoBill: any = {
     date: '',
     total: 0,
+    active: false,
     customer: {
       name: '',
       rfc: '',
