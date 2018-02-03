@@ -28,7 +28,8 @@ export class InicioContadorComponent implements OnInit, OnDestroy {
   sub: any;
   contador: string;
   roleUp = '';
-  currentTaxpayer: string;
+  accountant: any;
+  currentAccountant: string;
   role = JSON.parse(localStorage.getItem('user')).role.name;
 
   constructor(
@@ -51,13 +52,15 @@ export class InicioContadorComponent implements OnInit, OnDestroy {
       });
 
     if (this.role === 'superadmin' || this.role === 'despacho') {
-      this.currentTaxpayer = this.contador;
+      this.currentAccountant = this.contador;
     } else {
-      this.currentTaxpayer = '5a74d57a4782953e679e8097';
+      // this.currentAccountant = '5a729a82c341ec187cee82f7';
+      this.currentAccountant = '5a74d57a4782953e679e8097';
     }
 
-    this.taxpayerProv.getAll().subscribe(data => {
-      this.data = data.taxpayers;
+    this.accountantProv.getById(this.currentAccountant).subscribe(data => {
+      this.accountant = data.accountant;
+      this.data = this.accountant.taxpayers;
     });
     this.setBgCard('1');
   }
@@ -96,7 +99,7 @@ export class InicioContadorComponent implements OnInit, OnDestroy {
       this.taxpayerProv.create(taxpayer).subscribe(data => {
         taxpayer = data.taxpayer;
         // tslint:disable-next-line:no-shadowed-variable
-        this.accountantProv.addTaxpayer(taxpayer._id, this.currentTaxpayer).subscribe(data => {
+        this.accountantProv.addTaxpayer(taxpayer._id, this.currentAccountant).subscribe(data => {
           console.log(data.office);
         });
         console.log(taxpayer);
@@ -134,7 +137,7 @@ export class InicioContadorComponent implements OnInit, OnDestroy {
       this.taxpayerProv.delete(this.selectedTaxpayer._id).subscribe(data => {
         res = data.taxpayer;
         // tslint:disable-next-line:no-shadowed-variable
-        this.accountantProv.addTaxpayer(res._id, this.currentTaxpayer).subscribe(data => {
+        this.accountantProv.addTaxpayer(res._id, this.currentAccountant).subscribe(data => {
           console.log(data.office);
         });
         this.notification.success('Acción exitosa', `Contribuyente ${this.selectedTaxpayer.socialReason} eliminado`);

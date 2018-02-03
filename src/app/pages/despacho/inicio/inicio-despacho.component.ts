@@ -32,6 +32,7 @@ export class InicioDespachoComponent implements OnInit, OnDestroy {
   action = new Subject<RtAction>();
   roleUp = '';
   currentOffice: string;
+  office: any;
   role = JSON.parse(localStorage.getItem('user')).role.name;
 
   constructor(
@@ -48,7 +49,6 @@ export class InicioDespachoComponent implements OnInit, OnDestroy {
     this.sub = this.route
       .queryParams
       .subscribe(params => {
-        console.log('params', params);
         // tslint:disable-next-line:triple-equals
         if (params.name != 0) {
           this.despacho = params.name;
@@ -58,12 +58,18 @@ export class InicioDespachoComponent implements OnInit, OnDestroy {
     if (this.role === 'superadmin') {
       this.currentOffice = this.despacho;
     } else {
+      // this.currentOffice = '5a729092c341ec187cee82f3';
       this.currentOffice = '5a724aaa9b3e2d36e2d9917c';
     }
 
-    this.accountantProv.getAll().subscribe(data => {
-      this.data = data.accountants;
+    this.officeProv.getById(this.currentOffice).subscribe(data => {
+      this.office = data.office;
+      this.data = this.office.accountants;
     });
+
+    // this.accountantProv.getAll().subscribe(data => {
+    //   this.data = data.accountants;
+    // });
     this.setBgCard('1');
   }
 

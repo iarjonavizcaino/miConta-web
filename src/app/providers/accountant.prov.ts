@@ -12,6 +12,10 @@ export class AccountantProvider {
     return this.api.get(`${this.base}`);
   }
 
+  getById(_id: string) {
+    return this.api.get(`${this.base}${_id}`);
+  }
+
   create(accountant: any) {
     return this.api.post(`${this.base}`, accountant);
   }

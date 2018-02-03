@@ -12,6 +12,10 @@ export class OfficeProvider {
     return this.api.get(`${this.base}`);
   }
 
+  getById(_id: string) {
+    return this.api.get(`${this.base}${_id}`);
+  }
+
   create(office: any) {
     return this.api.post(`${this.base}`, office);
   }
