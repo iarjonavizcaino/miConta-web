@@ -119,7 +119,7 @@ export class InicioSuperadminComponent implements OnInit {
 
   onDespachoDetail(ev: any) {
     this.stopPropagation(ev);
-    this.router.navigate(['/despacho/inicio'], { queryParams: { name: this.despachoSelected._id } });
+    this.router.navigate(['/despacho/inicio'], { queryParams: { _id: this.despachoSelected._id, name: this.despachoSelected.name } });
   }
 
   onDespachoSelected(ev: any) {

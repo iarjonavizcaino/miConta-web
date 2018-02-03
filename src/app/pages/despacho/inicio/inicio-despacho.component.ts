@@ -45,6 +45,7 @@ export class InicioDespachoComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
+    let idDespacho;
     this.roleUp = JSON.parse(localStorage.getItem('user')).role.name;
     this.sub = this.route
       .queryParams
@@ -52,11 +53,12 @@ export class InicioDespachoComponent implements OnInit, OnDestroy {
         // tslint:disable-next-line:triple-equals
         if (params.name != 0) {
           this.despacho = params.name;
+          idDespacho = params._id;
         }
       });
 
     if (this.role === 'superadmin') {
-      this.currentOffice = this.despacho;
+      this.currentOffice = idDespacho;
     } else {
       // this.currentOffice = '5a729092c341ec187cee82f3';
       this.currentOffice = '5a724aaa9b3e2d36e2d9917c';
@@ -219,7 +221,7 @@ export class InicioDespachoComponent implements OnInit, OnDestroy {
     // this.stopPropagation(ev);
     // see page as Contador
     console.log(this.selectedAccountant.name);
-    this.router.navigate(['/contador/inicio'], { queryParams: { name: this.selectedAccountant.name } });
+    this.router.navigate(['/contador/inicio'], { queryParams: { _id: this.selectedAccountant._id, name: this.selectedAccountant.name } });
   }
 
   onContadorSelected(ev) {

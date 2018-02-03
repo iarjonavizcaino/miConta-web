@@ -41,6 +41,7 @@ export class InicioContadorComponent implements OnInit, OnDestroy {
     private accountantProv: AccountantProvider) { }
 
   ngOnInit() {
+    let idAccountant;
     this.roleUp = JSON.parse(localStorage.getItem('user')).role.name;
     this.sub = this.route
       .queryParams
@@ -48,11 +49,12 @@ export class InicioContadorComponent implements OnInit, OnDestroy {
         // tslint:disable-next-line:triple-equals
         if (params.name != 0) {
           this.contador = params.name;
+          idAccountant = params._id;
         }
       });
 
     if (this.role === 'superadmin' || this.role === 'despacho') {
-      this.currentAccountant = this.contador;
+      this.currentAccountant = idAccountant;
     } else {
       // this.currentAccountant = '5a729a82c341ec187cee82f7';
       this.currentAccountant = '5a74d57a4782953e679e8097';
