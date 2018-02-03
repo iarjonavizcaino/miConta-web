@@ -83,8 +83,10 @@ export class InicioContadorComponent implements OnInit, OnDestroy {
       if (!taxpayer) { return; }
       // Make HTTP request to create contadores
       this.taxpayerProv.create(taxpayer).subscribe(data => {
-        taxpayer = data.taxPayer;
+        taxpayer = data.taxpayer;
+        console.log(taxpayer);
         this.action.next({ name: RtActionName.CREATE, newItem: taxpayer });
+        console.log('after');
         const dialogRef2 = this.dialogCtrl.open(ConfirmComponent, {
           data: {
             title: 'Creedenciales de Acceso',
@@ -92,6 +94,7 @@ export class InicioContadorComponent implements OnInit, OnDestroy {
             type: 'warn'
           }
         });
+        console.log('hola');
         // tslint:disable-next-line:no-shadowed-variable
         dialogRef2.afterClosed().subscribe((data) => {
           this.notification.success('Acción exitosa', `Nuevo contribuyente creado: ${taxpayer.socialReason}`);
