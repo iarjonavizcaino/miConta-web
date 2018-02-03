@@ -8,7 +8,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { NotificationsService } from 'angular2-notifications';
 import { ModalAsignarContribComponent } from '../../_catalog/modal-asignar-contrib/modal-asignar-contrib.component';
 import { TaxpayerCatalogComponent } from '../../_catalog/taxpayer-catalog/taxpayer-catalog.component';
-import { AccountantProvider } from '../../../providers/providers';
+import { AccountantProvider, OfficeProvider } from '../../../providers/providers';
 
 @Component({
   selector: 'app-inicio-despacho',
@@ -31,12 +31,16 @@ export class InicioDespachoComponent implements OnInit, OnDestroy {
   data = [];
   action = new Subject<RtAction>();
   roleUp = '';
+  currentOffice: string;
+  role = JSON.parse(localStorage.getItem('user')).role.name;
+
   constructor(
     private notification: NotificationsService,
     private router: Router,
     private dialogCtrl: MatDialog,
     private route: ActivatedRoute,
-    private accountantProv: AccountantProvider
+    private accountantProv: AccountantProvider,
+    private officeProv: OfficeProvider
   ) { }
 
   ngOnInit() {
@@ -50,6 +54,12 @@ export class InicioDespachoComponent implements OnInit, OnDestroy {
           this.despacho = params.name;
         }
       });
+
+    if (this.role === 'superadmin') {
+      this.currentOffice = this.despacho;
+    } else {
+      this.currentOffice = '5a724aaa9b3e2d36e2d9917c';
+    }
 
     this.accountantProv.getAll().subscribe(data => {
       this.data = data.accountants;
@@ -70,6 +80,10 @@ export class InicioDespachoComponent implements OnInit, OnDestroy {
       // Make HTTP request to create contadores
       this.accountantProv.create(accountant).subscribe(data => {
         accountant = data.accountant;
+        // tslint:disable-next-line:no-shadowed-variable
+        this.officeProv.addAccountant(accountant._id, this.currentOffice).subscribe(data => {
+          console.log(data.office);
+        });
         // accountant.taxpayer = { total: 0, declarados: 0, no_declarados: 0, fuera_de_limite: 0 };
         this.action.next({ name: RtActionName.CREATE, newItem: accountant }); // save data
         const dialogRef2 = this.dialogCtrl.open(ConfirmComponent, {
@@ -162,6 +176,10 @@ export class InicioDespachoComponent implements OnInit, OnDestroy {
       if (!res) { return; }
       this.accountantProv.delete(this.selectedAccountant._id).subscribe(data => {
         res = data.accountant;
+        // tslint:disable-next-line:no-shadowed-variable
+        this.officeProv.addAccountant(res._id, this.currentOffice).subscribe(data => {
+          console.log(data.office);
+        });
         this.notification.success('Acción exitosa', `Contador ${this.selectedAccountant.name} eliminado`);
         this.action.next({ name: RtActionName.DELETE, itemId: this.selectedAccountant._id });
       }, err => {

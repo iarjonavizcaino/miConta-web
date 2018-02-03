@@ -20,6 +20,14 @@ export class OfficeProvider {
     return this.api.put(`${this.base}${office._id}`, office);
   }
 
+  addAccountant(accountant: any, office: string) {
+    return this.api.put(`${this.base}addAccountant/${office}`, { accountant });
+  }
+
+  removeAccountant(accountant: any, office: string) {
+    return this.api.put(`${this.base}removeAccountant/${office}`, { accountant });
+  }
+
   delete(id: string) {
     return this.api.delete(`${this.base}${id}`);
   }

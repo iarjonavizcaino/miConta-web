@@ -20,6 +20,14 @@ export class AccountantProvider {
     return this.api.put(`${this.base}${accountant._id}`, accountant);
   }
 
+  addTaxpayer(taxpayer: any, accountant: string) {
+    return this.api.put(`${this.base}addAccountant/${accountant}`, { taxpayer });
+  }
+
+  removeTaxpayer(taxpayer: any, accountant: string) {
+    return this.api.put(`${this.base}removeAccountant/${accountant}`, { taxpayer });
+  }
+
   delete(id: string) {
     return this.api.delete(`${this.base}${id}`);
   }

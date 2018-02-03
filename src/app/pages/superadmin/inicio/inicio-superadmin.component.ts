@@ -111,14 +111,15 @@ export class InicioSuperadminComponent implements OnInit {
       disableClose: false,
       data: {
         title: title,
-        accountant: despacho
+        accountant: despacho,
+        office: true
       }
     });
   }
 
   onDespachoDetail(ev: any) {
     this.stopPropagation(ev);
-    this.router.navigate(['/despacho/inicio'], { queryParams: { name: this.despachoSelected.name } });
+    this.router.navigate(['/despacho/inicio'], { queryParams: { name: this.despachoSelected._id } });
   }
 
   onDespachoSelected(ev: any) {

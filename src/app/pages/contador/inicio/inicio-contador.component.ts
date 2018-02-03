@@ -7,7 +7,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { ConfirmComponent } from '../../../components/confirm/confirm.component';
 import { NotificationsService } from 'angular2-notifications';
 import { UploadXmlComponent } from '../../_catalog/upload-xml/upload-xml.component';
-import { TaxpayerProvider } from '../../../providers/providers';
+import { TaxpayerProvider, AccountantProvider } from '../../../providers/providers';
 
 @Component({
   selector: 'app-inicio-contador',
@@ -28,12 +28,16 @@ export class InicioContadorComponent implements OnInit, OnDestroy {
   sub: any;
   contador: string;
   roleUp = '';
+  currentTaxpayer: string;
+  role = JSON.parse(localStorage.getItem('user')).role.name;
+
   constructor(
     private router: Router,
     private dialogCtrl: MatDialog,
     private notification: NotificationsService,
     private route: ActivatedRoute,
-    private taxpayerProv: TaxpayerProvider) { }
+    private taxpayerProv: TaxpayerProvider,
+    private accountantProv: AccountantProvider) { }
 
   ngOnInit() {
     this.roleUp = JSON.parse(localStorage.getItem('user')).role.name;
@@ -45,6 +49,13 @@ export class InicioContadorComponent implements OnInit, OnDestroy {
           this.contador = params.name;
         }
       });
+
+    if (this.role === 'superadmin' || this.role === 'despacho') {
+      this.currentTaxpayer = this.contador;
+    } else {
+      this.currentTaxpayer = '5a74d57a4782953e679e8097';
+    }
+
     this.taxpayerProv.getAll().subscribe(data => {
       this.data = data.taxpayers;
     });
@@ -84,6 +95,10 @@ export class InicioContadorComponent implements OnInit, OnDestroy {
       // Make HTTP request to create contadores
       this.taxpayerProv.create(taxpayer).subscribe(data => {
         taxpayer = data.taxpayer;
+        // tslint:disable-next-line:no-shadowed-variable
+        this.accountantProv.addTaxpayer(taxpayer._id, this.currentTaxpayer).subscribe(data => {
+          console.log(data.office);
+        });
         console.log(taxpayer);
         this.action.next({ name: RtActionName.CREATE, newItem: taxpayer });
         console.log('after');
@@ -118,6 +133,10 @@ export class InicioContadorComponent implements OnInit, OnDestroy {
       if (!res) { return; }
       this.taxpayerProv.delete(this.selectedTaxpayer._id).subscribe(data => {
         res = data.taxpayer;
+        // tslint:disable-next-line:no-shadowed-variable
+        this.accountantProv.addTaxpayer(res._id, this.currentTaxpayer).subscribe(data => {
+          console.log(data.office);
+        });
         this.notification.success('Acción exitosa', `Contribuyente ${this.selectedTaxpayer.socialReason} eliminado`);
         this.action.next({ name: RtActionName.DELETE, itemId: this.selectedTaxpayer._id });
       });
