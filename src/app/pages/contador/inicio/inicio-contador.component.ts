@@ -56,8 +56,8 @@ export class InicioContadorComponent implements OnInit, OnDestroy {
     if (this.role === 'superadmin' || this.role === 'despacho') {
       this.currentAccountant = idAccountant;
     } else {
-      // this.currentAccountant = '5a729a82c341ec187cee82f7';
-      this.currentAccountant = '5a74d57a4782953e679e8097';
+      // this.currentAccountant = '5a74d57a4782953e679e8097';
+      this.currentAccountant = '5a75dff5938abf6cf488412b';
     }
 
     this.accountantProv.getById(this.currentAccountant).subscribe(data => {
