@@ -59,8 +59,8 @@ export class ModalProfilesComponent implements OnInit {
 
   ngOnInit() {
 
+    this.title = this.data.title;
     if (this.data.profile) {
-      this.title = this.data.title;
       this.profile = this.data.profile;
     } else {
       this.profile = {
