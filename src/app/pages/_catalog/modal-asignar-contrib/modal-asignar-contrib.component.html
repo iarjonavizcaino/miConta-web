@@ -16,13 +16,14 @@
       <form class="example-form" [formGroup]="accountantForm" (keydown)="key($event)">
         <mat-form-field class="example-full-width">
           <mat-icon matPrefix>person</mat-icon>
-          <input type="text" required placeholder="Nuevo contador" matInput 
-            [formControl]="accountantForm.controls['accountant']" [matAutocomplete]="auto"
+          <input type="text" required placeholder="Nuevo contador" matInput [formControl]="accountantForm.controls['accountant']" [matAutocomplete]="auto"
             [(ngModel)]="selectedAccountant">
           <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFnAccountant">
-            <mat-option *ngFor="let option of filteredAccountants | async" [value]="option">
-              {{ option.accountant }}
-            </mat-option>
+            <ng-container *ngFor="let option of filteredAccountants | async">
+              <mat-option [value]="option" *ngIf="option._id !== currentAccountant">
+                {{ option.name }}
+              </mat-option>
+            </ng-container>
           </mat-autocomplete>
           <mat-error *ngIf="accountantForm.controls['accountant'].hasError('required')">
             Campo

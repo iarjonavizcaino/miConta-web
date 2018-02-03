@@ -25,11 +25,15 @@ export class AccountantProvider {
   }
 
   addTaxpayer(taxpayer: any, accountant: string) {
-    return this.api.put(`${this.base}addAccountant/${accountant}`, { taxpayer });
+    return this.api.put(`${this.base}addTaxpayer/${accountant}`, { taxpayer });
   }
 
   removeTaxpayer(taxpayer: any, accountant: string) {
-    return this.api.put(`${this.base}removeAccountant/${accountant}`, { taxpayer });
+    return this.api.put(`${this.base}removeTaxpayer/${accountant}`, { taxpayer });
+  }
+
+  reasignTaxpayers(taxpayers: any, currentAccountant: string, newAccountant) {
+    return this.api.put(`${this.base}reasignTaxpayers/${currentAccountant}/${newAccountant}`, { taxpayers });
   }
 
   delete(id: string) {

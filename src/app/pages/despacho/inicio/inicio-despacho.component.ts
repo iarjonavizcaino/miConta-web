@@ -113,7 +113,10 @@ export class InicioDespachoComponent implements OnInit, OnDestroy {
 
   onReasignTaxpayer(ev) {
     this.stopPropagation(ev);
-    this.taxPayersListModal(this.selectedAccountant.taxpayers, 'Contribuyentes asociados');
+    console.log(this.selectedAccountant);
+    this.accountantProv.getById(this.selectedAccountant._id).subscribe(data => {
+      this.taxPayersListModal(data.accountant.taxpayers, 'Contribuyentes asociados');
+    });
   }
 
   onRowChecked(ev: RtCheckEvent) {
@@ -212,7 +215,9 @@ export class InicioDespachoComponent implements OnInit, OnDestroy {
       disableClose: false,
       data: {
         title: title,
-        taxpayer: taxpayer
+        taxpayer: taxpayer,
+        accountant: this.selectedAccountant._id,
+        office: this.currentOffice
       }
     });
   }

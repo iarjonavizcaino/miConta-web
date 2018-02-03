@@ -5,6 +5,7 @@ import { RtAction, RtActionName, RtHeader } from '../../../components/rt-datatab
 import { NotificationsService } from 'angular2-notifications';
 import { MatDialog, MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { ModalAsignarContribComponent } from '../modal-asignar-contrib/modal-asignar-contrib.component';
+import { AccountantProvider } from '../../../providers/providers';
 
 @Component({
   selector: 'app-taxpayer-catalog',
@@ -17,12 +18,13 @@ export class TaxpayerCatalogComponent implements OnInit {
   taxpayers = [];
   checkedTaxpayers = 0;
   selectedTaxpayer: any;
+  currentAccountant: string;
 
   headers: Array<RtHeader> = [
     { name: 'Seleccionar', prop: 'checked', input: 'checkbox', width: '17' },
-    { name: 'Contribuyente', prop: 'name', default: 'Sin nombre', width: '20' },
+    { name: 'Contribuyente', prop: 'socialReason', default: 'Sin nombre', width: '20' },
     { name: 'RFC', prop: 'rfc', default: '####', width: '20' },
-    { name: 'Régimen Fiscal', prop: 'fiscal_regime', default: 'Sin régimen', width: '20' }
+    { name: 'Régimen Fiscal', prop: 'fiscalRegime', default: 'Sin régimen', width: '20' }
   ];
   action = new Subject<RtAction>();
   title: string;
@@ -31,11 +33,13 @@ export class TaxpayerCatalogComponent implements OnInit {
     private notify: NotificationsService,
     private dialogCtrl: MatDialog,
     private dialogRef: MatDialogRef<TaxpayerCatalogComponent>,
-    @Inject(MAT_DIALOG_DATA) private data: any
+    @Inject(MAT_DIALOG_DATA) private data: any,
+    private accountantProv: AccountantProvider
   ) { }
 
   ngOnInit() {
     this.title = this.data.title || 'Título del modal';
+    this.currentAccountant = this.data.accountant;
     if (this.data.taxpayer) {
       this.taxpayers = this.data.taxpayer;
     }
@@ -90,16 +94,26 @@ export class TaxpayerCatalogComponent implements OnInit {
 
   onChange(ev) {
     this.stopPropagation(ev);
+    const newTaxpayers = [];
     const dialogRef = this.reasignModal('Contribuyentes asociados');
     dialogRef.afterClosed().subscribe((data) => {
       if (!data) { return; }
       const res = this.taxpayers.slice();
       res.forEach((element) => {
         if (element.checked) {
-          element.accountant = data;
-          this.action.next({name: RtActionName.DELETE, itemId: element._id });
+          newTaxpayers.push(element._id);
+          // element.accountant = data;
+          // this.action.next({name: RtActionName.DELETE, itemId: element._id });
         }
         element.checked = false;
+      });
+      // tslint:disable-next-line:no-shadowed-variable
+      this.accountantProv.reasignTaxpayers(newTaxpayers, this.currentAccountant, data._id).subscribe(data => {
+        console.log(data.accountant);
+        this.taxpayers = data.accountant.taxpayers;
+        this.notify.success('Acción Exitosa', 'Los contribuyentes se ha reasignado correctamente');
+      }, err => {
+        this.notify.error('Error', 'Ocurrió un error al reasignar los contribuyentes');
       });
     });
   }
@@ -110,7 +124,9 @@ export class TaxpayerCatalogComponent implements OnInit {
       data: {
         title: title,
         todayAccontant: this.selectedTaxpayer ? this.selectedTaxpayer.accountant : '',
-        selectedAll: this.allChecked
+        selectedAll: this.allChecked,
+        office: this.data.office,
+        accountant: this.currentAccountant
       }
     });
   }
