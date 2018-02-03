@@ -37,8 +37,8 @@ export class ModalProfilesComponent implements OnInit {
   actionConcepts = new Subject<RtAction>();
 
   headersObligations: Array<RtHeader> = [
-    { name: 'Tipo', prop: 'type', default: '', width: '15' },
-    { name: 'Descripción', prop: 'description', default: '', width: '75' },
+    { name: 'Tipo', prop: 'type', default: '', width: '20' },
+    { name: 'Nombre', prop: 'name', default: '', width: '70' },
   ];
   actionObligations = new Subject<RtAction>();
 

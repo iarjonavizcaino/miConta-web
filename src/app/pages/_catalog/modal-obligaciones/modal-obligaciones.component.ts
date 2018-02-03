@@ -20,6 +20,7 @@ export class ModalObligacionesComponent implements OnInit {
     private fb: FormBuilder
   ) {
     this.obligationForm = fb.group({
+      'name': [null, Validators.required],
       'type': [null, Validators.required],
       'description': [null, Validators.required],
     });
@@ -33,6 +34,7 @@ export class ModalObligacionesComponent implements OnInit {
       this.obligation = this.data.obligation;
     } else {
       this.obligation = {
+        name: '',
         type: '',
         description: ''
       };

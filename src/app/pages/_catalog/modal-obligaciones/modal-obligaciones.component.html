@@ -28,6 +28,12 @@
             </mat-form-field>
           </div>
           <div class="col-12">
+              <mat-form-field>
+                <mat-icon matPrefix>comment</mat-icon>
+                <input [readonly]="readonly" required formControlName="name" [(ngModel)]="obligation.name" matInput placeholder="Nombre">
+              </mat-form-field>
+            </div>
+          <div class="col-12">
             <mat-form-field>
               <mat-icon matPrefix>comment</mat-icon>
               <textarea [readonly]="readonly" required formControlName="description" [(ngModel)]="obligation.description" matInput placeholder="Descripción"

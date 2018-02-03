@@ -76,7 +76,7 @@
               <mat-autocomplete #obligation="matAutocomplete" [displayWith]="displayFnObligation">
                 <mat-option *ngFor="let option of filteredObligations | async" [value]="option" (keydown)="keyObligation($event)" (blur)="addObligation()">
                   <small>{{ option.type }}</small> |
-                  <small>{{option.description}}</small>
+                  <small>{{option.name}}</small>
                 </mat-option>
               </mat-autocomplete>              
             </mat-form-field>

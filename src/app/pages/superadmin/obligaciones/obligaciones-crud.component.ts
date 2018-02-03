@@ -15,7 +15,8 @@ import { ObligationProvider } from '../../../providers/providers';
 export class ObligacionesCrudComponent implements OnInit {
   headers: Array<RtHeader> = [
     { name: 'Tipo', prop: 'type', default: '', width: '12' },
-    { name: 'Descripción', prop: 'description', default: '', width: '78' },
+    { name: 'Nombre', prop: 'name', default: '', width: '20' },
+    { name: 'Descripción', prop: 'description', default: '', width: '58' },
   ];
   obligationSelected: any;
   data = [];
