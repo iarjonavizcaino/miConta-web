@@ -113,8 +113,8 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
         ev.data.checked = true;
         this.checkedEgresos++;
       }
-      this.selectedEgresos = ev.data;
     }
+    this.selectedEgresos = ev.data;
   }
   onEgresosChecked(ev: any) {
     if (!ev.item.checked) {
@@ -152,8 +152,8 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
         ev.data.checked = true;
         this.checkedIngresos++;
       }
-      this.selectedIngresos = ev.data;
     }
+    this.selectedIngresos = ev.data;
   }
   onIngresosChecked(ev: any) {
     if (!ev.item.checked) {
@@ -267,7 +267,7 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
         ]
       },
       {
-        type: 'MANUAL',
+        type: 'Manual',
         checked: false,
         total: 12500,
         date: '02/02/1995',
@@ -311,7 +311,7 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
         ]
       },
       {
-        type: 'AUTOMATICA',
+        type: 'Automática',
         checked: false,
         total: 70,
         date: '03/03/1995',
@@ -361,7 +361,7 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
     this.dataEgresos = [
       {
         status: 'Cobrado',
-        type: 'MANUAL',
+        type: 'Manual',
         active: false,
         provider: true,
         total: 1325,
@@ -407,7 +407,7 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
       },
       {
         status: 'Pendiente',
-        type: 'AUTOMATICA',
+        type: 'Automática',
         active: false,
         provider: true,
         total: 3518,

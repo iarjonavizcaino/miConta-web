@@ -1,4 +1,9 @@
 :host ::ng-deep {
+    mat-icon{
+        color: #666;
+        padding-bottom: 0;
+    }
+    
     mat-form-field {
         width: 100%;
         .mat-form-field-prefix {
@@ -13,3 +18,30 @@
         overflow-x: hidden;
     }
 }
+
+.file-picker {
+
+    .file-btn {
+        position: relative;
+        display: inline-block;
+        overflow: hidden;
+        padding: 8px 16px;
+        border-radius: 4px;
+        border: 1px solid #ccc;
+
+        .picker {
+            position: absolute;
+            left: 0;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            opacity: 0;
+        }
+    }
+
+    .filename {
+        display: block;
+        color: #444;
+    }
+}
+

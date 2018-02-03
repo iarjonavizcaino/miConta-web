@@ -72,6 +72,7 @@ export class ModalCrearContribuyenteComponent implements OnInit {
   ) {
     this.taxpayerForm = fb.group({
       name: ['', Validators.required],
+      socialReason: ['', Validators.required],
       rfc: ['', Validators.compose([Validators.required, Validators.pattern(RFC_REGEX)])],
       fiscal_regime: ['', Validators.required],
       suspension_date: '',
@@ -96,6 +97,7 @@ export class ModalCrearContribuyenteComponent implements OnInit {
     } else {
       // new taxpayer
       this.taxPayer = {
+        name: '',
         socialReason: '',
         rfc: '',
         fiscalRegime: '',

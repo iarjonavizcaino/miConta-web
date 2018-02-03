@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NotificationsService } from 'angular2-notifications';
+import { TaxpayerProvider } from '../../../providers/providers';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-mis-datos',
@@ -12,29 +14,47 @@ export class MisDatosComponent implements OnInit {
   sealFile: any;
   loyalFile: any;
 
-  user: any = {
-    name: 'Denis Adrían Jimnénez',
-    rfc: 'XXXX-XXX-XXXX',
-    address: {
-      street: 'Blvd. Colosio',
-      number: '95',
-      neighborhood: 'Centro',
-      zipcode: '63121',
-      city: 'Tepic',
-      municipality: 'Tepic',
-      state: 'Nayarit'
-    },
-    socialReason: 'Evolución',
-    pass: 'denis'
-  };
-  constructor(private notification: NotificationsService) { }
+  taxpayer: any;
+
+  currentPass: string;
+  newPass: string;
+
+  constructor(
+    private notification: NotificationsService,
+    private taxpayerProv: TaxpayerProvider,
+    private route: ActivatedRoute
+  ) { }
 
   ngOnInit() {
+    this.route.data.subscribe((data: { taxpayer: any}) => {
+      if (data.taxpayer) {
+        this.taxpayer = data.taxpayer;
+      }
+    });
   }
 
-  showNotification() {
-    this.notification.success('Acción exitosa', 'Se guardo actualizo correctamente');
+  updateTaxpayer() {
+    this.taxpayerProv.update(this.taxpayer).subscribe(data => {
+      console.log(data.taxpayer);
+      this.notification.success('Acción exitosa', 'Los datos se actualizaron correctamente');
+    }, err => {
+      this.notification.error('Error', 'Ocurrió un error al actualizar los datos');
+    });
   }
+
+  updatePassword() {
+    this.taxpayer.account.password = this.newPass;
+    this.taxpayer.account.oldPass = this.currentPass;
+    this.taxpayerProv.updatePassword(this.taxpayer).subscribe(data => {
+      this.taxpayer = data.taxpayer;
+      this.notification.success('Acción exitosa', 'La contraseña se actualizó correctamente');
+    }, err => {
+      const error = JSON.parse(err._body);
+      this.notification.error('Error', error.message);
+    });
+
+  }
+
   onLoyalFile(ev) {
     this.loyalFile = ev.target.files[0];
   }

@@ -91,7 +91,7 @@ export class InicioDespachoComponent implements OnInit, OnDestroy {
 
   onReasignTaxpayer(ev) {
     this.stopPropagation(ev);
-    this.taxPayersListModal(this.selectedAccountant.taxpayer.taxpayers, 'Contribuyentes asociados');
+    this.taxPayersListModal(this.selectedAccountant.taxpayers, 'Contribuyentes asociados');
   }
 
   onRowChecked(ev: RtCheckEvent) {

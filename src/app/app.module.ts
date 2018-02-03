@@ -56,6 +56,10 @@ import {
   OfficeProvider
 } from './providers/providers';
 
+// Services
+
+import { TaxpayerResolve } from '../app/services/services';
+
 // Pages
 import { LoginComponent } from './pages/login/login.component';
 import { MisDatosComponent } from './pages/contribuyente/mis-datos/mis-datos.component';
@@ -128,7 +132,7 @@ const routes: Routes = [
   // contribuyente routes
   { path: 'contribuyente/inicio', component: InicioComponent },
   { path: 'contribuyente/resumen', component: ResumenContribuyenteComponent },
-  { path: 'contribuyente/misDatos', component: MisDatosComponent },
+  { path: 'contribuyente/misDatos', component: MisDatosComponent, resolve: { taxpayer: TaxpayerResolve } },
   { path: 'contribuyente/obligaciones', component: ObligacionesComponent },
   { path: 'contribuyente/limites', component: LimitesComponent },
   { path: 'contribuyente/notificaciones', component: NotificacionesContribuyenteComponent },
@@ -279,6 +283,7 @@ const routes: Routes = [
     AuthGuard,*/
     SessionService,
     AuthService,
+    TaxpayerResolve,
     {
       provide: DROPZONE_CONFIG,
       useValue: DEFAULT_DROPZONE_CONFIG

@@ -31,7 +31,7 @@ export class NewBillComponent implements OnInit {
     status: '', // Cobrado o Pendiente
     active: false,  // switch
     provider: true, //
-    type: 'MANUAL',
+    type: 'Manual',
     date: '',
     customer: {
       name: '',

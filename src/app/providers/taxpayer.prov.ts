@@ -12,12 +12,20 @@ export class TaxpayerProvider {
     return this.api.get(`${this.base}`);
   }
 
+  getById(_id: string) {
+    return this.api.get(`${this.base}${_id}`);
+  }
+
   create(taxpayer: any) {
     return this.api.post(`${this.base}`, taxpayer);
   }
 
   update(taxpayer: any) {
     return this.api.put(`${this.base}${taxpayer._id}`, taxpayer);
+  }
+
+  updatePassword(taxpayer: any) {
+    return this.api.put(`${this.base}password/${taxpayer._id}`, taxpayer);
   }
 
   delete(id: string) {

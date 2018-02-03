@@ -7,63 +7,63 @@
 </ul>
 
 <div class="row">
-  <div class="col-6">
+  <div class="col-12 col-md-6">
     <mat-card>
       <mat-card-header>
         <mat-card-title><strong>General</strong></mat-card-title>
       </mat-card-header>
       <mat-card-content>
         <div class="row">
-          <div class="col-6">
+          <div class="col-12 col-md-6">
             <mat-form-field>
               <mat-icon matPrefix>person</mat-icon>
-              <input [readonly]="false" matInput placeholder="Nombre" [(ngModel)]="user.name">
+              <input [readonly]="false" matInput placeholder="Nombre" [(ngModel)]="taxpayer.name">
             </mat-form-field>
           </div>
-          <div class="col-6">
+          <div class="col-12 col-md-6">
             <mat-form-field>
               <mat-icon matPrefix>person</mat-icon>
-              <input [readonly]="false" matInput placeholder="RFC" [(ngModel)]="user.rfc">
+              <input [readonly]="false" matInput placeholder="RFC" [(ngModel)]="taxpayer.rfc">
             </mat-form-field>
           </div>
-          <div class="col-9">
+          <div class="col-12 col-md-8">
             <mat-form-field>
               <mat-icon matPrefix>person</mat-icon>
-              <input [readonly]="false" matInput placeholder="Razon Social" [(ngModel)]="user.socialReason">
+              <input [readonly]="false" matInput placeholder="Razón Social" [(ngModel)]="taxpayer.socialReason">
             </mat-form-field>
           </div>
-          <div class="col-3">
+          <div class="col-12 col-md-3">
             <br>
-            <button mat-raised-button color="primary" (click)="showNotification()">Cambiar</button>
+            <button mat-raised-button color="primary" (click)="updateTaxpayer()">Cambiar</button>
           </div>
         </div>
       </mat-card-content>
     </mat-card>
   </div>
 
-  <div class="col-6">
+  <div class="col-12 col-md-6">
     <mat-card>
       <mat-card-header>
         <mat-card-title><strong>Cambiar contraseña de acceso</strong></mat-card-title>
       </mat-card-header>
       <mat-card-content>
         <div class="row">
-          <div class="col-6">
+          <div class="col-12 col-md-6">
             <mat-form-field>
               <mat-icon matPrefix>lock</mat-icon>
-              <input [readonly]="false" matInput placeholder="Contraseña actual" type="password">
+              <input [readonly]="false" matInput placeholder="Contraseña actual" type="password" [(ngModel)]="currentPass">
             </mat-form-field>
           </div>
-          <div class="col-6">
+          <div class="col-12 col-md-6">
             <mat-form-field>
               <mat-icon matPrefix>lock</mat-icon>
-              <input [readonly]="false" matInput placeholder="Contraseña nueva" type="password">
+              <input [readonly]="false" matInput placeholder="Contraseña nueva" type="password" [(ngModel)]="newPass">
             </mat-form-field>
           </div>
-          <div class="col-9"></div>
-          <div class="col-3">
+          <div class="col-12 col-md-8"></div>
+          <div class="col-12 col-md-3">
             <br>
-            <button mat-raised-button color="primary" (click)="showNotification()">Cambiar</button>
+            <button mat-raised-button color="primary" (click)="updatePassword()">Cambiar</button>
           </div>
         </div>
       </mat-card-content>
@@ -72,7 +72,7 @@
 </div>
 <br>
 <div class="row">
-  <div class="col-6">
+  <div class="col-12">
     <mat-card class="example-card">
       <strong>Archivos</strong>
       <mat-card-header>
@@ -169,38 +169,38 @@
         </mat-expansion-panel-header>
 
         <div class="row">
-          <div class="col-5">
+          <div class="col-12 col-sm-5">
             <mat-form-field>
               <mat-icon matPrefix>location_on</mat-icon>
-              <input [readonly]="false" matInput required placeholder="Calle" [(ngModel)]="user.address.street">
+              <input [readonly]="false" matInput required placeholder="Calle" [(ngModel)]="taxpayer.address.street">
             </mat-form-field>
             <mat-form-field>
               <mat-icon matPrefix>streetview</mat-icon>
-              <input [readonly]="false" required matInput type="number" placeholder="Número" [(ngModel)]="user.address.number">
+              <input [readonly]="false" required matInput type="number" placeholder="Número" [(ngModel)]="taxpayer.address.number">
             </mat-form-field>
             <mat-form-field>
               <mat-icon matPrefix>location_on</mat-icon>
-              <input [readonly]="false" required matInput placeholder="Colonia" [(ngModel)]="user.address.neighborhood">
+              <input [readonly]="false" required matInput placeholder="Colonia" [(ngModel)]="taxpayer.address.neighborhood">
             </mat-form-field>
             <mat-form-field>
               <mat-icon matPrefix>streetview</mat-icon>
-              <input [readonly]="false" type="text" required minlength="5" maxlength="5" matInput placeholder="Código Postal" [(ngModel)]="user.address.zipcode">
+              <input [readonly]="false" type="text" required minlength="5" maxlength="5" matInput placeholder="Código Postal" [(ngModel)]="taxpayer.address.zipcode">
             </mat-form-field>
           </div>
-          <div class="col-5">
+          <div class="col-12 col-sm-5">
             <mat-form-field>
               <mat-icon matPrefix>location_on</mat-icon>
-              <input [readonly]="false" required matInput placeholder="Ciudad" [(ngModel)]="user.address.city">
+              <input [readonly]="false" required matInput placeholder="Ciudad" [(ngModel)]="taxpayer.address.city">
             </mat-form-field>
             <mat-form-field>
               <mat-icon matPrefix>location_on</mat-icon>
-              <input [readonly]="false" matInput placeholder="Municipio" [(ngModel)]="user.address.municipality">
+              <input [readonly]="false" matInput placeholder="Municipio" [(ngModel)]="taxpayer.address.municipality">
             </mat-form-field>
             <mat-form-field>
               <mat-icon matPrefix>location_on</mat-icon>
-              <input [readonly]="false" matInput required placeholder="Estado" [(ngModel)]="user.address.state">
+              <input [readonly]="false" matInput required placeholder="Estado" [(ngModel)]="taxpayer.address.state">
             </mat-form-field>
-            <button mat-raised-button class="float-right" color="primary" (click)="showNotification()">Cambiar</button>
+            <button mat-raised-button class="float-right" color="primary" (click)="updateTaxpayer()">Cambiar</button>
           </div>
         </div>
       </mat-expansion-panel>
