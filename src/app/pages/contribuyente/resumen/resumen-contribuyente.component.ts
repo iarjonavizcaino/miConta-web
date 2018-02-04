@@ -13,20 +13,20 @@ import { NewBillComponent } from '../../_catalog/new-bill/new-bill.component';
 })
 export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
   headersIngresos: Array<RtHeader> = [
-    { name: 'Fecha', prop: 'date', default: 'No date', moment: true },
+    { name: 'Emisión', prop: 'date', default: 'No date', moment: true },  // from xml file
     { name: 'Cliente', prop: 'customer.name', default: 'No customer' },
-    { name: 'RFC', prop: 'customer.rfc', default: 'XXXX-XXX-XXXX' },
-    { name: 'Tipo', prop: 'type', default: '', align: 'center', chip: true },
+    // { name: 'RFC', prop: 'customer.rfc', default: 'XXXX-XXX-XXXX' },
     { name: 'Total', prop: 'total', default: '$ 0.00', align: 'right', accounting: true },
+    { name: 'Tipo de factura', prop: 'type', default: '', align: 'center', chip: true },
     { name: 'Cobrada', prop: 'active', input: 'toggle' },
   ];
   headersEgresos: Array<RtHeader> = [
-    { name: 'Fecha', prop: 'date', default: 'No date', moment: true },
-    { name: 'Estado', prop: 'status', default: 'Pendiente', chip: true },
+    { name: 'Emisión', prop: 'date', default: 'No date', moment: true },
+    // { name: 'Estado', prop: 'status', default: 'Pendiente', chip: true },
     { name: 'Proveedor', prop: 'customer.name', default: 'No customer' },
     // { name: 'RFC', prop: 'customer.rfc', default: 'XXXX-XXX-XXXX' },
-    { name: 'Tipo de factura', prop: 'type', default: '', align: 'center', chip: true },
     { name: 'Total', prop: 'total', default: '$ 0.00', align: 'right', accounting: true },
+    { name: 'Tipo de factura', prop: 'type', default: '', align: 'center', chip: true },
     { name: 'Pagada', prop: 'active', input: 'toggle' },
   ];
 
@@ -69,7 +69,7 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
           this.headersIngresos.splice(0, 0, { name: 'Seleccionar', prop: 'checked', input: 'checkbox', align: 'center' });
           this.headersEgresos.splice(0, 0, { name: 'Seleccionar', prop: 'checked', input: 'checkbox', align: 'center' });
           // tslint:disable-next-line:max-line-length
-          this.headersEgresos.splice(this.headersEgresos.length - 1, 0, { name: 'Desactivar', prop: 'active', input: 'toggle', width: '12', align: 'center' });
+          this.headersEgresos.splice(this.headersEgresos.length - 1, 0, { name: 'Deducible', prop: 'deducible', input: 'toggle', width: '12', align: 'center' });
         }
       });
     this.loadBimesters();
@@ -366,6 +366,7 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
     this.dataEgresos = [
       {
         // status: 'Cobrado',
+        deducible: true,
         cobrada: true,
         type: 'Manual',
         active: true,
@@ -412,6 +413,7 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
         ]
       },
       {
+        deducible: true,
         cobrada: false,
         // status: 'Pendiente',
         type: 'Automática',
@@ -459,6 +461,7 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
         ]
       },
       {
+        deducible: true,
         cobrada: true,
         // status: 'Cobrado',
         type: 'XML',
