@@ -34,7 +34,7 @@ export class InicioDespachoComponent implements OnInit, OnDestroy {
   currentOffice: string;
   office: any;
   role = JSON.parse(localStorage.getItem('user')).role.name;
-
+  users = [];
   constructor(
     private notification: NotificationsService,
     private router: Router,
@@ -51,7 +51,7 @@ export class InicioDespachoComponent implements OnInit, OnDestroy {
       .queryParams
       .subscribe(params => {
         // tslint:disable-next-line:triple-equals
-        if (params.name != 0) {
+        if (params.name !== 0) {
           this.despacho = params.name;
           idDespacho = params._id;
         }
@@ -73,8 +73,14 @@ export class InicioDespachoComponent implements OnInit, OnDestroy {
     //   this.data = data.accountants;
     // });
     this.setBgCard('1');
+    this.loadUsers();
   }
-
+  private loadUsers() {
+    const users = JSON.parse(localStorage.getItem('users'));
+    if (users) {
+      this.users = users;
+    }
+  }
   ngOnDestroy() {
     this.sub.unsubscribe();
   }
@@ -225,7 +231,9 @@ export class InicioDespachoComponent implements OnInit, OnDestroy {
   onContadorDetail(ev) {
     // this.stopPropagation(ev);
     // see page as Contador
-    console.log(this.selectedAccountant.name);
+    // console.log(this.selectedAccountant.name);
+    this.users.push({'role': 'Contador', 'name': this.selectedAccountant.name});
+    localStorage.setItem('users', JSON.stringify(this.users));
     this.router.navigate(['/contador/inicio'], { queryParams: { _id: this.selectedAccountant._id, name: this.selectedAccountant.name } });
   }
 

@@ -44,15 +44,11 @@
   </div>
 </div>
 <hr>
-<ng-container *ngIf="contribuyente">
-  <div class="row">
-    <div class="col-6">
-      <div style="color:#1565C0; font-size: 1.3em">
-        <strong>Contribuyente:
-          <span class="accent">{{ contribuyente }}</span>
-        </strong>
-      </div>
-    </div>
+<ng-container *ngIf="users">
+  <div style="color:#1565C0; font-size: 1em" *ngFor="let u of users">
+    <strong>{{u.role}}:
+      <span class="accent">{{ u.name }}</span>
+    </strong>
   </div>
   <hr>
   <br>

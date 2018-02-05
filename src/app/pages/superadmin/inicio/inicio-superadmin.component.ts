@@ -27,6 +27,7 @@ export class InicioSuperadminComponent implements OnInit {
   despachoSelected: any;
   data = [];
   action = new Subject<RtAction>();
+  private users = [];
   constructor(
     private notification: NotificationsService,
     private router: Router,
@@ -119,6 +120,9 @@ export class InicioSuperadminComponent implements OnInit {
 
   onDespachoDetail(ev: any) {
     this.stopPropagation(ev);
+    this.users.push({'role': 'Despacho', 'name': this.despachoSelected.name});
+    localStorage.setItem('users', JSON.stringify(this.users));
+    // tslint:disable-next-line:max-line-length
     this.router.navigate(['/despacho/inicio'], { queryParams: { _id: this.despachoSelected._id, name: this.despachoSelected.name } });
   }
 

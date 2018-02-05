@@ -7,9 +7,9 @@
     <span class="accent" *ngIf="roleUp !== 'despacho'">Despacho</span>
   </li>
 </ul>
-<ng-container *ngIf="despacho">
-  <div style="color:#1565C0; font-size: 1.3em">
-    <strong>Despacho: <span class="accent">{{ despacho }}</span></strong>
+<ng-container *ngIf="users">
+  <div style="color:#1565C0; font-size: 1em" *ngFor="let u of users">
+    <strong>{{u.role}}: <span class="accent">{{ u.name }}</span></strong>
   </div>
   <hr>
   <br>

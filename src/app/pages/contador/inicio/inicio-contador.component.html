@@ -6,13 +6,15 @@
     <a routerLink="/despacho/inicio" routerLinkActive="active">Despacho</a>
   </li>
   <li class="selected">
-    <span *ngIf="roleUp === 'contador'">Contador</span>    
+    <span *ngIf="roleUp === 'contador'">Contador</span>
     <span class="accent" *ngIf="roleUp !== 'contador'">Contador</span>
   </li>
 </ul>
-<ng-container *ngIf="contador">
-  <div style="color:#1565C0; font-size: 1.3em">
-    <strong>Contador: <span class="accent">{{ contador }}</span></strong>
+<ng-container *ngIf="users">
+  <div style="color:#1565C0; font-size: 1em" *ngFor="let u of users">
+    <strong>{{u.role}}:
+      <span class="accent">{{ u.name }}</span>
+    </strong>
   </div>
   <hr>
   <br>

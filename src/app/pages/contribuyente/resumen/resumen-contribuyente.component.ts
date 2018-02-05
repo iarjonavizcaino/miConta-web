@@ -57,6 +57,7 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
 
   // to hadle breadcrumb
   roleUp = '';
+  users = [];
   constructor(private router: Router, private dialogCtrl: MatDialog, private route: ActivatedRoute) { }
 
   ngOnInit() {
@@ -74,11 +75,17 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
           this.headersEgresos.splice(this.headersEgresos.length - 1, 0, { name: 'Deducible', prop: 'deducible', input: 'toggle', width: '12', align: 'center' });
         }
       });
+    this.loadUsers();
     this.loadBimesters();
     this.loadIngresosData();
     this.loadEgresosData();
   }
-
+  private loadUsers() {
+    const users = JSON.parse(localStorage.getItem('users'));
+    if (users) {
+      this.users = users;
+    }
+  }
   ngOnDestroy() {
     this.sub.unsubscribe();
   }

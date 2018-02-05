@@ -31,7 +31,7 @@ export class InicioContadorComponent implements OnInit, OnDestroy {
   accountant: any;
   currentAccountant: string;
   role = JSON.parse(localStorage.getItem('user')).role.name;
-
+  users = [];
   constructor(
     private router: Router,
     private dialogCtrl: MatDialog,
@@ -65,8 +65,14 @@ export class InicioContadorComponent implements OnInit, OnDestroy {
       this.data = this.accountant.taxpayers;
     });
     this.setBgCard('1');
+    this.loadUsers();
   }
-
+  private loadUsers() {
+    const users = JSON.parse(localStorage.getItem('users'));
+    if (users) {
+      this.users = users;
+    }
+  }
   ngOnDestroy() {
     this.sub.unsubscribe();
   }
@@ -165,6 +171,8 @@ export class InicioContadorComponent implements OnInit, OnDestroy {
     document.getElementById('div' + card).style.background = '#7bea7b';
   }
   taxpayerDetail(page: string) {
+    this.users.push({'role': 'Contribuyente', 'name': this.selectedTaxpayer.name});
+    localStorage.setItem('users', JSON.stringify(this.users));
     this.router.navigate([page], { queryParams: { name: this.selectedTaxpayer.socialReason } });
   }
   onUploadXML(ev) {
