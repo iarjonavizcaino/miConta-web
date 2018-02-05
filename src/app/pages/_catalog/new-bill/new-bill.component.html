@@ -20,7 +20,7 @@
                   Pendiente
                 </mat-option>
               </mat-select> -->
-              <mat-slide-toggle [disabled]="false" [checked]="bill.active" [(ngModel)]="bill.active" [formControl]="billForm.controls['status']">
+              <mat-slide-toggle (change)="toggle($event)" [disabled]="false" [checked]="bill.active" [(ngModel)]="bill.active" [formControl]="billForm.controls['status']">
                 {{ ingresos ? 'Pagada' : 'Cobrada' }}
               </mat-slide-toggle>
               <!-- <mat-error *ngIf="billForm.controls['status'].hasError('required')">

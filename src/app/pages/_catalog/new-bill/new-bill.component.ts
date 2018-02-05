@@ -9,7 +9,7 @@ import * as moment from 'moment';
 import { Observable } from 'rxjs/Observable';
 import { states } from '../../../../states';
 import { ConfirmComponent } from '../../../components/confirm/confirm.component';
-
+import { ModalFechaComponent } from '../modal-fecha/modal-fecha.component';
 const RFC_REGEX = /^([A-ZÑ]{3,4}([0-9]{2})(0[1-9]|1[0-2])(0[1-9]|1[0-9]|2[0-9]|3[0-1]))([A-Z\d]{3})?$/;
 
 @Component({
@@ -28,6 +28,7 @@ export class NewBillComponent implements OnInit {
   ];
   action = new Subject<RtAction>();
   bill = {
+    payDay: '',
     status: '', // Cobrado o Pendiente
     active: false,  // switch
     provider: true, //
@@ -140,6 +141,24 @@ export class NewBillComponent implements OnInit {
   filterState(name: string): any[] {
     return this.states.filter(option =>
       option.name.toLowerCase().indexOf(name.toLowerCase()) === 0);
+  }
+  toggle(ev: any) {
+    if (ev.checked) {
+      const dialogRef = this.dialogCtrl.open(ModalFechaComponent, {
+        disableClose: true,
+        data: {
+          title: 'Fecha de Pago',
+          placeholder: 'Fecha'
+        }
+      });
+      dialogRef.afterClosed().subscribe((date) => {
+        if (!date) { return; }
+        console.log(date);
+        this.bill.payDay = date;
+      });
+    } else {
+      this.bill.payDay = '';
+    }
   }
   private calc(newItem: any, add: boolean) {
     console.log('calc', newItem);

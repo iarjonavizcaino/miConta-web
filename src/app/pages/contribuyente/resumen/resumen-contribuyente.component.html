@@ -135,25 +135,27 @@
               <button mat-icon-button (click)="onDownloadPDF($event)">
                 <mat-icon matTooltip="Descargar PDF" matTooltipPosition="above">picture_as_pdf</mat-icon>
               </button>
-              <span *ngIf="contribuyente">
-                <span class="separator"></span>
-                <button mat-icon-button (click)="onManualBillIngresos($event)">
-                  <mat-icon matTooltip="Factura Manual" matTooltipPosition="above">add</mat-icon>
-                </button>
-                <button mat-icon-button (click)="onCheckAllIngresos($event)" *ngIf="!allIngresosChecked">
-                  <mat-icon matTooltip="Seleccionar" matTooltipPosition="above">check_box_outline_blank</mat-icon>
-                </button>
-                <button mat-icon-button (click)="onCheckAllIngresos($event)" *ngIf="allIngresosChecked">
-                  <mat-icon matTooltip="Seleccionar" matTooltipPosition="above">check_box</mat-icon>
-                </button>
-                <button mat-icon-button (click)="onDownloadXMLIngresos($event)">
-                  <mat-icon matTooltip="Descargar XML" matTooltipPosition="above">code</mat-icon>
-                </button>
-                <button *ngIf="selectedIngresos.type === 'MANUAL'" mat-icon-button (click)="onDeleteStatement($event)">
-                  <mat-icon matTooltip="Eliminar declaración" matTooltipPosition="above">delete_forever</mat-icon>
+              <button mat-icon-button (click)="onDownloadXMLIngresos($event)">
+                <mat-icon matTooltip="Descargar XML" matTooltipPosition="above">code</mat-icon>
+              </button>
+            </ng-container>
+            <span *ngIf="contribuyente">
+              <span class="separator" *ngIf="selectedIngresos"></span>
+              <button *ngIf="contribuyente" mat-icon-button (click)="onManualBillIngresos($event)">
+                <mat-icon matTooltip="Factura Manual" matTooltipPosition="above">add</mat-icon>
+              </button>
+              <span *ngIf="selectedIngresos">
+                <button *ngIf="selectedIngresos.type.toUpperCase() === 'MANUAL'" mat-icon-button (click)="onDeleteStatement($event)">
+                  <mat-icon matTooltip="Eliminar declaración" matTooltipPosition="above">delete</mat-icon>
                 </button>
               </span>
-            </ng-container>
+              <button mat-icon-button (click)="onCheckAllIngresos($event)" *ngIf="!allIngresosChecked">
+                <mat-icon matTooltip="Seleccionar" matTooltipPosition="above">check_box_outline_blank</mat-icon>
+              </button>
+              <button mat-icon-button (click)="onCheckAllIngresos($event)" *ngIf="allIngresosChecked">
+                <mat-icon matTooltip="Seleccionar" matTooltipPosition="above">check_box</mat-icon>
+              </button>
+            </span>
           </section>
         </rt-datatable>
       </mat-expansion-panel>
@@ -178,25 +180,27 @@
               <button mat-icon-button (click)="onDownloadPDF($event)">
                 <mat-icon matTooltip="Descargar PDF" matTooltipPosition="above">picture_as_pdf</mat-icon>
               </button>
-              <span *ngIf="contribuyente">
-                <span class="separator"></span>
-                <button mat-icon-button (click)="onManualBillEgresos($event)">
-                  <mat-icon matTooltip="Factura Manual" matTooltipPosition="above">add</mat-icon>
-                </button>
-                <button mat-icon-button (click)="onCheckAllEgresos($event)" *ngIf="!allEgresosChecked">
-                  <mat-icon matTooltip="Seleccionar" matTooltipPosition="above">check_box_outline_blank</mat-icon>
-                </button>
-                <button mat-icon-button (click)="onCheckAllEgresos($event)" *ngIf="allEgresosChecked">
-                  <mat-icon matTooltip="Seleccionar" matTooltipPosition="above">check_box</mat-icon>
-                </button>
-                <button mat-icon-button (click)="onDownloadXMLEgresos($event)">
-                  <mat-icon matTooltip="Descargar XML" matTooltipPosition="above">code</mat-icon>
-                </button>
-                <button *ngIf="selectedEgresos.type === 'MANUAL'" mat-icon-button (click)="onDeleteStatement($event)">
-                  <mat-icon matTooltip="Eliminar declaración" matTooltipPosition="above">delete_forever</mat-icon>
+              <button mat-icon-button (click)="onDownloadXMLEgresos($event)">
+                <mat-icon matTooltip="Descargar XML" matTooltipPosition="above">code</mat-icon>
+              </button>
+            </ng-container>
+            <span *ngIf="contribuyente">
+              <span class="separator" *ngIf="selectedEgresos"></span>
+              <button mat-icon-button (click)="onManualBillEgresos($event)">
+                <mat-icon matTooltip="Factura Manual" matTooltipPosition="above">add</mat-icon>
+              </button>
+              <span *ngIf="selectedEgresos">
+                <button *ngIf="selectedEgresos.type.toUpperCase() === 'MANUAL'" mat-icon-button (click)="onDeleteStatement($event)">
+                  <mat-icon matTooltip="Eliminar declaración" matTooltipPosition="above">delete</mat-icon>
                 </button>
               </span>
-            </ng-container>
+              <button mat-icon-button (click)="onCheckAllEgresos($event)" *ngIf="!allEgresosChecked">
+                <mat-icon matTooltip="Seleccionar" matTooltipPosition="above">check_box_outline_blank</mat-icon>
+              </button>
+              <button mat-icon-button (click)="onCheckAllEgresos($event)" *ngIf="allEgresosChecked">
+                <mat-icon matTooltip="Seleccionar" matTooltipPosition="above">check_box</mat-icon>
+              </button>
+            </span>
           </section>
         </rt-datatable>
       </mat-expansion-panel>
