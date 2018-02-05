@@ -19,6 +19,7 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
     { name: 'Total', prop: 'total', default: '$ 0.00', align: 'right', accounting: true },
     { name: 'Tipo de factura', prop: 'type', default: '', align: 'center', chip: true },
     { name: 'Cobrada', prop: 'active', input: 'toggle' },
+    { name: 'Fec Cobrada', prop: 'chargedDay', default: '', align: 'center', moment: true }
   ];
   headersEgresos: Array<RtHeader> = [
     { name: 'Emisión', prop: 'date', default: 'No date', moment: true },
@@ -28,6 +29,7 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
     { name: 'Total', prop: 'total', default: '$ 0.00', align: 'right', accounting: true },
     { name: 'Tipo de factura', prop: 'type', default: '', align: 'center', chip: true },
     { name: 'Pagada', prop: 'active', input: 'toggle' },
+    { name: 'Fec Pago', prop: 'payDay', default: '', align: 'center', moment: true }
   ];
 
   // ingresos
@@ -225,6 +227,7 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
   loadIngresosData() {
     this.dataIngresos = [
       {
+        chargedDay: '01/01/1995',
         active: true,
         type: 'XML',
         checked: false,
@@ -315,6 +318,7 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
         ]
       },
       {
+        chargedDay: '03/03/1995',
         active: false,
         type: 'Automática',
         checked: false,
@@ -366,6 +370,7 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
     this.dataEgresos = [
       {
         // status: 'Cobrado',
+        payDay: '09/19/1995',
         deducible: true,
         cobrada: true,
         type: 'Manual',
@@ -461,6 +466,7 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
         ]
       },
       {
+        payDay: '11/14/2015',
         deducible: true,
         cobrada: true,
         // status: 'Cobrado',
