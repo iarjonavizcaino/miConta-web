@@ -12,6 +12,7 @@ import { NewBillComponent } from '../../_catalog/new-bill/new-bill.component';
   styleUrls: ['./resumen-contribuyente.component.scss']
 })
 export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
+ 
   headersIngresos: Array<RtHeader> = [
     { name: 'Emisión', prop: 'date', default: 'No date', moment: true },  // from xml file
     { name: 'Cliente', prop: 'customer.name', default: 'No customer' },
@@ -48,6 +49,8 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
 
   sub: any;
   contribuyente: string;
+  accountant: string;
+  office: string;
   years = [];
   bimesters = [];
 
@@ -69,6 +72,8 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
         // tslint:disable-next-line:triple-equals
         if (params.name) {
           this.contribuyente = params.name;
+          this.office = params.office;
+          this.accountant = params.accountant;
           this.headersIngresos.splice(0, 0, { name: 'Seleccionar', prop: 'checked', input: 'checkbox', align: 'center' });
           this.headersEgresos.splice(0, 0, { name: 'Seleccionar', prop: 'checked', input: 'checkbox', align: 'center' });
           // tslint:disable-next-line:max-line-length
@@ -85,6 +90,10 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
     if (users) {
       this.users = users;
     }
+  }
+  updateUsers() {
+    this.users.pop();
+    localStorage.setItem('users', JSON.stringify(this.users));
   }
   ngOnDestroy() {
     this.sub.unsubscribe();

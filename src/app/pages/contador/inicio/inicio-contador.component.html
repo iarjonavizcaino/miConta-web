@@ -1,9 +1,9 @@
 <ul class="breadcrumb">
   <li *ngIf="roleUp === 'superadmin'">
-    <a routerLink="/superadmin/inicio" routerLinkActive="active">Superadmin</a>
+    <a [routerLink]="['/superadmin/inicio']" routerLinkActive="active">Superadmin</a>
   </li>
   <li *ngIf="roleUp === 'superadmin' || roleUp === 'despacho'">
-    <a routerLink="/despacho/inicio" routerLinkActive="active">Despacho</a>
+    <a [routerLink]="['/despacho/inicio']" [queryParams]="{ _id: office }" (click)="updateUsers();" routerLinkActive="active">Despacho</a>
   </li>
   <li class="selected">
     <span *ngIf="roleUp === 'contador'">Contador</span>

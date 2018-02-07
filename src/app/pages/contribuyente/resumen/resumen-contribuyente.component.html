@@ -3,10 +3,10 @@
     <a routerLink="/superadmin/inicio" routerLinkActive="active">Superadmin</a>
   </li>
   <li *ngIf="roleUp === 'superadmin' || roleUp === 'despacho'">
-    <a routerLink="/despacho/inicio" routerLinkActive="active">Despacho</a>
+    <a [routerLink]="['/despacho/inicio']" [queryParams]="{ _id: office }" (click)="updateUsers(); updateUsers()" routerLinkActive="active">Despacho</a>
   </li>
   <li *ngIf="roleUp === 'contador' || roleUp === 'despacho' || roleUp === 'superadmin'">
-    <a routerLink="/contador/inicio" routerLinkActive="active">Contador</a>
+    <a [routerLink]="['/contador/inicio']" [queryParams]="{ _id: accountant, office: office }" (click)="updateUsers();" routerLinkActive="active">Contador</a>
   </li>
   <li class="selected" *ngIf="roleUp === 'contador' || roleUp === 'despacho' || roleUp === 'superadmin'">
     <span class="accent">Contribuyente</span>

@@ -32,6 +32,7 @@ export class InicioContadorComponent implements OnInit, OnDestroy {
   currentAccountant: string;
   role = JSON.parse(localStorage.getItem('user')).role.name;
   users = [];
+  office: string;
   constructor(
     private router: Router,
     private dialogCtrl: MatDialog,
@@ -50,6 +51,7 @@ export class InicioContadorComponent implements OnInit, OnDestroy {
         if (params.name != 0) {
           this.contador = params.name;
           idAccountant = params._id;
+          this.office = params.office;
         }
       });
 
@@ -175,7 +177,12 @@ export class InicioContadorComponent implements OnInit, OnDestroy {
   taxpayerDetail(page: string) {
     this.users.push({'role': 'Contribuyente', 'name': this.selectedTaxpayer.name});
     localStorage.setItem('users', JSON.stringify(this.users));
-    this.router.navigate([page], { queryParams: { name: this.selectedTaxpayer.socialReason } });
+    this.router.navigate([page], { queryParams: { name: this.selectedTaxpayer.socialReason,
+      office: this.office, accountant: this.accountant._id } });
+  }
+  updateUsers() {
+    this.users.pop();
+    localStorage.setItem('users', JSON.stringify(this.users));
   }
   onUploadXML(ev) {
     this.stopPropagation(ev);
