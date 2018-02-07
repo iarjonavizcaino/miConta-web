@@ -11,6 +11,22 @@
         <div class="row">
           <div class="col-12">
             <mat-form-field>
+              <mat-select placeholder="Tipo" [(ngModel)]="notification.type_msg" [formControl]="notificationForm.controls['type']">
+                <mat-option value="Informativas">
+                  Informativas
+                </mat-option>
+                <mat-option value="Pagos">
+                  Pagos
+                </mat-option>
+              </mat-select>
+              <mat-error *ngIf="notificationForm.controls['type'].hasError('required')">
+                Campo
+                <strong>requerido</strong>
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="col-12">
+            <mat-form-field>
               <input matInput placeholder="Asunto" required [(ngModel)]="notification.subject" [formControl]="notificationForm.controls['subject']">
               <mat-error *ngIf="notificationForm.controls['subject'].hasError('required')">
                 Campo
@@ -30,9 +46,10 @@
         </div>
       </div>
     </form>
-    <rt-datatable (checked)="onChecked($event)" [showRowNumber]="false" searchWait="600"
-     [headers]="headers" [action]="action" [data]="dataUsers">
-  </rt-datatable>
+    <br>
+    <rt-datatable (checked)="onChecked($event)" [showRowNumber]="false" searchWait="600" [headers]="headers" [action]="action"
+      [data]="dataUsers">
+    </rt-datatable>
   </section>
   <footer class="footer">
     <button mat-button (click)="onClose()">

@@ -43,19 +43,22 @@ export class NotificacionesComponent implements OnInit {
         name: 'Saúl Jimenez',
         date: '09-19-1995',
         // tslint:disable-next-line:max-line-length
-        message: 'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Nisi dolores expedita cumque eligendi ratione, fugit, fuga consequatur autem quas soluta,.'
+        message: 'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Nisi dolores expedita cumque eligendi ratione, fugit, fuga consequatur autem quas soluta,.',
+        type_msg: 'Informativas'
       },
       {
         subject: 'PRODUCTO NO VALIDO',
         name: 'Manuel Pérez',
         date: '01-12-2015',
-        message: 'El producto facturado no es válido'
+        message: 'El producto facturado no es válido',
+        type_msg: 'Informativas'
       },
       {
         subject: 'FECHA DEL SIGUIENTE CORTE',
         name: 'Ernesto de la Cruz',
         date: '01-22-2018',
-        message: '02 MAR 18'
+        message: '02 MAR 18',
+        type_msg: 'Informativas'
       }
     ];
   }
@@ -72,7 +75,7 @@ export class NotificacionesComponent implements OnInit {
       console.log(this.moment(data.date).format('l'));
       data.destinatary.forEach(element => {
         // tslint:disable-next-line:max-line-length
-        this.action.next({ name: RtActionName.CREATE, newItem: {subject: data.subject, name: element.name, date: this.moment(data.date).format('L'), message: element.message}, order: '-1' });
+        this.action.next({ name: RtActionName.CREATE, newItem: { subject: data.subject, name: element.name, date: this.moment(data.date).format('L'), message: element.message }, order: '-1' });
       });
 
       // show notifications success

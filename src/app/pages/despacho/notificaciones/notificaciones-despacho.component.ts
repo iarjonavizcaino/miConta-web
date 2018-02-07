@@ -45,21 +45,24 @@ export class NotificacionesDespachoComponent implements OnInit {
         type: 'Contribuyente',
         date: '09-19-1995',
         // tslint:disable-next-line:max-line-length
-        message: 'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Nisi dolores expedita cumque eligendi ratione, fugit, fuga consequatur autem quas soluta,.'
+        message: 'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Nisi dolores expedita cumque eligendi ratione, fugit, fuga consequatur autem quas soluta,.',
+        type_msg: 'Informativas'
       },
       {
         subject: 'TIENE 5 CONTRIBUYENTES NO DECLARADOS',
         name: 'Manuel Pérez',
         type: 'Contador',
         date: '01-12-2015',
-        message: 'El producto facturado no es válido'
+        message: 'El producto facturado no es válido',
+        type_msg: 'Informativas'
       },
       {
         subject: 'SE AGREGO UN NUEVO CONTRIBUYENTE A SU LISTA',
         name: 'Ernesto de la Cruz',
         type: 'Contador',
         date: '01-22-2018',
-        message: '02 MAR 18'
+        message: '02 MAR 18',
+        type_msg: 'Informativas'
       }
     ];
   }

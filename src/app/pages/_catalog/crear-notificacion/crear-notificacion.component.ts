@@ -30,7 +30,8 @@ export class CrearNotificacionComponent implements OnInit {
     destinatary: [],
     subject: '',
     date: '',
-    message: ''
+    message: '',
+    type_msg: ''
   };
 
   constructor(
@@ -40,7 +41,8 @@ export class CrearNotificacionComponent implements OnInit {
   ) {
     this.notificationForm = fb.group({
       'subject': [null, Validators.required],
-      'message': [null, Validators.required]
+      'message': [null, Validators.required],
+      'type': [null, Validators.required]
     });
   }
 
