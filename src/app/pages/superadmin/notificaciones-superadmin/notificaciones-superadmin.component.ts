@@ -44,21 +44,24 @@ export class NotificacionesSuperadminComponent implements OnInit {
         type: 'Contribuyente',
         date: '09-19-1995',
         // tslint:disable-next-line:max-line-length
-        message: 'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Nisi dolores expedita cumque eligendi ratione, fugit, fuga consequatur autem quas soluta,.'
+        message: 'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Nisi dolores expedita cumque eligendi ratione, fugit, fuga consequatur autem quas soluta,.',
+        type_msg: 'Informativas'
       },
       {
         subject: 'TIENE 5 CONTRIBUYENTES NO DECLARADOS',
         name: 'Manuel Pérez',
         type: 'Contador',
         date: '01-12-2015',
-        message: 'El producto facturado no es válido'
+        message: 'El producto facturado no es válido',
+        type_msg: 'Informativas'
       },
       {
         subject: 'SE AGREGO UN NUEVO CONTRIBUYENTE A SU LISTA',
         name: 'Ernesto de la Cruz',
         type: 'Contador',
         date: '01-22-2018',
-        message: '02 MAR 18'
+        message: '02 MAR 18',
+        type_msg: 'Informativas'
       }
     ];
   }
@@ -71,10 +74,10 @@ export class NotificacionesSuperadminComponent implements OnInit {
     dialogRef.afterClosed().subscribe((data) => {
       if (!data) { return; }
       // Make HTTP request to create notification
-      console.log(this.moment(data.date).format('l'));
+      // console.log(this.moment(data.date).format('l'));
       data.destinatary.forEach(element => {
         // tslint:disable-next-line:max-line-length
-        this.action.next({ name: RtActionName.CREATE, newItem: { subject: data.subject, name: element.name, date: this.moment(data.date).format('L'), message: element.message, type: element.type }, order: '-1' });
+        this.action.next({ name: RtActionName.CREATE, newItem: { type_msg: data.type_msg, subject: data.subject, name: element.name, date: this.moment(data.date).format('L'), message: element.message, type: element.type }, order: '-1' });
       });
       // show notifications success
       this.noti.success('Acción exitosa', 'Se envió correctamente');

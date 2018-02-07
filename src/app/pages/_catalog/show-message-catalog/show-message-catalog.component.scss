@@ -22,7 +22,7 @@
         .title {
             margin-bottom: 10px;
             font-weight: 400;
-            font-size: 22px;
+            // font-size: 22px;
             line-height: 22px;
         }
     }
@@ -89,4 +89,9 @@
 }
 .little-margin-left{
     margin-left: 2.3%;
+}
+.card-bg{
+    background: #ECE9E6;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #FFFFFF, #ECE9E6);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #FFFFFF, #ECE9E6); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */    
 }
