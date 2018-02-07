@@ -102,7 +102,8 @@ export class InicioContadorComponent implements OnInit, OnDestroy {
         taxpayer = data.taxpayer;
         // tslint:disable-next-line:no-shadowed-variable
         this.accountantProv.addTaxpayer(taxpayer._id, this.currentAccountant).subscribe(data => {
-          console.log(data.office);
+          console.log(data.accountant);
+          this.accountant = data.accountant;
         });
         console.log(taxpayer);
         this.action.next({ name: RtActionName.CREATE, newItem: taxpayer });
@@ -138,6 +139,7 @@ export class InicioContadorComponent implements OnInit, OnDestroy {
       if (!res) { return; }
       this.taxpayerProv.delete(this.selectedTaxpayer._id).subscribe(data => {
         res = data.taxpayer;
+        this.accountant.totalTaxpayer -= 1;
         // tslint:disable-next-line:no-shadowed-variable
         this.accountantProv.addTaxpayer(res._id, this.currentAccountant).subscribe(data => {
           console.log(data.office);
