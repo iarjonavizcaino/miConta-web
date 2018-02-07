@@ -28,6 +28,9 @@ export class InicioSuperadminComponent implements OnInit {
   data = [];
   action = new Subject<RtAction>();
   private users = [];
+  totalTaxpayer = 0;
+  totalAccountant = 0;
+
   constructor(
     private notification: NotificationsService,
     private router: Router,
@@ -37,6 +40,13 @@ export class InicioSuperadminComponent implements OnInit {
   ngOnInit() {
     this.officeProv.getAll().subscribe(data => {
       this.data = data.offices;
+      this.data.forEach(office => {
+
+        office.accountants.forEach(accountant => {
+          this.totalAccountant += accountant.totalTaxpayer;
+          this.totalTaxpayer += accountant.taxpayers.length;
+        });
+      });
     });
     this.setBgCard('1');
   }
@@ -120,7 +130,7 @@ export class InicioSuperadminComponent implements OnInit {
 
   onDespachoDetail(ev: any) {
     this.stopPropagation(ev);
-    this.users.push({'role': 'Despacho', 'name': this.despachoSelected.name});
+    this.users.push({ 'role': 'Despacho', 'name': this.despachoSelected.name });
     localStorage.setItem('users', JSON.stringify(this.users));
     // tslint:disable-next-line:max-line-length
     this.router.navigate(['/despacho/inicio'], { queryParams: { _id: this.despachoSelected._id, name: this.despachoSelected.name } });
