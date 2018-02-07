@@ -79,6 +79,7 @@ export class ModalCrearContribuyenteComponent implements OnInit {
       regimen_change: '',
       vigencia_fiel: [null, Validators.required],
       vigencia_sellos: [null, Validators.required],
+      registro_regimen: [null, Validators.required],
       password: [null, Validators.required],
       user: [null, Validators.required],
       profile: [null, Validators.required]
@@ -104,6 +105,7 @@ export class ModalCrearContribuyenteComponent implements OnInit {
         activitySuspension: '',
         regimeChangey: '',
         loyalValidity: '',
+        regimenRegister: '',
         sealValidity: '',
         account: {
           user: '',

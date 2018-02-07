@@ -13,21 +13,23 @@ import { NewBillComponent } from '../../_catalog/new-bill/new-bill.component';
 })
 export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
   headersIngresos: Array<RtHeader> = [
-    { name: 'Fecha', prop: 'date', default: 'No date', moment: true },
+    { name: 'Emisión', prop: 'date', default: 'No date', moment: true },  // from xml file
     { name: 'Cliente', prop: 'customer.name', default: 'No customer' },
-    { name: 'RFC', prop: 'customer.rfc', default: 'XXXX-XXX-XXXX' },
-    { name: 'Tipo', prop: 'type', default: '', align: 'center', chip: true },
+    // { name: 'RFC', prop: 'customer.rfc', default: 'XXXX-XXX-XXXX' },
     { name: 'Total', prop: 'total', default: '$ 0.00', align: 'right', accounting: true },
+    { name: 'Tipo de factura', prop: 'type', default: '', align: 'center', chip: true },
     { name: 'Cobrada', prop: 'active', input: 'toggle' },
+    { name: 'Fec Cobrada', prop: 'chargedDay', default: '', align: 'center', moment: true }
   ];
   headersEgresos: Array<RtHeader> = [
-    { name: 'Fecha', prop: 'date', default: 'No date', moment: true },
-    { name: 'Estado', prop: 'status', default: 'Pendiente', chip: true },
+    { name: 'Emisión', prop: 'date', default: 'No date', moment: true },
+    // { name: 'Estado', prop: 'status', default: 'Pendiente', chip: true },
     { name: 'Proveedor', prop: 'customer.name', default: 'No customer' },
     // { name: 'RFC', prop: 'customer.rfc', default: 'XXXX-XXX-XXXX' },
-    { name: 'Tipo de factura', prop: 'type', default: '', align: 'center', chip: true },
     { name: 'Total', prop: 'total', default: '$ 0.00', align: 'right', accounting: true },
+    { name: 'Tipo de factura', prop: 'type', default: '', align: 'center', chip: true },
     { name: 'Pagada', prop: 'active', input: 'toggle' },
+    { name: 'Fec Pago', prop: 'payDay', default: '', align: 'center', moment: true }
   ];
 
   // ingresos
@@ -55,6 +57,7 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
 
   // to hadle breadcrumb
   roleUp = '';
+  users = [];
   constructor(private router: Router, private dialogCtrl: MatDialog, private route: ActivatedRoute) { }
 
   ngOnInit() {
@@ -69,14 +72,20 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
           this.headersIngresos.splice(0, 0, { name: 'Seleccionar', prop: 'checked', input: 'checkbox', align: 'center' });
           this.headersEgresos.splice(0, 0, { name: 'Seleccionar', prop: 'checked', input: 'checkbox', align: 'center' });
           // tslint:disable-next-line:max-line-length
-          this.headersEgresos.splice(this.headersEgresos.length - 1, 0, { name: 'Desactivar', prop: 'active', input: 'toggle', width: '12', align: 'center' });
+          this.headersEgresos.splice(this.headersEgresos.length - 1, 0, { name: 'Deducible', prop: 'deducible', input: 'toggle', width: '12', align: 'center' });
         }
       });
+    this.loadUsers();
     this.loadBimesters();
     this.loadIngresosData();
     this.loadEgresosData();
   }
-
+  private loadUsers() {
+    const users = JSON.parse(localStorage.getItem('users'));
+    if (users) {
+      this.users = users;
+    }
+  }
   ngOnDestroy() {
     this.sub.unsubscribe();
   }
@@ -225,6 +234,7 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
   loadIngresosData() {
     this.dataIngresos = [
       {
+        chargedDay: '01/01/1995',
         active: true,
         type: 'XML',
         checked: false,
@@ -315,6 +325,7 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
         ]
       },
       {
+        chargedDay: '03/03/1995',
         active: false,
         type: 'Automática',
         checked: false,
@@ -366,6 +377,8 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
     this.dataEgresos = [
       {
         // status: 'Cobrado',
+        payDay: '09/19/1995',
+        deducible: true,
         cobrada: true,
         type: 'Manual',
         active: true,
@@ -412,6 +425,7 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
         ]
       },
       {
+        deducible: true,
         cobrada: false,
         // status: 'Pendiente',
         type: 'Automática',
@@ -459,6 +473,8 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
         ]
       },
       {
+        payDay: '11/14/2015',
+        deducible: true,
         cobrada: true,
         // status: 'Cobrado',
         type: 'XML',

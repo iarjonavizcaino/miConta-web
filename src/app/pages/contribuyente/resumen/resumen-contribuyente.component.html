@@ -17,15 +17,38 @@
   </li>
   <li class="selected" *ngIf="roleUp === 'contribuyente'">Resumen</li>
 </ul>
-<ng-container *ngIf="contribuyente">
-  <div class="row">
-    <div class="col-6">
-      <div style="color:#1565C0; font-size: 1.3em">
-        <strong>Contribuyente:
-          <span class="accent">{{ contribuyente }}</span>
-        </strong>
-      </div>
-    </div>
+<div class="row">
+  <div class="col-4">
+    <h2>{{currentBimester}}</h2>
+  </div>
+  <div class="col-3">
+    <mat-form-field>
+      <mat-select placeholder="Seleccionar Año" [(ngModel)]="selectedYear">
+        <mat-option *ngFor="let y of years" [value]="y">
+          {{ y }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+  <div class="col-3">
+    <mat-form-field>
+      <mat-select placeholder="Seleccionar Bimestre" [(ngModel)]="selectedBimester">
+        <mat-option *ngFor="let b of bimesters" [value]="b.name">
+          {{ b.name }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+  <div class="col-2">
+    <button mat-raised-button color="primary" (click)="getBimesterInfo()">Consultar</button>
+  </div>
+</div>
+<hr>
+<ng-container *ngIf="users">
+  <div style="color:#1565C0; font-size: 1em" *ngFor="let u of users">
+    <strong>{{u.role}}:
+      <span class="accent">{{ u.name }}</span>
+    </strong>
   </div>
   <hr>
   <br>
@@ -59,34 +82,27 @@
   </div>
   <div class="col-6">
     <mat-card class="example-card">
-      <h2 class="text-center">
-        {{currentBimester}}
-      </h2>
+      <h5 class="text-center">DESCARGAR ARCHIVOS</h5>
       <mat-card-header>
         <mat-card-subtitle></mat-card-subtitle>
       </mat-card-header>
       <mat-card-content>
         <div class="row">
-          <div class="col-12">
-            <mat-form-field>
-              <mat-select placeholder="Seleccionar Año" [(ngModel)]="selectedYear">
-                <mat-option *ngFor="let y of years" [value]="y">
-                  {{ y }}
-                </mat-option>
-              </mat-select>
-            </mat-form-field>
+          <div class="col-6">
+            <a href="#" target="_blank" class="no-style">
+              <mat-icon class="big-icon">picture_as_pdf</mat-icon>
+              <br>
+              <span class="text-center">ACUSE</span>
+            </a>
           </div>
-          <div class="col-12">
-            <mat-form-field>
-              <mat-select placeholder="Seleccionar Bimestre" [(ngModel)]="selectedBimester">
-                <mat-option *ngFor="let b of bimesters" [value]="b.name">
-                  {{ b.name }}
-                </mat-option>
-              </mat-select>
-            </mat-form-field>
+          <div class="col-6">
+            <a href="#" target="_blank" class="no-style">
+              <mat-icon class="big-icon">picture_as_pdf</mat-icon>
+              <br>
+              <span class="text-center">LINE DE CAPTURA</span>
+            </a>
           </div>
         </div>
-        <button mat-raised-button color="primary" (click)="getBimesterInfo()">Aceptar</button>
       </mat-card-content>
     </mat-card>
   </div>
@@ -108,9 +124,6 @@
         <rt-datatable (selected)="onIngresosSelected($event)" (checked)="onIngresosChecked($event)" [showRowNumber]="true" searchWait="600"
           [showRowNumber]="false" [headers]="headersIngresos" [action]="actionIngresos" [data]="dataIngresos">
           <section class="actions">
-            <button mat-icon-button (click)="onManualBillIngresos($event)">
-              <mat-icon matTooltip="Factura Manual" matTooltipPosition="above">add</mat-icon>
-            </button>
             <ng-container *ngIf="selectedIngresos">
               <button mat-icon-button (click)="onViewBillIngresos($event)">
                 <mat-icon matTooltip="Ver detalles" matTooltipPosition="above">visibility</mat-icon>
@@ -118,22 +131,27 @@
               <button mat-icon-button (click)="onDownloadPDF($event)">
                 <mat-icon matTooltip="Descargar PDF" matTooltipPosition="above">picture_as_pdf</mat-icon>
               </button>
-              <span *ngIf="contribuyente">
-                <span class="separator"></span>
-                <button mat-icon-button (click)="onCheckAllIngresos($event)" *ngIf="!allIngresosChecked">
-                  <mat-icon matTooltip="Seleccionar" matTooltipPosition="above">check_box_outline_blank</mat-icon>
-                </button>
-                <button mat-icon-button (click)="onCheckAllIngresos($event)" *ngIf="allIngresosChecked">
-                  <mat-icon matTooltip="Seleccionar" matTooltipPosition="above">check_box</mat-icon>
-                </button>
-                <button mat-icon-button (click)="onDownloadXMLIngresos($event)">
-                  <mat-icon matTooltip="Descargar XML" matTooltipPosition="above">code</mat-icon>
-                </button>
-                <button *ngIf="selectedIngresos.type === 'MANUAL'" mat-icon-button (click)="onDeleteStatement($event)">
-                  <mat-icon matTooltip="Eliminar declaración" matTooltipPosition="above">delete_forever</mat-icon>
+              <button mat-icon-button (click)="onDownloadXMLIngresos($event)">
+                <mat-icon matTooltip="Descargar XML" matTooltipPosition="above">code</mat-icon>
+              </button>
+            </ng-container>
+            <span *ngIf="contribuyente">
+              <span class="separator" *ngIf="selectedIngresos"></span>
+              <button *ngIf="contribuyente" mat-icon-button (click)="onManualBillIngresos($event)">
+                <mat-icon matTooltip="Factura Manual" matTooltipPosition="above">add</mat-icon>
+              </button>
+              <span *ngIf="selectedIngresos">
+                <button *ngIf="selectedIngresos.type.toUpperCase() === 'MANUAL'" mat-icon-button (click)="onDeleteStatement($event)">
+                  <mat-icon matTooltip="Eliminar declaración" matTooltipPosition="above">delete</mat-icon>
                 </button>
               </span>
-            </ng-container>
+              <button mat-icon-button (click)="onCheckAllIngresos($event)" *ngIf="!allIngresosChecked">
+                <mat-icon matTooltip="Seleccionar" matTooltipPosition="above">check_box_outline_blank</mat-icon>
+              </button>
+              <button mat-icon-button (click)="onCheckAllIngresos($event)" *ngIf="allIngresosChecked">
+                <mat-icon matTooltip="Seleccionar" matTooltipPosition="above">check_box</mat-icon>
+              </button>
+            </span>
           </section>
         </rt-datatable>
       </mat-expansion-panel>
@@ -151,9 +169,6 @@
         <rt-datatable (selected)="onEgresosSelected($event)" (checked)="onEgresosChecked($event)" searchWait="600" [showRowNumber]="false"
           [headers]="headersEgresos" [action]="actionEgresos" [data]="dataEgresos">
           <section class="actions">
-            <button mat-icon-button (click)="onManualBillEgresos($event)">
-              <mat-icon matTooltip="Factura Manual" matTooltipPosition="above">add</mat-icon>
-            </button>
             <ng-container *ngIf="selectedEgresos">
               <button mat-icon-button (click)="onViewBillEgresos($event)">
                 <mat-icon matTooltip="Ver detalles" matTooltipPosition="above">visibility</mat-icon>
@@ -161,22 +176,27 @@
               <button mat-icon-button (click)="onDownloadPDF($event)">
                 <mat-icon matTooltip="Descargar PDF" matTooltipPosition="above">picture_as_pdf</mat-icon>
               </button>
-              <span *ngIf="contribuyente">
-                <span class="separator"></span>
-                <button mat-icon-button (click)="onCheckAllEgresos($event)" *ngIf="!allEgresosChecked">
-                  <mat-icon matTooltip="Seleccionar" matTooltipPosition="above">check_box_outline_blank</mat-icon>
-                </button>
-                <button mat-icon-button (click)="onCheckAllEgresos($event)" *ngIf="allEgresosChecked">
-                  <mat-icon matTooltip="Seleccionar" matTooltipPosition="above">check_box</mat-icon>
-                </button>
-                <button mat-icon-button (click)="onDownloadXMLEgresos($event)">
-                  <mat-icon matTooltip="Descargar XML" matTooltipPosition="above">code</mat-icon>
-                </button>
-                <button *ngIf="selectedEgresos.type === 'MANUAL'" mat-icon-button (click)="onDeleteStatement($event)">
-                  <mat-icon matTooltip="Eliminar declaración" matTooltipPosition="above">delete_forever</mat-icon>
+              <button mat-icon-button (click)="onDownloadXMLEgresos($event)">
+                <mat-icon matTooltip="Descargar XML" matTooltipPosition="above">code</mat-icon>
+              </button>
+            </ng-container>
+            <span *ngIf="contribuyente">
+              <span class="separator" *ngIf="selectedEgresos"></span>
+              <button mat-icon-button (click)="onManualBillEgresos($event)">
+                <mat-icon matTooltip="Factura Manual" matTooltipPosition="above">add</mat-icon>
+              </button>
+              <span *ngIf="selectedEgresos">
+                <button *ngIf="selectedEgresos.type.toUpperCase() === 'MANUAL'" mat-icon-button (click)="onDeleteStatement($event)">
+                  <mat-icon matTooltip="Eliminar declaración" matTooltipPosition="above">delete</mat-icon>
                 </button>
               </span>
-            </ng-container>
+              <button mat-icon-button (click)="onCheckAllEgresos($event)" *ngIf="!allEgresosChecked">
+                <mat-icon matTooltip="Seleccionar" matTooltipPosition="above">check_box_outline_blank</mat-icon>
+              </button>
+              <button mat-icon-button (click)="onCheckAllEgresos($event)" *ngIf="allEgresosChecked">
+                <mat-icon matTooltip="Seleccionar" matTooltipPosition="above">check_box</mat-icon>
+              </button>
+            </span>
           </section>
         </rt-datatable>
       </mat-expansion-panel>
