@@ -55,11 +55,11 @@ export class InicioContadorComponent implements OnInit, OnDestroy {
         }
       });
 
-    if (this.role === 'superadmin' || this.role === 'despacho') {
+    if (this.role === 'Superadmin' || this.role === 'Despacho') {
       this.currentAccountant = idAccountant;
     } else {
       // this.currentAccountant = '5a74d57a4782953e679e8097';
-      this.currentAccountant = '5a75dff5938abf6cf488412b';
+      this.currentAccountant = JSON.parse(localStorage.getItem('user'))._id;
     }
 
     this.accountantProv.getById(this.currentAccountant).subscribe(data => {
@@ -176,6 +176,7 @@ export class InicioContadorComponent implements OnInit, OnDestroy {
   }
   taxpayerDetail(page: string) {
     this.users.push({'role': 'Contribuyente', 'name': this.selectedTaxpayer.name});
+    localStorage.setItem('taxpayer', this.selectedTaxpayer._id);
     localStorage.setItem('users', JSON.stringify(this.users));
     this.router.navigate([page], { queryParams: { name: this.selectedTaxpayer.socialReason,
       office: this.office, accountant: this.accountant._id } });

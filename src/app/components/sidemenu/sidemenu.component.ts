@@ -25,8 +25,9 @@ export class SidemenuComponent implements OnInit {
     this.user$ = this.session.user;
     this.user$.subscribe(data => {
       if (data) {
-        switch (data.role.name) {
-          case 'contribuyente':
+        console.log('data', data);
+        switch (data.role._id) {
+          case '5a728f4bb15f741695e35c96': // contribuyente
             this.permission = {
               contribuyente: true,
               contador: false,
@@ -34,7 +35,8 @@ export class SidemenuComponent implements OnInit {
               superadmin: false,
             };
             break;
-          case 'contador':
+          case '5a728f50b15f741695e35c97': // contador
+            console.log('contador');
             this.permission = {
               contribuyente: false,
               contador: true,
@@ -42,7 +44,7 @@ export class SidemenuComponent implements OnInit {
               superadmin: false,
             };
             break;
-          case 'despacho':
+          case '5a728f43b15f741695e35c95': // despacho
             this.permission = {
               contribuyente: false,
               contador: false,
@@ -50,7 +52,7 @@ export class SidemenuComponent implements OnInit {
               superadmin: false,
             };
             break;
-          case 'superadmin':
+          case '5a728f56b15f741695e35c98': // superadmin
             this.permission = {
               contribuyente: false,
               contador: false,

@@ -19,6 +19,7 @@ export class ModalContadorComponent implements OnInit {
   accountantForm: FormGroup;
   title: string;
   states = states;
+  office: boolean;
 
   accountant: any = {
     name: '',
@@ -64,6 +65,7 @@ export class ModalContadorComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.office = this.data.office;
     this.title = this.data.title;
     if (this.data.accountant) {
       this.accountant = this.data.accountant;
@@ -88,10 +90,17 @@ export class ModalContadorComponent implements OnInit {
   }
 
   onSave() {
-    this.accountant.role = {
-      '_id': '5a728f43b15f741695e35c95',
-      'name': 'Despacho'
-    };
+    if (this.office) {
+      this.accountant.role = {
+        '_id': '5a728f43b15f741695e35c95',
+        'name': 'Despacho'
+      };
+    } else {
+      this.accountant.role = {
+        '_id': '5a728f50b15f741695e35c97',
+        'name': 'Contador'
+      };
+    }
     this.accountant.address.state = this.currentState.name;
     this.dialogRef.close(this.accountant); // send data
   }

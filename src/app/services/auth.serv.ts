@@ -8,6 +8,7 @@ import { Credentials, Employee } from '../types/types';
 // import { CutProvider, StoreProvider, SaleProvider, CompanyProvider } from '../providers/providers';
 import { SessionService } from './session.serv';
 import { locales } from 'moment';
+import { Api } from '../providers/api';
 
 @Injectable()
 export class AuthService {
@@ -16,21 +17,29 @@ export class AuthService {
   private _token: string;
 
   constructor(
-    /*public api: Api,
-    private storeProv: StoreProvider,
+    public api: Api,
+    /*private storeProv: StoreProvider,
     private companyProv: CompanyProvider,
     private cutProv: CutProvider,
     private saleProv: SaleProvider,*/
     private sessionServ: SessionService
   ) { }
 
-  /*login(cred: Credentials): Observable<any> {
-    return this.api.post('employee/login', cred);
+  loginAccountant(cred: Credentials): Observable<any> {
+    return this.api.post('login/accountant/', cred);
   }
 
-  validate(): Observable<any> {
-    return this.api.get('employee/validate');
-  }*/
+  loginOffice(cred: Credentials): Observable<any> {
+    return this.api.post('login/office/', cred);
+  }
+
+  loginTaxpayer(cred: Credentials): Observable<any> {
+    return this.api.post('login/taxpayer/', cred);
+  }
+
+  loginSuperadmin(cred: Credentials): Observable<any> {
+    return this.api.post('login/superadmin/', cred);
+  }
 
   loginSuccess(user: Employee, token: string) {
     this.sessionServ.save(user, token);

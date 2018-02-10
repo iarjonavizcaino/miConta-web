@@ -57,11 +57,11 @@ export class InicioDespachoComponent implements OnInit, OnDestroy {
         }
       });
 
-    if (this.role === 'superadmin') {
+    if (this.role === 'Superadmin') {
       this.currentOffice = idDespacho;
     } else {
       // this.currentOffice = '5a729092c341ec187cee82f3';
-      this.currentOffice = '5a724aaa9b3e2d36e2d9917c';
+      this.currentOffice = JSON.parse(localStorage.getItem('user'))._id;
     }
 
     this.officeProv.getById(this.currentOffice).subscribe(data => {

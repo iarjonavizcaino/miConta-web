@@ -110,7 +110,9 @@ export class TaxpayerCatalogComponent implements OnInit {
       // tslint:disable-next-line:no-shadowed-variable
       this.accountantProv.reasignTaxpayers(newTaxpayers, this.currentAccountant, data._id).subscribe(data => {
         console.log(data.accountant);
-        this.taxpayers = data.accountant.taxpayers;
+        newTaxpayers.forEach(taxpayer => {
+          this.action.next({ name: RtActionName.DELETE, itemId: taxpayer });
+        });
         this.notify.success('Acción Exitosa', 'Los contribuyentes se ha reasignado correctamente');
       }, err => {
         this.notify.error('Error', 'Ocurrió un error al reasignar los contribuyentes');

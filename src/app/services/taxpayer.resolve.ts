@@ -4,11 +4,19 @@ import { TaxpayerProvider } from '../providers/providers';
 
 @Injectable()
 export class TaxpayerResolve implements Resolve<any> {
+
+    role = JSON.parse(localStorage.getItem('user')).role.name;
+    currentTaxpayer: string;
     constructor(private taxpayerProv: TaxpayerProvider, private router: Router) { }
 
     resolve(route: ActivatedRouteSnapshot): Promise<any> | boolean {
         // const id = route.params['id'];
-        return this.taxpayerProv.getById('5a75046036c52762b6ce46bd').toPromise().then(data => {
+        if (this.role !== 'Taxpayer' ) {
+            this.currentTaxpayer = localStorage.getItem('taxpayer');
+          } else {
+            this.currentTaxpayer = JSON.parse(localStorage.getItem('user'))._id;
+          }
+        return this.taxpayerProv.getById(this.currentTaxpayer).toPromise().then(data => {
             if (data) {
                 return data.taxpayer;
             } else {

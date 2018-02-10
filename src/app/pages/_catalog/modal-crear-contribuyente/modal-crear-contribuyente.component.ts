@@ -111,6 +111,10 @@ export class ModalCrearContribuyenteComponent implements OnInit {
           user: '',
           password: '',
         },
+        role: {
+          name: '',
+          _id: ''
+        },
         statement: [],
         profile: {
           name: '',
@@ -194,6 +198,10 @@ export class ModalCrearContribuyenteComponent implements OnInit {
     this.selectedStatement = ev.data;
   }
   onSave() {
+    this.taxPayer.role = {
+      '_id': '5a728f4bb15f741695e35c96',
+      'name': 'Contribuyente'
+    };
     this.currentProfile.concepts = this.concepts;
     this.currentProfile.obligations = this.obligations;
     this.taxPayer.profile = this.currentProfile;

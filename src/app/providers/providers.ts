@@ -5,6 +5,7 @@ import { NotificationProvider } from './notification.prov';
 import { OfficeProvider } from './office.prov';
 import { ProfileProvider } from './profile.prov';
 import { TaxpayerProvider } from './taxpayer.prov';
+import { RoleProvider } from './role.prov';
 
 export {
     ConceptProvider,
@@ -13,5 +14,6 @@ export {
     NotificationProvider,
     OfficeProvider,
     ProfileProvider,
-    TaxpayerProvider
+    TaxpayerProvider,
+    RoleProvider
 };

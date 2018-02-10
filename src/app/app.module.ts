@@ -53,7 +53,8 @@ import {
   ProfileProvider,
   NotificationProvider,
   AccountantProvider,
-  OfficeProvider
+  OfficeProvider,
+  RoleProvider
 } from './providers/providers';
 
 // Services
@@ -273,7 +274,7 @@ const routes: Routes = [
     NotificationProvider,
     AccountantProvider,
     OfficeProvider,
-
+    RoleProvider,
     //  Services
     /*UserService,
     InputResolve,
