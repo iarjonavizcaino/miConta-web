@@ -35,6 +35,7 @@ export class ModalAsignarContribComponent implements OnInit {
   }
 
   ngOnInit() {
+    console.log(this.data);
     this.currentAccountant = this.data.accountant;
     this.officeProv.getById(this.data.office).subscribe(data => {
       this.accountants = data.office.accountants;

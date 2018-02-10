@@ -61,7 +61,8 @@ export class InicioDespachoComponent implements OnInit, OnDestroy {
       this.currentOffice = idDespacho;
     } else {
       // this.currentOffice = '5a729092c341ec187cee82f3';
-      this.currentOffice = '5a724aaa9b3e2d36e2d9917c';
+      // this.currentOffice = '5a724aaa9b3e2d36e2d9917c';
+      this.currentOffice = '5a75f084057460690aa2d833';
     }
 
     this.officeProv.getById(this.currentOffice).subscribe(data => {
@@ -119,7 +120,6 @@ export class InicioDespachoComponent implements OnInit, OnDestroy {
 
   onReasignTaxpayer(ev) {
     this.stopPropagation(ev);
-    console.log(this.selectedAccountant);
     this.accountantProv.getById(this.selectedAccountant._id).subscribe(data => {
       this.taxPayersListModal(data.accountant.taxpayers, 'Contribuyentes asociados');
     });

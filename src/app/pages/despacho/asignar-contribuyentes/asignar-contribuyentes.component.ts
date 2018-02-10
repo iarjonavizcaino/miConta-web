@@ -6,7 +6,8 @@ import { MatDialog } from '@angular/material';
 import { ModalAsignarContribComponent } from '../../_catalog/modal-asignar-contrib/modal-asignar-contrib.component';
 import { Router } from '@angular/router';
 import { NotificationsService } from 'angular2-notifications';
-
+import { OfficeProvider, AccountantProvider } from '../../../providers/providers';
+import { TaxpayerProvider } from '../../../providers/taxpayer.prov';
 @Component({
   selector: 'app-asignar-contribuyentes',
   templateUrl: './asignar-contribuyentes.component.html',
@@ -15,47 +16,50 @@ import { NotificationsService } from 'angular2-notifications';
 export class AsignarContribuyentesComponent implements OnInit {
   headers: Array<RtHeader> = [
     { name: 'Seleccionar', prop: 'checked', input: 'checkbox' },
-    { name: 'Contador Asociado', prop: 'accountant', default: '' },
-    { name: 'Contribuyente', prop: 'taxpayer', default: '' },
-    { name: 'RFC', prop: 'rfc', default: '####' },
+    { name: 'Contador Asociado', prop: 'name', default: '' },
+    { name: 'Contribuyente', prop: 'taxpayer', default: 'Sin nombre' },
+    { name: 'Razón Social', prop: 'socialReason', default: 'XXXX-XXX-XXXX' },
     { name: 'Régimen Fiscal', prop: 'regimen_fiscal', default: 'Sin régimen' },
   ];
   selectedItem: any;
+  // currentOffice = '5a724aaa9b3e2d36e2d9917c';
+  currentOffice = '5a75f084057460690aa2d833';  // ids static because  we didn't have login
   data = [];
   checkedItems = 0;
   allChecked = false; // this is for change the icon 'check' in table
   action = new Subject<RtAction>();
-  constructor(private notification: NotificationsService, private router: Router, private dialogCtrl: MatDialog) { }
+  office: any;
+
+  // tslint:disable-next-line:max-line-length
+  constructor(
+    private notify: NotificationsService,
+    private officeProv: OfficeProvider,
+    private taxpayerProv: TaxpayerProvider,
+    private accountantProv: AccountantProvider,
+    private notification: NotificationsService,
+    private router: Router,
+    private dialogCtrl: MatDialog) { }
 
 
   ngOnInit() {
     this.loadData();
   }
   private loadData() {
-    this.data = [
-      {
-        checked: false,
-        accountant: 'Denis Adrian Jiménez Ortiz',
-        taxpayer: 'Saúl Jiménez',
-        rfc: 'VECJ880326XXX',
-        regimen_fiscal: 'RIF'
-      },
-      {
-        checked: false,
-        accountant: 'Roberto Herrera Ortiz',
-        taxpayer: 'Manuel Perez',
-        rfc: 'JCVE880326XXX',
-        regimen_fiscal: 'RIF'
-      },
-      {
-        checked: false,
-        accountant: 'Guadalupe Alcaraz Tizando',
-        taxpayer: 'Ernesto de la Cruz',
-        rfc: 'ANAS81636XXX',
-        regimen_fiscal: 'RIF'
-      }
-    ];
-  }
+    this.officeProv.getById(this.currentOffice).subscribe(data => {
+      console.log(data);
+      data.office.accountants.forEach(accountant => {
+        accountant.taxpayers.forEach(id => {
+          this.taxpayerProv.getById(id).subscribe(res => { // get taxpayer by id
+            console.log('taxpayer', res.taxpayer);
+            const taxpayer = res.taxpayer;
+            // tslint:disable-next-line:max-line-length
+            this.data.push({ checked: false, _idAccountant: accountant._id, _idTaxpayer: taxpayer._id, name: accountant.name, taxpayer: taxpayer.name, socialReason: taxpayer.socialReason, regimen_fiscal: taxpayer.fiscalRegime });
+          });
+        });
+      });
+      // console.log(data);
+    });
+  }// loadData()
 
   onItemSelected(ev) {
     if (ev.data) {
@@ -96,26 +100,44 @@ export class AsignarContribuyentesComponent implements OnInit {
         element.checked = false;
       });
     }
-
   }
   onChange(ev) {
+    this.stopPropagation(ev);
+    console.log(this.selectedItem);
     const newAccountant = this.dialogCtrl.open(ModalAsignarContribComponent, {
       disableClose: false,
       data: {
         todayAccontant: this.selectedItem ? this.selectedItem.accountant : '',
-        options: this.data,
-        selectedAll: this.allChecked
+        selectedAll: this.allChecked,
+        office: this.currentOffice,
+        accountant: this.selectedItem._idAccountant
       }
     });
+    const newTaxpayers = [];
     newAccountant.afterClosed().subscribe((data) => {
       if (!data) { return; }
-      this.data.forEach((element) => {
+      const res = this.data.slice();
+      res.forEach((element) => {
         if (element.checked) {
-          element.accountant = data;
+          newTaxpayers.push(element._idTaxpayer);
+          // element.accountant = data;
+          // this.action.next({name: RtActionName.DELETE, itemId: element._id });
         }
         element.checked = false;
       });
+      // tslint:disable-next-line:no-shadowed-variable
+      // tslint:disable-next-line:no-shadowed-variable
+      this.accountantProv.reasignTaxpayers(newTaxpayers, this.selectedItem._idAccountant, data._id).subscribe(data => {
+        this.data = data.accountant.taxpayers;
+        this.notify.success('Acción Exitosa', 'Los contribuyentes se ha reasignado correctamente');
+      }, err => {
+        console.log(err);
+        this.notify.error('Error', 'Ocurrió un error al reasignar los contribuyentes');
+      });
     });
   }
-}
+  stopPropagation(ev: Event) {
+    if (ev) { ev.stopPropagation(); }
+  }
+}// class
 

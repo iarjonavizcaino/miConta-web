@@ -59,7 +59,8 @@ export class InicioContadorComponent implements OnInit, OnDestroy {
       this.currentAccountant = idAccountant;
     } else {
       // this.currentAccountant = '5a74d57a4782953e679e8097';
-      this.currentAccountant = '5a75dff5938abf6cf488412b';
+      // this.currentAccountant = '5a75dff5938abf6cf488412b';
+      this.currentAccountant = '5a77ce6d24e4c0072dfed691';
     }
 
     this.accountantProv.getById(this.currentAccountant).subscribe(data => {
@@ -105,6 +106,7 @@ export class InicioContadorComponent implements OnInit, OnDestroy {
     const dialogRef = this.taxpayerModal(null, false, 'Nuevo contribuyente');
     dialogRef.afterClosed().subscribe((taxpayer) => {
       if (!taxpayer) { return; }
+      console.log('new', taxpayer);
       // Make HTTP request to create contadores
       this.taxpayerProv.create(taxpayer).subscribe(data => {
         taxpayer = data.taxpayer;
@@ -129,6 +131,7 @@ export class InicioContadorComponent implements OnInit, OnDestroy {
           this.notification.success('Acción exitosa', `Nuevo contribuyente creado: ${taxpayer.socialReason}`);
         });
       }, err => {
+        console.log(err);
         this.notification.error('Error', 'No se pudo crear el contribuyente');
       });
     });
