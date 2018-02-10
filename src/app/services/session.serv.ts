@@ -40,9 +40,20 @@ export class SessionService {
 
     checkRole(role: any) {
         const user = JSON.parse(localStorage.getItem('user'));
-        if (user === null || (user.role !== role)) {
-            return false;
+        if (role.length === 1) {
+            if (user === null || (user.role._id !== role[0])) {
+                return false;
+            }
+        } else if (role.length === 2) {
+            if (user === null || ((user.role._id !== role[0]) && (user.role._id !== role[1]))) {
+                return false;
+            }
+        } else {
+            if (user === null || ((user.role._id !== role[0]) && (user.role._id !== role[1]) && (user.role._id !== role[2]))) {
+                return false;
+            }
         }
+        console.log(4);
         return true;
     }
 

@@ -30,7 +30,7 @@ export class InicioContadorComponent implements OnInit, OnDestroy {
   roleUp = '';
   accountant: any;
   currentAccountant: string;
-  role = JSON.parse(localStorage.getItem('user')).role.name;
+  role = JSON.parse(localStorage.getItem('user')).role.name.toString().toLowerCase();
   users = [];
   office: string;
   constructor(

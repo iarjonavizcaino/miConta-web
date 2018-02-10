@@ -1,7 +1,8 @@
 import { SessionService } from './session.serv';
 import { AuthService } from './auth.serv';
 import { TaxpayerResolve } from './taxpayer.resolve';
-//  import { AuthGuard } from './auth.guard.serv';
+import { RoleGuard } from './role.guard.serv';
+ import { AuthGuard } from './auth.guard.serv';
 //  import { UserService } from './user.serv';
 //  import { OutputResolve } from './output.resolve';
 //  import { InputResolve } from './input.resolve';
@@ -9,7 +10,6 @@ import { TaxpayerResolve } from './taxpayer.resolve';
 //  import { KardexResolve } from './kardex.resolve';
 //  import { SalesResolve } from './sales.resolve';
 //  import { SaleResolve } from './sale.resolve';
-//  import { RoleGuard } from './role.guard.serv';
 
 
 export {
@@ -19,9 +19,9 @@ export {
     TransferResolve,
     KardexResolve,
     SalesResolve,
-    SaleResolve,
+    SaleResolve,*/
     AuthGuard,
-    RoleGuard*/
+    RoleGuard,
     AuthService,
     SessionService,
     TaxpayerResolve

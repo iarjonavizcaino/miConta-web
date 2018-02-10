@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 
 
 import { AppComponent } from './app.component';
-import { SessionService, AuthService } from './services/services';
+import { SessionService, AuthService, TaxpayerResolve, RoleGuard, AuthGuard } from './services/services';
 
 // dropzone
 import { DropzoneModule } from 'ngx-dropzone-wrapper';
@@ -56,10 +56,6 @@ import {
   OfficeProvider,
   RoleProvider
 } from './providers/providers';
-
-// Services
-
-import { TaxpayerResolve } from '../app/services/services';
 
 // Pages
 import { LoginComponent } from './pages/login/login.component';
@@ -132,28 +128,42 @@ import { ModalFechaComponent } from './pages/_catalog/modal-fecha/modal-fecha.co
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
   // contribuyente routes
-  { path: 'contribuyente/inicio', component: InicioComponent },
-  { path: 'contribuyente/resumen', component: ResumenContribuyenteComponent },
-  { path: 'contribuyente/misDatos', component: MisDatosComponent, resolve: { taxpayer: TaxpayerResolve } },
-  { path: 'contribuyente/obligaciones', component: ObligacionesComponent },
-  { path: 'contribuyente/limites', component: LimitesComponent },
-  { path: 'contribuyente/notificaciones', component: NotificacionesContribuyenteComponent },
+  { path: 'contribuyente/inicio', component: InicioComponent, canActivate: [RoleGuard],
+  data: { expectedRole: ['5a728f4bb15f741695e35c96'] } },
+  { path: 'contribuyente/resumen', component: ResumenContribuyenteComponent, canActivate: [AuthGuard] },
+  { path: 'contribuyente/misDatos', component: MisDatosComponent, resolve: { taxpayer: TaxpayerResolve },
+  canActivate: [RoleGuard], data: { expectedRole: ['5a728f4bb15f741695e35c96'] } },
+  { path: 'contribuyente/obligaciones', component: ObligacionesComponent, canActivate: [AuthGuard] },
+  { path: 'contribuyente/limites', component: LimitesComponent, canActivate: [AuthGuard] },
+  { path: 'contribuyente/notificaciones', component: NotificacionesContribuyenteComponent, canActivate: [AuthGuard] },
   // contador routes
-  { path: 'contador/inicio', component: InicioContadorComponent },
-  { path: 'contador/contribuyentes', component: CrudContribuyentesComponent },
-  { path: 'contador/notificaciones', component: NotificacionesComponent },
+  { path: 'contador/inicio', component: InicioContadorComponent, canActivate: [RoleGuard],
+  data: { expectedRole: ['5a728f50b15f741695e35c97', '5a728f43b15f741695e35c95', '5a728f56b15f741695e35c98'] } },
+  { path: 'contador/contribuyentes', component: CrudContribuyentesComponent, canActivate: [RoleGuard],
+  data: { expectedRole: ['5a728f50b15f741695e35c97', '5a728f43b15f741695e35c95', '5a728f56b15f741695e35c98'] } },
+  { path: 'contador/notificaciones', component: NotificacionesComponent, canActivate: [RoleGuard],
+  data: { expectedRole: ['5a728f50b15f741695e35c97', '5a728f43b15f741695e35c95', '5a728f56b15f741695e35c98'] } },
   // despacho routes
-  { path: 'despacho/inicio', component: InicioDespachoComponent },
-  { path: 'despacho/notificaciones', component: NotificacionesDespachoComponent },
-  { path: 'despacho/asignar', component: AsignarContribuyentesComponent },
+  { path: 'despacho/inicio', component: InicioDespachoComponent, canActivate: [RoleGuard],
+  data: { expectedRole: ['5a728f43b15f741695e35c95', '5a728f56b15f741695e35c98'] } },
+  { path: 'despacho/notificaciones', component: NotificacionesDespachoComponent, canActivate: [RoleGuard],
+  data: { expectedRole: ['5a728f43b15f741695e35c95', '5a728f56b15f741695e35c98'] } },
+  { path: 'despacho/asignar', component: AsignarContribuyentesComponent, canActivate: [RoleGuard],
+  data: { expectedRole: ['5a728f43b15f741695e35c95', '5a728f56b15f741695e35c98'] } },
 
   // superadmin
-  { path: 'superadmin/inicio', component: InicioSuperadminComponent },
-  { path: 'superadmin/despachos', component: DespachosComponent },
-  { path: 'superadmin/perfiles', component: PerfilesComponent },
-  { path: 'superadmin/conceptos', component: ConceptosComponent },
-  { path: 'superadmin/obligaciones', component: ObligacionesCrudComponent },
-  { path: 'superadmin/notificaciones', component: NotificacionesSuperadminComponent },
+  { path: 'superadmin/inicio', component: InicioSuperadminComponent, canActivate: [RoleGuard],
+  data: { expectedRole: ['5a728f56b15f741695e35c98'] } },
+  { path: 'superadmin/despachos', component: DespachosComponent, canActivate: [RoleGuard],
+  data: { expectedRole: ['5a728f56b15f741695e35c98'] } },
+  { path: 'superadmin/perfiles', component: PerfilesComponent, canActivate: [RoleGuard],
+  data: { expectedRole: ['5a728f56b15f741695e35c98'] } },
+  { path: 'superadmin/conceptos', component: ConceptosComponent, canActivate: [RoleGuard],
+  data: { expectedRole: ['5a728f56b15f741695e35c98'] } },
+  { path: 'superadmin/obligaciones', component: ObligacionesCrudComponent, canActivate: [RoleGuard],
+  data: { expectedRole: ['5a728f56b15f741695e35c98'] } },
+  { path: 'superadmin/notificaciones', component: NotificacionesSuperadminComponent, canActivate: [RoleGuard],
+  data: { expectedRole: ['5a728f56b15f741695e35c98'] } },
 ];
 
 @NgModule({
@@ -276,15 +286,8 @@ const routes: Routes = [
     OfficeProvider,
     RoleProvider,
     //  Services
-    /*UserService,
-    InputResolve,
-    TransferResolve,
-    OutputResolve,
-    KardexResolve,
-    SalesResolve,
-    SaleResolve,
     RoleGuard,
-    AuthGuard,*/
+    AuthGuard,
     SessionService,
     AuthService,
     TaxpayerResolve,

@@ -46,7 +46,7 @@ export class InicioDespachoComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     let idDespacho;
-    this.roleUp = JSON.parse(localStorage.getItem('user')).role.name;
+    this.roleUp = JSON.parse(localStorage.getItem('user')).role.name.toString().toLowerCase();
     this.sub = this.route
       .queryParams
       .subscribe(params => {
