@@ -148,8 +148,10 @@ export class NewBillComponent implements OnInit {
       const dialogRef = this.dialogCtrl.open(ModalFechaComponent, {
         disableClose: true,
         data: {
-          title: 'Fecha de Pago',
-          placeholder: 'Fecha'
+          config: {
+            title: 'Fecha de Pago',
+            placeholder: 'Fecha'
+          }
         }
       });
       dialogRef.afterClosed().subscribe((date) => {
