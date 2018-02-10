@@ -77,7 +77,8 @@ export class ObligacionesCrudComponent implements OnInit {
       disableClose: true,
       data: {
         title: '¡ATENCIÓN!',
-        message: '¿Está seguro de eliminar esta obligación?'
+        message: '¿Está seguro de eliminar esta obligación?',
+        type: 'danger'
       }
     });
     dialogRef.afterClosed().subscribe((res) => {

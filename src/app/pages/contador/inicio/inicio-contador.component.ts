@@ -122,7 +122,7 @@ export class InicioContadorComponent implements OnInit, OnDestroy {
           data: {
             title: 'Creedenciales de Acceso',
             message: `Usuario: ${taxpayer.account.user}, Contraseña: ${taxpayer.account.password}`,
-            type: 'warn'
+            type: 'success'
           }
         });
         console.log('hola');
@@ -143,7 +143,8 @@ export class InicioContadorComponent implements OnInit, OnDestroy {
       disableClose: true,
       data: {
         title: '¡ATENCIÓN!',
-        message: `¿Está seguro de eliminar el contribuyente ${this.selectedTaxpayer.socialReason}?`
+        message: `¿Está seguro de eliminar el contribuyente ${this.selectedTaxpayer.socialReason}?`,
+        type: 'danger'
       }
     });
     dialogRef.afterClosed().subscribe((res) => {

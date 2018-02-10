@@ -64,7 +64,7 @@ export class InicioSuperadminComponent implements OnInit {
           data: {
             title: 'Creedenciales de Acceso',
             message: `Usuario: ${office.account.user}, Contraseña: ${office.account.password}`,
-            type: 'warn'
+            type: 'success'
           }
         });
         // tslint:disable-next-line:no-shadowed-variable
@@ -100,7 +100,8 @@ export class InicioSuperadminComponent implements OnInit {
       disableClose: true,
       data: {
         title: '¡ATENCIÓN!',
-        message: `Está seguro de eliminar el despacho ${this.despachoSelected.name}?`
+        message: `Está seguro de eliminar el despacho ${this.despachoSelected.name}?`,
+        type: 'danger'
       }
     });
     dialogRef.afterClosed().subscribe((res) => {

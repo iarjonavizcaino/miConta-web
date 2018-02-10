@@ -105,7 +105,7 @@ export class InicioDespachoComponent implements OnInit, OnDestroy {
           data: {
             title: 'Creedenciales de Acceso',
             message: `Usuario: ${accountant.account.user}, Contraseña: ${accountant.account.password}`,
-            type: 'warn'
+            type: 'success'
           }
         });
         // tslint:disable-next-line:no-shadowed-variable
@@ -132,7 +132,7 @@ export class InicioDespachoComponent implements OnInit, OnDestroy {
         data: {
           title: '¡Atención!',
           message: `El contador ${accountant.name} tiene contribuyentes asociados. No se puede desactivar`,
-          type: 'warn',
+          type: 'danger',
           input: false,
           alert: true
         }
@@ -186,7 +186,8 @@ export class InicioDespachoComponent implements OnInit, OnDestroy {
       disableClose: true,
       data: {
         title: '¡ATENCIÓN!',
-        message: `¿Está seguro de eliminar el contador ${this.selectedAccountant.name}?`
+        message: `¿Está seguro de eliminar el contador ${this.selectedAccountant.name}?`,
+        type: 'danger'
       }
     });
     dialogRef.afterClosed().subscribe((res) => {

@@ -78,7 +78,8 @@ export class CrearNotificacionComponent implements OnInit {
         disableClose: true,
         data: {
           title: 'Atención!',
-          message: 'Debes seleccionar al menos 1 usuario'
+          message: 'Debes seleccionar al menos 1 usuario',
+          type: 'danger'
         }
       });
     }

@@ -76,7 +76,8 @@ export class ConceptosComponent implements OnInit {
       disableClose: true,
       data: {
         title: '¸ATENCIÓN!',
-        message: `¿Está seguro de eliminar el concepto: ${this.conceptSelected.concept}?`
+        message: `¿Está seguro de eliminar el concepto: ${this.conceptSelected.concept}?`,
+        type: 'danger'
       }
     });
     dialogRef.afterClosed().subscribe((res) => {
