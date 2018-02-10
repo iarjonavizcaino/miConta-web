@@ -17,6 +17,7 @@ export class LimitesComponent implements OnInit, OnDestroy {
   sub: any;
   contribuyente: any;
   limits = [];
+  role = JSON.parse(localStorage.getItem('user')).role.name;
 
   ngOnInit() {
     this.sub = this.route
@@ -28,7 +29,12 @@ export class LimitesComponent implements OnInit, OnDestroy {
           this.contribuyente = params.name;
         }
       });
-      this.limits = JSON.parse(localStorage.getItem('user')).profile.concepts;
+      console.log(localStorage.getItem('taxpayer'));
+      if (this.role !== 'Contribuyente') {
+        this.limits = JSON.parse(localStorage.getItem('taxpayer')).profile.concepts;
+      } else {
+        this.limits = JSON.parse(localStorage.getItem('user')).profile.concepts;
+      }
   }
 
   ngOnDestroy() {

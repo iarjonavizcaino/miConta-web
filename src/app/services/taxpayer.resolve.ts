@@ -12,7 +12,7 @@ export class TaxpayerResolve implements Resolve<any> {
     resolve(route: ActivatedRouteSnapshot): Promise<any> | boolean {
         // const id = route.params['id'];
         if (this.role !== 'Taxpayer' ) {
-            this.currentTaxpayer = localStorage.getItem('taxpayer');
+            this.currentTaxpayer = JSON.parse(localStorage.getItem('taxpayer'))._id;
           } else {
             this.currentTaxpayer = JSON.parse(localStorage.getItem('user'))._id;
           }

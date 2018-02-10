@@ -12,18 +12,23 @@ export class ObligacionesComponent implements OnInit, OnDestroy {
   sub: any;
   contribuyente: any;
   obligations = [];
+  role = JSON.parse(localStorage.getItem('user')).role.name;
 
   ngOnInit() {
     this.sub = this.route
-    .queryParams
-    .subscribe(params => {
-      console.log('params', params);
-      // tslint:disable-next-line:triple-equals
-      if (params.name) {
-        this.contribuyente = params.name;
-      }
-    });
-    this.obligations = JSON.parse(localStorage.getItem('user')).profile.obligations;
+      .queryParams
+      .subscribe(params => {
+        console.log('params', params);
+        // tslint:disable-next-line:triple-equals
+        if (params.name) {
+          this.contribuyente = params.name;
+        }
+      });
+    if (this.role !== 'Contribuyente') {
+      this.obligations = JSON.parse(localStorage.getItem('taxpayer')).profile.obligations;
+    } else {
+      this.obligations = JSON.parse(localStorage.getItem('user')).profile.obligations;
+    }
   }
 
   ngOnDestroy() {

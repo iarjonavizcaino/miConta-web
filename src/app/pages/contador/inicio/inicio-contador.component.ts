@@ -178,7 +178,7 @@ export class InicioContadorComponent implements OnInit, OnDestroy {
   }
   taxpayerDetail(page: string) {
     this.users.push({'role': 'Contribuyente', 'name': this.selectedTaxpayer.name});
-    localStorage.setItem('taxpayer', this.selectedTaxpayer._id);
+    localStorage.setItem('taxpayer', JSON.stringify(this.selectedTaxpayer));
     localStorage.setItem('users', JSON.stringify(this.users));
     this.router.navigate([page], { queryParams: { name: this.selectedTaxpayer.socialReason,
       office: this.office, accountant: this.accountant._id } });
