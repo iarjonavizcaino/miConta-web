@@ -10,6 +10,7 @@ import { MatDialog, MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 // import { SaleProvider, ProductProvider, CutProvider } from '../../../providers/providers';
 import * as accounting from 'accounting-js';
 import * as moment from 'moment';
+import { ModalFechaComponent } from '../modal-fecha/modal-fecha.component';
 
 @Component({
   selector: 'app-billing-catalog',
@@ -96,9 +97,30 @@ export class BillingCatalogComponent implements OnInit {
     this.total = this.subtotal + this.taxes;
   }
 
+  changeStatus(ev) {
+    console.log(ev);
+    if (ev) {
+      const dialogRef = this.dialogCtrl.open(ModalFechaComponent, {
+        data: {
+          config: {
+            title: 'Fecha',
+            placeholder: 'Seleccionar fecha'
+          }
+        }
+      });
+      dialogRef.afterClosed().subscribe(res => {
+        if (!res) { this.infoBill.active = !this.infoBill.active; return; }
+        this.infoBill.endDate = res;
+        // Make HTTP request to change date
+      });
+    } else {
+      this.infoBill.endDate = null;
+    }
+  }
+
   onSave() {
     console.log('Guardar');
-    this.dialogRef.close(this.data.bill);
+    this.dialogRef.close(this.infoBill);
   }
 
   stopPropagation(ev: Event) {

@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { Router } from '@angular/router';
-import { SessionService } from '../../services/services'; //AuthService
+import { SessionService } from '../../services/services'; // AuthService
 import { Observable } from 'rxjs/Observable';
 // import { InputOutputMoneyCatalogComponent } from '../../pages/_catalog/input-output-money/input-output-money-catalog.component';
 import { MatDialog } from '@angular/material';
@@ -35,7 +35,11 @@ export class ToolbarComponent {
       }
     });
     this.role = JSON.parse(localStorage.getItem('user')).role.name;
-    this.name = JSON.parse(localStorage.getItem('user')).name;
+    if (this.role === 'Contribuyente') {
+      this.name = JSON.parse(localStorage.getItem('user')).socialReason;
+    } else {
+      this.name = JSON.parse(localStorage.getItem('user')).name;
+    }
   }
 
   onMenu() {
