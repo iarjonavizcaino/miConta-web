@@ -10,17 +10,22 @@ import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 })
 export class ConfirmComponent implements OnInit {
   form: FormGroup;
+  type = '';
   constructor(
     private dialogRef: MatDialogRef<ConfirmComponent>,
     private fb: FormBuilder,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
     this.form = this.fb.group({
-      'amount': [null, Validators.required ]
+      'amount': [null, Validators.required]
     });
   }
 
   ngOnInit() {
+    if (this.data) {
+      console.log(this.data);
+      this.type = this.data.type;
+    }
   }
 
   onConfirm() {

@@ -124,7 +124,8 @@ export class NewBillComponent implements OnInit {
         disableClose: true,
         data: {
           title: 'Atención!',
-          message: 'No se han registrado productos/servicio para la factura'
+          message: 'No se han registrado productos/servicio para la factura',
+          type: 'danger'
         }
       });
     } else {

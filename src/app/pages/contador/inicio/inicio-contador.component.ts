@@ -107,6 +107,7 @@ export class InicioContadorComponent implements OnInit, OnDestroy {
     const dialogRef = this.taxpayerModal(null, false, 'Nuevo contribuyente');
     dialogRef.afterClosed().subscribe((taxpayer) => {
       if (!taxpayer) { return; }
+      console.log('new', taxpayer);
       // Make HTTP request to create contadores
       this.taxpayerProv.create(taxpayer).subscribe(data => {
         taxpayer = data.taxpayer;
@@ -122,7 +123,7 @@ export class InicioContadorComponent implements OnInit, OnDestroy {
           data: {
             title: 'Creedenciales de Acceso',
             message: `Usuario: ${taxpayer.account.user}, Contraseña: ${taxpayer.account.password}`,
-            type: 'warn'
+            type: 'success'
           }
         });
         console.log('hola');
@@ -131,6 +132,7 @@ export class InicioContadorComponent implements OnInit, OnDestroy {
           this.notification.success('Acción exitosa', `Nuevo contribuyente creado: ${taxpayer.socialReason}`);
         });
       }, err => {
+        console.log(err);
         this.notification.error('Error', 'No se pudo crear el contribuyente');
       });
     });
@@ -142,7 +144,8 @@ export class InicioContadorComponent implements OnInit, OnDestroy {
       disableClose: true,
       data: {
         title: '¡ATENCIÓN!',
-        message: `¿Está seguro de eliminar el contribuyente ${this.selectedTaxpayer.socialReason}?`
+        message: `¿Está seguro de eliminar el contribuyente ${this.selectedTaxpayer.socialReason}?`,
+        type: 'danger'
       }
     });
     dialogRef.afterClosed().subscribe((res) => {

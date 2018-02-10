@@ -76,7 +76,8 @@ export class PerfilesComponent implements OnInit {
       disableClose: true,
       data: {
         title: '¡ATENCIÓN!',
-        message: `Está seguro de eliminar el perfil: ${this.profileSelected.name}?`
+        message: `Está seguro de eliminar el perfil: ${this.profileSelected.name}?`,
+        type: 'danger'
       }
     });
     dialogRef.afterClosed().subscribe(res => {

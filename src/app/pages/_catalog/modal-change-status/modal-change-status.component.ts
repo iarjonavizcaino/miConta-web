@@ -44,7 +44,8 @@ export class ModalChangeStatusComponent implements OnInit {
           disableClose: true,
           data: {
             title: 'Atención!',
-            message: 'El campo de fecha no puede estár vacío'
+            message: 'El campo de fecha no puede estár vacío',
+            type: 'danger'
           }
         });
       }

@@ -139,7 +139,7 @@ export class CrudContribuyentesComponent implements OnInit {
         data: {
           title: 'Creedenciales de Acceso',
           message: 'usuario: 123, password: 123',
-          type: 'warn'
+          type: 'success'
         }
       });
       // tslint:disable-next-line:no-shadowed-variable
