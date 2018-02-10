@@ -26,7 +26,7 @@ export class ModalFechaComponent implements OnInit {
 
   ngOnInit() {
     if (!this.data) { return; }
-    this.config = this.data;
+    this.config = this.data.config;
   }
 
   onClose() {

@@ -1,10 +1,11 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { RtAction, RtActionName, RtHeader } from '../../../components/rt-datatable/rt-datatable.component';
+import { RtAction, RtActionName, RtHeader, RtCheckEvent } from '../../../components/rt-datatable/rt-datatable.component';
 import { Subject } from 'rxjs/Subject';
 import { MatDialog } from '@angular/material';
 import { BillingCatalogComponent } from '../../_catalog/billing-catalog/billing-catalog.component';
 import { Router, ActivatedRoute } from '@angular/router';
 import { NewBillComponent } from '../../_catalog/new-bill/new-bill.component';
+import { ModalFechaComponent } from '../../_catalog/modal-fecha/modal-fecha.component';
 
 @Component({
   selector: 'app-resumen-contribuyente',
@@ -12,7 +13,7 @@ import { NewBillComponent } from '../../_catalog/new-bill/new-bill.component';
   styleUrls: ['./resumen-contribuyente.component.scss']
 })
 export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
- 
+
   headersIngresos: Array<RtHeader> = [
     { name: 'Emisión', prop: 'date', default: 'No date', moment: true },  // from xml file
     { name: 'Cliente', prop: 'customer.name', default: 'No customer' },
@@ -20,7 +21,7 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
     { name: 'Total', prop: 'total', default: '$ 0.00', align: 'right', accounting: true },
     { name: 'Tipo de factura', prop: 'type', default: '', align: 'center', chip: true },
     { name: 'Cobrada', prop: 'active', input: 'toggle' },
-    { name: 'Fec Cobrada', prop: 'chargedDay', default: '', align: 'center', moment: true }
+    { name: 'Fec Cobrada', prop: 'endDate', default: '', align: 'center', moment: true }
   ];
   headersEgresos: Array<RtHeader> = [
     { name: 'Emisión', prop: 'date', default: 'No date', moment: true },
@@ -30,7 +31,7 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
     { name: 'Total', prop: 'total', default: '$ 0.00', align: 'right', accounting: true },
     { name: 'Tipo de factura', prop: 'type', default: '', align: 'center', chip: true },
     { name: 'Pagada', prop: 'active', input: 'toggle' },
-    { name: 'Fec Pago', prop: 'payDay', default: '', align: 'center', moment: true }
+    { name: 'Fec Pago', prop: 'endDate', default: '', align: 'center', moment: true }
   ];
 
   // ingresos
@@ -125,24 +126,45 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
     });
   }
   onEgresosSelected(ev: any) {
-    if (ev.data) {
-      if (ev.data.checked) {
-        ev.data.checked = false;
-        this.checkedEgresos = this.checkedEgresos - 1 === 0 ? 0 : this.checkedEgresos - 1;
-      } else {
-        ev.data.checked = true;
-        this.checkedEgresos++;
-      }
-    }
+    // if (ev.data) {
+    //   if (ev.data.checked) {
+    //     ev.data.checked = false;
+    //     this.checkedEgresos = this.checkedEgresos - 1 === 0 ? 0 : this.checkedEgresos - 1;
+    //   } else {
+    //     ev.data.checked = true;
+    //     this.checkedEgresos++;
+    //   }
+    // }
     this.selectedEgresos = ev.data;
   }
-  onEgresosChecked(ev: any) {
-    if (!ev.item.checked) {
-      this.checkedEgresos++;
-      ev.item.checked = !ev.item.checked;
-      this.selectedEgresos = ev.item;
-    } else {
-      this.checkedEgresos--;
+  onEgresosChecked(ev: any, type: string) {
+    console.log(type);
+    if (type === 'check') {
+      if (!ev.item.checked) {
+        this.checkedEgresos++;
+        ev.item.checked = !ev.item.checked;
+      } else {
+        this.checkedEgresos--;
+      }
+    } else if (type === 'toggle') {
+      const bill: any = ev.item;
+      if (!bill.active) {
+        const dialogRef = this.dialogCtrl.open(ModalFechaComponent, {
+          data: {
+            config: {
+              title: 'Fecha de pago',
+              placeholder: 'Seleccionar fecha'
+            }
+          }
+        });
+        dialogRef.afterClosed().subscribe(res => {
+          if (!res) { bill.active = !bill.active; return; }
+          bill.endDate = res;
+          // Make HTTP request to change date
+        });
+      } else {
+        bill.endDate = null;
+      }
     }
   }
   onCheckAllEgresos(ev: any) {
@@ -164,24 +186,44 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
   }
   /************************************************************************************ */
   onIngresosSelected(ev) {
-    if (ev.data) {
-      if (ev.data.checked) {
-        ev.data.checked = false;
-        this.checkedIngresos = this.checkedIngresos - 1 === 0 ? 0 : this.checkedIngresos - 1;
-      } else {
-        ev.data.checked = true;
-        this.checkedIngresos++;
-      }
-    }
+    // if (ev.data) {
+    //   if (ev.data.checked) {
+    //     ev.data.checked = false;
+    //     this.checkedIngresos = this.checkedIngresos - 1 === 0 ? 0 : this.checkedIngresos - 1;
+    //   } else {
+    //     ev.data.checked = true;
+    //     this.checkedIngresos++;
+    //   }
+    // }
     this.selectedIngresos = ev.data;
   }
-  onIngresosChecked(ev: any) {
-    if (!ev.item.checked) {
-      this.checkedIngresos++;
-      ev.item.checked = !ev.item.checked;
-      this.selectedIngresos = ev.item;
-    } else {
-      this.checkedIngresos--;
+  onIngresosChecked(ev: any, type: string) {
+    if (type === 'check') {
+      if (!ev.item.checked) {
+        this.checkedIngresos++;
+        ev.item.checked = !ev.item.checked;
+      } else {
+        this.checkedIngresos--;
+      }
+    } else if (type === 'toggle') {
+      const bill: any = ev.item;
+      if (!bill.active) {
+        const dialogRef = this.dialogCtrl.open(ModalFechaComponent, {
+          data: {
+            config: {
+              title: 'Fecha de cobro',
+              placeholder: 'Seleccionar fecha'
+            }
+          }
+        });
+        dialogRef.afterClosed().subscribe(res => {
+          if (!res) { bill.active = !bill.active; return; }
+          bill.endDate = res;
+          // Make HTTP request to change date
+        });
+      } else {
+        bill.endDate = null;
+      }
     }
   }
   onCheckAllIngresos(ev: any) {
@@ -236,6 +278,7 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
     console.log('Eliminar declaración que se registro manual');
   }
 
+
   stopPropagation(ev: Event) {
     if (ev) { ev.stopPropagation(); }
   }
@@ -243,7 +286,7 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
   loadIngresosData() {
     this.dataIngresos = [
       {
-        chargedDay: '01/01/1995',
+        endDate: '01/01/1995',
         active: true,
         type: 'XML',
         checked: false,
@@ -334,7 +377,7 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
         ]
       },
       {
-        chargedDay: '03/03/1995',
+        endDate: '03/03/1995',
         active: false,
         type: 'Automática',
         checked: false,
@@ -386,7 +429,7 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
     this.dataEgresos = [
       {
         // status: 'Cobrado',
-        payDay: '09/19/1995',
+        endDate: '09/19/1995',
         deducible: true,
         cobrada: true,
         type: 'Manual',
@@ -482,7 +525,7 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
         ]
       },
       {
-        payDay: '11/14/2015',
+        endDate: '11/14/2015',
         deducible: true,
         cobrada: true,
         // status: 'Cobrado',

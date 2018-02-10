@@ -121,7 +121,7 @@
             <h3>{{13026 | currency:'USD':true:'2.2-4'}}</h3>
           </mat-panel-description>
         </mat-expansion-panel-header>
-        <rt-datatable (selected)="onIngresosSelected($event)" (checked)="onIngresosChecked($event)" [showRowNumber]="true" searchWait="600"
+        <rt-datatable (selected)="onIngresosSelected($event)" (checked)="onIngresosChecked($event, 'toggle')" (checked)="onIngresosChecked($event, 'check')" [showRowNumber]="true" searchWait="600"
           [showRowNumber]="false" [headers]="headersIngresos" [action]="actionIngresos" [data]="dataIngresos">
           <section class="actions">
             <ng-container *ngIf="selectedIngresos">
@@ -166,7 +166,7 @@
             <h3>{{11774 | currency:'USD':true:'2.2-4'}}</h3>
           </mat-panel-description>
         </mat-expansion-panel-header>
-        <rt-datatable (selected)="onEgresosSelected($event)" (checked)="onEgresosChecked($event)" searchWait="600" [showRowNumber]="false"
+        <rt-datatable (selected)="onEgresosSelected($event)" (checked)="onEgresosChecked($event, 'toggle')" (checked)="onEgresosChecked($event, 'check')" searchWait="600" [showRowNumber]="false"
           [headers]="headersEgresos" [action]="actionEgresos" [data]="dataEgresos">
           <section class="actions">
             <ng-container *ngIf="selectedEgresos">
