@@ -11,6 +11,7 @@ export class ObligacionesComponent implements OnInit, OnDestroy {
   constructor(private route: ActivatedRoute) { }
   sub: any;
   contribuyente: any;
+  obligations = [];
 
   ngOnInit() {
     this.sub = this.route
@@ -22,6 +23,7 @@ export class ObligacionesComponent implements OnInit, OnDestroy {
         this.contribuyente = params.name;
       }
     });
+    this.obligations = JSON.parse(localStorage.getItem('user')).profile.obligations;
   }
 
   ngOnDestroy() {

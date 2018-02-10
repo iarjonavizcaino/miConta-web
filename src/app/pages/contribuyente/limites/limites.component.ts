@@ -1,6 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { MatDialog, MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { ActivatedRoute } from '@angular/router';
+import { TaxpayerProvider } from '../../../providers/providers';
 
 @Component({
   selector: 'app-limites',
@@ -9,9 +10,13 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class LimitesComponent implements OnInit, OnDestroy {
 
-  constructor(private route: ActivatedRoute) { }
+  constructor(
+    private route: ActivatedRoute,
+    private taxpayerProv: TaxpayerProvider
+  ) { }
   sub: any;
   contribuyente: any;
+  limits = [];
 
   ngOnInit() {
     this.sub = this.route
@@ -23,6 +28,7 @@ export class LimitesComponent implements OnInit, OnDestroy {
           this.contribuyente = params.name;
         }
       });
+      this.limits = JSON.parse(localStorage.getItem('user')).profile.concepts;
   }
 
   ngOnDestroy() {

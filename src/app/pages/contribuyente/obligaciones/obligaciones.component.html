@@ -14,51 +14,23 @@
 <br>
 <mat-accordion class="example-headers-align">
 
-  <mat-expansion-panel hideToggle="true" [expanded]="true">
+  <mat-expansion-panel hideToggle="true" *ngFor="let obligation of obligations">
     <mat-expansion-panel-header>
       <mat-panel-title>
-        <strong>Declarar impuestos</strong>
+        <strong>{{obligation.type}}</strong>
       </mat-panel-title>
-      <mat-panel-description style="margin-left: 20px">
-        Informativa
+      <mat-panel-description style="margin-left: 20px" *ngIf="obligation.type === 'Informativas'">
         <mat-icon>info</mat-icon>
       </mat-panel-description>
-    </mat-expansion-panel-header>
-    <p>
-      Realizar declaración cada 2 meses
-    </p>
-  </mat-expansion-panel>
-
-  <mat-expansion-panel hideToggle="true">
-    <mat-expansion-panel-header>
-      <mat-panel-title>
-        <strong>Expedir comprobantes</strong>
-      </mat-panel-title>
-      <mat-panel-description style="margin-left: 20px">
-        Montos
+      <mat-panel-description style="margin-left: 20px" *ngIf="obligation.type === 'Montos'">
         <mat-icon>monetization_on</mat-icon>
       </mat-panel-description>
-    </mat-expansion-panel-header>
-    <p>
-      Expedir comprobantes por las actividades que realicen y conservar una copia de los mismos a disposición de las autoridades
-      fiscales.
-    </p>
-  </mat-expansion-panel>
-
-  <mat-expansion-panel hideToggle="true">
-    <mat-expansion-panel-header>
-      <mat-panel-title>
-        <strong>Registros fiscales</strong>
-      </mat-panel-title>
-      <mat-panel-description style="margin-left: 20px">
-        Plazos
+      <mat-panel-description style="margin-left: 20px" *ngIf="obligation.type === 'Plazos'">
         <mat-icon>watch_later</mat-icon>
       </mat-panel-description>
     </mat-expansion-panel-header>
     <p>
-      Inscribirse en los registros fiscales en un plazo que no excederá de treinta días a partir de la fecha en que se genere la
-      obligación fiscal, utilizando las formas oficiales.
+      {{obligation.description}}
     </p>
   </mat-expansion-panel>
-
 </mat-accordion>

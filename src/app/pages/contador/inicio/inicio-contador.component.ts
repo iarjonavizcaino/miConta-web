@@ -30,7 +30,7 @@ export class InicioContadorComponent implements OnInit, OnDestroy {
   roleUp = '';
   accountant: any;
   currentAccountant: string;
-  role = JSON.parse(localStorage.getItem('user')).role.name.toString().toLowerCase();
+  role = JSON.parse(localStorage.getItem('user')).role.name;
   users = [];
   office: string;
   constructor(
@@ -43,7 +43,7 @@ export class InicioContadorComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     let idAccountant;
-    this.roleUp = JSON.parse(localStorage.getItem('user')).role.name;
+    this.roleUp = JSON.parse(localStorage.getItem('user')).role.name.toString().toLowerCase();
     this.sub = this.route
       .queryParams
       .subscribe(params => {
@@ -57,8 +57,10 @@ export class InicioContadorComponent implements OnInit, OnDestroy {
 
     if (this.role === 'Superadmin' || this.role === 'Despacho') {
       this.currentAccountant = idAccountant;
+      console.log('hola 1');
     } else {
       // this.currentAccountant = '5a74d57a4782953e679e8097';
+      console.log('hola 2');
       this.currentAccountant = JSON.parse(localStorage.getItem('user'))._id;
     }
 
