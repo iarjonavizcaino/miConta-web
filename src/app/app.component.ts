@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { SessionService } from './services/session.serv';
 import { trigger, transition, style, animate } from '@angular/animations';
 import * as moment from 'moment';
+import { AuthService } from './services/services';
 
 @Component({
   selector: 'app-root',
@@ -37,7 +38,10 @@ export class AppComponent implements OnInit {
     animate: 'fromLeft',
     maxStack: 5
   };
-  constructor(private router: Router, private session: SessionService) {}
+  constructor(
+    public auth: AuthService,
+    private router: Router,
+    private session: SessionService) {}
 
   @HostListener('window:resize', ['$event'])
   onResize(event) {
@@ -46,7 +50,8 @@ export class AppComponent implements OnInit {
   ngOnInit() {
     this.configureSidenav();
     this.configureMoment();
-    this.router.navigate(['/login']);
+    // this.router.navigate(['/login']);
+    this._checkSession();
     this.user$ = this.session.user;
   }
   private configureMoment() {
@@ -72,5 +77,11 @@ export class AppComponent implements OnInit {
   private configureSidenav() {
     this.smallScreen = window.innerWidth < 841;
     this.mode = this.smallScreen ? 'over' : 'side';
+  }
+
+  private _checkSession() {
+    if (!this.auth.checkSession()) {
+      this.router.navigate(['/login']);
+    }
   }
 }// class
