@@ -22,8 +22,8 @@ export class AsignarContribuyentesComponent implements OnInit {
     { name: 'Régimen Fiscal', prop: 'regimen_fiscal', default: 'Sin régimen' },
   ];
   selectedItem: any;
-  currentOffice = '5a724aaa9b3e2d36e2d9917c';
-  // currentOffice = '5a75f084057460690aa2d833';  // ids static because  we didn't have login
+  // currentOffice = '5a724aaa9b3e2d36e2d9917c';
+  currentOffice = '5a75f084057460690aa2d833';  // ids static because  we didn't have login
   data = [];
   checkedItems = 0;
   allChecked = false; // this is for change the icon 'check' in table

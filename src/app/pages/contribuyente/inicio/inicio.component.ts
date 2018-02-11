@@ -10,8 +10,22 @@ import { SessionService } from '../../../services/session.serv';
 export class InicioComponent implements OnInit {
   permission: any;
   user$: Observable<any>;
-  constructor(private session: SessionService) {}
+  welcome: any = {
+    socialReason: '',
+    name: '',
+    profile: ''
+  };
+  constructor(private session: SessionService) { }
 
   ngOnInit() {
+    this.user$ = this.session.user;
+    this.user$.subscribe((user) => {
+      console.log(user);
+      if (user) {
+        this.welcome.socialReason = user.socialReason;
+        this.welcome.name = user.name;
+        this.welcome.profile = user.profile.name;
+      }
+    });
   }
 }// class

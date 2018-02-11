@@ -31,8 +31,8 @@ export class LoginComponent implements OnInit {
   ) {
     this.loginForm = fb.group({
       role: ['superadmin', Validators.required],
-      username: ['superadmin', Validators.required],
-      password: ['superadmin', Validators.required]
+      username: ['manuel', Validators.required],
+      password: ['12345', Validators.required]
     });
   }
 
