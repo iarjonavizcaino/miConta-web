@@ -19,10 +19,10 @@ import { ModalFechaComponent } from '../modal-fecha/modal-fecha.component';
 })
 // tslint:disable-next-line:component-class-suffix
 export class BillingCatalogComponent implements OnInit {
-
+  moment = moment;
   headers: Array<RtHeader> = [
-    { name: 'Código', prop: 'code', default: '', width: '14'},
-    { name: 'Concepto', prop: 'name', default: 'No name', width: '32'},
+    { name: 'Código', prop: 'code', default: '', width: '14' },
+    { name: 'Concepto', prop: 'product', default: 'No name', width: '32' },
     { name: 'Cant', prop: 'quantity', default: '0', align: 'right', width: '8' },
     { name: 'Precio unitario', prop: 'price', default: '$ 0.00', align: 'right', accounting: true, width: '17' },
     { name: 'Importe', prop: 'amount', default: '$ 0.00', align: 'right', accounting: true, width: '17' }
@@ -30,30 +30,30 @@ export class BillingCatalogComponent implements OnInit {
 
   action = new Subject<RtAction>();
   title: string;
-  products = [];
+
   bill: any;
-  total = 0;
-  taxes = 0;
-  subtotal = 0;
   infoBill: any = {
-    date: '',
+    taxes: 0,
     total: 0,
-    active: false,
-    customer: {
+    subtotal: 0,
+    createdDate: '',
+    cobrada_pagada: false,
+    payMethod: {},
+    customer_provider: {
       name: '',
       rfc: '',
       phone: '',
       email: '',
+      address: {
+        street: '',
+        number: '',
+        neighborhood: '',
+        zipcode: '',
+        city: '',
+        state: '',
+        municipality: '',
+      }
     },
-    address: {
-      street: '',
-      number: '',
-      neighborhood: '',
-      zipcode: '',
-      city: '',
-      state: '',
-      municipality: ''
-    }
   };
   // now = moment(new Date).format('LL');
 
@@ -70,33 +70,21 @@ export class BillingCatalogComponent implements OnInit {
   ngOnInit() {
     this.title = this.data.title || 'Título del modal';
     if (this.data) {  // data: info from table
-      console.log(this.data);
       this.infoBill = this.data.bill;
-      this.infoBill.customer.phone = this.formatPhone(this.infoBill.customer.phone);
-      // this.infoBill.date = moment(this.infoBill.date).format('L');
-      this.products = this.data.bill.products;
-      this.getTotal(this.products);
+      // console.log(this.infoBill);
+      // formats
+      this.infoBill.bill.customer_provider.phone = this.formatPhone(this.infoBill.bill.customer_provider.phone);
+      this.infoBill.bill.createdDate = this.moment(this.infoBill.bill.createdDate).format('L');
     }
   }
   formatPhone(text: string) {
+    console.log(text);
     text = text.replace(/(\d{3})(\d{3})(\d{4})/, '$1-$2-$3');
     return text;
   }
   onClose() {
     this.dialogRef.close();
   }
-
-  getTotal(data) {
-    let subTotal = 0, iva = 0;
-    data.forEach(product => {
-      subTotal += Number(product.amount);
-      iva += Number(product.amount * 0.16);
-    });
-    this.subtotal = subTotal;
-    this.taxes = iva;
-    this.total = this.subtotal + this.taxes;
-  }
-
   changeStatus(ev) {
     console.log(ev);
     if (ev) {
@@ -109,12 +97,12 @@ export class BillingCatalogComponent implements OnInit {
         }
       });
       dialogRef.afterClosed().subscribe(res => {
-        if (!res) { this.infoBill.active = !this.infoBill.active; return; }
-        this.infoBill.endDate = res;
+        if (!res) { this.infoBill.bill.cobrada_pagada = !this.infoBill.bill.cobrada_pagada; return; }
+        this.infoBill.bill.cobrada_pagadaDate = res;
         // Make HTTP request to change date
       });
     } else {
-      this.infoBill.endDate = null;
+      this.infoBill.bill.cobrada_pagadaDate = '';
     }
   }
 

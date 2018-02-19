@@ -6,7 +6,7 @@ import { Employee } from '../../types/employee.type';
 import { AuthService } from '../../services/services';
 import { RoleProvider } from '../../providers/providers';
 import { Credentials } from '../../types/types';
-
+import { _roles } from '../../services/global';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -31,8 +31,8 @@ export class LoginComponent implements OnInit {
   ) {
     this.loginForm = fb.group({
       role: ['superadmin', Validators.required],
-      username: ['manuel', Validators.required],
-      password: ['12345', Validators.required]
+      username: ['conta', Validators.required],
+      password: ['1234', Validators.required]
     });
   }
 
@@ -50,7 +50,7 @@ export class LoginComponent implements OnInit {
 
     const credentials: Credentials = this.loginForm.value;
     switch (this.selectedRole) {
-      case '5a728f50b15f741695e35c97': // contador
+      case _roles.accountant_prod: // contador
         this.auth.loginAccountant(credentials).subscribe(user => {
           console.log('contador', user);
           this.isLoginWrong = !user.token;
@@ -68,7 +68,7 @@ export class LoginComponent implements OnInit {
           this.message = error.detail;
         });
         break;
-      case '5a728f4bb15f741695e35c96': // contribuyente
+      case _roles.taxpayer_prod: // contribuyente
         this.auth.loginTaxpayer(credentials).subscribe(user => {
           console.log('contribuyente', user);
           this.isLoginWrong = !user.token;
@@ -86,7 +86,7 @@ export class LoginComponent implements OnInit {
           this.message = error.detail;
         });
         break;
-      case '5a728f43b15f741695e35c95': // despacho
+      case _roles.offices_prod: // despacho
         this.auth.loginOffice(credentials).subscribe(user => {
           console.log('despacho', user);
           this.isLoginWrong = !user.token;
@@ -104,7 +104,7 @@ export class LoginComponent implements OnInit {
           this.message = error.detail;
         });
         break;
-      case '5a728f56b15f741695e35c98': // superadmin
+      case _roles.superadmin_prod: // superadmin
         this.auth.loginSuperadmin(credentials).subscribe(user => {
           console.log('superadmin', user);
           this.isLoginWrong = !user.token;

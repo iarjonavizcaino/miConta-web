@@ -10,6 +10,8 @@ import { Observable } from 'rxjs/Observable';
 import { states } from '../../../../states';
 import { ConfirmComponent } from '../../../components/confirm/confirm.component';
 import { ModalFechaComponent } from '../modal-fecha/modal-fecha.component';
+import { PayMethodProvider } from '../../../providers/providers';
+
 const RFC_REGEX = /^([A-ZÑ]{3,4}([0-9]{2})(0[1-9]|1[0-2])(0[1-9]|1[0-9]|2[0-9]|3[0-1]))([A-Z\d]{3})?$/;
 
 @Component({
@@ -21,52 +23,66 @@ export class NewBillComponent implements OnInit {
   moment = moment;
   headers: Array<RtHeader> = [
     { name: 'Concepto', prop: 'code', default: '' },
-    { name: 'Producto', prop: 'name', default: 'No name' },
+    { name: 'Producto', prop: 'product', default: 'No name' },
     { name: 'Cant.', prop: 'quantity', default: '0', align: 'right' },
     { name: 'Precio unitario', prop: 'price', default: '$ 0.00', align: 'right', accounting: true },
     { name: 'Importe', prop: 'amount', default: '$ 0.00', align: 'right', accounting: true }
   ];
   action = new Subject<RtAction>();
+  statusTaza: boolean;
+  allMethods = [];
   bill = {
-    payDay: '',
-    status: '', // Cobrado o Pendiente
-    active: false,  // switch
-    provider: true, //
-    type: 'Manual',
-    date: '',
-    customer: {
+    type: '', // ingresos o egresos
+    checked: false, // for check in other table
+    createdDate: new Date(),  // date when this bill was created
+    cobrada_pagada: false,  // toggle button
+    cobrada_pagadaDate: '', // date when taxpayer mark as cobrada(ingresos) or pagada(egresos)
+    captureMode: 'Manual',  // Manual, XML, Automática
+    deducible: true,
+    general_public: false,
+    payMethod: {},
+    customer_provider: {
       name: '',
       rfc: '',
       phone: '',
       email: '',
+      address: {
+        street: '',
+        number: '',
+        neighborhood: '',
+        zipcode: '',
+        city: '',
+        municipality: '',
+        state: ''
+      },
     },
-    address: {
-      street: '',
-      number: '',
-      neighborhood: '',
-      zipcode: '',
-      city: '',
-      municipality: '',
-      state: ''
-    },
-    subtotal: 0,
+    taza: 0,
     taxes: 0,
+    subtotal: 0,
     total: 0,
     products: []
   };
   billForm: FormGroup;
+  // for autocomplete: States
   currentState: any;
   filteredStates: Observable<any[]>;
   states = states;
-  ingresos = true;
+
+  ingresos = true;   // true: is for Ingresos, false: Egresos
   selectedItem: any;
   // tslint:disable-next-line:max-line-length
-  constructor( @Inject(MAT_DIALOG_DATA) private data: any, private fb: FormBuilder, private dialogCtrl: MatDialog, private dialogRef: MatDialogRef<NewBillComponent>) {
+  constructor(
+    @Inject(MAT_DIALOG_DATA) private data: any,
+    private fb: FormBuilder,
+    private dialogCtrl: MatDialog,
+    private dialogRef: MatDialogRef<NewBillComponent>,
+    private payMethod: PayMethodProvider
+  ) {
     this.billForm = fb.group({
       status: '',
-      date: [null, Validators.required],
+      // date: [null, Validators.required],
       name: [null, Validators.required],
-      rfc: ['VECJ880326', Validators.compose([Validators.required, Validators.pattern(RFC_REGEX)])],
+      rfc: [null, Validators.compose([Validators.required, Validators.pattern(RFC_REGEX)])],
       phone: [null, Validators.required],
       email: [null, Validators.required],
       street: [null, Validators.required],
@@ -76,22 +92,31 @@ export class NewBillComponent implements OnInit {
       city: [null, Validators.required],
       municipality: [null, Validators.required],
       state: [null, Validators.required],
+      payMethod: [null, Validators.required]
     });
   }
 
   ngOnInit() {
     if (!this.data) { return; }
     this.ingresos = this.data.ingresos;
-    this.bill.date = moment(new Date()).format('L');
     this.filteredStates = this.billForm.get('state').valueChanges
       .startWith(null)
       .map(state => state && typeof state === 'object' ? state.name : state)
       .map(name => name ? this.filterState(name) : this.states.slice());
+
+    this.payMethod.getAll().subscribe(res => {
+      this.allMethods = res.payMethods;
+    }, err => {
+      console.log(err);
+    });
   }
   onCreate(ev: any) {
     this.stopPropagation(ev);
     const dialogRef = this.dialogCtrl.open(NewItemProductComponent, {
       disableClose: false,
+      data: {
+        ingresos: this.ingresos
+      }
     });
     dialogRef.afterClosed().subscribe((data) => {
       if (!data) { return; }
@@ -107,9 +132,8 @@ export class NewBillComponent implements OnInit {
   }
   onDelete(ev: any) {
     this.stopPropagation(ev);
-    console.log(this.selectedItem);
     this.calc(this.selectedItem, false);
-    this.action.next({ name: RtActionName.DELETE, itemId: this.selectedItem._id, newItem: this.selectedItem });
+    this.action.next({ name: RtActionName.DELETE, itemId: this.selectedItem.delete, newItem: this.selectedItem });
   }
   key(ev: any) {
     if (ev.keyCode === 13 && this.billForm.valid) {
@@ -117,7 +141,6 @@ export class NewBillComponent implements OnInit {
     }
   }
   onSave(ev: any) {
-    console.log(this.bill.active);
     this.stopPropagation(ev);
     if (this.bill.products.length === 0) {
       this.dialogCtrl.open(ConfirmComponent, {
@@ -129,7 +152,10 @@ export class NewBillComponent implements OnInit {
         }
       });
     } else {
+      this.bill.type = this.ingresos ? 'Ingresos' : 'Egresos';
+      this.bill.customer_provider.address.state = this.currentState.name;
       this.dialogRef.close(this.bill);  // return bill data
+      // console.log(this.bill);
     }
   }
   onClose(ev: any) {
@@ -155,30 +181,50 @@ export class NewBillComponent implements OnInit {
         }
       });
       dialogRef.afterClosed().subscribe((date) => {
-        if (!date) { return; }
-        console.log(date);
-        this.bill.payDay = date;
+        if (!date) {
+          this.bill.cobrada_pagada = false;
+          return;
+        }
+        this.bill.cobrada_pagadaDate = date;
       });
     } else {
-      this.bill.payDay = '';
+      this.bill.cobrada_pagadaDate = '';
+    }
+  }
+  matchRFC(ev: any) {
+    console.log('typing', this.bill.customer_provider.rfc);
+    this.bill.customer_provider.rfc.toUpperCase();
+    if (this.bill.customer_provider.rfc === 'XAXX010101000') {
+      this.bill.general_public = true;
+    } else {
+      this.bill.general_public = false;
     }
   }
   private calc(newItem: any, add: boolean) {
     console.log('calc', newItem);
     if (add) {
       this.bill.subtotal += parseFloat(newItem.amount);
-      this.bill.taxes = this.bill.subtotal * _global.IVA;
+      this.bill.taxes = this.bill.subtotal * this.bill.taza;
       this.bill.total = this.bill.subtotal + this.bill.taxes;
     } else {
       this.bill.subtotal -= newItem.amount;
-      this.bill.taxes = this.bill.subtotal * _global.IVA;
+      this.bill.taxes = this.bill.subtotal * this.bill.taza;
       this.bill.total = this.bill.subtotal + this.bill.taxes;
     }
   }
+  tazaToggle(ev: any) {
+    console.log(ev);
+    if (ev.checked) {
+      // IVA for 16%
+      this.bill.taza = _global.IVA;
+    } else {
+      // IVA for 0
+      this.bill.taza = 0;
+    }
+    this.bill.taxes = this.bill.subtotal * this.bill.taza;
+    this.bill.total = this.bill.subtotal + this.bill.taxes;
+  }
   private stopPropagation(ev: Event) {
     if (ev) { ev.stopPropagation(); }
-  }
-  changeStatus(ev: any) {
-    console.log(ev, this.bill.status);
   }
 }// class

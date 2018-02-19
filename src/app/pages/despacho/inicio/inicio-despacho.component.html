@@ -3,13 +3,15 @@
     <a [routerLink]="['/superadmin/inicio']" routerLinkActive="active">Superadmin</a>
   </li>
   <li class="selected">
-    <span *ngIf="roleUp === 'despacho'">Despacho</span>    
+    <span *ngIf="roleUp === 'despacho'">Despacho</span>
     <span class="accent" *ngIf="roleUp !== 'despacho'">Despacho</span>
   </li>
 </ul>
 <ng-container *ngIf="users">
   <div style="color:#1565C0; font-size: 1em" *ngFor="let u of users">
-    <strong>{{u.role}}: <span class="accent">{{ u.name }}</span></strong>
+    <strong>{{u.role}}:
+      <span class="accent">{{ u.name }}</span>
+    </strong>
   </div>
   <hr>
   <br>

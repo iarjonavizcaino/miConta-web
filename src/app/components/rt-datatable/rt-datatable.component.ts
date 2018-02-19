@@ -33,6 +33,15 @@ export class RtDatatableComponent implements OnInit, OnDestroy {
 
   // tslint:disable-next-line:no-output-rename
   @Output('checked') checkEmitter = new EventEmitter();
+
+  // tslint:disable-next-line:no-output-rename
+  @Output('toggleDeducible') deducibleEmitter = new EventEmitter(); // event on RT html. ()
+  // tslint:disable-next-line:no-output-rename
+  @Output('toggleGeneralPublic') generalPublicEmitter = new EventEmitter(); // event on RT html. ()
+
+  // tslint:disable-next-line:no-output-rename
+  @Output('toggleFec') fecEmitter = new EventEmitter(); // event on RT html. ()
+
   // tslint:disable-next-line:no-output-rename
   @Output('changed') changeEmitter = new EventEmitter();
   // tslint:disable-next-line:no-output-rename
@@ -217,6 +226,27 @@ export class RtDatatableComponent implements OnInit, OnDestroy {
     });
   }
 
+  onToggleDeducibleChanged(row: any, header: RtHeader) {
+    this.deducibleEmitter.emit({
+      item: row,
+      header: header
+    });
+  }
+
+  onToggleGeneralPublicChanged(row: any, header: RtHeader) {
+    this.generalPublicEmitter.emit({
+      item: row,
+      header: header
+    });
+  }
+
+  onToggleFecChanged(row: any, header: RtHeader) {
+    this.fecEmitter.emit({
+      item: row,
+      header: header
+    });
+  }
+
   onInputChanged(row: any) {
     this.changeEmitter.emit({ data: row });
     if (row.quantity === '' || row.quantity === 0) {
@@ -270,7 +300,7 @@ export class RtDatatableComponent implements OnInit, OnDestroy {
     return (n > 0);
   }
 
-  isNegative (value) {
+  isNegative(value) {
     if (value.includes('-')) {
       return true;
     } else {

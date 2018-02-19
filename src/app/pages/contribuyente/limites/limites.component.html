@@ -12,7 +12,24 @@
   <hr>
   <br>
 </ng-container>
-<mat-accordion>
+<div *ngFor="let limit of limits">
+  <mat-card class="bg-card">
+    <div class="row">
+      <div class="col-6">
+        <strong>{{limit.concept}}</strong>
+        <p>#{{limit.code}}</p>
+      </div>
+      <div class="col-6">
+        <mat-progress-bar [matTooltip]="((limit.now * 10) / 100).toString() + '%'" color="primary" matTooltipPosition="left" class="bar-progress" mode="determinate" [value]="(limit.now * 10) / 100"></mat-progress-bar>
+        <p class="text-center">
+          <br> {{limit.now | currency:'USD':true:'2.2-4'}} / {{limit.limit | currency:'USD':true:'2.2-4'}}
+        </p>
+      </div>
+    </div>
+  </mat-card>
+  <br>
+</div>
+<!-- <mat-accordion>
   <mat-expansion-panel *ngFor="let limit of limits">
     <mat-expansion-panel-header>
       <mat-panel-title>
@@ -23,7 +40,7 @@
       </mat-panel-description>
     </mat-expansion-panel-header>
     <p class="text-justify">
-      {{limit.code + '  --  ' + limit.concept}}
+      {{limit.code + ' -- ' + limit.concept}}
     </p>
     <div class="row">
       <div class="col-2 remove-padding">
@@ -81,4 +98,4 @@
       </div>
     </div>
   </mat-expansion-panel>
-</mat-accordion>
+</mat-accordion> -->

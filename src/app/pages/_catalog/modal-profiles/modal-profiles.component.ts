@@ -7,7 +7,7 @@ import { Subject } from 'rxjs/Subject';
 import { Observable } from 'rxjs/Observable';
 import { ModalConceptosComponent } from '../modal-conceptos/modal-conceptos.component';
 import { ModalObligacionesComponent } from '../modal-obligaciones/modal-obligaciones.component';
-import { ConceptProvider, ObligationProvider } from '../../../providers/providers';
+import { ConceptProvider, ObligationProvider, ActivityProvider } from '../../../providers/providers';
 
 @Component({
   selector: 'app-modal-profiles',
@@ -21,6 +21,7 @@ export class ModalProfilesComponent implements OnInit {
   profileForm: FormGroup;
   allConcepts = [];
   allObligations = [];
+  allActivities = [];
   profile: any;
   title: string;
 
@@ -48,12 +49,14 @@ export class ModalProfilesComponent implements OnInit {
     private dialogRef: MatDialogRef<ModalProfilesComponent>,
     private conceptProv: ConceptProvider,
     private obligationProv: ObligationProvider,
+    private activityProv: ActivityProvider,
     @Inject(MAT_DIALOG_DATA) private data: any
   ) {
     this.profileForm = fb.group({
       'name': [null, Validators.required],
       'concept': '',
-      'obligation': ''
+      'obligation': '',
+      'activity': [null, Validators.required]
     });
   }
 
@@ -66,7 +69,8 @@ export class ModalProfilesComponent implements OnInit {
       this.profile = {
         name: '',
         concepts: [],
-        obligations: []
+        obligations: [],
+        activity: {}
       };
     }
 
@@ -85,6 +89,11 @@ export class ModalProfilesComponent implements OnInit {
         .startWith(null)
         .map(obligation => obligation && typeof obligation === 'object' ? obligation.description : obligation)
         .map(name => name ? this.filterObligation(name) : this.allObligations.slice());
+    });
+    this.activityProv.getAll().subscribe(res => {
+      this.allActivities = res.activity;
+    }, err => {
+      console.log(err);
     });
   }
 
@@ -177,8 +186,7 @@ export class ModalProfilesComponent implements OnInit {
   }
 
   onSave() {
-    // this.profile.concepts = this.concepts;
-    // this.profile.obligations = this.obligations;
+    console.log(this.profile);
     this.dialogRef.close(this.profile);
   }
 

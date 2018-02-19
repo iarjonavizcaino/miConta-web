@@ -41,7 +41,7 @@ export class InicioDespachoComponent implements OnInit, OnDestroy {
     private dialogCtrl: MatDialog,
     private route: ActivatedRoute,
     private accountantProv: AccountantProvider,
-    private officeProv: OfficeProvider
+    private officeProv: OfficeProvider,
   ) { }
 
   ngOnInit() {
@@ -241,7 +241,7 @@ export class InicioDespachoComponent implements OnInit, OnDestroy {
   onContadorSelected(ev) {
     this.selectedAccountant = ev.data;
   }
-
+  
   filtrar(card: string) {
     this.setBgCard(card);
     console.log('filtrar en tabla');

@@ -57,10 +57,8 @@ export class InicioContadorComponent implements OnInit, OnDestroy {
 
     if (this.role === 'Superadmin' || this.role === 'Despacho') {
       this.currentAccountant = idAccountant;
-      console.log('hola 1');
     } else {
       // this.currentAccountant = '5a74d57a4782953e679e8097';
-      console.log('hola 2');
       this.currentAccountant = JSON.parse(localStorage.getItem('user'))._id;
     }
 

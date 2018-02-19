@@ -82,7 +82,11 @@ export class ModalCrearContribuyenteComponent implements OnInit {
       registro_regimen: [null, Validators.required],
       password: [null, Validators.required],
       user: [null, Validators.required],
-      profile: [null, Validators.required]
+      profile: [null, Validators.required],
+
+      // configuration
+      yearBefore: [null, Validators.required],
+      difference: [null, Validators.required]
     });
   }
 

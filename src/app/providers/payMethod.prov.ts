@@ -2,18 +2,14 @@ import { Api } from './api';
 import { Injectable } from '@angular/core';
 
 @Injectable()
-export class ConceptProvider {
+export class PayMethodProvider {
 
-  private base = 'concept/';
+  private base = 'payMethods/';
 
   constructor(private api: Api) { }
 
   getAll() {
     return this.api.get(`${this.base}`);
-  }
-
-  getByTaxpayer(_id: string, concepts: any) {
-    return this.api.post(this.base + 'taxpayer/' + _id, concepts);
   }
 
   create(concept: any) {

@@ -10,11 +10,25 @@
     <div class="container">
       <form class="example-form" [formGroup]="profileForm">
         <div class="row">
-          <div class="col-12">
-            <mat-form-field class="example-full-width">
+          <div class="col-6">
+            <mat-form-field>
               <mat-icon matPrefix>person</mat-icon>
               <input type="text" required placeholder="Nombre del perfil" matInput [formControl]="profileForm.controls['name']" [(ngModel)]="profile.name">
               <mat-error *ngIf="profileForm.controls['name'].hasError('required')">
+                Campo
+                <strong>requerido</strong>
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="col-6">
+            <mat-form-field>
+              <mat-icon matPrefix>store</mat-icon>
+              <mat-select placeholder="Actividad" [(ngModel)]="profile.activity" [formControl]="profileForm.controls['activity']">
+                <mat-option *ngFor="let a of allActivities" [value]="a">
+                  {{ a.name }} ({{a.percent + '%'}})
+                </mat-option>
+              </mat-select>
+              <mat-error *ngIf="profileForm.controls['activity'].hasError('required')">
                 Campo
                 <strong>requerido</strong>
               </mat-error>
@@ -43,7 +57,8 @@
                 </mat-option>
               </mat-autocomplete>
             </mat-form-field>
-            <br><br>
+            <br>
+            <br>
             <rt-datatable (selected)="onConceptSelected($event)" [showRowNumber]="true" searchWait="600" [showRowNumber]="false" [headers]="headersConcepts"
               [action]="actionConcepts" [data]="profile.concepts">
               <section class="actions">
@@ -71,16 +86,17 @@
 
             <mat-form-field class="example-full-width">
               <mat-icon matPrefix>person</mat-icon>
-              <input type="text" placeholder="Seleccionar obligación" matInput [formControl]="profileForm.controls['obligation']"
-                [matAutocomplete]="obligation" [(ngModel)]="currentObligation">
+              <input type="text" placeholder="Seleccionar obligación" matInput [formControl]="profileForm.controls['obligation']" [matAutocomplete]="obligation"
+                [(ngModel)]="currentObligation">
               <mat-autocomplete #obligation="matAutocomplete" [displayWith]="displayFnObligation">
                 <mat-option *ngFor="let option of filteredObligations | async" [value]="option" (keydown)="keyObligation($event)" (blur)="addObligation()">
                   <small>{{ option.type }}</small> |
                   <small>{{option.name}}</small>
                 </mat-option>
-              </mat-autocomplete>              
+              </mat-autocomplete>
             </mat-form-field>
-            <br><br>
+            <br>
+            <br>
             <rt-datatable (selected)="onObligationSelected($event)" [showRowNumber]="true" searchWait="600" [showRowNumber]="false" [headers]="headersObligations"
               [action]="actionObligations" [data]="profile.obligations">
               <section class="actions">
@@ -105,7 +121,8 @@
     <button mat-button (click)="onClose()">
       Cancelar
     </button>
-    <button mat-raised-button color="primary" [disabled]="!profileForm.valid || !profile.concepts.length || !profile.obligations.length" (click)="onSave()">
+    <button mat-raised-button color="primary" [disabled]="!profileForm.valid || !profile.concepts.length || !profile.obligations.length"
+      (click)="onSave()">
       Guardar
     </button>
   </footer>

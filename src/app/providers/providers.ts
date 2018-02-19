@@ -6,6 +6,9 @@ import { OfficeProvider } from './office.prov';
 import { ProfileProvider } from './profile.prov';
 import { TaxpayerProvider } from './taxpayer.prov';
 import { RoleProvider } from './role.prov';
+import { BillProvider } from './bill.prov';
+import { ActivityProvider } from './activity.prov';
+import { PayMethodProvider } from './payMethod.prov';
 
 export {
     ConceptProvider,
@@ -15,5 +18,8 @@ export {
     OfficeProvider,
     ProfileProvider,
     TaxpayerProvider,
-    RoleProvider
+    RoleProvider,
+    BillProvider,
+    ActivityProvider,
+    PayMethodProvider
 };

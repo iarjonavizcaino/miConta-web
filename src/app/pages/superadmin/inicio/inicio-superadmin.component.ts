@@ -146,6 +146,20 @@ export class InicioSuperadminComponent implements OnInit {
     console.log('filtrar en tabla');
   }
 
+  activateMicroRif(ev: any) {
+    const dialogRef = this.dialogCtrl.open(ConfirmComponent, {
+      disableClose: false,
+      data: {
+        title: 'Atención!',
+        message: 'Estás seguro de habilitar los contribuyentes de éste despacho como MICRO-RIF?',
+        type: 'danger'
+      }
+    });
+    dialogRef.afterClosed().subscribe(res => {
+      if (!res) { return; }
+      console.log('update all taxpayer from this office');
+    });
+  }
   private setBgCard(card: string) {
     const numCards = 8;
     for (let i = 1; i <= numCards; i++) {

@@ -54,7 +54,10 @@ import {
   NotificationProvider,
   AccountantProvider,
   OfficeProvider,
-  RoleProvider
+  RoleProvider,
+  BillProvider,
+  ActivityProvider,
+  PayMethodProvider
 } from './providers/providers';
 
 // Pages
@@ -285,6 +288,9 @@ const routes: Routes = [
     AccountantProvider,
     OfficeProvider,
     RoleProvider,
+    BillProvider,
+    ActivityProvider,
+    PayMethodProvider,
     //  Services
     RoleGuard,
     AuthGuard,
