@@ -21,7 +21,7 @@ export class ModalImpuestosComponent implements OnInit {
     if (!this.data) { return; }
     this.title = this.data.title;
     if (this.data.type === 'isr') {
-      this.newAmount = Math.round(this.data.tax.isrNetoAPagar);
+      this.newAmount = this.data.tax.isrNetoAPagar;
       this.loadISR();
     } else {
 

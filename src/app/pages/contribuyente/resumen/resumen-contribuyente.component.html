@@ -76,7 +76,7 @@
             <h3 style="color: #444">ISR:</h3>
           </div>
           <div class="col-8">
-            <h3 class="float-right font-normal">{{895733 | currency:'USD':true:'2.2-4'}}
+            <h3 class="float-right font-normal">{{ISR.isrNetoAPagar | currency:'USD':true:'2.2-4'}}
               <button mat-icon-button (click)="onISR($event)">
                 <mat-icon>more_horiz</mat-icon>
               </button>
@@ -138,7 +138,7 @@
             </h3>
           </mat-panel-title>
           <mat-panel-description>
-            <h3>{{13026 | currency:'USD':true:'2.2-4'}}</h3>
+            <h3>{{ISR.ingresosBimestralesCobrados | currency:'USD':true:'2.2-4'}}</h3>
           </mat-panel-description>
         </mat-expansion-panel-header>
         <rt-datatable (selected)="onIngresosSelected($event)" (checked)="onIngresosChecked($event, 'check')" (toggleFec)="onToggleFec($event)"

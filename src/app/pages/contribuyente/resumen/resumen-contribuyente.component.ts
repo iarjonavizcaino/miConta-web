@@ -70,7 +70,10 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
   users = [];
 
   // taxes
-  ISR: any;
+  ISR = {
+    ingresosBimestralesCobrados: 0,
+    isrNetoAPagar: 0
+  };
   IVA: any;
   constructor(
     private taxProv: TaxesProvider,
@@ -97,10 +100,10 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
           this.headersEgresos.splice(this.headersEgresos.length - 1, 0, { name: 'Deducible', prop: 'bill.deducible', input: 'toggleDeducible', width: '12', align: 'center' });
         }
       });
-    this.loadUsers();
-    this.loadBills();
-    this.loadBimesters();
-    this.loadTaxes();
+      this.loadUsers();
+      this.loadBills();
+      this.loadBimesters();
+      this.loadTaxes();
   }
   private loadUsers() {
     const isTax = JSON.parse(localStorage.getItem('user'));
@@ -449,7 +452,7 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
   private loadTaxes() {
     const month = Math.trunc((new Date().getMonth() / 3) + 1);
     const year = new Date().getFullYear();
-    // console.log('month:', month, 'year: ', year);
+    console.log('this shit are running?');
 
     this.taxProv.getISR(this.currentTaxpayer._id, year, month).subscribe(res => {
       this.ISR = res.ISR;
