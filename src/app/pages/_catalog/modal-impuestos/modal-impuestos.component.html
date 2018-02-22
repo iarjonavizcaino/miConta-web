@@ -1,0 +1,43 @@
+<section class="billing-catalog">
+  <header class="header">
+    <h3 class="title">{{title}}</h3>
+    <button mat-icon-button (click)="onClose()">
+      <mat-icon>close</mat-icon>
+    </button>
+  </header>
+  <section class="body">
+    <div *ngFor="let t of taxes, i">
+      <div class="row">
+        <div class="col-8" style="text-align:left;">
+          <strong class="text-left">{{t.concept}}:</strong>
+        </div>
+        <div class="col-4" style="text-align:right;">
+          <span class="float-right" *ngIf="t.concept === 'PORCENTAJE DE REDUCCIÓN'">{{t.amount}}%</span>
+          <span class="float-right" *ngIf="t.concept !== 'PORCENTAJE DE REDUCCIÓN'">{{t.amount.toFixed(2) | currency:'USD':true:'2.2-4'}}</span>
+          
+        </div>
+        <div class="col-12">
+          <hr>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-8" style="text-align:left;">
+          <strong *ngIf="data.type === 'isr'">ISR Neto a Pagar:</strong>
+      </div>
+      <div class="col-4">
+        <mat-form-field>
+          <input matInput type="number" [(ngModel)]="newAmount" style="text-align:right;">
+        </mat-form-field>
+      </div>
+    </div>
+  </section>
+  <footer class="footer">
+    <button mat-button (click)="onClose()">
+      Cancelar
+    </button>
+    <button mat-raised-button color="primary" (click)="onSave()">
+      Aceptar
+    </button>
+  </footer>
+</section>

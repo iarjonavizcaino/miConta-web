@@ -79,7 +79,7 @@
                 <ng-container *ngSwitchDefault>
                   <div>
                     <label *ngIf="h.priceSymbol" style="width: 7px; float: left">$</label>
-                    <input min="1" required [readonly]="readonly ? !row['active']: h.disabled" class="rtInput" [style.textAlign]="h.align ? h.align : 'left'"
+                    <input min="1" required [readonly]="readonly ? !row[h.prop]: h.disabled" class="rtInput" [style.textAlign]="h.align ? h.align : 'left'"
                       (input)="onInputChanged(row, h)" [type]="h.input" [placeholder]="h.placeholder || ''" [(ngModel)]="row[h.prop]"
                       (click)="$event.stopPropagation()">
                     <label *ngIf="h.percentSymbol" style="width: 7px; float: right">%</label>

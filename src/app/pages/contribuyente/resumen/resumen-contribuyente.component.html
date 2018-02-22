@@ -62,19 +62,34 @@
       </mat-card-header>
       <mat-card-content>
         <div class="row">
-          <div class="col-6">
+          <div class="col-4">
             <h3 style="color: #444">IVA:</h3>
+          </div>
+          <div class="col-8 text-right">
+            <h3 class="float-right font-normal">{{716873 | currency:'USD':true:'2.2-4'}}
+              <button mat-icon-button>
+                <mat-icon>more_horiz</mat-icon>
+              </button>
+            </h3>
+          </div>
+          <div class="col-4">
             <h3 style="color: #444">ISR:</h3>
-            <hr>
-            <br>
+          </div>
+          <div class="col-8">
+            <h3 class="float-right font-normal">{{895733 | currency:'USD':true:'2.2-4'}}
+              <button mat-icon-button (click)="onISR($event)">
+                <mat-icon>more_horiz</mat-icon>
+              </button>
+            </h3>  
+            <hr class="float-right">          
+          </div>
+          <div class="col-4"></div>
+          <div class="col-8"><hr></div>
+          <div class="col-4">
             <h1 style="color: #444">Total:</h1>
           </div>
-          <div class="col-6">
-            <h3 class="text-center font-normal">{{716873 | currency:'USD':true:'2.2-4'}}</h3>
-            <h3 class="text-center font-normal">{{895733 | currency:'USD':true:'2.2-4'}}</h3>
-            <hr>
-            <br>
-            <h2 class="text-center font-normal">{{1612606 | currency:'USD':true:'2.2-4'}}</h2>
+          <div class="col-8">
+            <h2 class="float-right font-normal">{{1612606 | currency:'USD':true:'2.2-4'}}</h2>
           </div>
         </div>
       </mat-card-content>
@@ -118,7 +133,9 @@
         <mat-expansion-panel-header>
           <mat-panel-title>
             <mat-icon class="home-icon">assignment_returned</mat-icon>
-            <h3 class="panel-expandable-title">Mis Ingresos <strong>(Sin IVA)</strong></h3>
+            <h3 class="panel-expandable-title">Mis Ingresos
+              <strong>(Sin IVA)</strong>
+            </h3>
           </mat-panel-title>
           <mat-panel-description>
             <h3>{{13026 | currency:'USD':true:'2.2-4'}}</h3>
@@ -164,7 +181,9 @@
         <mat-expansion-panel-header>
           <mat-panel-title>
             <mat-icon class="home-icon">assignment_return</mat-icon>
-            <h3 class="panel-expandable-title">Mis Egresos <strong>(Sin IVA)</strong></h3>
+            <h3 class="panel-expandable-title">Mis Egresos
+              <strong>(Sin IVA)</strong>
+            </h3>
           </mat-panel-title>
           <mat-panel-description>
             <h3>{{11774 | currency:'USD':true:'2.2-4'}}</h3>

@@ -39,6 +39,7 @@ import {
   MatButtonToggleModule,
   MatRadioModule,
   MatProgressBarModule,
+  MatListModule
 } from '@angular/material';
 
 //  Types
@@ -57,7 +58,8 @@ import {
   RoleProvider,
   BillProvider,
   ActivityProvider,
-  PayMethodProvider
+  PayMethodProvider,
+  TaxesProvider
 } from './providers/providers';
 
 // Pages
@@ -125,48 +127,77 @@ import { ModalProfilesComponent } from './pages/_catalog/modal-profiles/modal-pr
 import { NewBillComponent } from './pages/_catalog/new-bill/new-bill.component';
 import { NewItemProductComponent } from './pages/_catalog/new-item-product/new-item-product.component';
 import { ModalFechaComponent } from './pages/_catalog/modal-fecha/modal-fecha.component';
+import { ModalImpuestosComponent } from './pages/_catalog/modal-impuestos/modal-impuestos.component';
 
 
 // all routes pages
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
   // contribuyente routes
-  { path: 'contribuyente/inicio', component: InicioComponent, canActivate: [RoleGuard],
-  data: { expectedRole: ['5a728f4bb15f741695e35c96'] } },
+  {
+    path: 'contribuyente/inicio', component: InicioComponent, canActivate: [RoleGuard],
+    data: { expectedRole: ['5a728f4bb15f741695e35c96'] }
+  },
   { path: 'contribuyente/resumen', component: ResumenContribuyenteComponent, canActivate: [AuthGuard] },
-  { path: 'contribuyente/misDatos', component: MisDatosComponent, resolve: { taxpayer: TaxpayerResolve },
-  canActivate: [RoleGuard], data: { expectedRole: ['5a728f4bb15f741695e35c96'] } },
+  {
+    path: 'contribuyente/misDatos', component: MisDatosComponent, resolve: { taxpayer: TaxpayerResolve },
+    canActivate: [RoleGuard], data: { expectedRole: ['5a728f4bb15f741695e35c96'] }
+  },
   { path: 'contribuyente/obligaciones', component: ObligacionesComponent, canActivate: [AuthGuard] },
   { path: 'contribuyente/limites', component: LimitesComponent, canActivate: [AuthGuard] },
   { path: 'contribuyente/notificaciones', component: NotificacionesContribuyenteComponent, canActivate: [AuthGuard] },
   // contador routes
-  { path: 'contador/inicio', component: InicioContadorComponent, canActivate: [RoleGuard],
-  data: { expectedRole: ['5a728f50b15f741695e35c97', '5a728f43b15f741695e35c95', '5a728f56b15f741695e35c98'] } },
-  { path: 'contador/contribuyentes', component: CrudContribuyentesComponent, canActivate: [RoleGuard],
-  data: { expectedRole: ['5a728f50b15f741695e35c97', '5a728f43b15f741695e35c95', '5a728f56b15f741695e35c98'] } },
-  { path: 'contador/notificaciones', component: NotificacionesComponent, canActivate: [RoleGuard],
-  data: { expectedRole: ['5a728f50b15f741695e35c97', '5a728f43b15f741695e35c95', '5a728f56b15f741695e35c98'] } },
+  {
+    path: 'contador/inicio', component: InicioContadorComponent, canActivate: [RoleGuard],
+    data: { expectedRole: ['5a728f50b15f741695e35c97', '5a728f43b15f741695e35c95', '5a728f56b15f741695e35c98'] }
+  },
+  {
+    path: 'contador/contribuyentes', component: CrudContribuyentesComponent, canActivate: [RoleGuard],
+    data: { expectedRole: ['5a728f50b15f741695e35c97', '5a728f43b15f741695e35c95', '5a728f56b15f741695e35c98'] }
+  },
+  {
+    path: 'contador/notificaciones', component: NotificacionesComponent, canActivate: [RoleGuard],
+    data: { expectedRole: ['5a728f50b15f741695e35c97', '5a728f43b15f741695e35c95', '5a728f56b15f741695e35c98'] }
+  },
   // despacho routes
-  { path: 'despacho/inicio', component: InicioDespachoComponent, canActivate: [RoleGuard],
-  data: { expectedRole: ['5a728f43b15f741695e35c95', '5a728f56b15f741695e35c98'] } },
-  { path: 'despacho/notificaciones', component: NotificacionesDespachoComponent, canActivate: [RoleGuard],
-  data: { expectedRole: ['5a728f43b15f741695e35c95', '5a728f56b15f741695e35c98'] } },
-  { path: 'despacho/asignar', component: AsignarContribuyentesComponent, canActivate: [RoleGuard],
-  data: { expectedRole: ['5a728f43b15f741695e35c95', '5a728f56b15f741695e35c98'] } },
+  {
+    path: 'despacho/inicio', component: InicioDespachoComponent, canActivate: [RoleGuard],
+    data: { expectedRole: ['5a728f43b15f741695e35c95', '5a728f56b15f741695e35c98'] }
+  },
+  {
+    path: 'despacho/notificaciones', component: NotificacionesDespachoComponent, canActivate: [RoleGuard],
+    data: { expectedRole: ['5a728f43b15f741695e35c95', '5a728f56b15f741695e35c98'] }
+  },
+  {
+    path: 'despacho/asignar', component: AsignarContribuyentesComponent, canActivate: [RoleGuard],
+    data: { expectedRole: ['5a728f43b15f741695e35c95', '5a728f56b15f741695e35c98'] }
+  },
 
   // superadmin
-  { path: 'superadmin/inicio', component: InicioSuperadminComponent, canActivate: [RoleGuard],
-  data: { expectedRole: ['5a728f56b15f741695e35c98'] } },
-  { path: 'superadmin/despachos', component: DespachosComponent, canActivate: [RoleGuard],
-  data: { expectedRole: ['5a728f56b15f741695e35c98'] } },
-  { path: 'superadmin/perfiles', component: PerfilesComponent, canActivate: [RoleGuard],
-  data: { expectedRole: ['5a728f56b15f741695e35c98'] } },
-  { path: 'superadmin/conceptos', component: ConceptosComponent, canActivate: [RoleGuard],
-  data: { expectedRole: ['5a728f56b15f741695e35c98'] } },
-  { path: 'superadmin/obligaciones', component: ObligacionesCrudComponent, canActivate: [RoleGuard],
-  data: { expectedRole: ['5a728f56b15f741695e35c98'] } },
-  { path: 'superadmin/notificaciones', component: NotificacionesSuperadminComponent, canActivate: [RoleGuard],
-  data: { expectedRole: ['5a728f56b15f741695e35c98'] } },
+  {
+    path: 'superadmin/inicio', component: InicioSuperadminComponent, canActivate: [RoleGuard],
+    data: { expectedRole: ['5a728f56b15f741695e35c98'] }
+  },
+  {
+    path: 'superadmin/despachos', component: DespachosComponent, canActivate: [RoleGuard],
+    data: { expectedRole: ['5a728f56b15f741695e35c98'] }
+  },
+  {
+    path: 'superadmin/perfiles', component: PerfilesComponent, canActivate: [RoleGuard],
+    data: { expectedRole: ['5a728f56b15f741695e35c98'] }
+  },
+  {
+    path: 'superadmin/conceptos', component: ConceptosComponent, canActivate: [RoleGuard],
+    data: { expectedRole: ['5a728f56b15f741695e35c98'] }
+  },
+  {
+    path: 'superadmin/obligaciones', component: ObligacionesCrudComponent, canActivate: [RoleGuard],
+    data: { expectedRole: ['5a728f56b15f741695e35c98'] }
+  },
+  {
+    path: 'superadmin/notificaciones', component: NotificacionesSuperadminComponent, canActivate: [RoleGuard],
+    data: { expectedRole: ['5a728f56b15f741695e35c98'] }
+  },
 ];
 
 @NgModule({
@@ -189,7 +220,8 @@ const routes: Routes = [
     ModalProfilesComponent,
     NewBillComponent,
     NewItemProductComponent,
-    ModalFechaComponent
+    ModalFechaComponent,
+    ModalImpuestosComponent
   ],
   declarations: [
     AppComponent,
@@ -244,6 +276,7 @@ const routes: Routes = [
     NewBillComponent,
     NewItemProductComponent,
     ModalFechaComponent,
+    ModalImpuestosComponent,
   ],
   imports: [
     BrowserModule,
@@ -275,6 +308,7 @@ const routes: Routes = [
     MatButtonToggleModule,
     MatRadioModule,
     MatProgressBarModule,
+    MatListModule,
     DropzoneModule
   ],
   providers: [
@@ -291,6 +325,7 @@ const routes: Routes = [
     BillProvider,
     ActivityProvider,
     PayMethodProvider,
+    TaxesProvider,
     //  Services
     RoleGuard,
     AuthGuard,

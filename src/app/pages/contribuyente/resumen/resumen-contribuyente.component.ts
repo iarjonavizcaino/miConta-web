@@ -7,8 +7,9 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { NewBillComponent } from '../../_catalog/new-bill/new-bill.component';
 import { ModalFechaComponent } from '../../_catalog/modal-fecha/modal-fecha.component';
 import { NotificationsService } from 'angular2-notifications';
-import { BillProvider } from '../../../providers/providers';
+import { BillProvider, TaxesProvider } from '../../../providers/providers';
 import { ConfirmComponent } from '../../../components/confirm/confirm.component';
+import { ModalImpuestosComponent } from '../../_catalog/modal-impuestos/modal-impuestos.component';
 
 @Component({
   selector: 'app-resumen-contribuyente',
@@ -67,7 +68,12 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
   // to hadle breadcrumb
   roleUp = '';
   users = [];
+
+  // taxes
+  ISR: any;
+  IVA: any;
   constructor(
+    private taxProv: TaxesProvider,
     private billProv: BillProvider,
     private notify: NotificationsService,
     private router: Router,
@@ -94,6 +100,7 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
     this.loadUsers();
     this.loadBills();
     this.loadBimesters();
+    this.loadTaxes();
   }
   private loadUsers() {
     const isTax = JSON.parse(localStorage.getItem('user'));
@@ -336,6 +343,47 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
       });
     });
   }
+  onISR() {
+    if (!this.ISR) {
+      // this shit is when get login with storage in the method that read taxes doesn't run
+      const month = Math.trunc((new Date().getMonth() / 3) + 1);
+      const year = new Date().getFullYear();
+
+      this.taxProv.getISR(this.currentTaxpayer._id, year, month).subscribe(res => {
+        this.ISR = res.ISR;
+        const dialogRef = this.dialogCtrl.open(ModalImpuestosComponent, {
+          disableClose: true,
+          data: {
+            title: 'Detalle ISR',
+            type: 'isr',
+            tax: this.ISR
+          }
+        });
+        // tslint:disable-next-line:no-shadowed-variable
+        dialogRef.afterClosed().subscribe(res => {
+          if (!res) { return; }
+          console.log(res);
+        });
+      }, err => {
+        console.log(err);
+      });
+
+    } else {
+      const dialogRef = this.dialogCtrl.open(ModalImpuestosComponent, {
+        disableClose: true,
+        data: {
+          title: 'Detalle ISR',
+          type: 'isr',
+          tax: this.ISR
+        }
+      });
+      dialogRef.afterClosed().subscribe(res => {
+        if (!res) { return; }
+      });
+    }
+
+
+  }
   private modalConfirm() {
     return this.dialogCtrl.open(ConfirmComponent, {
       disableClose: false,
@@ -367,66 +415,6 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
       console.log(err);
     });
   }
-  loadEgresosData() {
-    this.dataEgresos = [
-      {
-        bill: {
-          type: 'Egresos',
-          checked: false,
-          createdDate: '09/19/1995',
-          cobrada_pagada: true,
-          cobrada_pagadaDate: '09/19/1995',
-          deducible: true,
-          captureMode: 'Manual',
-
-          taza: 0,
-          taxes: 1234,
-          subtotal: 321,
-          total: 1325,
-          customer_provider: {
-            name: 'Master Clean',
-            rfc: 'XXXX-XXX-XXXX',
-            phone: '3111905402',
-            email: 'master_clean@example.com',
-            address: {
-              street: 'Sanchez Tahuada',
-              number: '29',
-              neighborhood: 'Centro',
-              zipcode: '63175',
-              city: 'Tepic',
-              municipality: 'Tepic',
-              state: 'Nayarit'
-            }
-          },
-          products: [
-            {
-              code: '710183',
-              concept: 'Equipo de limpieza y suministros',
-              product: 'Escobas',
-              quantity: '12',
-              price: '38',
-              amount: '456',
-            },
-            {
-              code: '812718',
-              concept: 'Herramientas y maquinaría general',
-              product: 'Sierra eléctrica',
-              quantity: '50',
-              price: '250',
-              amount: '12500',
-            },
-            {
-              code: '719281',
-              concept: 'Materiales y productos de papel',
-              product: 'Cuadernos',
-              quantity: '10',
-              price: '7',
-              amount: '70',
-            }
-          ]
-        }
-      }];
-  }
 
   loadBimesters() {
     const year = new Date().getFullYear();
@@ -457,5 +445,16 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
 
   getBimesterInfo(ev: any) {
     this.currentBimester = this.selectedBimester + ' ' + this.selectedYear;
+  }
+  private loadTaxes() {
+    const month = Math.trunc((new Date().getMonth() / 3) + 1);
+    const year = new Date().getFullYear();
+    // console.log('month:', month, 'year: ', year);
+
+    this.taxProv.getISR(this.currentTaxpayer._id, year, month).subscribe(res => {
+      this.ISR = res.ISR;
+    }, err => {
+      console.log(err);
+    });
   }
 }// class
