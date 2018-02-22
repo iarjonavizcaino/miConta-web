@@ -165,7 +165,7 @@
                         <mat-form-field>
                           <mat-icon matPrefix>attach_money</mat-icon>
                           <input [formControl]="taxpayerForm.controls['difference']" matInput placeholder="Diferencia de gastos mayores a ingresos de periodos anteriores"
-                            type="number">
+                            type="number" [(ngModel)]="taxPayer.difference">
                           <mat-error *ngIf="taxpayerForm.controls['difference'].hasError('required')">
                             Campo
                             <strong>requerido</strong>
@@ -178,7 +178,7 @@
                         <mat-form-field>
                           <mat-icon matPrefix>attach_money</mat-icon>
                           <input [formControl]="taxpayerForm.controls['yearBefore']" matInput placeholder="Ingresos totales del ejercicio anterior"
-                            type="number">
+                            type="number" [(ngModel)]="taxPayer.yearBefore">
                           <mat-error *ngIf="taxpayerForm.controls['yearBefore'].hasError('required')">
                             Campo
                             <strong>requerido</strong>

@@ -111,6 +111,8 @@ export class ModalCrearContribuyenteComponent implements OnInit {
         loyalValidity: '',
         regimenRegister: '',
         sealValidity: '',
+        yearBefore: 0,
+        difference: 0,
         account: {
           user: '',
           password: '',
@@ -123,7 +125,10 @@ export class ModalCrearContribuyenteComponent implements OnInit {
         profile: {
           name: '',
           concepts: [],
-          obligations: []
+          obligations: [],
+          activity: {
+
+          }
         }
       };
       this.currentProfile = this.taxPayer.profile;
