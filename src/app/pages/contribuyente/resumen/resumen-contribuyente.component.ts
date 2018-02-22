@@ -343,7 +343,7 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
       });
     });
   }
-  onISR() {
+  onISR(ev: any) {
     if (!this.ISR) {
       // this shit is when get login with storage in the method that read taxes doesn't run
       const month = Math.trunc((new Date().getMonth() / 3) + 1);
