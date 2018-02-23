@@ -8,6 +8,11 @@
   align-items: center;
 }
 
+.example-card {
+    height: 250px;
+    margin-bottom: 10px;
+}
+
 .file-picker {
 
     .file-btn {
@@ -44,6 +49,7 @@
     mat-icon{
         color: #666;
         padding-bottom: 0;
+        width: auto;
     }
     mat-form-field {
         width: 100%;

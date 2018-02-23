@@ -101,26 +101,24 @@
       <mat-card-header>
         <mat-card-subtitle></mat-card-subtitle>
       </mat-card-header>
+      <br>
       <mat-card-content>
         <div class="row">
-          <div class="col-6">
+          <div class="col-5 text-center">
             <a href="#" target="_blank" class="no-style">
-              <mat-icon class="big-icon">picture_as_pdf</mat-icon>
+              <mat-icon class="big-icon ext-center">file_download</mat-icon>
               <br>
-              <span class="text-center">ACUSE</span>
+              <mat-chip class="text-center">ACUSE</mat-chip>
             </a>
           </div>
-          <div class="col-6">
+          <div class="col-7 text-center">
             <a href="#" target="_blank" class="no-style">
-              <mat-icon class="big-icon">picture_as_pdf</mat-icon>
+              <mat-icon class="big-icon ext-center">file_download</mat-icon>
               <br>
-              <span class="text-center">LINEA DE CAPTURA</span>
+              <mat-chip class="text-center">LINEA DE CAPTURA</mat-chip>
             </a>
           </div>
         </div>
-        <br>
-        <br>
-        <br>
       </mat-card-content>
     </mat-card>
   </div>
@@ -135,10 +133,10 @@
             <mat-icon class="home-icon">assignment_returned</mat-icon>
             <h3 class="panel-expandable-title">Mis Ingresos
               <!-- <strong>(Sin IVA)</strong> -->
-              <mat-chip color="primary" selected="true">Sin IVA</mat-chip>
+              <mat-chip style="margin-left: 24px" color="primary" selected="true">Sin IVA</mat-chip>
             </h3>
           </mat-panel-title>
-          <mat-panel-description>
+          <mat-panel-description style = "margin-left: 60px">
             <h3>{{sumIngresos | currency:'USD':true:'2.2-4'}}</h3>
           </mat-panel-description>
         </mat-expansion-panel-header>
@@ -184,10 +182,10 @@
             <mat-icon class="home-icon">assignment_return</mat-icon>
             <h3 class="panel-expandable-title">Mis Egresos
               <!-- <strong>(Sin IVA)</strong> -->
-              <mat-chip color="primary" selected="true">Sin IVA</mat-chip>
+              <mat-chip style="margin-left: 30px" color="primary" selected="true">Sin IVA</mat-chip>
             </h3>
           </mat-panel-title>
-          <mat-panel-description>
+          <mat-panel-description style = "margin-left: 60px">
             <h3>{{sumEgresos | currency:'USD':true:'2.2-4'}}</h3>
           </mat-panel-description>
         </mat-expansion-panel-header>

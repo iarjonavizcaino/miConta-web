@@ -205,13 +205,13 @@ export class InicioContadorComponent implements OnInit, OnDestroy {
 
     dialogRef.afterClosed().subscribe(data => {
       if (!data) { return; }
-      this.notify.success('Acción exitosa', 'El archivo se subió correctamente');
+      // this.notify.success('Acción exitosa', 'El archivo se subió correctamente');
       console.log(data);
       // use provier and notify
       this.billProv.create(data).subscribe((res) => {
-        this.notify.success('Registro exitoso', 'Se ha creado la nueva factura');
+        this.notify.success('Acción exitosa', 'Las facturas se han guardado correctamente');
       }, err => {
-        this.notify.error('Error', 'No se pudo guardar la factural');
+        this.notify.error('Error', 'No se pudo guardar la factura');
         console.log(err);
       });
     });

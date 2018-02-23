@@ -100,7 +100,7 @@ table {
     display: table;
     border-spacing: 2px;
     border-color: grey;
-    font-size: 0.9rem;
+    font-size: 0.78rem;
     
     thead {
         display: table-header-group;
@@ -117,7 +117,7 @@ table {
         display: table-row-group;
         vertical-align: middle;
         border-color: inherit;
-        font-size: 0.9rem;
+        font-size: 0.78rem;
 
         tr:not(.empty-data) {
             cursor: pointer;
