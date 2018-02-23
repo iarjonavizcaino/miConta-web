@@ -30,6 +30,7 @@ export class BillingCatalogComponent implements OnInit {
 
   action = new Subject<RtAction>();
   title: string;
+  createdDate: string;
 
   // bill: any;
   infoBill: any = {
@@ -73,8 +74,10 @@ export class BillingCatalogComponent implements OnInit {
       this.infoBill = this.data.bill;
       console.log(this.infoBill);
       // formats
-      this.infoBill.customer_provider.phone = this.formatPhone(this.infoBill.customer_provider.phone);
-      this.infoBill.createdDate = this.moment(this.infoBill.createdDate).format('L');
+      if (this.infoBill.customer_provider.phone) {
+        this.infoBill.customer_provider.phone = this.formatPhone(this.infoBill.customer_provider.phone);
+      }
+      this.createdDate = this.moment(this.infoBill.createdDate).format('L');
     }
   }
   formatPhone(text: string) {
