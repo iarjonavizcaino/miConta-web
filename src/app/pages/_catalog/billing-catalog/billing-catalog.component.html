@@ -12,24 +12,24 @@
         <div class="col-6">
           <mat-form-field>
             <mat-icon matPrefix>clear_all</mat-icon>
-            <input matInput type="text" placeholder="No." [(ngModel)]="infoBill.bill._id">
+            <input matInput type="text" placeholder="No." [(ngModel)]="infoBill._id">
           </mat-form-field>
         </div>
         <div class="col-4">
           <mat-form-field>
             <mat-icon matPrefix>today</mat-icon>
-            <input [readonly]="true" matInput placeholder="Fecha" [(ngModel)]="infoBill.bill.createdDate">
+            <input [readonly]="true" matInput placeholder="Fecha" [(ngModel)]="infoBill.createdDate">
           </mat-form-field>
         </div>
         <div class="col-2">
-          <mat-slide-toggle [disabled]="false" (ngModelChange)="changeStatus($event)" [(ngModel)]="infoBill.bill.pagada_cobrada">{{ infoBill.bill.provider ? 'Pagada' : 'Cobrada' }}</mat-slide-toggle>
+          <mat-slide-toggle [disabled]="false" (ngModelChange)="changeStatus($event)" [(ngModel)]="infoBill.cobrada_pagada">{{ infoBill.type === 'Ingresos' ? 'Cobrada' : 'Pagada' }}</mat-slide-toggle>
         </div>
       </div>
       <mat-card class="bg-card1">
         <mat-card-header>
           <mat-card-title>
-            <strong *ngIf="!infoBill.bill.provider">Cliente</strong>
-            <strong *ngIf="infoBill.bill.provider">Proveedor</strong>
+            <strong *ngIf="!infoBill.provider">Cliente</strong>
+            <strong *ngIf="infoBill.provider">Proveedor</strong>
           </mat-card-title>
         </mat-card-header>
         <mat-card-content>
@@ -37,8 +37,8 @@
             <div class="col-12">
               <mat-form-field>
                 <mat-icon matPrefix>person</mat-icon>
-                <input *ngIf="infoBill.bill.type === 'Ingresos'" [readonly]="true" matInput placeholder="Cliente" [(ngModel)]="infoBill.bill.customer_provider.name">
-                <input *ngIf="infoBill.bill.type === 'Egresos'" [readonly]="true" matInput placeholder="Proveedor" [(ngModel)]="infoBill.bill.customer_provider.name">
+                <input *ngIf="infoBill.type === 'Ingresos'" [readonly]="true" matInput placeholder="Cliente" [(ngModel)]="infoBill.customer_provider.name">
+                <input *ngIf="infoBill.type === 'Egresos'" [readonly]="true" matInput placeholder="Proveedor" [(ngModel)]="infoBill.customer_provider.name">
               </mat-form-field>
             </div>
           </div>
@@ -46,7 +46,7 @@
             <div class="col-12">
               <mat-form-field>
                 <mat-icon matPrefix>work</mat-icon>
-                <input [readonly]="true" required matInput placeholder="RFC" [(ngModel)]="infoBill.bill.customer_provider.rfc">
+                <input [readonly]="true" required matInput placeholder="RFC" [(ngModel)]="infoBill.customer_provider.rfc">
               </mat-form-field>
             </div>
           </div>
@@ -54,19 +54,19 @@
             <div class="col-6">
               <mat-form-field>
                 <mat-icon matPrefix>phone</mat-icon>
-                <input [readonly]="true" type="tel" required matInput placeholder="Teléfono" [(ngModel)]="infoBill.bill.customer_provider.phone">
+                <input [readonly]="true" type="tel" required matInput placeholder="Teléfono" [(ngModel)]="infoBill.customer_provider.phone">
               </mat-form-field>
             </div>
             <div class="col-6">
               <mat-form-field>
                 <mat-icon matPrefix>mail</mat-icon>
-                <input [readonly]="true" matInput required placeholder="Correo electrónico" [(ngModel)]="infoBill.bill.customer_provider.email">
+                <input [readonly]="true" matInput required placeholder="Correo electrónico" [(ngModel)]="infoBill.customer_provider.email">
               </mat-form-field>
             </div>
             <div class="col-12">
               <mat-form-field>
                 <mat-icon matPrefix>payment</mat-icon>
-                <input [readonly]="true" matInput placeholder="Método de Pago" [(ngModel)]="infoBill.bill.payMethod.method">
+                <input [readonly]="true" matInput placeholder="Método de Pago" [(ngModel)]="infoBill.payMethod.method">
               </mat-form-field>
             </div>
           </div>
@@ -84,13 +84,13 @@
             <div class="col-9">
               <mat-form-field>
                 <mat-icon matPrefix>location_on</mat-icon>
-                <input [readonly]="true" matInput required placeholder="Calle" [(ngModel)]="infoBill.bill.customer_provider.address.street">
+                <input [readonly]="true" matInput required placeholder="Calle" [(ngModel)]="infoBill.customer_provider.address.street">
               </mat-form-field>
             </div>
             <div class="col-3">
               <mat-form-field>
                 <mat-icon matPrefix>streetview</mat-icon>
-                <input [readonly]="true" required matInput type="number" placeholder="Número" [(ngModel)]="infoBill.bill.customer_provider.address.number">
+                <input [readonly]="true" required matInput type="number" placeholder="Número" [(ngModel)]="infoBill.customer_provider.address.number">
               </mat-form-field>
             </div>
           </div>
@@ -99,13 +99,13 @@
             <div class="col-9">
               <mat-form-field>
                 <mat-icon matPrefix>location_on</mat-icon>
-                <input [readonly]="true" required matInput placeholder="Colonia" [(ngModel)]="infoBill.bill.customer_provider.address.neighborhood">
+                <input [readonly]="true" required matInput placeholder="Colonia" [(ngModel)]="infoBill.customer_provider.address.neighborhood">
               </mat-form-field>
             </div>
             <div class="col-3">
               <mat-form-field>
                 <mat-icon matPrefix>streetview</mat-icon>
-                <input [readonly]="true" type="text" required minlength="5" maxlength="5" matInput placeholder="CP" [(ngModel)]="infoBill.bill.customer_provider.address.zipcode">
+                <input [readonly]="true" type="text" required minlength="5" maxlength="5" matInput placeholder="CP" [(ngModel)]="infoBill.customer_provider.address.zipcode">
               </mat-form-field>
             </div>
           </div>
@@ -114,13 +114,13 @@
             <div class="col-12 col-md-6">
               <mat-form-field>
                 <mat-icon matPrefix>location_on</mat-icon>
-                <input [readonly]="true" required matInput placeholder="Ciudad" [(ngModel)]="infoBill.bill.customer_provider.address.city">
+                <input [readonly]="true" required matInput placeholder="Ciudad" [(ngModel)]="infoBill.customer_provider.address.city">
               </mat-form-field>
             </div>
             <div class="col-12 col-md-6">
               <mat-form-field>
                 <mat-icon matPrefix>location_on</mat-icon>
-                <input [readonly]="true" matInput placeholder="Municipio" [(ngModel)]="infoBill.bill.customer_provider.address.municipality">
+                <input [readonly]="true" matInput placeholder="Municipio" [(ngModel)]="infoBill.customer_provider.address.municipality">
                 <mat-error *ngIf="false">
                   Campo
                   <strong>requerido</strong>
@@ -133,7 +133,7 @@
             <div class="col-12 col-md-6">
               <mat-form-field>
                 <mat-icon matPrefix>location_on</mat-icon>
-                <input [readonly]="true" matInput required placeholder="Estado" [(ngModel)]="infoBill.bill.customer_provider.address.state">
+                <input [readonly]="true" matInput required placeholder="Estado" [(ngModel)]="infoBill.customer_provider.address.state">
               </mat-form-field>
             </div>
           </div>
@@ -142,17 +142,17 @@
 
       <br>
 
-      <rt-datatable searchWait="600" [showRowNumber]="true" [headers]="headers" [action]="action" [data]="infoBill.bill.products">
+      <rt-datatable searchWait="600" [showRowNumber]="true" [headers]="headers" [action]="action" [data]="infoBill.products">
       </rt-datatable>
       <div>
         <div class="row" style="text-align: right; padding-top: 10px">
           <div class="col-9">Subtotal: </div>
-          <div class="col-3">{{infoBill.bill.subtotal | currency:'USD':true:'2.2-4'}}</div>
+          <div class="col-3">{{infoBill.subtotal | currency:'USD':true:'2.2-4'}}</div>
         </div>
         <hr>
         <div class="row" style="text-align: right;">
-          <div class="col-9">IVA ({{ infoBill.bill.taza * 100}}%):</div>
-          <div class="col-3">{{infoBill.bill.taxes | currency:'USD':true:'2.2-4'}}</div>
+          <div class="col-9">IVA ({{ infoBill.taza * 100}}%):</div>
+          <div class="col-3">{{infoBill.taxes | currency:'USD':true:'2.2-4'}}</div>
         </div>
         <hr>
         <div class="row" style="text-align: right;">
@@ -163,7 +163,7 @@
           </div>
           <div class="col-3">
             <h3>
-              <strong>{{infoBill.bill.total | currency:'USD':true:'2.2-4'}}</strong>
+              <strong>{{infoBill.total | currency:'USD':true:'2.2-4'}}</strong>
             </h3>
           </div>
         </div>

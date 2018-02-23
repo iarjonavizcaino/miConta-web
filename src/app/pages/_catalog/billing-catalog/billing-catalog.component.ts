@@ -31,7 +31,7 @@ export class BillingCatalogComponent implements OnInit {
   action = new Subject<RtAction>();
   title: string;
 
-  bill: any;
+  // bill: any;
   infoBill: any = {
     taxes: 0,
     total: 0,
@@ -71,10 +71,10 @@ export class BillingCatalogComponent implements OnInit {
     this.title = this.data.title || 'Título del modal';
     if (this.data) {  // data: info from table
       this.infoBill = this.data.bill;
-      // console.log(this.infoBill);
+      console.log(this.infoBill);
       // formats
-      this.infoBill.bill.customer_provider.phone = this.formatPhone(this.infoBill.bill.customer_provider.phone);
-      this.infoBill.bill.createdDate = this.moment(this.infoBill.bill.createdDate).format('L');
+      this.infoBill.customer_provider.phone = this.formatPhone(this.infoBill.customer_provider.phone);
+      this.infoBill.createdDate = this.moment(this.infoBill.createdDate).format('L');
     }
   }
   formatPhone(text: string) {
@@ -97,12 +97,12 @@ export class BillingCatalogComponent implements OnInit {
         }
       });
       dialogRef.afterClosed().subscribe(res => {
-        if (!res) { this.infoBill.bill.cobrada_pagada = !this.infoBill.bill.cobrada_pagada; return; }
-        this.infoBill.bill.cobrada_pagadaDate = res;
+        if (!res) { this.infoBill.cobrada_pagada = !this.infoBill.cobrada_pagada; return; }
+        this.infoBill.cobrada_pagadaDate = res;
         // Make HTTP request to change date
       });
     } else {
-      this.infoBill.bill.cobrada_pagadaDate = '';
+      this.infoBill.cobrada_pagadaDate = '';
     }
   }
 

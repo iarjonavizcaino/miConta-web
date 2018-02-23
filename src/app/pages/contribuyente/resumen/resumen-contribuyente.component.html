@@ -66,7 +66,7 @@
             <h3 style="color: #444">IVA:</h3>
           </div>
           <div class="col-8 text-right">
-            <h3 class="float-right font-normal">{{716873 | currency:'USD':true:'2.2-4'}}
+            <h3 class="float-right font-normal">{{123456 | currency:'USD':true:'2.2-4'}}
               <button mat-icon-button>
                 <mat-icon>more_horiz</mat-icon>
               </button>
@@ -134,11 +134,12 @@
           <mat-panel-title>
             <mat-icon class="home-icon">assignment_returned</mat-icon>
             <h3 class="panel-expandable-title">Mis Ingresos
-              <strong>(Sin IVA)</strong>
+              <!-- <strong>(Sin IVA)</strong> -->
+              <mat-chip color="primary" selected="true">Sin IVA</mat-chip>
             </h3>
           </mat-panel-title>
           <mat-panel-description>
-            <h3>{{ISR.ingresosBimestralesCobrados | currency:'USD':true:'2.2-4'}}</h3>
+            <h3>{{sumIngresos | currency:'USD':true:'2.2-4'}}</h3>
           </mat-panel-description>
         </mat-expansion-panel-header>
         <rt-datatable (selected)="onIngresosSelected($event)" (checked)="onIngresosChecked($event, 'check')" (toggleFec)="onToggleFec($event)"
@@ -162,7 +163,7 @@
                 <mat-icon matTooltip="Factura Manual" matTooltipPosition="above">add</mat-icon>
               </button>
               <span *ngIf="selectedIngresos">
-                <button *ngIf="selectedIngresos.bill.captureMode === 'Manual'" mat-icon-button (click)="onDeleteStatementIngresos($event)">
+                <button *ngIf="selectedIngresos.captureMode === 'Manual'" mat-icon-button (click)="onDeleteStatementIngresos($event)">
                   <mat-icon matTooltip="Eliminar declaración" matTooltipPosition="above">delete</mat-icon>
                 </button>
               </span>
@@ -182,11 +183,12 @@
           <mat-panel-title>
             <mat-icon class="home-icon">assignment_return</mat-icon>
             <h3 class="panel-expandable-title">Mis Egresos
-              <strong>(Sin IVA)</strong>
+              <!-- <strong>(Sin IVA)</strong> -->
+              <mat-chip color="primary" selected="true">Sin IVA</mat-chip>
             </h3>
           </mat-panel-title>
           <mat-panel-description>
-            <h3>{{11774 | currency:'USD':true:'2.2-4'}}</h3>
+            <h3>{{sumEgresos | currency:'USD':true:'2.2-4'}}</h3>
           </mat-panel-description>
         </mat-expansion-panel-header>
         <rt-datatable (selected)="onEgresosSelected($event)" (checked)="onEgresosChecked($event, 'toggle')" (toggleDeducible)="toggleDeducible($event)"
@@ -210,7 +212,7 @@
                 <mat-icon matTooltip="Factura Manual" matTooltipPosition="above">add</mat-icon>
               </button>
               <span *ngIf="selectedEgresos">
-                <button *ngIf="selectedEgresos.bill.captureMode === 'Manual'" mat-icon-button (click)="onDeleteStatementEgresos($event)">
+                <button *ngIf="selectedEgresos.captureMode === 'Manual'" mat-icon-button (click)="onDeleteStatementEgresos($event)">
                   <mat-icon matTooltip="Eliminar declaración" matTooltipPosition="above">delete</mat-icon>
                 </button>
               </span>
