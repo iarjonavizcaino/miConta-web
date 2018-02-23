@@ -22,7 +22,7 @@
           </mat-form-field>
         </div>
         <div class="col-2">
-          <mat-slide-toggle [disabled]="false" (ngModelChange)="changeStatus($event)" [(ngModel)]="infoBill.cobrada_pagada">{{ infoBill.type === 'Ingresos' ? 'Cobrada' : 'Pagada' }}</mat-slide-toggle>
+          <mat-slide-toggle [disabled]="infoBill.type !== 'Manual'" (ngModelChange)="changeStatus($event)" [(ngModel)]="infoBill.cobrada_pagada">{{ infoBill.type === 'Ingresos' ? 'Cobrada' : 'Pagada' }}</mat-slide-toggle>
         </div>
       </div>
       <mat-card class="bg-card1">

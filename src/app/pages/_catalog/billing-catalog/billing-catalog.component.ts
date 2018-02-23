@@ -74,7 +74,9 @@ export class BillingCatalogComponent implements OnInit {
       this.infoBill = this.data.bill;
       console.log(this.infoBill);
       // formats
-      this.infoBill.customer_provider.phone = this.formatPhone(this.infoBill.customer_provider.phone);
+      if (this.infoBill.customer_provider.phone) {
+        this.infoBill.customer_provider.phone = this.formatPhone(this.infoBill.customer_provider.phone);
+      }
       this.createdDate = this.moment(this.infoBill.createdDate).format('L');
     }
   }
