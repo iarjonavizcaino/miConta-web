@@ -19,24 +19,24 @@ import { ModalImpuestosComponent } from '../../_catalog/modal-impuestos/modal-im
 export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
 
   headersIngresos: Array<RtHeader> = [
-    { name: 'Emisión', prop: 'bill.createdDate', default: 'No date', moment: true },  // from xml file
-    { name: 'Cliente', prop: 'bill.customer_provider.name', default: 'No customer' },
+    { name: 'Emisión', prop: 'createdDate', default: 'No date', moment: true },  // from xml file
+    { name: 'Cliente', prop: 'customer_provider.name', default: 'No customer' },
     // { name: 'RFC', prop: 'customer.rfc', default: 'XXXX-XXX-XXXX' },
-    { name: 'Total', prop: 'bill.total', default: '$ 0.00', align: 'right', accounting: true },
-    { name: 'Tipo de factura', prop: 'bill.captureMode', align: 'center', chip: true },
-    { name: 'Cobrada', prop: 'bill.cobrada_pagada', input: 'toggleFec' },
-    { name: 'Fecha cobro', prop: 'bill.cobrada_pagadaDate', default: '', align: 'center', moment: true },
-    { name: 'Público General', prop: 'bill.general_public', default: false, align: 'center', input: 'toggleGeneralPublic' }
+    { name: 'Total', prop: 'total', default: '$ 0.00', align: 'right', accounting: true },
+    { name: 'Tipo de factura', prop: 'captureMode', align: 'center', chip: true },
+    { name: 'Fec Cobrada', prop: 'cobrada_pagadaDate', default: '', align: 'center', moment: true },
+    { name: 'Cobrada', prop: 'cobrada_pagada', input: 'toggleFec' },
+    { name: 'Público General', prop: 'general_public', default: false, align: 'center', input: 'toggleGeneralPublic' },
   ];
   headersEgresos: Array<RtHeader> = [
-    { name: 'Emisión', prop: 'bill.createdDate', default: 'No date', moment: true },
+    { name: 'Emisión', prop: 'createdDate', default: 'No date', moment: true },
     // { name: 'Estado', prop: 'status', default: 'Pendiente', chip: true },
-    { name: 'Proveedor', prop: 'bill.customer_provider.name', default: 'No customer' },
+    { name: 'Proveedor', prop: 'customer_provider.name', default: 'No customer' },
     // { name: 'RFC', prop: 'customer.rfc', default: 'XXXX-XXX-XXXX' },
-    { name: 'Total', prop: 'bill.total', default: '$ 0.00', align: 'right', accounting: true },
-    { name: 'Tipo de factura', prop: 'bill.captureMode', default: '', align: 'center', chip: true },
-    { name: 'Pagada', prop: 'bill.cobrada_pagada', input: 'toggleFec' },
-    { name: 'Fecha pago', prop: 'bill.cobrada_pagadaDate', default: '', align: 'center', moment: true }
+    { name: 'Total', prop: 'total', default: '$ 0.00', align: 'right', accounting: true },
+    { name: 'Tipo de factura', prop: 'captureMode', default: '', align: 'center', chip: true },
+    { name: 'Fec Pago', prop: 'cobrada_pagadaDate', default: '', align: 'center', moment: true },
+    { name: 'Pagada', prop: 'cobrada_pagada', input: 'toggleFec' },
   ];
 
   // ingresos
@@ -72,9 +72,14 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
   // taxes
   ISR = {
     ingresosBimestralesCobrados: 0,
-    isrNetoAPagar: 0
+    isrNetoAPagar: 0,
+    deduccionesBimestralesPagadas: 0
   };
   IVA: any;
+
+  // suma ingresos&egresos
+  sumIngresos = 0;
+  sumEgresos = 0;
   constructor(
     private taxProv: TaxesProvider,
     private billProv: BillProvider,
@@ -94,16 +99,16 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
           this.contribuyente = params.name;
           this.office = params.office;
           this.accountant = params.accountant;
-          this.headersIngresos.splice(0, 0, { name: 'Seleccionar', prop: 'bill.checked', input: 'checkbox', align: 'center' });
-          this.headersEgresos.splice(0, 0, { name: 'Seleccionar', prop: 'bill.checked', input: 'checkbox', align: 'center' });
+          this.headersIngresos.splice(0, 0, { name: 'Seleccionar', prop: 'checked', input: 'checkbox', align: 'center' });
+          this.headersEgresos.splice(0, 0, { name: 'Seleccionar', prop: 'checked', input: 'checkbox', align: 'center' });
           // tslint:disable-next-line:max-line-length
-          this.headersEgresos.splice(this.headersEgresos.length - 1, 0, { name: 'Deducible', prop: 'bill.deducible', input: 'toggleDeducible', width: '12', align: 'center' });
+          this.headersEgresos.splice(this.headersEgresos.length - 1, 0, { name: 'Deducible', prop: 'deducible', input: 'toggleDeducible', width: '12', align: 'center' });
         }
       });
-      this.loadUsers();
-      this.loadBills();
-      this.loadBimesters();
-      this.loadTaxes();
+    this.loadUsers();
+    this.loadBills();
+    this.loadBimesters();
+    this.loadTaxes();
   }
   private loadUsers() {
     const isTax = JSON.parse(localStorage.getItem('user'));
@@ -130,8 +135,9 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
     dialogRef.afterClosed().subscribe((newBill) => {
       if (!newBill) { return; }
       console.log('new bill', newBill);
-      this.actionEgresos.next({ name: RtActionName.CREATE, newItem: { bill: newBill } });
-      this.billProv.create({ taxpayer: this.currentTaxpayer._id, bill: newBill }).subscribe((res) => {
+      newBill.taxpayer = this.currentTaxpayer._id;
+      this.actionEgresos.next({ name: RtActionName.CREATE, newItem: newBill });
+      this.billProv.create(newBill).subscribe((res) => {
         this.notify.success('Registro exitoso', 'Se ha creado la nueva factura');
       }, err => {
         this.notify.error('Error', 'No se pudo guardar la factural');
@@ -145,10 +151,11 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
     dialogRef.afterClosed().subscribe((newBill) => {
       if (!newBill) { return; }
       console.log('new bill', newBill);
-      this.actionIngresos.next({ name: RtActionName.CREATE, newItem: { bill: newBill } });
+      newBill.taxpayer = this.currentTaxpayer._id;
+      this.actionIngresos.next({ name: RtActionName.CREATE, newItem: newBill });
 
       // use provier and notify
-      this.billProv.create({ taxpayer: this.currentTaxpayer._id, bill: newBill }).subscribe((res) => {
+      this.billProv.create(newBill).subscribe((res) => {
         this.notify.success('Registro exitoso', 'Se ha creado la nueva factura');
       }, err => {
         this.notify.error('Error', 'No se pudo guardar la factural');
@@ -180,13 +187,13 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
   }
   toggleDeducible(ev: any) {  // update OK
     this.selectedEgresos = ev.item;
-    this.selectedEgresos.bill.deducible = !this.selectedEgresos.bill.deducible;
-    this.update(this.selectedEgresos._id, { bill: this.selectedEgresos.bill });
+    this.selectedEgresos.deducible = !this.selectedEgresos.deducible;
+    this.update(this.selectedEgresos._id, this.selectedEgresos);
     this.actionEgresos.next({ name: RtActionName.UPDATE, itemId: this.selectedEgresos._id, newItem: this.selectedEgresos.bill });
   }
   onToggleFec(ev: any) {
     const updateBill = ev.item;
-    if (!updateBill.bill.cobrada_pagada) {
+    if (!updateBill.cobrada_pagada) {
       // open a modal
       const dialogRef = this.dialogCtrl.open(ModalFechaComponent, {
         disableClose: true,
@@ -200,16 +207,16 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
       dialogRef.afterClosed().subscribe(result => {
         console.log(result);
         if (!result) { return; }
-        updateBill.bill.cobrada_pagadaDate = result;
-        updateBill.bill.cobrada_pagada = true;
+        updateBill.cobrada_pagadaDate = result;
+        updateBill.cobrada_pagada = true;
         console.log(updateBill);
-        this.update(updateBill._id, { bill: updateBill.bill });
+        this.update(updateBill._id, updateBill);  // without _id?
       });
     } else {
-      // already in true pass to false
-      updateBill.bill.cobrada_pagada = false;
-      updateBill.bill.cobrada_pagadaDate = '';
-      this.update(updateBill._id, { bill: updateBill.bill });
+      // already in true past to false
+      updateBill.cobrada_pagada = false;
+      updateBill.cobrada_pagadaDate = '';
+      this.update(updateBill._id, updateBill);
     }
   }
   onCheckAllEgresos(ev: any) {
@@ -232,9 +239,9 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
   /************************************************************************************ */
   changeToGeneralPublic(ev: any) {
     this.selectedIngresos = ev.item;
-    this.selectedIngresos.bill.general_public = !this.selectedIngresos.bill.general_public;
-    this.update(this.selectedIngresos._id, { bill: this.selectedIngresos.bill });
-    this.actionIngresos.next({ name: RtActionName.UPDATE, itemId: this.selectedIngresos._id, newItem: this.selectedIngresos.bill });
+    this.selectedIngresos.general_public = !this.selectedIngresos.general_public;
+    this.update(this.selectedIngresos._id, this.selectedIngresos);
+    this.actionIngresos.next({ name: RtActionName.UPDATE, itemId: this.selectedIngresos._id, newItem: this.selectedIngresos });
   }
   onIngresosSelected(ev) {
     if (ev.data) {
@@ -406,13 +413,18 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
     this.billProv.getByTaxPayer(this.currentTaxpayer._id).subscribe(bills => {
       if (bills) {
         this.dataIngresos = bills.ingresos;
+        this.sumIngresos = bills.sumIngresos;
+
         this.dataEgresos = bills.egresos;
+        this.sumEgresos = bills.sumEgresos;
       }
+      console.log(this.dataIngresos);
     });
   }
   private update(_id: string, bill: any) {
     this.billProv.update(_id, bill).subscribe((res) => {
       this.notify.success('Acción Exitosa', 'Factura actualizada correctamente');
+      this.loadTaxes(); // when the user mark a bill as payed
     }, err => {
       this.notify.error('Error', 'No se pudo actualizar la factura');
       console.log(err);
