@@ -25,7 +25,7 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
     { name: 'Total', prop: 'bill.total', default: '$ 0.00', align: 'right', accounting: true },
     { name: 'Tipo de factura', prop: 'bill.captureMode', align: 'center', chip: true },
     { name: 'Cobrada', prop: 'bill.cobrada_pagada', input: 'toggleFec' },
-    { name: 'Fec Cobrada', prop: 'bill.cobrada_pagadaDate', default: '', align: 'center', moment: true },
+    { name: 'Fecha cobro', prop: 'bill.cobrada_pagadaDate', default: '', align: 'center', moment: true },
     { name: 'Público General', prop: 'bill.general_public', default: false, align: 'center', input: 'toggleGeneralPublic' }
   ];
   headersEgresos: Array<RtHeader> = [
@@ -36,7 +36,7 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
     { name: 'Total', prop: 'bill.total', default: '$ 0.00', align: 'right', accounting: true },
     { name: 'Tipo de factura', prop: 'bill.captureMode', default: '', align: 'center', chip: true },
     { name: 'Pagada', prop: 'bill.cobrada_pagada', input: 'toggleFec' },
-    { name: 'Fec Pago', prop: 'bill.cobrada_pagadaDate', default: '', align: 'center', moment: true }
+    { name: 'Fecha pago', prop: 'bill.cobrada_pagadaDate', default: '', align: 'center', moment: true }
   ];
 
   // ingresos
@@ -206,7 +206,7 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
         this.update(updateBill._id, { bill: updateBill.bill });
       });
     } else {
-      // already in true past to false
+      // already in true pass to false
       updateBill.bill.cobrada_pagada = false;
       updateBill.bill.cobrada_pagadaDate = '';
       this.update(updateBill._id, { bill: updateBill.bill });

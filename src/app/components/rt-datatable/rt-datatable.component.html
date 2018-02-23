@@ -51,29 +51,29 @@
                 <mat-chip class="center" *ngIf="row[h.prop] === 'Pendiente' || row[h.prop] === 'Manual'" selected="true" style="background: #E57373;">
                   {{row[h.prop]}}
                 </mat-chip>
-                a:{{row[h.prop]}}
+                a:{{ row[h.prop] }}
               </mat-chip-list>
             </ng-container>
             <ng-template #noChip>
               <ng-container *ngIf="h.input; else noInput" [ngSwitch]="h.input">
                 <ng-container *ngSwitchCase="'checkbox'">
-                  <mat-checkbox [disabled]="row['closed'] ? true : false" (click)="$event.stopPropagation()" (ngModelChange)="onCheckboxChanged(row, h)"
+                  <mat-checkbox [disabled]="row[h.prop] ? true : false" (click)="$event.stopPropagation()" (ngModelChange)="onCheckboxChanged(row, h)"
                     [(ngModel)]="row[h.prop]"></mat-checkbox>
                 </ng-container>
                 <ng-container *ngSwitchCase="'toggle'">
-                  <mat-slide-toggle [disabled]="row['closed'] ? true : false" (click)="$event.stopPropagation()" (ngModelChange)="onCheckboxChanged(row, h)"
+                  <mat-slide-toggle [disabled]="row[h.prop] ? true : false" (click)="$event.stopPropagation()" (ngModelChange)="onCheckboxChanged(row, h)"
                     [(ngModel)]="row[h.prop]"></mat-slide-toggle>
                 </ng-container>
                 <ng-container *ngSwitchCase="'toggleDeducible'">
-                  <mat-slide-toggle [disabled]="row['closed'] ? true : false" (click)="$event.stopPropagation()" (ngModelChange)="onToggleDeducibleChanged(row, h)"
+                  <mat-slide-toggle [disabled]="row[h.prop] ? true : false" (click)="$event.stopPropagation()" (ngModelChange)="onToggleDeducibleChanged(row, h)"
                     [(ngModel)]="row[h.prop]"></mat-slide-toggle>
                 </ng-container>
                 <ng-container *ngSwitchCase="'toggleGeneralPublic'">
-                  <mat-slide-toggle [disabled]="row['closed'] ? true : false" (click)="$event.stopPropagation()" (ngModelChange)="onToggleGeneralPublicChanged(row, h)"
+                  <mat-slide-toggle [disabled]="row[h.prop] ? true : false" (click)="$event.stopPropagation()" (ngModelChange)="onToggleGeneralPublicChanged(row, h)"
                     [(ngModel)]="row[h.prop]"></mat-slide-toggle>
                 </ng-container>
                 <ng-container *ngSwitchCase="'toggleFec'">
-                  <mat-slide-toggle [disabled]="row['closed'] ? true : false" (click)="$event.stopPropagation()" (ngModelChange)="onToggleFecChanged(row, h)"
+                  <mat-slide-toggle [disabled]="row[h.prop] ? true : false" (click)="$event.stopPropagation()" (ngModelChange)="onToggleFecChanged(row, h)"
                     [(ngModel)]="row[h.prop]"></mat-slide-toggle>
                 </ng-container>
                 <ng-container *ngSwitchDefault>

@@ -7,7 +7,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { ConfirmComponent } from '../../../components/confirm/confirm.component';
 import { NotificationsService } from 'angular2-notifications';
 import { UploadXmlComponent } from '../../_catalog/upload-xml/upload-xml.component';
-import { TaxpayerProvider, AccountantProvider } from '../../../providers/providers';
+import { TaxpayerProvider, AccountantProvider, BillProvider } from '../../../providers/providers';
 
 @Component({
   selector: 'app-inicio-contador',
@@ -36,10 +36,11 @@ export class InicioContadorComponent implements OnInit, OnDestroy {
   constructor(
     private router: Router,
     private dialogCtrl: MatDialog,
-    private notification: NotificationsService,
+    private notify: NotificationsService,
     private route: ActivatedRoute,
     private taxpayerProv: TaxpayerProvider,
-    private accountantProv: AccountantProvider) { }
+    private accountantProv: AccountantProvider,
+    private billProv: BillProvider) { }
 
   ngOnInit() {
     let idAccountant;
@@ -69,12 +70,14 @@ export class InicioContadorComponent implements OnInit, OnDestroy {
     this.setBgCard('1');
     this.loadUsers();
   }
+
   private loadUsers() {
     const users = JSON.parse(localStorage.getItem('users'));
     if (users) {
       this.users = users;
     }
   }
+
   ngOnDestroy() {
     this.sub.unsubscribe();
   }
@@ -91,10 +94,10 @@ export class InicioContadorComponent implements OnInit, OnDestroy {
       this.taxpayerProv.update(taxpayer).subscribe(data => {
         taxpayer = data.taxpayer;
         this.action.next({ name: RtActionName.UPDATE, itemId: taxpayer._id, newItem: taxpayer });
-        this.notification.success('Acción exitosa', `Contribuyente ${this.selectedTaxpayer.socialReason} modificado`);
+        this.notify.success('Acción exitosa', `Contribuyente ${this.selectedTaxpayer.socialReason} modificado`);
         this.selectedTaxpayer = taxpayer;
       }, err => {
-        this.notification.error('Error', 'No se pudo modificar el contribuyente');
+        this.notify.error('Error', 'No se pudo modificar el contribuyente');
       });
     });
 
@@ -127,11 +130,11 @@ export class InicioContadorComponent implements OnInit, OnDestroy {
         console.log('hola');
         // tslint:disable-next-line:no-shadowed-variable
         dialogRef2.afterClosed().subscribe((data) => {
-          this.notification.success('Acción exitosa', `Nuevo contribuyente creado: ${taxpayer.socialReason}`);
+          this.notify.success('Acción exitosa', `Nuevo contribuyente creado: ${taxpayer.socialReason}`);
         });
       }, err => {
         console.log(err);
-        this.notification.error('Error', 'No se pudo crear el contribuyente');
+        this.notify.error('Error', 'No se pudo crear el contribuyente');
       });
     });
   }
@@ -155,11 +158,11 @@ export class InicioContadorComponent implements OnInit, OnDestroy {
         this.accountantProv.addTaxpayer(res._id, this.currentAccountant).subscribe(data => {
           console.log(data.office);
         });
-        this.notification.success('Acción exitosa', `Contribuyente ${this.selectedTaxpayer.socialReason} eliminado`);
+        this.notify.success('Acción exitosa', `Contribuyente ${this.selectedTaxpayer.socialReason} eliminado`);
         this.action.next({ name: RtActionName.DELETE, itemId: this.selectedTaxpayer._id });
       });
     }, err => {
-      this.notification.error('Error', 'No se pudo modificar el contribuyente');
+      this.notify.error('Error', 'No se pudo modificar el contribuyente');
     });
   }
 
@@ -167,6 +170,7 @@ export class InicioContadorComponent implements OnInit, OnDestroy {
     this.setBgCard(card);
     console.log('filtrar en tabla');
   }
+
   private setBgCard(card: string) {
     const numCards = 4;
     for (let i = 1; i <= numCards; i++) {
@@ -177,30 +181,47 @@ export class InicioContadorComponent implements OnInit, OnDestroy {
     document.getElementById('card' + card).style.background = '#98FB98';
     document.getElementById('div' + card).style.background = '#7bea7b';
   }
+
   taxpayerDetail(page: string) {
-    this.users.push({'role': 'Contribuyente', 'name': this.selectedTaxpayer.name});
+    this.users.push({ 'role': 'Contribuyente', 'name': this.selectedTaxpayer.name });
     localStorage.setItem('taxpayer', JSON.stringify(this.selectedTaxpayer));
     localStorage.setItem('users', JSON.stringify(this.users));
-    this.router.navigate([page], { queryParams: { name: this.selectedTaxpayer.socialReason,
-      office: this.office, accountant: this.accountant._id } });
+    this.router.navigate([page], {
+      queryParams: {
+        name: this.selectedTaxpayer.socialReason,
+        office: this.office, accountant: this.accountant._id
+      }
+    });
   }
+
   updateUsers() {
     this.users.pop();
     localStorage.setItem('users', JSON.stringify(this.users));
   }
+
   onUploadXML(ev) {
     this.stopPropagation(ev);
     const dialogRef = this.xmlModal('Subir archivo XML');
 
     dialogRef.afterClosed().subscribe(data => {
       if (!data) { return; }
-      this.notification.success('Acción exitosa', 'El archivo se subió correctamente');
+      this.notify.success('Acción exitosa', 'El archivo se subió correctamente');
       console.log(data);
+
+      // use provier and notify
+      this.billProv.create({ taxpayer: this.selectedTaxpayer._id, bill: data }).subscribe((res) => {
+        this.notify.success('Registro exitoso', 'Se ha creado la nueva factura');
+      }, err => {
+        this.notify.error('Error', 'No se pudo guardar la factural');
+        console.log(err);
+      });
     });
   }
+
   stopPropagation(ev: Event) {
     if (ev) { ev.stopPropagation(); }
   }
+
   taxpayerModal(taxPayer: any, readonly: boolean, title: string) {
     return this.dialogCtrl.open(ModalCrearContribuyenteComponent, {
       disableClose: false,
