@@ -143,7 +143,7 @@
           </mat-panel-description>
         </mat-expansion-panel-header>
         <rt-datatable (selected)="onIngresosSelected($event)" (checked)="onIngresosChecked($event, 'check')" (toggleFec)="onToggleFec($event)"
-          [showRowNumber]="true" searchWait="600" [showRowNumber]="false" [headers]="headersIngresos" [action]="actionIngresos"
+          searchWait="600" [showRowNumber]="false" [headers]="headersIngresos" [action]="actionIngresos"
           [data]="dataIngresos" (toggleGeneralPublic)="changeToGeneralPublic($event)">
           <section class="actions">
             <ng-container *ngIf="selectedIngresos">

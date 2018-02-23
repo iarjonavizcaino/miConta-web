@@ -13,6 +13,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 
 // import * as fastXmlParser from 'fast-xml-parser';
 // import * as xmlData from 'xml-parse';
+import * as xml2json from 'xml-js';
 
 @Component({
   selector: 'app-upload-xml',
@@ -45,10 +46,11 @@ export class UploadXmlComponent implements OnInit {
   onUploadSuccess(ev: any) {
     this.xml = true;
     const xml_str = ev[1].files.file; // XML text
-    console.log(xml_str);
     // parse to json
-    this.files.push('json info');
+    const jsonBill = xml2json.xml2json(xml_str, { compact: true, spaces: 4 }); // convert to json
+    this.files.push(JSON.parse(jsonBill));
   }
+
   onUploadError(ev: any) {
     console.log('No puedes subir archivos de este tipo');
   }
