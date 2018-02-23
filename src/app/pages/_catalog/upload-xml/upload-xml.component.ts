@@ -53,7 +53,67 @@ export class UploadXmlComponent implements OnInit {
     jsonBill = jsonBill.replace(/cfdi:/g, '');
     jsonBill = JSON.parse(jsonBill);
 
-    const payment = jsonBill.Comprobante._attributes.FormaPago;
+    const paymentKey = jsonBill.Comprobante._attributes.FormaPago;
+    let paymentMethod: string;
+    switch (paymentKey) {
+      case '01':
+        paymentMethod = 'Efectivo';
+        break;
+      case '02':
+        paymentMethod = 'Cheque';
+        break;
+      case '03':
+        paymentMethod = 'Transferencia';
+        break;
+      case '04':
+        paymentMethod = 'Tarjetas de crédito';
+        break;
+      case '05':
+        paymentMethod = 'Monederos electrónicos';
+        break;
+      case '06':
+        paymentMethod = 'Dinero electrónico';
+        break;
+      case '07':
+        paymentMethod = 'Tarjetas digitales';
+        break;
+      case '08':
+        paymentMethod = 'Vales de despensa';
+        break;
+      case '09':
+        paymentMethod = 'Bienes';
+        break;
+      case '10':
+        paymentMethod = 'Servicio';
+        break;
+      case '11':
+        paymentMethod = 'Por cuenta de tercero';
+        break;
+      case '12':
+        paymentMethod = 'Dación en pago';
+        break;
+      case '13':
+        paymentMethod = 'Pago por subrogación';
+        break;
+      case '14':
+        paymentMethod = 'Pago por consignación';
+        break;
+      case '15':
+        paymentMethod = 'Condonación';
+        break;
+      case '16':
+        paymentMethod = 'Cancelación';
+        break;
+      case '17':
+        paymentMethod = 'Compensación';
+        break;
+      case '98':
+        paymentMethod = 'NA';
+        break;
+      case '99':
+        paymentMethod = 'Otros';
+        break;
+    }
     const type = jsonBill.Comprobante._attributes.TipoDeComprobante;
     const newBill = {
       taxpayer: this.taxpayer,
@@ -63,9 +123,9 @@ export class UploadXmlComponent implements OnInit {
       cobrada_pagadaDate: jsonBill.Comprobante._attributes.MetodoPago === 'PUE' ? jsonBill.Comprobante._attributes.Fecha : null,
       deducible: '',
       payMethod: {
-        key: payment,
+        key: paymentKey,
         // tslint:disable-next-line:max-line-length
-        method: payment === '01' ? 'Efectivo' : payment === '02' ? 'Cheque nominativo' : payment === '03' ? 'Transferencia electrónica de fondos' : 'Por definir',
+        method: paymentMethod,
       },
       general_public: '',
       captureMode: 'XML',
