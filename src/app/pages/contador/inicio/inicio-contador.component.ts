@@ -207,9 +207,8 @@ export class InicioContadorComponent implements OnInit, OnDestroy {
       if (!data) { return; }
       this.notify.success('Acción exitosa', 'El archivo se subió correctamente');
       console.log(data);
-
       // use provier and notify
-      this.billProv.create({ taxpayer: this.selectedTaxpayer._id, bill: data }).subscribe((res) => {
+      this.billProv.create(data).subscribe((res) => {
         this.notify.success('Registro exitoso', 'Se ha creado la nueva factura');
       }, err => {
         this.notify.error('Error', 'No se pudo guardar la factural');
@@ -237,7 +236,8 @@ export class InicioContadorComponent implements OnInit, OnDestroy {
     return this.dialogCtrl.open(UploadXmlComponent, {
       disableClose: false,
       data: {
-        title: title
+        title: title,
+        taxpayer: this.selectedTaxpayer._id
       }
     });
   }

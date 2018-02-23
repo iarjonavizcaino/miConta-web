@@ -24,6 +24,7 @@ import * as xml2json from 'xml-js';
 export class UploadXmlComponent implements OnInit {
   xml = false;
   title: string;
+  taxpayer: string;
   // fastXmlParser = fastXmlParser;
   // xmlData = xmlData;
   files = [];
@@ -34,6 +35,7 @@ export class UploadXmlComponent implements OnInit {
 
   ngOnInit() {
     this.title = this.data.title;
+    this.taxpayer = this.data.taxpayer;
   }
 
   onSave() {
@@ -49,14 +51,13 @@ export class UploadXmlComponent implements OnInit {
     // parse to json
     let jsonBill: any = xml2json.xml2json(xml_str, { compact: true, spaces: 4 }); // convert to json
     jsonBill = jsonBill.replace(/cfdi:/g, '');
-    jsonBill = jsonBill.replace(/sferp:/g, '');
     jsonBill = JSON.parse(jsonBill);
 
-    console.log(jsonBill);
     const payment = jsonBill.Comprobante._attributes.FormaPago;
     const type = jsonBill.Comprobante._attributes.TipoDeComprobante;
     const newBill = {
-      type: type === 'I' ? 'INGRESOS' : 'EGRESOS',
+      taxpayer: this.taxpayer,
+      type: type === 'I' ? 'Ingresos' : 'Egresos',
       createdDate: jsonBill.Comprobante._attributes.Fecha,
       cobrada_pagada: jsonBill.Comprobante._attributes.MetodoPago === 'PUE' ? true : false,
       cobrada_pagadaDate: jsonBill.Comprobante._attributes.MetodoPago === 'PUE' ? jsonBill.Comprobante._attributes.Fecha : null,
@@ -100,6 +101,7 @@ export class UploadXmlComponent implements OnInit {
           price: concept._attributes.ValorUnitario,
           amount: concept._attributes.Importe
         };
+
         newBill.products.push(product);
       });
     } else {
@@ -113,8 +115,6 @@ export class UploadXmlComponent implements OnInit {
       };
       newBill.products.push(product);
     }
-
-
     console.log(newBill);
     this.files.push(newBill);
   }
