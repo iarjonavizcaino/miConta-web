@@ -127,7 +127,7 @@ export class UploadXmlComponent implements OnInit {
         // tslint:disable-next-line:max-line-length
         method: paymentMethod,
       },
-      general_public: '',
+      general_public: jsonBill.Comprobante.Receptor._attributes.Rfc === 'XAXX010101000' ? true : false,
       captureMode: 'XML',
       taza: 0,
       taxes: 0,
