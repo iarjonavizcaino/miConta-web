@@ -464,7 +464,6 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
   private loadTaxes() {
     const month = Math.trunc((new Date().getMonth() / 3) + 1);
     const year = new Date().getFullYear();
-    console.log('this shit are running?');
 
     this.taxProv.getISR(this.currentTaxpayer._id, year, month).subscribe(res => {
       this.ISR = res.ISR;
