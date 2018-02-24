@@ -68,6 +68,7 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
   // to hadle breadcrumb
   roleUp = '';
   users = [];
+  usersBackup = [];
 
   // taxes
   ISR = {
@@ -120,6 +121,9 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
     const users = JSON.parse(localStorage.getItem('users'));
     if (users) {
       this.users = users;
+      // this.usersBackup = users.slice();
+      // this.usersBackup.pop();
+      // console.log(this.usersBackup);
     }
   }
   updateUsers() {
@@ -127,6 +131,9 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
     localStorage.setItem('users', JSON.stringify(this.users));
   }
   ngOnDestroy() {
+    // this.updateUsers();
+    // this.users = this.usersBackup;
+    // localStorage.setItem('users', JSON.stringify(this.usersBackup));
     this.sub.unsubscribe();
   }
   onManualBillEgresos(ev: any) {

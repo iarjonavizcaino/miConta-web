@@ -147,6 +147,7 @@ export class InicioSuperadminComponent implements OnInit {
   }
 
   activateMicroRif(ev: any) {
+    this.stopPropagation(ev);
     const dialogRef = this.dialogCtrl.open(ConfirmComponent, {
       disableClose: false,
       data: {
