@@ -147,19 +147,29 @@ export class InicioSuperadminComponent implements OnInit {
   }
 
   activateMicroRif(ev: any) {
+    this.stopPropagation(ev);
     const dialogRef = this.dialogCtrl.open(ConfirmComponent, {
       disableClose: false,
       data: {
-        title: 'Atención!',
-        message: 'Estás seguro de habilitar los contribuyentes de éste despacho como MICRO-RIF?',
+        title: '¡Atención!',
+        // tslint:disable-next-line:max-line-length
+        message: this.despachoSelected.microRif ? '¿Estás seguro de deshabilitar los contribuyentes de éste despacho como MICRO-RIF?' : '¿Estás seguro de habilitar los contribuyentes de éste despacho como MICRO-RIF?',
         type: 'danger'
       }
     });
     dialogRef.afterClosed().subscribe(res => {
       if (!res) { return; }
+      this.officeProv.updateMicroRif(this.despachoSelected._id).subscribe(data => {
+        console.log(data);
+        this.despachoSelected = data.office;
+        this.notification.success('Acción exitosa', `Los contribuyentes del despacho ${this.despachoSelected.name} se han actualizado.`);
+      }, err => {
+        this.notification.error('Error', `Los contribuyentes del despacho ${this.despachoSelected.name} no se actualizaron.`);
+      });
       console.log('update all taxpayer from this office');
     });
   }
+
   private setBgCard(card: string) {
     const numCards = 8;
     for (let i = 1; i <= numCards; i++) {

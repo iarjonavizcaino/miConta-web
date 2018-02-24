@@ -36,4 +36,8 @@ export class OfficeProvider {
     return this.api.delete(`${this.base}${id}`);
   }
 
+  updateMicroRif(id: string) {
+    return this.api.put(`${this.base}microRif/${id}`, '');
+  }
+
 }

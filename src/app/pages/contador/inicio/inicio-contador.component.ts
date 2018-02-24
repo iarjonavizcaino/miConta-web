@@ -4,6 +4,7 @@ import { Subject } from 'rxjs/Subject';
 import { MatDialog } from '@angular/material';
 import { ModalCrearContribuyenteComponent } from '../../_catalog/modal-crear-contribuyente/modal-crear-contribuyente.component';
 import { Router, ActivatedRoute } from '@angular/router';
+import { Location } from '@angular/common';
 import { ConfirmComponent } from '../../../components/confirm/confirm.component';
 import { NotificationsService } from 'angular2-notifications';
 import { UploadXmlComponent } from '../../_catalog/upload-xml/upload-xml.component';
@@ -32,6 +33,7 @@ export class InicioContadorComponent implements OnInit, OnDestroy {
   currentAccountant: string;
   role = JSON.parse(localStorage.getItem('user')).role.name;
   users = [];
+  usersBackup = [];
   office: string;
   constructor(
     private router: Router,
@@ -40,11 +42,13 @@ export class InicioContadorComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private taxpayerProv: TaxpayerProvider,
     private accountantProv: AccountantProvider,
-    private billProv: BillProvider) { }
+    private billProv: BillProvider,
+    private location: Location) { }
 
   ngOnInit() {
     let idAccountant;
     this.roleUp = JSON.parse(localStorage.getItem('user')).role.name.toString().toLowerCase();
+    // this.updateUsers();
     this.sub = this.route
       .queryParams
       .subscribe(params => {
@@ -75,10 +79,16 @@ export class InicioContadorComponent implements OnInit, OnDestroy {
     const users = JSON.parse(localStorage.getItem('users'));
     if (users) {
       this.users = users;
+      // this.usersBackup = users.slice();
+      // this.usersBackup.pop();
     }
   }
 
   ngOnDestroy() {
+    // this.updateUsers();
+    // this.location.back();
+    // this.users = this.usersBackup;
+    // localStorage.setItem('users', JSON.stringify(this.usersBackup));
     this.sub.unsubscribe();
   }
 

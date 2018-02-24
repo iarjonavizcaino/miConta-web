@@ -35,6 +35,7 @@ export class InicioDespachoComponent implements OnInit, OnDestroy {
   office: any;
   role = JSON.parse(localStorage.getItem('user')).role.name;
   users = [];
+  usersBackup = [];
   constructor(
     private notification: NotificationsService,
     private router: Router,
@@ -47,6 +48,7 @@ export class InicioDespachoComponent implements OnInit, OnDestroy {
   ngOnInit() {
     let idDespacho;
     this.roleUp = JSON.parse(localStorage.getItem('user')).role.name.toString().toLowerCase();
+    // this.updateUsers();
     this.sub = this.route
       .queryParams
       .subscribe(params => {
@@ -79,10 +81,20 @@ export class InicioDespachoComponent implements OnInit, OnDestroy {
     const users = JSON.parse(localStorage.getItem('users'));
     if (users) {
       this.users = users;
+      // this.usersBackup = users.slice();
+      // this.usersBackup.pop();
     }
   }
   ngOnDestroy() {
+    // this.updateUsers();
+    // this.users = this.usersBackup;
+    // localStorage.setItem('users', JSON.stringify(this.usersBackup));
     this.sub.unsubscribe();
+  }
+
+  updateUsers() {
+    this.users.pop();
+    localStorage.setItem('users', JSON.stringify(this.users));
   }
 
   onCreate(ev) {
@@ -232,16 +244,20 @@ export class InicioDespachoComponent implements OnInit, OnDestroy {
     // this.stopPropagation(ev);
     // see page as Contador
     // console.log(this.selectedAccountant.name);
-    this.users.push({'role': 'Contador', 'name': this.selectedAccountant.name});
+    this.users.push({ 'role': 'Contador', 'name': this.selectedAccountant.name });
     localStorage.setItem('users', JSON.stringify(this.users));
-    this.router.navigate(['/contador/inicio'], { queryParams: { _id: this.selectedAccountant._id,
-      name: this.selectedAccountant.name, office: this.currentOffice } });
+    this.router.navigate(['/contador/inicio'], {
+      queryParams: {
+        _id: this.selectedAccountant._id,
+        name: this.selectedAccountant.name, office: this.currentOffice
+      }
+    });
   }
 
   onContadorSelected(ev) {
     this.selectedAccountant = ev.data;
   }
-  
+
   filtrar(card: string) {
     this.setBgCard(card);
     console.log('filtrar en tabla');

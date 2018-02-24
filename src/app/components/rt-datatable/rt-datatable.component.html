@@ -56,11 +56,11 @@
             <ng-template #noChip>
               <ng-container *ngIf="h.input; else noInput" [ngSwitch]="h.input">
                 <ng-container *ngSwitchCase="'checkbox'">
-                  <mat-checkbox [disabled]="row[h.prop] ? true : false" (click)="$event.stopPropagation()" (ngModelChange)="onCheckboxChanged(row, h)"
+                  <mat-checkbox (click)="$event.stopPropagation()" (ngModelChange)="onCheckboxChanged(row, h)"
                     [(ngModel)]="row[h.prop]"></mat-checkbox>
                 </ng-container>
                 <ng-container *ngSwitchCase="'toggle'">
-                  <mat-slide-toggle [disabled]="row[h.prop] ? true : false" (click)="$event.stopPropagation()" (ngModelChange)="onCheckboxChanged(row, h)"
+                  <mat-slide-toggle (click)="$event.stopPropagation()" (ngModelChange)="onCheckboxChanged(row, h)"
                     [(ngModel)]="row[h.prop]"></mat-slide-toggle>
                 </ng-container>
                 <ng-container *ngSwitchCase="'toggleDeducible'">
@@ -68,7 +68,7 @@
                     [(ngModel)]="row[h.prop]"></mat-slide-toggle>
                 </ng-container>
                 <ng-container *ngSwitchCase="'toggleGeneralPublic'">
-                  <mat-slide-toggle [disabled]="row[h.prop] ? true : false" (click)="$event.stopPropagation()" (ngModelChange)="onToggleGeneralPublicChanged(row, h)"
+                  <mat-slide-toggle (click)="$event.stopPropagation()" (ngModelChange)="onToggleGeneralPublicChanged(row, h)"
                     [(ngModel)]="row[h.prop]"></mat-slide-toggle>
                 </ng-container>
                 <ng-container *ngSwitchCase="'toggleFec'">
