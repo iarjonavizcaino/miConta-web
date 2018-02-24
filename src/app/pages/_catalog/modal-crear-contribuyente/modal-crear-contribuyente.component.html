@@ -160,32 +160,32 @@
                   </mat-tab>
                   <mat-tab label="Configuración">
                     <br>
-                    <div class="row">
-                      <div class="col-10">
+                    <!-- <div class="row"> -->
+                      <div class="col-7">
                         <mat-form-field>
                           <mat-icon matPrefix>attach_money</mat-icon>
                           <input [formControl]="taxpayerForm.controls['difference']" matInput placeholder="Diferencia de gastos mayores a ingresos de periodos anteriores"
-                            type="number" [(ngModel)]="taxPayer.difference">
+                            type="number" [(ngModel)]="taxPayer.difference" style="text-align: right">
                           <mat-error *ngIf="taxpayerForm.controls['difference'].hasError('required')">
                             Campo
                             <strong>requerido</strong>
                           </mat-error>
                         </mat-form-field>
                       </div>
-                    </div>
-                    <div class="row">
-                      <div class="col-5">
+                    <!-- </div>
+                    <div class="row"> -->
+                      <div class="col-7">
                         <mat-form-field>
                           <mat-icon matPrefix>attach_money</mat-icon>
                           <input [formControl]="taxpayerForm.controls['yearBefore']" matInput placeholder="Ingresos totales del ejercicio anterior"
-                            type="number" [(ngModel)]="taxPayer.yearBefore">
+                            type="number" [(ngModel)]="taxPayer.yearBefore" style="text-align: right">
                           <mat-error *ngIf="taxpayerForm.controls['yearBefore'].hasError('required')">
                             Campo
                             <strong>requerido</strong>
                           </mat-error>
                         </mat-form-field>
                       </div>
-                    </div>
+                    <!-- </div> -->
                     <br>
                   </mat-tab>
                 </mat-tab-group>
