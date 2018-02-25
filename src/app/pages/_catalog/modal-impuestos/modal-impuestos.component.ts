@@ -24,10 +24,34 @@ export class ModalImpuestosComponent implements OnInit {
       this.newAmount = this.data.tax.isrNetoAPagar;
       this.loadISR();
     } else {
-
+      this.loadIVA();
     }
   }
-
+  private loadIVA() {
+    this.taxes = [
+      {
+        concept: 'Total IVA causado del periodo Publico en General',
+        amount: this.data.tax.totalIvaCausadoPublicoGeneral
+      },
+      {
+        concept: 'Total IVA causado del periodo Clientes',
+        amount: this.data.tax.totalIvaCausadoPeriodoClientes
+      },
+      {
+        concept: 'Total IVA causado del periodo',
+        amount: this.data.tax.totalIvaCausadoPeriodo
+      },
+      {
+        concept: 'Iva acreditable (gastos)',
+        amount: this.data.tax.ivaAcredGastos
+      }
+    ];
+    if (this.data.tax.ivaCargo) {
+      this.taxes.push({ concept: 'IVA A CARGO', amount: this.data.tax.ivaCargo });
+    } else {
+      this.taxes.push({ concept: 'IVA A FAVOR', amount: this.data.tax.ivaFavor });
+    }
+  }
   private loadISR() {
     this.taxes = [
       {

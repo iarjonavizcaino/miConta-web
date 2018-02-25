@@ -73,8 +73,14 @@
             <h3 style="color: #444">IVA:</h3>
           </div>
           <div class="col-8 text-right">
-            <h3 class="float-right font-normal">{{123456 | currency:'USD':true:'2.2-4'}}
-              <button mat-icon-button>
+            <h3 class="float-right font-normal">
+              <span *ngIf="IVA.ivaCargo !== 0">
+                {{IVA.ivaCargo | currency:'USD':true:'2.2-4'}}
+              </span>
+              <span *ngIf="IVA.ivaFavor !== 0">
+                {{IVA.ivaFavor | currency:'USD':true:'2.2-4'}}
+              </span>
+              <button mat-icon-button (click)="onIVA($event)">
                 <mat-icon>more_horiz</mat-icon>
               </button>
             </h3>
@@ -98,7 +104,7 @@
             <h1 style="color: #444">Total:</h1>
           </div>
           <div class="col-8">
-            <h2 class="float-right font-normal">{{1612606 | currency:'USD':true:'2.2-4'}}</h2>
+            <h2 class="float-right font-normal">{{totalTax | currency:'USD':true:'2.2-4'}}</h2>
           </div>
         </div>
       </mat-card-content>
@@ -107,7 +113,7 @@
   <div class="col-6">
     <mat-card class="example-card">
       <h5 class="text-center">DESCARGAR ARCHIVOS</h5>
-      
+
       <mat-card-content>
         <div class="row">
           <div class="col-5 text-center">
@@ -125,7 +131,8 @@
             </a>
           </div>
           <div class="col-12 text-center">
-            <br><br>
+            <br>
+            <br>
             <!-- habilitar button cuando los archivos existan -->
             <button [disabled]="true" mat-raised-button color="warn">Cerrar Bimestre</button>
           </div>

@@ -72,11 +72,13 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
 
   // taxes
   ISR = {
-    ingresosBimestralesCobrados: 0,
-    isrNetoAPagar: 0,
-    deduccionesBimestralesPagadas: 0
+    isrNetoAPagar: 0
   };
-  IVA: any;
+  IVA = {
+    ivaCargo: 0,
+    ivaFavor: 0
+  };
+  totalTax: 0;
 
   // suma ingresos&egresos
   sumIngresos = 0;
@@ -365,6 +367,24 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
       });
     });
   }
+  onIVA(ev: any) {
+    if (!this.IVA) { return; }
+    const dialogRef = this.dialogCtrl.open(ModalImpuestosComponent, {
+      disableClose: true,
+      data: {
+        title: 'Detalle IVA',
+        type: 'iva',
+        tax: this.IVA
+      }
+    });
+    // tslint:disable-next-line:no-shadowed-variable
+    dialogRef.afterClosed().subscribe(res => {
+      if (!res) { return; }
+      console.log(res);
+    }, err => {
+      console.log(err);
+    });
+  }
   onISR(ev: any) {
     if (!this.ISR) {
       // this shit is when get login with storage in the method that read taxes doesn't run
@@ -482,8 +502,17 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
     this.loadTaxes({ year: this.selectedYear, bimester: this.selectedBimester.num });
   }
   private loadTaxes(filter: any) {
+    this.totalTax = 0;
     this.taxProv.getISR(this.currentTaxpayer._id, filter).subscribe(res => {
       this.ISR = res.ISR;
+      this.totalTax += this.ISR.isrNetoAPagar;
+    }, err => {
+      console.log(err);
+    });
+
+    this.taxProv.getIVA(this.currentTaxpayer._id, filter).subscribe(res => {
+      this.IVA = res.IVA;
+      this.totalTax += this.IVA.ivaCargo ? this.IVA.ivaCargo : this.IVA.ivaFavor;
     }, err => {
       console.log(err);
     });

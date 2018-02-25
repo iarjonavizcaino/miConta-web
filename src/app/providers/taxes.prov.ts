@@ -12,5 +12,9 @@ export class TaxesProvider {
         return this.api.get(this.base + 'isr/' + _id + '/year/' + filter.year + '/bimester/' + filter.bimester);
     }
 
+    getIVA(_id: string, filter: any) {
+        return this.api.get(this.base + 'iva/' + _id + '/year/' + filter.year + '/bimester/' + filter.bimester);
+    }
+
 }// class
 
