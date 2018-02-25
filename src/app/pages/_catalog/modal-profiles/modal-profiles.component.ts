@@ -91,7 +91,7 @@ export class ModalProfilesComponent implements OnInit {
         .map(name => name ? this.filterObligation(name) : this.allObligations.slice());
     });
     this.activityProv.getAll().subscribe(res => {
-      this.allActivities = res.activity;
+      this.allActivities = res.activities;
     }, err => {
       console.log(err);
     });

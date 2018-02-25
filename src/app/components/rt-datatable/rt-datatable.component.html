@@ -71,8 +71,8 @@
                   <mat-slide-toggle (click)="$event.stopPropagation()" (ngModelChange)="onToggleGeneralPublicChanged(row, h)"
                     [(ngModel)]="row[h.prop]"></mat-slide-toggle>
                 </ng-container>
-                <ng-container *ngSwitchCase="'toggleFec'">
-                  <mat-slide-toggle [disabled]="row['captureMode'] !== 'Manual'? true : false" (click)="$event.stopPropagation()" (ngModelChange)="onToggleFecChanged(row, h)"
+                <ng-container *ngSwitchCase="'toggleFec'"> <!--[disabled]="row['captureMode'] !== 'Manual'? true : false"-->
+                  <mat-slide-toggle  (click)="$event.stopPropagation()" (ngModelChange)="onToggleFecChanged(row, h)"
                     [(ngModel)]="row[h.prop]"></mat-slide-toggle>
                 </ng-container>
                 <ng-container *ngSwitchDefault>

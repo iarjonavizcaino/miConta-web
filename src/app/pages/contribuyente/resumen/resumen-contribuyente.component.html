@@ -33,7 +33,7 @@
   <div class="col-3">
     <mat-form-field>
       <mat-select placeholder="Seleccionar Bimestre" [(ngModel)]="selectedBimester">
-        <mat-option *ngFor="let b of bimesters" [value]="b.name">
+        <mat-option *ngFor="let b of bimesters" [value]="b">
           {{ b.name }}
         </mat-option>
       </mat-select>
@@ -51,6 +51,13 @@
     </strong>
   </div>
   <hr *ngIf="roleUp !== 'contribuyente'">
+  <br>
+  <div class="row">
+    <div class="col-12">
+      <mat-progress-bar color="primary" mode="determinate" value="40"></mat-progress-bar>
+      <label class="float-right">{{2000000 | currency:'USD':true:'2.2-4'}}</label>
+    </div>
+  </div>
   <br>
 </ng-container>
 <div class="row">
@@ -80,11 +87,13 @@
               <button mat-icon-button (click)="onISR($event)">
                 <mat-icon>more_horiz</mat-icon>
               </button>
-            </h3>  
-            <hr class="float-right">          
+            </h3>
+            <hr class="float-right">
           </div>
           <div class="col-4"></div>
-          <div class="col-8"><hr></div>
+          <div class="col-8">
+            <hr>
+          </div>
           <div class="col-4">
             <h1 style="color: #444">Total:</h1>
           </div>
@@ -98,10 +107,7 @@
   <div class="col-6">
     <mat-card class="example-card">
       <h5 class="text-center">DESCARGAR ARCHIVOS</h5>
-      <mat-card-header>
-        <mat-card-subtitle></mat-card-subtitle>
-      </mat-card-header>
-      <br>
+      
       <mat-card-content>
         <div class="row">
           <div class="col-5 text-center">
@@ -117,6 +123,11 @@
               <br>
               <mat-chip class="text-center">LINEA DE CAPTURA</mat-chip>
             </a>
+          </div>
+          <div class="col-12 text-center">
+            <br><br>
+            <!-- habilitar button cuando los archivos existan -->
+            <button [disabled]="true" mat-raised-button color="warn">Cerrar Bimestre</button>
           </div>
         </div>
       </mat-card-content>
@@ -136,13 +147,13 @@
               <mat-chip style="margin-left: 24px" color="primary" selected="true">Sin IVA</mat-chip>
             </h3>
           </mat-panel-title>
-          <mat-panel-description style = "margin-left: 60px">
+          <mat-panel-description style="margin-left: 60px">
             <h3>{{sumIngresos | currency:'USD':true:'2.2-4'}}</h3>
           </mat-panel-description>
         </mat-expansion-panel-header>
         <rt-datatable (selected)="onIngresosSelected($event)" (checked)="onIngresosChecked($event, 'check')" (toggleFec)="onToggleFec($event)"
-          searchWait="600" [showRowNumber]="false" [headers]="headersIngresos" [action]="actionIngresos"
-          [data]="dataIngresos" (toggleGeneralPublic)="changeToGeneralPublic($event)">
+          searchWait="600" [showRowNumber]="false" [headers]="headersIngresos" [action]="actionIngresos" [data]="dataIngresos"
+          (toggleGeneralPublic)="changeToGeneralPublic($event)">
           <section class="actions">
             <ng-container *ngIf="selectedIngresos">
               <button mat-icon-button (click)="onViewBillIngresos($event)">
@@ -185,7 +196,7 @@
               <mat-chip style="margin-left: 30px" color="primary" selected="true">Sin IVA</mat-chip>
             </h3>
           </mat-panel-title>
-          <mat-panel-description style = "margin-left: 60px">
+          <mat-panel-description style="margin-left: 60px">
             <h3>{{sumEgresos | currency:'USD':true:'2.2-4'}}</h3>
           </mat-panel-description>
         </mat-expansion-panel-header>

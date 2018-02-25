@@ -22,7 +22,7 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
     { name: 'Emisión', prop: 'createdDate', default: 'No date', moment: true },  // from xml file
     { name: 'Cliente', prop: 'customer_provider.name', default: 'No customer', width: '20' },
     // { name: 'RFC', prop: 'customer.rfc', default: 'XXXX-XXX-XXXX' },
-    { name: 'Total', prop: 'total', default: '$ 0.00', align: 'right', accounting: true },
+    { name: 'Subtotal', prop: 'subtotal', default: '$ 0.00', align: 'right', accounting: true },
     { name: 'Tipo fact.', prop: 'captureMode', align: 'center', chip: true },
     { name: 'Fecha cobro', prop: 'cobrada_pagadaDate', default: '', align: 'center', moment: true },
     { name: 'Cobrada', prop: 'cobrada_pagada', input: 'toggleFec' },
@@ -61,8 +61,8 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
   bimesters = [];
 
   currentBimester = 'ENE-FEB 2018';
-  selectedYear = '';
-  selectedBimester = '';
+  selectedYear;
+  selectedBimester: any;
 
   currentTaxpayer: any;
   // to hadle breadcrumb
@@ -107,10 +107,15 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
         }
       });
     this.loadUsers();
-    this.loadBills();
+    this.loadBills({ year: 2018, bimester: 1 });
+
     this.loadBimesters();
-    this.loadTaxes();
-  }
+    this.selectedYear = new Date().getFullYear();
+
+    this.loadTaxes({ year: new Date().getFullYear(), bimester: Math.trunc((new Date().getMonth() / 2) + 1) });
+
+  }// ngOnInit()
+
   private loadUsers() {
     const isTax = JSON.parse(localStorage.getItem('user'));
     if (isTax.role.name === 'Contribuyente') {
@@ -366,7 +371,7 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
       const month = Math.trunc((new Date().getMonth() / 3) + 1);
       const year = new Date().getFullYear();
 
-      this.taxProv.getISR(this.currentTaxpayer._id, year, month).subscribe(res => {
+      this.taxProv.getISR(this.currentTaxpayer._id, { year: this.selectedYear, bimester: this.selectedBimester.num }).subscribe(res => {
         this.ISR = res.ISR;
         const dialogRef = this.dialogCtrl.open(ModalImpuestosComponent, {
           disableClose: true,
@@ -416,8 +421,8 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
     if (ev) { ev.stopPropagation(); }
   }
 
-  private loadBills() {
-    this.billProv.getByTaxPayer(this.currentTaxpayer._id).subscribe(bills => {
+  private loadBills(filter: any) {
+    this.billProv.getByTaxPayer(this.currentTaxpayer._id, filter).subscribe(bills => {
       if (bills) {
         this.dataIngresos = bills.ingresos;
         this.sumIngresos = bills.sumIngresos;
@@ -425,13 +430,12 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
         this.dataEgresos = bills.egresos;
         this.sumEgresos = bills.sumEgresos;
       }
-      console.log(this.dataIngresos);
     });
   }
   private update(_id: string, bill: any) {
     this.billProv.update(_id, bill).subscribe((res) => {
       this.notify.success('Acción Exitosa', 'Factura actualizada correctamente');
-      this.loadTaxes(); // when the user mark a bill as payed
+      this.loadTaxes({ year: this.selectedYear, bimester: this.selectedBimester.num }); // when the user mark a bill as payed
     }, err => {
       this.notify.error('Error', 'No se pudo actualizar la factura');
       console.log(err);
@@ -445,34 +449,40 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
     }
     this.bimesters = [
       {
-        name: 'ENE-FEB'
+        name: 'ENE-FEB',
+        num: 1
       },
       {
-        name: 'MAR-ABR'
+        name: 'MAR-ABR',
+        num: 2
       },
       {
-        name: 'MAY-JUN'
+        name: 'MAY-JUN',
+        num: 3
       },
       {
-        name: 'JUL-AGO'
+        name: 'JUL-AGO',
+        num: 4
       },
       {
-        name: 'SEPT-OCT'
+        name: 'SEPT-OCT',
+        num: 5
       },
       {
-        name: 'NOV-DIC'
+        name: 'NOV-DIC',
+        num: 6
       }
     ];
   }
 
   getBimesterInfo(ev: any) {
-    this.currentBimester = this.selectedBimester + ' ' + this.selectedYear;
-  }
-  private loadTaxes() {
-    const month = Math.trunc((new Date().getMonth() / 3) + 1);
-    const year = new Date().getFullYear();
+    this.currentBimester = this.selectedBimester.name + ' ' + this.selectedYear;
+    this.loadBills({ year: this.selectedYear, bimester: this.selectedBimester.num });
 
-    this.taxProv.getISR(this.currentTaxpayer._id, year, month).subscribe(res => {
+    this.loadTaxes({ year: this.selectedYear, bimester: this.selectedBimester.num });
+  }
+  private loadTaxes(filter: any) {
+    this.taxProv.getISR(this.currentTaxpayer._id, filter).subscribe(res => {
       this.ISR = res.ISR;
     }, err => {
       console.log(err);

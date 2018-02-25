@@ -54,10 +54,10 @@ export class ModalImpuestosComponent implements OnInit {
         concept: 'MONTO DE REDUCCIÓN',
         amount: this.data.tax.montoReduccion
       },
-      // {
-      //   concept: 'ISR NETO A PAGAR',
-      //   amount: this.data.tax.isrNetoAPagar
-      // }
+      {
+        concept: 'ISR NETO A PAGAR',
+        amount: this.data.tax.isrNetoAPagar
+      }
     ];
   }
   onClose() {

@@ -13,8 +13,8 @@ export class BillProvider {
     getById(_id: string) {
         return this.api.get(this.base + _id);
     }
-    getByTaxPayer(_id: string) {
-        return this.api.get(this.base + 'taxpayer/' + _id);
+    getByTaxPayer(_id: string, filter: any) {
+        return this.api.get(this.base + 'taxpayer/' + _id + '/year/' + filter.year + '/bimester/' + filter.bimester);
     }
     create(bill: any) {
         return this.api.post(this.base, bill);
