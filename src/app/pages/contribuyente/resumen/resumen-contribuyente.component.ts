@@ -109,7 +109,7 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
         }
       });
     this.loadUsers();
-    this.loadBills({ year: 2018, bimester: 1 });
+    this.loadBills({ year: 2018, bimester: Math.trunc((new Date().getMonth() / 2) + 1) });
 
     this.loadBimesters();
     this.selectedYear = new Date().getFullYear();
