@@ -7,29 +7,16 @@
   </header>
   <section class="body">
     <div *ngFor="let t of taxes, i">
-      <div class="row">
-        <div class="col-8" style="text-align:left;">
-          <strong class="text-left">{{t.concept}}:</strong>
+      <div class="row" style="font-size: 13px;">
+        <div class="col-9" style="text-align:right;">
+          <span >{{t.concept}}:</span>
         </div>
-        <div class="col-4" style="text-align:right;">
-          <span class="float-right" *ngIf="t.concept === 'PORCENTAJE DE REDUCCIÓN'">{{t.amount}}%</span>
-          <span class="float-right" *ngIf="t.concept !== 'PORCENTAJE DE REDUCCIÓN'">{{t.amount | currency:'USD':true:'2.2-4'}}</span>
-          
-        </div>
-        <div class="col-12">
-          <hr>
+        <div class="col-3">
+          <span *ngIf="t.concept === 'PORCENTAJE DE REDUCCIÓN'">{{t.amount}}%</span>
+          <span *ngIf="t.concept !== 'PORCENTAJE DE REDUCCIÓN'">{{t.amount | currency:'USD':true:'2.2-4'}}</span>
         </div>
       </div>
-    </div>
-    <div class="row">
-      <div class="col-8" style="text-align:left;">
-          <strong *ngIf="data.type === 'isr'">ISR NETO A PAGAR:</strong>
-      </div>
-      <div class="col-4">
-        <mat-form-field>
-          <input matInput type="number" [(ngModel)]="newAmount" style="text-align:right;">
-        </mat-form-field>
-      </div>
+      <div class="col-12"><hr></div>
     </div>
   </section>
   <footer class="footer">

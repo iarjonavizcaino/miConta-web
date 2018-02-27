@@ -8,8 +8,12 @@ export class TaxesProvider {
 
     constructor(private api: Api) { }
 
-    getISR(_id: string, year: number, bimester: number) {
-        return this.api.get(this.base + 'isr/' + _id + '/year/' + year + '/bimester/' + bimester);
+    getISR(_id: string, filter: any) {
+        return this.api.get(this.base + 'isr/' + _id + '/year/' + filter.year + '/bimester/' + filter.bimester);
+    }
+
+    getIVA(_id: string, filter: any) {
+        return this.api.get(this.base + 'iva/' + _id + '/year/' + filter.year + '/bimester/' + filter.bimester);
     }
 
 }// class

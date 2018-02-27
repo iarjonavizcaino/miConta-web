@@ -93,7 +93,7 @@
 </div>
 <br>
 <rt-datatable (selected)="onDespachoSelected($event)" [showRowNumber]="true" searchWait="600" [headers]="headers" [action]="action"
-  [data]="data">
+  [data]="data" (checked)="activateMicroRif($event)">
   <section class="actions">
     <button mat-icon-button (click)="onCreate($event)">
       <mat-icon matTooltip="Nuevo" matTooltipPosition="above">add</mat-icon>
@@ -107,9 +107,6 @@
       </button>
       <button mat-icon-button (click)="onDespachoDetail($event)">
         <mat-icon matTooltip="Resumen" matTooltipPosition="above">assessment</mat-icon>
-      </button>
-      <button mat-icon-button (click)="activateMicroRif($event)">
-        <mat-icon matTooltip="{{ despachoSelected.microRif ? 'Deshabilitar MICRO-RIF' : 'Habilitar MICRO-RIF' }}" matTooltipPosition="above">accessibility</mat-icon>
       </button>
     </ng-container>
   </section>

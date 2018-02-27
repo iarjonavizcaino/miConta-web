@@ -23,6 +23,7 @@ export class InicioSuperadminComponent implements OnInit {
     { name: 'Email', prop: 'email', default: 'Sin email' },
     { name: 'Contadores', prop: 'totalAccountant', default: '0', align: 'center' },
     { name: 'Contribuyentes', prop: 'totalTaxpayer', default: '0', align: 'center' },
+    { name: 'MircoRIF', prop: 'microRif', align: 'center', input: 'toggle' }
   ];
   despachoSelected: any;
   data = [];
@@ -147,26 +148,26 @@ export class InicioSuperadminComponent implements OnInit {
   }
 
   activateMicroRif(ev: any) {
-    this.stopPropagation(ev);
+    // this.stopPropagation(ev);
+    console.log(ev.item);
     const dialogRef = this.dialogCtrl.open(ConfirmComponent, {
       disableClose: false,
       data: {
         title: '¡Atención!',
         // tslint:disable-next-line:max-line-length
-        message: this.despachoSelected.microRif ? '¿Estás seguro de deshabilitar los contribuyentes de éste despacho como MICRO-RIF?' : '¿Estás seguro de habilitar los contribuyentes de éste despacho como MICRO-RIF?',
+        message: ev.item.microRif ? '¿Estás seguro de deshabilitar los contribuyentes de éste despacho como MICRO-RIF?' : '¿Estás seguro de habilitar los contribuyentes de éste despacho como MICRO-RIF?',
         type: 'danger'
       }
     });
     dialogRef.afterClosed().subscribe(res => {
       if (!res) { return; }
-      this.officeProv.updateMicroRif(this.despachoSelected._id).subscribe(data => {
+      this.officeProv.updateMicroRif(ev.item._id).subscribe(data => {
         console.log(data);
-        this.despachoSelected = data.office;
+        ev.item = data.office;
         this.notification.success('Acción exitosa', `Los contribuyentes del despacho ${this.despachoSelected.name} se han actualizado.`);
       }, err => {
         this.notification.error('Error', `Los contribuyentes del despacho ${this.despachoSelected.name} no se actualizaron.`);
       });
-      console.log('update all taxpayer from this office');
     });
   }
 
