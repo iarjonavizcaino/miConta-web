@@ -25,6 +25,7 @@ export class NotificacionesDespachoComponent implements OnInit {
   data = [];
   action = new Subject<RtAction>();
   destinataries = [];
+  received = [];
 
   constructor(
     private noti: NotificationsService,
@@ -36,6 +37,10 @@ export class NotificacionesDespachoComponent implements OnInit {
 
   ngOnInit() {
     const user = JSON.parse(localStorage.getItem('user'))._id;
+
+    this.notificationProv.getByDestinatary(user).subscribe(data => {
+      this.received = data.notifications;
+    });
 
     this.notificationProv.getByEmisor(user).subscribe(data => {
       this.data = data.notifications;

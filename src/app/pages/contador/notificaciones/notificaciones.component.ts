@@ -29,6 +29,8 @@ export class NotificacionesComponent implements OnInit {
 
   // users that role can send message
   destinataries = [];
+  received = [];
+
   constructor(
     private noti: NotificationsService,
     private dialogCtrl: MatDialog,
@@ -45,6 +47,10 @@ export class NotificacionesComponent implements OnInit {
     } else {
       user = JSON.parse(localStorage.getItem('user'))._id;
     }
+
+    this.notificationProv.getByDestinatary(user).subscribe(data => {
+      this.received = data.notifications;
+    });
 
     this.notificationProv.getByEmisor(user).subscribe(data => {
       this.data = data.notifications;

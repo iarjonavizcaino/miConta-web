@@ -4,17 +4,32 @@
   </li>
   <li class="selected">Notificaciones</li>
 </ul>
-
-<rt-datatable (selected)="onMessageSelected($event)" [showRowNumber]="true" searchWait="600" [showRowNumber]="false" [headers]="headers"
-  [action]="action" [data]="data">
-  <section class="actions">
-    <button mat-icon-button (click)="onCreate($event)">
-      <mat-icon matTooltip="Nuevo" matTooltipPosition="above">add</mat-icon>
-    </button>
-    <ng-container *ngIf="selectedMessage">
-      <button mat-icon-button (click)="onView($event)">
-        <mat-icon matTooltip="Ver detalles" matTooltipPosition="above">visibility</mat-icon>
-      </button>
-    </ng-container>
-  </section>
-</rt-datatable>
+<mat-tab-group>
+  <mat-tab label="Notificaciones recibidas">
+    <rt-datatable (selected)="onMessageSelected($event)" [showRowNumber]="true" searchWait="600" [showRowNumber]="false" [headers]="headers"
+      [action]="action" [data]="received">
+      <section class="actions">
+        <ng-container *ngIf="selectedMessage">
+          <button mat-icon-button (click)="onView($event)">
+            <mat-icon matTooltip="Ver detalles" matTooltipPosition="above">visibility</mat-icon>
+          </button>
+        </ng-container>
+      </section>
+    </rt-datatable>
+  </mat-tab>
+  <mat-tab label="Notificaciones enviadas">
+    <rt-datatable (selected)="onMessageSelected($event)" [showRowNumber]="true" searchWait="600" [showRowNumber]="false" [headers]="headers"
+      [action]="action" [data]="data">
+      <section class="actions">
+        <button mat-icon-button (click)="onCreate($event)">
+          <mat-icon matTooltip="Nuevo" matTooltipPosition="above">add</mat-icon>
+        </button>
+        <ng-container *ngIf="selectedMessage">
+          <button mat-icon-button (click)="onView($event)">
+            <mat-icon matTooltip="Ver detalles" matTooltipPosition="above">visibility</mat-icon>
+          </button>
+        </ng-container>
+      </section>
+    </rt-datatable>
+  </mat-tab>
+</mat-tab-group>
