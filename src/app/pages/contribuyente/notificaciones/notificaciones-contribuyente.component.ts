@@ -4,6 +4,7 @@ import { Subject } from 'rxjs/Subject';
 import { MatDialog } from '@angular/material';
 import { ShowMessageCatalogComponent } from '../../_catalog/show-message-catalog/show-message-catalog.component';
 import { ActivatedRoute } from '@angular/router';
+import { NotificationProvider } from '../../../providers/providers';
 
 @Component({
   selector: 'app-notificaciones-contribuyente',
@@ -20,8 +21,13 @@ export class NotificacionesContribuyenteComponent implements OnInit, OnDestroy {
   sub: any;
   contribuyente: any;
   action = new Subject<RtAction>();
+  role = JSON.parse(localStorage.getItem('user')).role.name;
 
-  constructor(private dialogCtrl: MatDialog, private route: ActivatedRoute) { }
+  constructor(
+    private dialogCtrl: MatDialog,
+    private route: ActivatedRoute,
+    private notificationProv: NotificationProvider
+  ) { }
 
   ngOnInit() {
 
@@ -35,24 +41,16 @@ export class NotificacionesContribuyenteComponent implements OnInit, OnDestroy {
       }
     });
 
-    this.data = [
-      {
-        subject: 'PAGO ATRASADO',
-        date: '09-19-1995',
-        // tslint:disable-next-line:max-line-length
-        message: 'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Nisi dolores expedita cumque eligendi ratione, fugit, fuga consequatur autem quas soluta,.'
-      },
-      {
-        subject: 'PRODUCTO NO VALIDO',
-        date: '01-12-2015',
-        message: 'El producto facturado no es válido'
-      },
-      {
-        subject: 'FECHA DEL SIGUIENTE CORTE',
-        date: '01-22-2018',
-        message: '02 MAR 18'
-      }
-    ];
+    let user;
+    if (this.role !== 'Contribuyente') {
+      user = JSON.parse(localStorage.getItem('taxpayer'))._id;
+    } else {
+      user = JSON.parse(localStorage.getItem('user'))._id;
+    }
+
+    this.notificationProv.getByDestinatary(user).subscribe(data => {
+      this.data = data.notifications;
+    });
   }// ngOnInit
 
   ngOnDestroy() {

@@ -46,7 +46,7 @@ export class NotificacionesComponent implements OnInit {
       user = JSON.parse(localStorage.getItem('user'))._id;
     }
 
-    this.notificationProv.getByAccountant(user).subscribe(data => {
+    this.notificationProv.getByEmisor(user).subscribe(data => {
       this.data = data.notifications;
     });
 

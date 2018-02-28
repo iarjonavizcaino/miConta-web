@@ -19,12 +19,13 @@
           <p class="little-margin-left text-justify">
             {{message.message}}
           </p>
-          <h4 style="margin-left: 10px">Destinatarios:</h4>
-          <rt-datatable [showRowNumber]="true" searchWait="600" [showRowNumber]="false" [headers]="headers"
-            [action]="action" [data]="destinataries">
-            <section class="actions">
-            </section>
-          </rt-datatable>
+          <ng-container *ngIf="role !== 'Contribuyente'">
+            <h4 style="margin-left: 10px">Destinatarios:</h4>
+            <rt-datatable [showRowNumber]="true" searchWait="600" [showRowNumber]="false" [headers]="headers" [action]="action" [data]="destinataries">
+              <section class="actions">
+              </section>
+            </rt-datatable>
+          </ng-container>
         </mat-card-content>
       </mat-card>
     </div>

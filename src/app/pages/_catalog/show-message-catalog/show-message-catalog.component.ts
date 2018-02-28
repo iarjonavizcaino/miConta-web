@@ -16,6 +16,7 @@ export class ShowMessageCatalogComponent implements OnInit {
   message: any;
   moment = moment;
   action = new Subject<RtAction>();
+  role = JSON.parse(localStorage.getItem('user')).role.name;
 
   headers: Array<RtHeader> = [
     { name: 'Usuario', prop: 'name', default: '' },
