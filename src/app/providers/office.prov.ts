@@ -16,6 +16,10 @@ export class OfficeProvider {
     return this.api.get(`${this.base}${_id}`);
   }
 
+  getAccountants(_id: string) {
+    return this.api.get(`${this.base}accountant/${_id}`);
+  }
+
   create(office: any) {
     return this.api.post(`${this.base}`, office);
   }

@@ -20,7 +20,7 @@ export class NotificacionesComponent implements OnInit {
     { name: 'Asunto', prop: 'subject', default: 'Sin asunto' },
     { name: 'Tipo', prop: 'type_msg', default: 'Sin tipo' },
     // { name: 'Contribuyente', prop: 'destinataryName', default: 'Sin destinatario' },
-    { name: 'Fecha', prop: 'date', moment: true, default: 'Sin fecha' },
+    { name: 'Fecha', prop: 'date', moment: true, default: 'Sin fecha' }
   ];
   selectedMessage: any;
   data = [];
@@ -63,22 +63,15 @@ export class NotificacionesComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe((data) => {
       if (!data) { return; }
-      let notification: any = {};
-      notification = data;
 
-      // Make HTTP request to create employee
-      this.notificationProv.create(notification).subscribe(res => {
-        // res.notification.destinatary.forEach(element => {
-          // tslint:disable-next-line:max-line-length
-          this.action.next({ name: RtActionName.CREATE, newItem: { subject: res.notification.subject, date: res.notification.date, message: res.notification.message }, order: '-1' });
-          this.selectedMessage = res.notificacion;
-          // show notifications success
-        // });
+      // Make HTTP request to create notification
+      this.notificationProv.create(data).subscribe(res => {
+        data = res.notification;
+        this.action.next({ name: RtActionName.CREATE, newItem: data, order: '-1' });
         this.noti.success('Acción exitosa', 'La notificación se envió correctamente');
       }, err => {
         this.noti.error('Error', 'La notificación no se pudo enviar');
       });
-
     });
   }
 

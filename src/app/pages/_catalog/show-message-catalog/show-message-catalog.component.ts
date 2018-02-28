@@ -37,6 +37,10 @@ export class ShowMessageCatalogComponent implements OnInit {
       this.destinataries = this.data.destinataries;
       this.message = this.data.message;
     }
+
+    if (this.role !== 'Contador') {
+      this.headers.push({ name: 'Tipo', prop: 'role.name', default: '' });
+    }
   }
 
   onClose() {
