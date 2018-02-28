@@ -50,9 +50,9 @@ export class UploadXmlComponent implements OnInit {
     const xml_str = ev[1].files.file; // XML text
     // parse to json
     let jsonBill: any = xml2json.xml2json(xml_str, { compact: true, spaces: 4 }); // convert to json
+    console.log(jsonBill);
     jsonBill = jsonBill.replace(/cfdi:/g, '');
     jsonBill = JSON.parse(jsonBill);
-
     const paymentKey = jsonBill.Comprobante._attributes.FormaPago;
     let paymentMethod: string;
     switch (paymentKey) {
@@ -129,8 +129,9 @@ export class UploadXmlComponent implements OnInit {
       },
       general_public: jsonBill.Comprobante.Receptor._attributes.Rfc === 'XAXX010101000' ? true : false,
       captureMode: 'XML',
-      taza: 0,
-      taxes: 0,
+      tasa: jsonBill.Comprobante.Impuestos.Traslados.Traslado._attributes.TasaOCuota,
+      taxes: jsonBill.Comprobante.Impuestos._attributes.TotalImpuestosTrasladados,
+      retenciones: jsonBill.Comprobante.Impuestos._attributes.TotalImpuestosRetenidos,
       subtotal: jsonBill.Comprobante._attributes.SubTotal,
       total: jsonBill.Comprobante._attributes.Total,
       customer_provider: {
