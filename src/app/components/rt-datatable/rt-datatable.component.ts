@@ -140,7 +140,6 @@ export class RtDatatableComponent implements OnInit, OnDestroy {
       this.selectedRowData = data;
       this._emitSelected();
     }
-    console.log(data);
   }
 
   onPageChanged(ev: PageChangedEvent) {

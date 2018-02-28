@@ -42,6 +42,7 @@ export class ModalProfilesComponent implements OnInit {
     { name: 'Nombre', prop: 'name', default: '', width: '70' },
   ];
   actionObligations = new Subject<RtAction>();
+  currentActivity: any;
 
   constructor(
     private fb: FormBuilder,
@@ -54,9 +55,9 @@ export class ModalProfilesComponent implements OnInit {
   ) {
     this.profileForm = fb.group({
       'name': [null, Validators.required],
+      'activity': [null, Validators.required],
       'concept': '',
-      'obligation': '',
-      'activity': [null, Validators.required]
+      'obligation': ''
     });
   }
 
@@ -65,12 +66,13 @@ export class ModalProfilesComponent implements OnInit {
     this.title = this.data.title;
     if (this.data.profile) {
       this.profile = this.data.profile;
+      this.currentActivity = this.profile.activity._id;
     } else {
       this.profile = {
         name: '',
         concepts: [],
         obligations: [],
-        activity: {}
+        activity: null
       };
     }
 
@@ -84,7 +86,6 @@ export class ModalProfilesComponent implements OnInit {
     });
     this.obligationProv.getAll().subscribe(data => {
       this.allObligations = data.obligations;
-
       this.filteredObligations = this.profileForm.get('obligation').valueChanges
         .startWith(null)
         .map(obligation => obligation && typeof obligation === 'object' ? obligation.description : obligation)
@@ -186,7 +187,8 @@ export class ModalProfilesComponent implements OnInit {
   }
 
   onSave() {
-    console.log(this.profile);
+    const index = this.allActivities.findIndex( activity => activity._id === this.currentActivity);
+    this.profile.activity = this.allActivities[index];
     this.dialogRef.close(this.profile);
   }
 

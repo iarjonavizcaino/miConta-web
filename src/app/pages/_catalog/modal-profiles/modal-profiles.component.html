@@ -23,8 +23,8 @@
           <div class="col-6">
             <mat-form-field>
               <mat-icon matPrefix>store</mat-icon>
-              <mat-select placeholder="Actividad" [(ngModel)]="profile.activity" [formControl]="profileForm.controls['activity']">
-                <mat-option *ngFor="let a of allActivities" [value]="a">
+              <mat-select required placeholder="Actividad" [(ngModel)]="currentActivity" [formControl]="profileForm.controls['activity']">
+                <mat-option *ngFor="let a of allActivities" [value]="a._id">
                   {{ a.name }} ({{a.percent + '%'}})
                 </mat-option>
               </mat-select>

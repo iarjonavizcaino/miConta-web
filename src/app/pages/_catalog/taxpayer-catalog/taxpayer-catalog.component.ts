@@ -109,7 +109,7 @@ export class TaxpayerCatalogComponent implements OnInit {
       });
       // tslint:disable-next-line:no-shadowed-variable
       this.accountantProv.reasignTaxpayers(newTaxpayers, this.currentAccountant, data._id).subscribe(data => {
-        console.log(data.accountant);
+        console.log('reasign', data.accountant.totalTaxpayers);
         newTaxpayers.forEach(taxpayer => {
           this.action.next({ name: RtActionName.DELETE, itemId: taxpayer });
         });

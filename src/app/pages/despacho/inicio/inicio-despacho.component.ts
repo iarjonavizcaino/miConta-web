@@ -108,9 +108,9 @@ export class InicioDespachoComponent implements OnInit, OnDestroy {
         accountant = data.accountant;
         // tslint:disable-next-line:no-shadowed-variable
         this.officeProv.addAccountant(accountant._id, this.currentOffice).subscribe(data => {
-          console.log(data.office);
+          this.office = data.office;
+          this.data = this.office.accountants;
         });
-        // accountant.taxpayer = { total: 0, declarados: 0, no_declarados: 0, fuera_de_limite: 0 };
         this.action.next({ name: RtActionName.CREATE, newItem: accountant }); // save data
         const dialogRef2 = this.dialogCtrl.open(ConfirmComponent, {
           data: {
@@ -132,7 +132,14 @@ export class InicioDespachoComponent implements OnInit, OnDestroy {
   onReasignTaxpayer(ev) {
     this.stopPropagation(ev);
     this.accountantProv.getById(this.selectedAccountant._id).subscribe(data => {
-      this.taxPayersListModal(data.accountant.taxpayers, 'Contribuyentes asociados');
+      const dialogRef = this.taxPayersListModal(data.accountant.taxpayers, 'Contribuyentes asociados');
+      // tslint:disable-next-line:no-shadowed-variable
+      dialogRef.afterClosed().subscribe(data => {
+        // tslint:disable-next-line:no-shadowed-variable
+        this.officeProv.getById(this.currentOffice).subscribe(data => {
+          this.data = data.office.accountants;
+        });
+      });
     });
   }
 
@@ -207,7 +214,8 @@ export class InicioDespachoComponent implements OnInit, OnDestroy {
         res = data.accountant;
         // tslint:disable-next-line:no-shadowed-variable
         this.officeProv.addAccountant(res._id, this.currentOffice).subscribe(data => {
-          console.log(data.office);
+          this.office = data.office;
+          this.data = this.office.accountants;
         });
         this.notification.success('Acción exitosa', `Contador ${this.selectedAccountant.name} eliminado`);
         this.action.next({ name: RtActionName.DELETE, itemId: this.selectedAccountant._id });
@@ -243,7 +251,6 @@ export class InicioDespachoComponent implements OnInit, OnDestroy {
   onContadorDetail(ev) {
     // this.stopPropagation(ev);
     // see page as Contador
-    // console.log(this.selectedAccountant.name);
     this.users.push({ 'role': 'Contador', 'name': this.selectedAccountant.name });
     localStorage.setItem('users', JSON.stringify(this.users));
     localStorage.setItem('acccountant', this.selectedAccountant._id);
@@ -261,7 +268,6 @@ export class InicioDespachoComponent implements OnInit, OnDestroy {
 
   filtrar(card: string) {
     this.setBgCard(card);
-    console.log('filtrar en tabla');
   }
   private setBgCard(card: string) {
     const numCards = 7;

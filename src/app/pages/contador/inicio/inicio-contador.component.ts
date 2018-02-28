@@ -118,18 +118,14 @@ export class InicioContadorComponent implements OnInit, OnDestroy {
     const dialogRef = this.taxpayerModal(null, false, 'Nuevo contribuyente');
     dialogRef.afterClosed().subscribe((taxpayer) => {
       if (!taxpayer) { return; }
-      console.log('new', taxpayer);
       // Make HTTP request to create contadores
       this.taxpayerProv.create(taxpayer).subscribe(data => {
         taxpayer = data.taxpayer;
         // tslint:disable-next-line:no-shadowed-variable
         this.accountantProv.addTaxpayer(taxpayer._id, this.currentAccountant).subscribe(data => {
-          console.log(data.accountant);
           this.accountant = data.accountant;
         });
-        console.log(taxpayer);
         this.action.next({ name: RtActionName.CREATE, newItem: taxpayer });
-        console.log('after');
         const dialogRef2 = this.dialogCtrl.open(ConfirmComponent, {
           data: {
             title: 'Creedenciales de Acceso',
@@ -137,13 +133,11 @@ export class InicioContadorComponent implements OnInit, OnDestroy {
             type: 'success'
           }
         });
-        console.log('hola');
         // tslint:disable-next-line:no-shadowed-variable
         dialogRef2.afterClosed().subscribe((data) => {
           this.notify.success('Acción exitosa', `Nuevo contribuyente creado: ${taxpayer.socialReason}`);
         });
       }, err => {
-        console.log(err);
         this.notify.error('Error', 'No se pudo crear el contribuyente');
       });
     });
@@ -166,7 +160,7 @@ export class InicioContadorComponent implements OnInit, OnDestroy {
         this.accountant.totalTaxpayer -= 1;
         // tslint:disable-next-line:no-shadowed-variable
         this.accountantProv.addTaxpayer(res._id, this.currentAccountant).subscribe(data => {
-          console.log(data.office);
+          this.accountant = data.accountant;
         });
         this.notify.success('Acción exitosa', `Contribuyente ${this.selectedTaxpayer.socialReason} eliminado`);
         this.action.next({ name: RtActionName.DELETE, itemId: this.selectedTaxpayer._id });
@@ -178,7 +172,6 @@ export class InicioContadorComponent implements OnInit, OnDestroy {
 
   filtrar(card: string) {
     this.setBgCard(card);
-    console.log('filtrar en tabla');
   }
 
   private setBgCard(card: string) {
@@ -215,14 +208,11 @@ export class InicioContadorComponent implements OnInit, OnDestroy {
 
     dialogRef.afterClosed().subscribe(data => {
       if (!data) { return; }
-      // this.notify.success('Acción exitosa', 'El archivo se subió correctamente');
-      console.log(data);
       // use provier and notify
       this.billProv.create(data).subscribe((res) => {
         this.notify.success('Acción exitosa', 'Las facturas se han guardado correctamente');
       }, err => {
         this.notify.error('Error', 'No se pudo guardar la factura');
-        console.log(err);
       });
     });
   }
