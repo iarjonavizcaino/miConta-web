@@ -81,6 +81,9 @@ export class InicioContadorComponent implements OnInit, OnDestroy {
       this.users = users;
       // this.usersBackup = users.slice();
       // this.usersBackup.pop();
+      if (this.users.length > 2) {
+        this.users.length = 2;
+      }
     }
   }
 

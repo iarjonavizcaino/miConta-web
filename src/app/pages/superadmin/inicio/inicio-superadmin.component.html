@@ -5,7 +5,7 @@
         <i class="material-icons big-icon">people</i>
       </div>
       <div class="dashboard-card-text">
-        <h1 class="text-center big-font remove-margin-bottom">{{ data.length }}</h1>
+        <h1 class="text-center big-font remove-margin-bottom">{{ data.length || 0}}</h1>
         <h6 class="text-center jessi-color">Total despachos</h6>
       </div>
     </mat-card>
@@ -16,7 +16,7 @@
         <i class="material-icons big-icon">people</i>
       </div>
       <div class="dashboard-card-text">
-        <h1 class="text-center big-font remove-margin-bottom">{{ totalAccountant }}</h1>
+        <h1 class="text-center big-font remove-margin-bottom">{{ totalAccountant || 0 }}</h1>
         <h6 class="text-center jessi-color">Total contadores</h6>
       </div>
     </mat-card>
@@ -52,7 +52,7 @@
         <i class="material-icons big-icon">people</i>
       </div>
       <div class="dashboard-card-text">
-        <h1 class="text-center big-font remove-margin-bottom"> {{ totalTaxpayer }} </h1>
+        <h1 class="text-center big-font remove-margin-bottom"> {{ totalTaxpayer || 0}} </h1>
         <h6 class="text-center jessi-color">Total contribuyentes</h6>
       </div>
     </mat-card>

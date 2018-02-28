@@ -133,6 +133,9 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
     const users = JSON.parse(localStorage.getItem('users'));
     if (users) {
       this.users = users;
+      if (this.users.length > 3) {
+        this.users.length = 3;
+      }
       // this.usersBackup = users.slice();
       // this.usersBackup.pop();
       // console.log(this.usersBackup);
