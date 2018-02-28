@@ -6,6 +6,7 @@ import { ShowMessageCatalogComponent } from '../../_catalog/show-message-catalog
 import { CrearNotificacionComponent } from '../../_catalog/crear-notificacion/crear-notificacion.component';
 import { NotificationsService } from 'angular2-notifications';
 import * as moment from 'moment';
+import { NotificationProvider, AccountantProvider, TaxpayerProvider, OfficeProvider } from '../../../providers/providers';
 
 @Component({
   selector: 'app-notificaciones',
@@ -17,50 +18,41 @@ export class NotificacionesComponent implements OnInit {
   moment = moment;
   headers: Array<RtHeader> = [
     { name: 'Asunto', prop: 'subject', default: 'Sin asunto' },
-    { name: 'Contribuyente', prop: 'name', default: 'Sin destinatario' },
+    { name: 'Tipo', prop: 'type_msg', default: 'Sin tipo' },
+    // { name: 'Contribuyente', prop: 'destinataryName', default: 'Sin destinatario' },
     { name: 'Fecha', prop: 'date', moment: true, default: 'Sin fecha' },
   ];
   selectedMessage: any;
   data = [];
   action = new Subject<RtAction>();
+  role = JSON.parse(localStorage.getItem('user')).role.name;
 
   // users that role can send message
-  destinataries = [
-    { checked: false, name: 'Saúl Jiménez', type: 'Contribuyente' },
-    { checked: false, name: 'Manuel Pérez', type: 'Contribuyente' },
-    { checked: false, name: 'Ernesto de la Cruz', type: 'Contribuyente' }
-  ];
-  constructor(private noti: NotificationsService, private dialogCtrl: MatDialog) { }
+  destinataries = [];
+  constructor(
+    private noti: NotificationsService,
+    private dialogCtrl: MatDialog,
+    private notificationProv: NotificationProvider,
+    private taxpayerProv: TaxpayerProvider,
+    private accountantProv: AccountantProvider
+  ) { }
 
   ngOnInit() {
-    this.loadData();
-  }
+    // this.loadData();
+    let user;
+    if (this.role !== 'Contador') {
+      user = localStorage.getItem('accountant');
+    } else {
+      user = JSON.parse(localStorage.getItem('user'))._id;
+    }
 
-  loadData() {
-    this.data = [
-      {
-        subject: 'PAGO ATRASADO',
-        name: 'Saúl Jimenez',
-        date: '09-19-1995',
-        // tslint:disable-next-line:max-line-length
-        message: 'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Nisi dolores expedita cumque eligendi ratione, fugit, fuga consequatur autem quas soluta,.',
-        type_msg: 'Informativas'
-      },
-      {
-        subject: 'PRODUCTO NO VALIDO',
-        name: 'Manuel Pérez',
-        date: '01-12-2015',
-        message: 'El producto facturado no es válido',
-        type_msg: 'Informativas'
-      },
-      {
-        subject: 'FECHA DEL SIGUIENTE CORTE',
-        name: 'Ernesto de la Cruz',
-        date: '01-22-2018',
-        message: '02 MAR 18',
-        type_msg: 'Informativas'
-      }
-    ];
+    this.notificationProv.getByAccountant(user).subscribe(data => {
+      this.data = data.notifications;
+    });
+
+    this.accountantProv.getTaxpayers(user).subscribe(data => {
+      this.destinataries = data.taxpayers.taxpayers;
+    });
   }
 
   onCreate(ev: any) {
@@ -71,16 +63,22 @@ export class NotificacionesComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe((data) => {
       if (!data) { return; }
+      let notification: any = {};
+      notification = data;
+
       // Make HTTP request to create employee
-      console.log(this.moment(data.date).format('l'));
-      data.destinatary.forEach(element => {
-        // tslint:disable-next-line:max-line-length
-        this.action.next({ name: RtActionName.CREATE, newItem: { subject: data.subject, name: element.name, date: this.moment(data.date).format('L'), message: element.message }, order: '-1' });
+      this.notificationProv.create(notification).subscribe(res => {
+        // res.notification.destinatary.forEach(element => {
+          // tslint:disable-next-line:max-line-length
+          this.action.next({ name: RtActionName.CREATE, newItem: { subject: res.notification.subject, date: res.notification.date, message: res.notification.message }, order: '-1' });
+          this.selectedMessage = res.notificacion;
+          // show notifications success
+        // });
+        this.noti.success('Acción exitosa', 'La notificación se envió correctamente');
+      }, err => {
+        this.noti.error('Error', 'La notificación no se pudo enviar');
       });
 
-      // show notifications success
-      this.selectedMessage = data;
-      this.noti.success('Acción exitosa', 'La notificación se envió correctamente');
     });
   }
 
@@ -90,20 +88,21 @@ export class NotificacionesComponent implements OnInit {
 
   onView(ev) {
     this.stopPropagation(ev);
-    this.showMessage(this.selectedMessage, true, 'Detalle notificación');
+    this.showMessage(this.selectedMessage, this.selectedMessage.destinatary, true, 'Detalle notificación');
   }
 
   stopPropagation(ev: Event) {
     if (ev) { ev.stopPropagation(); }
   }
 
-  showMessage(message: any, readonly: boolean, title: string) {
+  showMessage(message: any, destinataries: any, readonly: boolean, title: string) {
     return this.dialogCtrl.open(ShowMessageCatalogComponent, {
       disableClose: false,
       data: {
         title: title,
         readonly: readonly,
-        message: this.selectedMessage
+        message: this.selectedMessage,
+        destinataries: this.selectedMessage.destinatary
       }
     });
   }

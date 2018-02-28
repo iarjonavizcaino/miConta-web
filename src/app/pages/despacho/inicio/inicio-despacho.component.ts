@@ -246,6 +246,7 @@ export class InicioDespachoComponent implements OnInit, OnDestroy {
     // console.log(this.selectedAccountant.name);
     this.users.push({ 'role': 'Contador', 'name': this.selectedAccountant.name });
     localStorage.setItem('users', JSON.stringify(this.users));
+    localStorage.setItem('acccountant', this.selectedAccountant._id);
     this.router.navigate(['/contador/inicio'], {
       queryParams: {
         _id: this.selectedAccountant._id,

@@ -116,6 +116,11 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
 
     this.loadTaxes({ year: new Date().getFullYear(), bimester: Math.trunc((new Date().getMonth() / 2) + 1) });
 
+    const bimesterNum = Math.trunc((new Date().getMonth() / 2) + 1);
+    const index = this.bimesters.findIndex(bimester => bimester.num === bimesterNum);
+    if (index !== -1) {
+      this.selectedBimester = this.bimesters[index];
+    }
   }// ngOnInit()
 
   private loadUsers() {

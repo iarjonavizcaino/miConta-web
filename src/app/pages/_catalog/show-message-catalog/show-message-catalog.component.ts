@@ -4,6 +4,7 @@ import { Subject } from 'rxjs/Subject';
 import { ConfirmComponent } from '../../../components/confirm/confirm.component';
 import { MatDialog, MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import * as moment from 'moment';
+import { RtAction, RtHeader } from '../../../components/rt-datatable/rt-datatable.component';
 
 @Component({
   selector: 'app-show-message-catalog',
@@ -14,6 +15,14 @@ export class ShowMessageCatalogComponent implements OnInit {
   title: string;
   message: any;
   moment = moment;
+  action = new Subject<RtAction>();
+
+  headers: Array<RtHeader> = [
+    { name: 'Usuario', prop: 'name', default: '' },
+  ];
+
+  destinataries = [];
+
   constructor(
     private dialogCtrl: MatDialog,
     private dialogRef: MatDialogRef<ShowMessageCatalogComponent>,
@@ -24,6 +33,7 @@ export class ShowMessageCatalogComponent implements OnInit {
     this.title = this.data.title || 'Título del modal';
     if (this.data) {  // data: info from table
       console.log(this.data);
+      this.destinataries = this.data.destinataries;
       this.message = this.data.message;
     }
   }

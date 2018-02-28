@@ -10,13 +10,21 @@
     <div class="container">
       <mat-card class="card-bg">
         <mat-card-header>
-          <mat-card-title><h3>{{message.subject}}</h3></mat-card-title>
+          <mat-card-title>
+            <h3>{{message.subject}}</h3>
+          </mat-card-title>
           <mat-card-subtitle>{{moment(message.date).format('LL')}}</mat-card-subtitle>
         </mat-card-header>
         <mat-card-content>
           <p class="little-margin-left text-justify">
             {{message.message}}
           </p>
+          <h4 style="margin-left: 10px">Destinatarios:</h4>
+          <rt-datatable [showRowNumber]="true" searchWait="600" [showRowNumber]="false" [headers]="headers"
+            [action]="action" [data]="destinataries">
+            <section class="actions">
+            </section>
+          </rt-datatable>
         </mat-card-content>
       </mat-card>
     </div>

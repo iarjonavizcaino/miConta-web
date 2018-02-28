@@ -16,6 +16,10 @@ export class AccountantProvider {
     return this.api.get(`${this.base}${_id}`);
   }
 
+  getTaxpayers(_id: string) {
+    return this.api.get(`${this.base}taxpayer/${_id}`);
+  }
+
   create(accountant: any) {
     return this.api.post(`${this.base}`, accountant);
   }

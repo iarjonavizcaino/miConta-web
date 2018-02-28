@@ -12,6 +12,10 @@ export class NotificationProvider {
     return this.api.get(`${this.base}`);
   }
 
+  getByAccountant(_id: string) {
+    return this.api.get(`${this.base}accountant/${_id}`);
+  }
+
   create(notification: any) {
     return this.api.post(`${this.base}`, notification);
   }

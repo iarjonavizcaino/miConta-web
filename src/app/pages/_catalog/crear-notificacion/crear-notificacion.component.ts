@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, OnDestroy } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 // import * as moment from 'moment';
@@ -17,7 +17,7 @@ export class CrearNotificacionComponent implements OnInit {
   headers: Array<RtHeader> = [
     { name: 'Seleccionar', prop: 'checked', input: 'checkbox', default: '' },
     { name: 'Usuario', prop: 'name', default: '' },
-    { name: 'Tipo', prop: 'type', default: '' },
+    { name: 'Tipo', prop: 'role.name', default: '' },
   ];
   action = new Subject<RtAction>();
   dataUsers = [];
@@ -31,7 +31,15 @@ export class CrearNotificacionComponent implements OnInit {
     subject: '',
     date: '',
     message: '',
-    type_msg: ''
+    type_msg: '',
+    emisor: {
+      _id: '',
+      name: '',
+      role: {
+        _id: '',
+        name: ''
+      }
+    }
   };
 
   constructor(
@@ -49,6 +57,9 @@ export class CrearNotificacionComponent implements OnInit {
   ngOnInit() {
     if (!this.data) { return; }
     this.dataUsers = this.data;
+    this.dataUsers.forEach(user => {
+      user.checked = false;
+    });
   }
 
   onChecked(ev: any) {
@@ -61,7 +72,9 @@ export class CrearNotificacionComponent implements OnInit {
   }
 
   onClose() {
+    this.numDestinataries = 0;
     this.dialogRef.close();
+    console.log(this.dataUsers);
   }
   onSave() {
     if (this.numDestinataries > 0) {  // user has check
@@ -70,6 +83,9 @@ export class CrearNotificacionComponent implements OnInit {
           this.notification.destinatary.push(user);
         }
       });
+      this.notification.emisor._id = JSON.parse(localStorage.getItem('user'))._id;
+      this.notification.emisor.name = JSON.parse(localStorage.getItem('user')).name;
+      this.notification.emisor.role = JSON.parse(localStorage.getItem('user')).role;
       this.notification.date = new Date();
       this.dialogRef.close(this.notification); // return data to save
     } else {
