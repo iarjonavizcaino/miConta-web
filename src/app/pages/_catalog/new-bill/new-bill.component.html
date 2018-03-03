@@ -228,7 +228,7 @@
         <div class="col-9">
           IVA:
           <br>
-          <mat-slide-toggle (change)="tazaToggle($event)" [(ngModel)]="statusTaza">Tasa 16%</mat-slide-toggle>
+          <mat-slide-toggle (change)="tasaToggle($event)" [(ngModel)]="statustasa">Tasa 16%</mat-slide-toggle>
         </div>
         <div class="col-3">{{bill.taxes | currency:'USD':true:'2.2-4'}}</div>
       </div>

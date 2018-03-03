@@ -29,7 +29,7 @@ export class NewBillComponent implements OnInit {
     { name: 'Importe', prop: 'amount', default: '$ 0.00', align: 'right', accounting: true }
   ];
   action = new Subject<RtAction>();
-  statusTaza: boolean;
+  statustasa: boolean;
   allMethods = [];
   bill = {
     type: '', // ingresos o egresos
@@ -56,7 +56,7 @@ export class NewBillComponent implements OnInit {
         state: ''
       },
     },
-    taza: 0,
+    tasa: 0,
     taxes: 0,
     subtotal: 0,
     total: 0,
@@ -204,24 +204,24 @@ export class NewBillComponent implements OnInit {
     console.log('calc', newItem);
     if (add) {
       this.bill.subtotal += parseFloat(newItem.amount);
-      this.bill.taxes = this.bill.subtotal * this.bill.taza;
+      this.bill.taxes = this.bill.subtotal * this.bill.tasa;
       this.bill.total = this.bill.subtotal + this.bill.taxes;
     } else {
       this.bill.subtotal -= newItem.amount;
-      this.bill.taxes = this.bill.subtotal * this.bill.taza;
+      this.bill.taxes = this.bill.subtotal * this.bill.tasa;
       this.bill.total = this.bill.subtotal + this.bill.taxes;
     }
   }
-  tazaToggle(ev: any) {
+  tasaToggle(ev: any) {
     console.log(ev);
     if (ev.checked) {
       // IVA for 16%
-      this.bill.taza = _global.IVA;
+      this.bill.tasa = _global.IVA;
     } else {
       // IVA for 0
-      this.bill.taza = 0;
+      this.bill.tasa = 0;
     }
-    this.bill.taxes = this.bill.subtotal * this.bill.taza;
+    this.bill.taxes = this.bill.subtotal * this.bill.tasa;
     this.bill.total = this.bill.subtotal + this.bill.taxes;
   }
   private stopPropagation(ev: Event) {

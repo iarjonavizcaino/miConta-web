@@ -66,7 +66,9 @@ export class ModalProfilesComponent implements OnInit {
     this.title = this.data.title;
     if (this.data.profile) {
       this.profile = this.data.profile;
-      this.currentActivity = this.profile.activity._id;
+      if (this.profile.activity) {
+        this.currentActivity = this.profile.activity._id;
+      }
     } else {
       this.profile = {
         name: '',

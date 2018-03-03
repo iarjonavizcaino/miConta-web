@@ -127,11 +127,12 @@ export class ModalCrearContribuyenteComponent implements OnInit {
           concepts: [],
           obligations: [],
           activity: {
-
+            percent: '',
+            name: '',
+            _id: ''
           }
         }
       };
-      this.currentProfile = this.taxPayer.profile;
     }
     this.profileProv.getAll().subscribe(data => {
       this.profiles = data.profiles;
@@ -188,7 +189,6 @@ export class ModalCrearContribuyenteComponent implements OnInit {
     const dialogRef = this.createStatementModal('Subir archivos');
     dialogRef.afterClosed().subscribe(data => {
       if (!data) { return; }
-      console.log(data);
       this.actionStatement.next({ name: RtActionName.CREATE, newItem: data }); // save data
       this.notification.success('Acción exitosa', 'La declaración se creó correctamente');
     });
@@ -263,7 +263,6 @@ export class ModalCrearContribuyenteComponent implements OnInit {
   }
 
   inputChange(ev) {
-    console.log(ev);
     this.wrongLimit = !ev.data.limit || ev.data.limit <= 0 ? true : false;
   }
 
