@@ -160,12 +160,16 @@ export class InicioSuperadminComponent implements OnInit {
       }
     });
     dialogRef.afterClosed().subscribe(res => {
-      if (!res) { return; }
+      if (!res) { ev.item.microRif = !ev.item.microRif; return; }
       this.officeProv.updateMicroRif(ev.item._id).subscribe(data => {
         console.log(data);
+        this.despachoSelected = data.office;
         ev.item = data.office;
+        this.action.next({ name: RtActionName.UPDATE, itemId: this.despachoSelected._id, newItem: this.despachoSelected });
         this.notification.success('Acción exitosa', `Los contribuyentes del despacho ${this.despachoSelected.name} se han actualizado.`);
       }, err => {
+        ev.item.microRif = !ev.item.microRif;
+        this.action.next({ name: RtActionName.UPDATE, itemId: ev.item._id, newItem: ev.item });
         this.notification.error('Error', `Los contribuyentes del despacho ${this.despachoSelected.name} no se actualizaron.`);
       });
     });
