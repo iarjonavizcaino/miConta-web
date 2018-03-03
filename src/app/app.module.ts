@@ -59,7 +59,8 @@ import {
   BillProvider,
   ActivityProvider,
   PayMethodProvider,
-  TaxesProvider
+  TaxesProvider,
+  HistoricalProvider
 } from './providers/providers';
 
 // Pages
@@ -326,6 +327,7 @@ const routes: Routes = [
     ActivityProvider,
     PayMethodProvider,
     TaxesProvider,
+    HistoricalProvider,
     //  Services
     RoleGuard,
     AuthGuard,

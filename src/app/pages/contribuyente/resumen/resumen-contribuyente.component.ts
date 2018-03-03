@@ -7,7 +7,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { NewBillComponent } from '../../_catalog/new-bill/new-bill.component';
 import { ModalFechaComponent } from '../../_catalog/modal-fecha/modal-fecha.component';
 import { NotificationsService } from 'angular2-notifications';
-import { BillProvider, TaxesProvider } from '../../../providers/providers';
+import { BillProvider, TaxesProvider, HistoricalProvider } from '../../../providers/providers';
 import { ConfirmComponent } from '../../../components/confirm/confirm.component';
 import { ModalImpuestosComponent } from '../../_catalog/modal-impuestos/modal-impuestos.component';
 
@@ -63,6 +63,7 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
   currentBimester = 'ENE-FEB 2018';
   selectedYear;
   selectedBimester: any;
+  currentPeriod: any;
 
   currentTaxpayer: any;
   // to hadle breadcrumb
@@ -89,7 +90,8 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
     private notify: NotificationsService,
     private router: Router,
     private dialogCtrl: MatDialog,
-    private route: ActivatedRoute) { }
+    private route: ActivatedRoute,
+    private historicalProv: HistoricalProvider) { }
 
   ngOnInit() {
     this.roleUp = JSON.parse(localStorage.getItem('user')).role.name.toString().toLowerCase();
@@ -108,19 +110,27 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
           this.headersEgresos.splice(this.headersEgresos.length - 1, 0, { name: 'Deducible', prop: 'deducible', input: 'toggleDeducible', width: '12', align: 'center' });
         }
       });
+
     this.loadUsers();
-    this.loadBills({ year: 2018, bimester: Math.trunc((new Date().getMonth() / 2) + 1) });
-
     this.loadBimesters();
-    this.selectedYear = new Date().getFullYear();
 
-    this.loadTaxes({ year: new Date().getFullYear(), bimester: Math.trunc((new Date().getMonth() / 2) + 1) });
+    this.historicalProv.getActive(this.currentTaxpayer._id).subscribe(data => {
+      this.currentPeriod = data;
+      this.loadBills({ year: this.currentPeriod.exercise, bimester: this.currentPeriod.period.num });
+      this.loadTaxes({ year: this.currentPeriod.exercise, bimester: this.currentPeriod.period.num });
+      this.selectedYear = this.currentPeriod.exercise;
+      // this.selectedBimester = { name: this.currentPeriod.period.name, num: this.currentPeriod.period.num };
+      this.selectedBimester = this.bimesters[--this.currentPeriod.period.num];
+      console.log(this.selectedBimester);
+    });
 
-    const bimesterNum = Math.trunc((new Date().getMonth() / 2) + 1);
-    const index = this.bimesters.findIndex(bimester => bimester.num === bimesterNum);
-    if (index !== -1) {
-      this.selectedBimester = this.bimesters[index];
-    }
+    // const bimesterNum = Math.trunc((new Date().getMonth() / 2) + 1);
+    // const index = this.bimesters.findIndex(bimester => bimester.num === bimesterNum);
+    // if (index !== -1) {
+    //   this.selectedBimester = this.bimesters[index];
+    // }
+
+    // console.log(this.selectedBimester);
   }// ngOnInit()
 
   private loadUsers() {
@@ -136,21 +146,23 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
       if (this.users.length > 3) {
         this.users.length = 3;
       }
-      // this.usersBackup = users.slice();
-      // this.usersBackup.pop();
-      // console.log(this.usersBackup);
     }
   }
+
+  updateBimester(event) {
+    console.log('holaaaaaaaaaaaaaa');
+    event.target.value = this.selectedBimester.num;
+  }
+
   updateUsers() {
     this.users.pop();
     localStorage.setItem('users', JSON.stringify(this.users));
   }
+
   ngOnDestroy() {
-    // this.updateUsers();
-    // this.users = this.usersBackup;
-    // localStorage.setItem('users', JSON.stringify(this.usersBackup));
     this.sub.unsubscribe();
   }
+
   onManualBillEgresos(ev: any) {
     this.stopPropagation(ev);
     const dialogRef = this.manualBill(false);
@@ -167,6 +179,7 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
       });
     });
   }
+
   onManualBillIngresos(ev: any) {
     this.stopPropagation(ev);
     const dialogRef = this.manualBill(true);
@@ -185,6 +198,7 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
       });
     });
   }
+
   private manualBill(type: boolean) {
     return this.dialogCtrl.open(NewBillComponent, {
       disableClose: false,
@@ -193,9 +207,11 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
       }
     });
   }
+
   onEgresosSelected(ev: any) {
     this.selectedEgresos = ev.data;
   }
+
   onEgresosChecked(ev: any, type: string) {
     console.log(type);
     if (type === 'check') {
@@ -207,12 +223,14 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
       }
     }
   }
+
   toggleDeducible(ev: any) {  // update OK
     this.selectedEgresos = ev.item;
     this.selectedEgresos.deducible = !this.selectedEgresos.deducible;
     this.update(this.selectedEgresos._id, this.selectedEgresos);
     this.actionEgresos.next({ name: RtActionName.UPDATE, itemId: this.selectedEgresos._id, newItem: this.selectedEgresos.bill });
   }
+
   onToggleFec(ev: any) {
     const updateBill = ev.item;
     if (!updateBill.cobrada_pagada) {
@@ -241,6 +259,7 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
       this.update(updateBill._id, updateBill);
     }
   }
+
   onCheckAllEgresos(ev: any) {
     this.allEgresosChecked = !this.allEgresosChecked;
     if (this.allEgresosChecked) {
@@ -265,11 +284,13 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
     this.update(this.selectedIngresos._id, this.selectedIngresos);
     this.actionIngresos.next({ name: RtActionName.UPDATE, itemId: this.selectedIngresos._id, newItem: this.selectedIngresos });
   }
+
   onIngresosSelected(ev) {
     if (ev.data) {
       this.selectedIngresos = ev.data;
     }
   }
+
   onIngresosChecked(ev: any, type: string) {
     if (type === 'check') {
       if (!ev.item.checked) {
@@ -299,6 +320,7 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
       }
     }
   }
+
   onCheckAllIngresos(ev: any) {
     this.allIngresosChecked = !this.allIngresosChecked;
     if (this.allIngresosChecked) {
@@ -321,6 +343,7 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
     this.stopPropagation(ev);
     this.billModal(this.selectedIngresos, true, 'Datos de Factura');
   }
+
   onViewBillEgresos(ev: any) {
     this.stopPropagation(ev);
     this.billModal(this.selectedEgresos, true, 'Datos de Factura');
@@ -340,6 +363,7 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
   onDownloadXMLIngresos(ev: any) {
     this.stopPropagation(ev);
   }
+
   onDownloadXMLEgresos(ev: any) {
     this.stopPropagation(ev);
   }
@@ -347,6 +371,7 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
   onDownloadPDF(ev: any) {
     this.stopPropagation(ev);
   }
+
   onDeleteStatementEgresos(ev: any) {
     this.stopPropagation(ev);
     const dialogRef = this.modalConfirm();
@@ -361,6 +386,7 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
       });
     });
   }
+
   onDeleteStatementIngresos(ev: any) {
     this.stopPropagation(ev);
     const dialogRef = this.modalConfirm();
@@ -375,6 +401,7 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
       });
     });
   }
+
   onIVA(ev: any) {
     if (!this.IVA) { return; }
     const dialogRef = this.dialogCtrl.open(ModalImpuestosComponent, {
@@ -393,11 +420,13 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
       console.log(err);
     });
   }
+
   onISR(ev: any) {
     if (!this.ISR) {
       // this shit is when get login with storage in the method that read taxes doesn't run
+      // this.loadBills({ year: this.currentPeriod.exercise, bimester: this.currentPeriod.period.num });
       const month = Math.trunc((new Date().getMonth() / 3) + 1);
-      const year = new Date().getFullYear();
+      const year = this.currentPeriod.exercise;
 
       this.taxProv.getISR(this.currentTaxpayer._id, { year: this.selectedYear, bimester: this.selectedBimester.num }).subscribe(res => {
         this.ISR = res.ISR;

@@ -10,6 +10,7 @@ import { BillProvider } from './bill.prov';
 import { ActivityProvider } from './activity.prov';
 import { PayMethodProvider } from './payMethod.prov';
 import { TaxesProvider } from './taxes.prov';
+import { HistoricalProvider } from './historical.prov';
 
 export {
     ConceptProvider,
@@ -23,5 +24,6 @@ export {
     BillProvider,
     ActivityProvider,
     PayMethodProvider,
-    TaxesProvider
+    TaxesProvider,
+    HistoricalProvider
 };
