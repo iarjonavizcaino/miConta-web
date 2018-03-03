@@ -16,7 +16,7 @@
       
   .wrap-login100 {
     width: 500px;
-    height: 550px;
+    height: 610px;
     margin: 0 auto;
     // background: #fff;
     background: #ADA996;  /* fallback for old browsers */
@@ -114,6 +114,7 @@
 
   .container-login100-form-btn {
     width: 100%;
+    margin: 0 auto;
     display: -webkit-box;
     display: -webkit-flex;
     display: -moz-box;
@@ -123,6 +124,7 @@
   }
 
   .login100-form-btn {
+    margin: 0 auto;
     display: -webkit-box;
     display: -webkit-flex;
     display: -moz-box;

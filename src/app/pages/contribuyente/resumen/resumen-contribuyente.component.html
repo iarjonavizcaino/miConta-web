@@ -134,7 +134,7 @@
             <br>
             <br>
             <!-- habilitar button cuando los archivos existan -->
-            <button [disabled]="true" mat-raised-button color="warn">Cerrar Bimestre</button>
+            <button mat-raised-button color="warn" (click)="closePeriod()" >Cerrar Bimestre</button>
           </div>
         </div>
       </mat-card-content>

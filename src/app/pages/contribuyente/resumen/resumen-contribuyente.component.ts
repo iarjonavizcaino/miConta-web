@@ -119,9 +119,8 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
       this.loadBills({ year: this.currentPeriod.exercise, bimester: this.currentPeriod.period.num });
       this.loadTaxes({ year: this.currentPeriod.exercise, bimester: this.currentPeriod.period.num });
       this.selectedYear = this.currentPeriod.exercise;
-      // this.selectedBimester = { name: this.currentPeriod.period.name, num: this.currentPeriod.period.num };
       this.selectedBimester = this.bimesters[--this.currentPeriod.period.num];
-      console.log(this.selectedBimester);
+      this.currentBimester = this.selectedBimester.name + ' ' + this.selectedYear;
     });
 
     // const bimesterNum = Math.trunc((new Date().getMonth() / 2) + 1);
@@ -499,6 +498,35 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
     });
   }
 
+  closePeriod() {
+    const dialogRef = this.dialogCtrl.open(ConfirmComponent, {
+      disableClose: true,
+      data: {
+        title: '¡ATENCIÓN!',
+        message: `¿Está seguro que desea cerrar el periodo ${this.currentPeriod.period.name}?`,
+        type: 'danger'
+      }
+    });
+
+    dialogRef.afterClosed().subscribe((res) => {
+      if (!res) { return; }
+      const taxes = {
+        taxes: {
+          isr: this.ISR.isrNetoAPagar,
+          iva: this.IVA.ivaCargo !== 0 ? this.IVA.ivaCargo : this.IVA.ivaFavor
+        }
+      };
+
+      this.historicalProv.closePeriod(taxes, this.currentPeriod._id).subscribe(data => {
+        console.log(data);
+        this.currentBimester = this.bimesters[this.selectedBimester.num].name + ' ' + this.selectedYear;
+        this.loadBills({ year: this.selectedYear, bimester: ++this.selectedBimester.num });
+        this.loadTaxes({ year: this.selectedYear, bimester: ++this.selectedBimester.num });
+
+      });
+    });
+  }
+
   loadBimesters() {
     const year = new Date().getFullYear();
     for (let i = 2014; i <= year; i++) {
@@ -538,6 +566,7 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
 
     this.loadTaxes({ year: this.selectedYear, bimester: this.selectedBimester.num });
   }
+
   private loadTaxes(filter: any) {
     this.totalTax = 0;
     this.taxProv.getISR(this.currentTaxpayer._id, filter).subscribe(res => {

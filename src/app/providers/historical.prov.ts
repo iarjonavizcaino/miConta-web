@@ -16,6 +16,14 @@ export class HistoricalProvider {
     return this.api.get(`${this.base}active/${taxpayer}`);
   }
 
+  closePeriod (data: any, _id: string) {
+    return this.api.put(`${this.base}closePeriod/${_id}`, data);
+  }
+
+  closeExercise (data: any, _id: string) {
+    return this.api.put(`${this.base}closeExercise/${_id}`, data);
+  }
+
   create(concept: any) {
     return this.api.post(`${this.base}`, concept);
   }
