@@ -320,13 +320,8 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
     this.stopPropagation(ev);
     const dialogRef = this.billModal(this.selectedIngresos, true, 'Datos de Factura');
     dialogRef.afterClosed().subscribe(res => {
-      if (!res.saved) {
-        if (res.updatedDate) {
-          this.loadTaxes({ year: this.selectedYear, bimester: this.selectedBimester.num });
-        }
-      } else {
-        this.loadTaxes({ year: this.selectedYear, bimester: this.selectedBimester.num });
-      }
+      this.loadTaxes({ year: this.selectedYear, bimester: this.selectedBimester.num });
+      if (!res) { return; }
     });
   }
 

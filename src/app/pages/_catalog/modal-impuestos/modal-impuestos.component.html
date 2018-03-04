@@ -11,7 +11,7 @@
         <div class="col-9" style="text-align:right;">
           <span >{{t.concept}}:</span>
         </div>
-        <div class="col-3">
+        <div class="col-3" style="text-align: right; padding-right: 40px">
           <span *ngIf="t.concept === 'PORCENTAJE DE REDUCCIÓN'">{{t.amount}}%</span>
           <span *ngIf="t.concept !== 'PORCENTAJE DE REDUCCIÓN'">{{t.amount | currency:'USD':true:'2.2-4'}}</span>
         </div>

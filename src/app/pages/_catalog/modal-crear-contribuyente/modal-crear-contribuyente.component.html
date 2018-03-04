@@ -152,8 +152,9 @@
                   <mat-panel-title>
                     Perfil
                   </mat-panel-title>
-                  <mat-panel-description>
-                    Detalle del perfil
+                  <mat-panel-description style="width: 100%; text-align: left; margin-left: 50px">
+                    <span>Detalle del perfil</span>
+                    <span style="margin-left: 120px">{{ currentProfile ? 'Actividad: ' + currentProfile?.activity.name + ' (' + currentProfile?.activity.percent + '%)' : '' }}</span>
                   </mat-panel-description>
                 </mat-expansion-panel-header>
 
@@ -189,8 +190,8 @@
                   <mat-panel-title>
                     Archivos
                   </mat-panel-title>
-                  <mat-panel-description>
-                    Fiel y Sellos
+                  <mat-panel-description style="width: 100%; text-align: left; margin-left: 30px">
+                    <span >Fiel y Sellos</span>
                   </mat-panel-description>
                 </mat-expansion-panel-header>
                 <div class="row">

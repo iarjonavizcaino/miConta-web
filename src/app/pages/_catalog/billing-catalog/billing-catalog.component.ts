@@ -87,37 +87,9 @@ export class BillingCatalogComponent implements OnInit {
     text = text.replace(/(\d{3})(\d{3})(\d{4})/, '$1-$2-$3');
     return text;
   }
-  onClose() {
-    this.dialogRef.close({ saved: true, updatedDate: this.updatedDate });
-  }
 
-  onToggleFec(ev: any) {
-    const updateBill = ev.item;
-    if (!updateBill.cobrada_pagada) {
-      // open a modal
-      const dialogRef = this.dialogCtrl.open(ModalFechaComponent, {
-        disableClose: true,
-        data: {
-          config: {
-            title: 'Fecha de cobro',
-            placeholder: 'Seleccionar fecha'
-          }
-        }
-      });
-      dialogRef.afterClosed().subscribe(result => {
-        console.log(result);
-        if (!result) { return; }
-        updateBill.cobrada_pagadaDate = result;
-        updateBill.cobrada_pagada = true;
-        console.log(updateBill);
-        // this.update(updateBill._id, updateBill);  // without _id?
-      });
-    } else {
-      // already in true past to false
-      updateBill.cobrada_pagada = false;
-      updateBill.cobrada_pagadaDate = '';
-      // this.update(updateBill._id, updateBill);
-    }
+  onClose() {
+    this.dialogRef.close({ saved: false, updatedDate: this.updatedDate });
   }
 
   changeStatus(ev) {

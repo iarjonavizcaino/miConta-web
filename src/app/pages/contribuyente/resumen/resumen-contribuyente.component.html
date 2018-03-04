@@ -134,7 +134,7 @@
             <br>
             <br>
             <!-- habilitar button cuando los archivos existan -->
-            <button mat-raised-button color="warn" (click)="closePeriod()" >Cerrar Bimestre</button>
+            <button mat-raised-button color="warn" (click)="closePeriod()">Cerrar Bimestre</button>
           </div>
         </div>
       </mat-card-content>
@@ -155,7 +155,10 @@
             </h3>
           </mat-panel-title>
           <mat-panel-description style="margin-left: 60px">
-            <h3>{{sumIngresos | currency:'USD':true:'2.2-4'}}</h3>
+            <div>
+              <span>Total</span>
+              <h3>{{ sumIngresos | currency:'USD':true:'2.2-4'}}</h3>
+            </div>
           </mat-panel-description>
         </mat-expansion-panel-header>
         <rt-datatable (selected)="onIngresosSelected($event)" (checked)="onIngresosChecked($event)" (toggleFec)="onToggleFec($event)"
@@ -196,7 +199,7 @@
 
       <mat-expansion-panel>
         <mat-expansion-panel-header>
-          <mat-panel-title class = "width: 200px">
+          <mat-panel-title class="width: 200px">
             <mat-icon class="home-icon">assignment_return</mat-icon>
             <h3 class="panel-expandable-title">Mis Egresos
               <!-- <strong>(Sin IVA)</strong> -->
@@ -204,7 +207,11 @@
             </h3>
           </mat-panel-title>
           <mat-panel-description style="margin-left: 60px">
-            <h3>{{sumEgresos | currency:'USD':true:'2.2-4'}}</h3>
+            <div>
+              <span>Total</span>
+              <h3>{{sumEgresos | currency:'USD':true:'2.2-4'}}</h3>
+            </div>
+            <!-- <h3>Total: </h3> -->
           </mat-panel-description>
         </mat-expansion-panel-header>
         <rt-datatable (selected)="onEgresosSelected($event)" (checked)="onEgresosChecked($event)" (toggleDeducible)="toggleDeducible($event)"
