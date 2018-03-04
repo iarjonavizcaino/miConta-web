@@ -56,27 +56,33 @@ export class ModalImpuestosComponent implements OnInit {
     this.taxes = [
       {
         concept: 'Ingresos Bimestrales Cobrados',
-        amount: this.data.tax.ingresosBimestralesCobrados
+        amount: this.data.tax.ingresosBimestralesCobrados,
+        red: false
       },
       {
         concept: 'Deducciones Bimestrales Pagadas',
-        amount: this.data.tax.deduccionesBimestralesPagadas
+        amount: this.data.tax.deduccionesBimestralesPagadas,
+        red: false
       },
       {
         concept: 'Diferencia de gastos mayores a ingresos de periodos anteriores',
-        amount: this.data.tax.diferenciaGastosMayores
+        amount: this.data.tax.diferenciaGastosMayores,
+        red: true
       },
       {
         concept: 'ISR A PAGAR',
-        amount: this.data.tax.isrAPagar
+        amount: this.data.tax.isrAPagar,
+        red: false
       },
       {
         concept: `MONTO DE REDUCCIÓN (${this.data.tax.porcentajeReduccion}%)`,
-        amount: this.data.tax.montoReduccion
+        amount: this.data.tax.montoReduccion,
+        red: true
       },
       {
         concept: 'ISR NETO A PAGAR',
-        amount: this.data.tax.isrNetoAPagar
+        amount: this.data.tax.isrNetoAPagar,
+        red: false
       }
     ];
   }
