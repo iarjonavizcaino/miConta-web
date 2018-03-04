@@ -32,7 +32,7 @@
   </div>
   <div class="col-3">
     <mat-form-field>
-      <mat-select placeholder="Seleccionar Bimestre" [(ngModel)]="selectedBimester" (ngModelChange)="updateBimester($event)">
+      <mat-select placeholder="Seleccionar Bimestre" [(ngModel)]="selectedBimester">
         <mat-option *ngFor="let b of bimesters" [value]="b">
           {{ b.name }}
         </mat-option>
@@ -158,7 +158,7 @@
             <h3>{{sumIngresos | currency:'USD':true:'2.2-4'}}</h3>
           </mat-panel-description>
         </mat-expansion-panel-header>
-        <rt-datatable (selected)="onIngresosSelected($event)" (checked)="onIngresosChecked($event, 'check')" (toggleFec)="onToggleFec($event)"
+        <rt-datatable (selected)="onIngresosSelected($event)" (checked)="onIngresosChecked($event)" (toggleFec)="onToggleFec($event)"
           searchWait="600" [showRowNumber]="false" [headers]="headersIngresos" [action]="actionIngresos" [data]="dataIngresos"
           (toggleGeneralPublic)="changeToGeneralPublic($event)">
           <section class="actions">
@@ -207,7 +207,7 @@
             <h3>{{sumEgresos | currency:'USD':true:'2.2-4'}}</h3>
           </mat-panel-description>
         </mat-expansion-panel-header>
-        <rt-datatable (selected)="onEgresosSelected($event)" (checked)="onEgresosChecked($event, 'toggle')" (toggleDeducible)="toggleDeducible($event)"
+        <rt-datatable (selected)="onEgresosSelected($event)" (checked)="onEgresosChecked($event)" (toggleDeducible)="toggleDeducible($event)"
           (toggleFec)="onToggleFec($event)" searchWait="600" [showRowNumber]="false" [headers]="headersEgresos" [action]="actionEgresos"
           [data]="dataEgresos">
           <section class="actions">

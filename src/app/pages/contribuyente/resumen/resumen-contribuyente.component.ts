@@ -17,6 +17,7 @@ import { ModalImpuestosComponent } from '../../_catalog/modal-impuestos/modal-im
   styleUrls: ['./resumen-contribuyente.component.scss']
 })
 export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
+  updateGeneralPublic: boolean;
 
   headersIngresos: Array<RtHeader> = [
     { name: 'Emisión', prop: 'createdDate', default: 'No date', moment: true },  // from xml file
@@ -59,6 +60,8 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
   office: string;
   years = [];
   bimesters = [];
+  updateDate: boolean;
+  updateDeducible: boolean;
 
   currentBimester = 'ENE-FEB 2018';
   selectedYear;
@@ -148,11 +151,6 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
     }
   }
 
-  updateBimester(event) {
-    console.log('holaaaaaaaaaaaaaa');
-    event.target.value = this.selectedBimester.num;
-  }
-
   updateUsers() {
     this.users.pop();
     localStorage.setItem('users', JSON.stringify(this.users));
@@ -211,26 +209,26 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
     this.selectedEgresos = ev.data;
   }
 
-  onEgresosChecked(ev: any, type: string) {
-    console.log(type);
-    if (type === 'check') {
-      if (!ev.item.checked) {
-        this.checkedEgresos++;
-        ev.item.checked = !ev.item.checked;
-      } else {
-        this.checkedEgresos--;
-      }
+  onEgresosChecked(ev: any) {
+    if (!ev.item.checked) {
+      this.checkedEgresos++;
+      ev.item.checked = !ev.item.checked;
+    } else {
+      this.checkedEgresos--;
     }
   }
 
   toggleDeducible(ev: any) {  // update OK
+    this.updateDeducible = true;
     this.selectedEgresos = ev.item;
+    ev.item.checked = false;
     this.selectedEgresos.deducible = !this.selectedEgresos.deducible;
     this.update(this.selectedEgresos._id, this.selectedEgresos);
-    this.actionEgresos.next({ name: RtActionName.UPDATE, itemId: this.selectedEgresos._id, newItem: this.selectedEgresos.bill });
+    this.actionEgresos.next({ name: RtActionName.UPDATE, itemId: this.selectedEgresos._id, newItem: this.selectedEgresos });
   }
 
   onToggleFec(ev: any) {
+    this.updateDate = true;
     const updateBill = ev.item;
     if (!updateBill.cobrada_pagada) {
       // open a modal
@@ -245,7 +243,7 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
       });
       dialogRef.afterClosed().subscribe(result => {
         console.log(result);
-        if (!result) { return; }
+        if (!result) { ev.item.cobrada_pagada = !ev.item.cobrada_pagada; return; }
         updateBill.cobrada_pagadaDate = result;
         updateBill.cobrada_pagada = true;
         console.log(updateBill);
@@ -278,6 +276,7 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
   }
   /************************************************************************************ */
   changeToGeneralPublic(ev: any) {
+    this.updateGeneralPublic = true;
     this.selectedIngresos = ev.item;
     this.selectedIngresos.general_public = !this.selectedIngresos.general_public;
     this.update(this.selectedIngresos._id, this.selectedIngresos);
@@ -291,32 +290,11 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
   }
 
   onIngresosChecked(ev: any, type: string) {
-    if (type === 'check') {
-      if (!ev.item.checked) {
-        this.checkedIngresos++;
-        ev.item.checked = !ev.item.checked;
-      } else {
-        this.checkedIngresos--;
-      }
-    } else if (type === 'toggle') {
-      const bill: any = ev.item;
-      if (!bill.active) {
-        const dialogRef = this.dialogCtrl.open(ModalFechaComponent, {
-          data: {
-            config: {
-              title: 'Fecha de cobro',
-              placeholder: 'Seleccionar fecha'
-            }
-          }
-        });
-        dialogRef.afterClosed().subscribe(res => {
-          if (!res) { bill.active = !bill.active; return; }
-          bill.endDate = res;
-          // Make HTTP request to change date
-        });
-      } else {
-        bill.endDate = null;
-      }
+    if (!ev.item.checked) {
+      this.checkedIngresos++;
+      ev.item.checked = !ev.item.checked;
+    } else {
+      this.checkedIngresos--;
     }
   }
 
@@ -340,7 +318,16 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
   /********************************************************************************* */
   onViewBillIngresos(ev) {
     this.stopPropagation(ev);
-    this.billModal(this.selectedIngresos, true, 'Datos de Factura');
+    const dialogRef = this.billModal(this.selectedIngresos, true, 'Datos de Factura');
+    dialogRef.afterClosed().subscribe(res => {
+      if (!res.saved) {
+        if (res.updatedDate) {
+          this.loadTaxes({ year: this.selectedYear, bimester: this.selectedBimester.num });
+        }
+      } else {
+        this.loadTaxes({ year: this.selectedYear, bimester: this.selectedBimester.num });
+      }
+    });
   }
 
   onViewBillEgresos(ev: any) {
@@ -488,13 +475,23 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
       }
     });
   }
+
   private update(_id: string, bill: any) {
     this.billProv.update(_id, bill).subscribe((res) => {
       this.notify.success('Acción Exitosa', 'Factura actualizada correctamente');
       this.loadTaxes({ year: this.selectedYear, bimester: this.selectedBimester.num }); // when the user mark a bill as payed
     }, err => {
       this.notify.error('Error', 'No se pudo actualizar la factura');
-      console.log(err);
+      if (this.updateDate) {
+        bill.cobrada_pagada = false;
+        bill.cobrada_pagadaDate = '';
+        this.updateDate = false;
+      } else if (this.updateDeducible) {
+        this.selectedEgresos.deducible = !this.selectedEgresos.deducible;
+        this.updateDeducible = false;
+      } else if (this.updateGeneralPublic) {
+        this.selectedIngresos.general_public = !this.selectedIngresos.general_public;
+      }
     });
   }
 
