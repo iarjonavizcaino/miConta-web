@@ -71,11 +71,7 @@ export class ModalImpuestosComponent implements OnInit {
         amount: this.data.tax.isrAPagar
       },
       {
-        concept: 'PORCENTAJE DE REDUCCIÓN',
-        amount: this.data.tax.porcentajeReduccion
-      },
-      {
-        concept: 'MONTO DE REDUCCIÓN',
+        concept: `MONTO DE REDUCCIÓN (${this.data.tax.porcentajeReduccion}%)`,
         amount: this.data.tax.montoReduccion
       },
       {
