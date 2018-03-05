@@ -54,8 +54,8 @@
   <br>
   <div class="row">
     <div class="col-12">
-      <mat-progress-bar style="margin-bottom: 10px; height: 12px" color="primary" mode="determinate" value="40"></mat-progress-bar>
-      <label class="float-right">{{2000000 | currency:'USD':true:'2.2-4'}}</label>
+      <mat-progress-bar style="margin-bottom: 10px; height: 12px" color="primary" mode="determinate" [value]="((ingresosCobrados * 100) / 2000000)"></mat-progress-bar>
+      <label class="float-right">{{ingresosCobrados | currency:'USD':true:'2.2-4'}} / {{2000000 | currency:'USD':true:'2.2-4'}}</label>
     </div>
   </div>
   <br>
@@ -76,9 +76,6 @@
             <h3 class="float-right font-normal">
               <span *ngIf="IVA.ivaCargo !== 0">
                 {{IVA.ivaCargo | currency:'USD':true:'2.2-4'}}
-              </span>
-              <span *ngIf="IVA.ivaFavor !== 0">
-                {{IVA.ivaFavor | currency:'USD':true:'2.2-4'}}
               </span>
               <button mat-icon-button (click)="onIVA($event)">
                 <mat-icon>more_horiz</mat-icon>
@@ -159,6 +156,14 @@
               <span>Total</span>
               <h3>{{ sumIngresos | currency:'USD':true:'2.2-4'}}</h3>
             </div>
+            <div>
+              <span>Cobrados</span>
+              <h3>{{ ingresosCobrados | currency:'USD':true:'2.2-4'}}</h3>
+            </div>
+            <div>
+              <span>Por cobrar</span>
+              <h3>{{ ingresosPorCobrar | currency:'USD':true:'2.2-4'}}</h3>
+            </div>
           </mat-panel-description>
         </mat-expansion-panel-header>
         <rt-datatable (selected)="onIngresosSelected($event)" (checked)="onIngresosChecked($event)" (toggleFec)="onToggleFec($event)"
@@ -202,8 +207,7 @@
           <mat-panel-title class="width: 200px">
             <mat-icon class="home-icon">assignment_return</mat-icon>
             <h3 class="panel-expandable-title">Mis Egresos
-              <!-- <strong>(Sin IVA)</strong> -->
-              <mat-chip style="margin-left: 31px; height: 15px; font-size: 0.7em" color="primary" selected="true">Sin IVA</mat-chip>
+                <mat-chip style="margin-left: 31px; height: 15px; font-size: 0.7em" color="primary" selected="true">Sin IVA</mat-chip>
             </h3>
           </mat-panel-title>
           <mat-panel-description style="margin-left: 60px">
@@ -211,7 +215,14 @@
               <span>Total</span>
               <h3>{{sumEgresos | currency:'USD':true:'2.2-4'}}</h3>
             </div>
-            <!-- <h3>Total: </h3> -->
+            <div>
+              <span>Pagados</span>
+              <h3>{{ egresosPagados | currency:'USD':true:'2.2-4'}}</h3>
+            </div>
+            <div>
+              <span>Por pagar</span>
+              <h3>{{ egresosPorPagar | currency:'USD':true:'2.2-4'}}</h3>
+            </div>
           </mat-panel-description>
         </mat-expansion-panel-header>
         <rt-datatable (selected)="onEgresosSelected($event)" (checked)="onEgresosChecked($event)" (toggleDeducible)="toggleDeducible($event)"

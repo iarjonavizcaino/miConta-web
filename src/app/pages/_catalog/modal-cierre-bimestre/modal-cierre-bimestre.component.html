@@ -1,0 +1,152 @@
+<section class="billing-catalog">
+  <header class="header">
+    <h3 class="title float-left">Confirmar Impuestos</h3>
+    <button mat-icon-button (click)="onClose()">
+      <mat-icon>close</mat-icon>
+    </button>
+  </header>
+
+  <div class="body">
+    <form [formGroup]="cierreForm">
+      <div class="container">
+        <mat-tab-group>
+          <mat-tab label="ISR">
+            <br>
+            <mat-card class="bg-card">
+              <mat-card-content>
+                <div class="row">
+                  <div class="col-6">
+                    <mat-form-field>
+                      <mat-icon matPrefix>attach_money</mat-icon>
+                      <input (input)="onChange($event.target.value)" [(ngModel)]="miContaSaid.ISR.isrNetoAPagar" [readonly]="true" [formControl]="cierreForm.controls['isrCalculated']" matInput type="number" placeholder="Calculado por el sistema">
+                      <mat-error *ngIf="cierreForm.controls['isrCalculated'].hasError('required')">
+                        Campo
+                        <strong>requerido</strong>
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-6">
+                    <mat-form-field>
+                      <mat-icon matPrefix>attach_money</mat-icon>
+                      <input (input)="onChange($event.target.value)" [(ngModel)]="accountantSaid.ISR.surcharges" [formControl]="cierreForm.controls['isrSurcharges']" matInput type="number" placeholder="Recargos">
+                      <mat-error *ngIf="cierreForm.controls['isrSurcharges'].hasError('required')">
+                        Campo
+                        <strong>requerido</strong>
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-6">
+                    <mat-form-field>
+                      <mat-icon matPrefix>attach_money</mat-icon>
+                      <input (input)="onChange($event.target.value)" [(ngModel)]="accountantSaid.ISR.updates" [formControl]="cierreForm.controls['isrUpdates']" matInput type="number" placeholder="Actualizaciones">
+                      <mat-error *ngIf="cierreForm.controls['isrUpdates'].hasError('required')">
+                        Campo
+                        <strong>requerido</strong>
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-6">
+                    <mat-form-field>
+                      <mat-icon matPrefix>attach_money</mat-icon>
+                      <input (input)="onChange($event.target.value)" [formControl]="cierreForm.controls['isrDifference']" matInput type="number" placeholder="Dif. de gastos mayores">
+                      <mat-error *ngIf="cierreForm.controls['isrDifference'].hasError('required')">
+                        Campo
+                        <strong>requerido</strong>
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+                </div>
+              </mat-card-content>
+            </mat-card>
+          </mat-tab>
+          <mat-tab label="IVA">
+            <br>
+            <mat-card class="bg-card">
+              <mat-card-content>
+                <div class="row">
+                  <div class="col-6">
+                    <mat-form-field>
+                      <mat-icon matPrefix>attach_money</mat-icon>
+                      <input (input)="onChange($event.target.value)" [(ngModel)]="miContaSaid.IVA.ivaCargo" [formControl]="cierreForm.controls['ivaCalculated']" matInput type="number" placeholder="Calculado por el sistema">
+                      <mat-error *ngIf="cierreForm.controls['ivaCalculated'].hasError('required')">
+                        Campo
+                        <strong>requerido</strong>
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-6">
+                    <mat-form-field>
+                      <mat-icon matPrefix>attach_money</mat-icon>
+                      <input (input)="onChange($event.target.value)" [(ngModel)]="accountantSaid.IVA.surcharges" [formControl]="cierreForm.controls['ivaSurcharges']" matInput type="number" placeholder="Recargos">
+                      <mat-error *ngIf="cierreForm.controls['ivaSurcharges'].hasError('required')">
+                        Campo
+                        <strong>requerido</strong>
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-6">
+                    <mat-form-field>
+                      <mat-icon matPrefix>attach_money</mat-icon>
+                      <input (input)="onChange($event.target.value)" [(ngModel)]="accountantSaid.IVA.updates" [formControl]="cierreForm.controls['ivaUpdates']" matInput type="number" placeholder="Actualizaciones">
+                      <mat-error *ngIf="cierreForm.controls['ivaUpdates'].hasError('required')">
+                        Campo
+                        <strong>requerido</strong>
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-6">
+                    <mat-form-field>
+                      <mat-icon matPrefix>attach_money</mat-icon>
+                      <input (input)="onChange($event.target.value)" [formControl]="cierreForm.controls['ivaFavorPeriodAnt']" matInput type="number" placeholder="IVA a favor de periodos ant.">
+                      <mat-error *ngIf="cierreForm.controls['ivaFavorPeriodAnt'].hasError('required')">
+                        Campo
+                        <strong>requerido</strong>
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+                </div>
+              </mat-card-content>
+            </mat-card>
+          </mat-tab>
+        </mat-tab-group>
+
+        <!-- show totals -->
+        <div class="row" style="text-align: right; padding-top: 10px">
+          <div class="col-9">
+            ISR:
+          </div>
+          <div class="col-3">{{accountantSaid.ISR.amount | currency:'USD':true:'2.2-4'}}</div>
+        </div>
+        <hr>
+        <div class="row" style="text-align: right; padding-top: 10px">
+          <div class="col-9">
+            IVA:
+          </div>
+          <div class="col-3">{{accountantSaid.IVA.amount | currency:'USD':true:'2.2-4'}}</div>
+        </div>
+        <hr>
+        <div class="row" style="text-align: right; padding-top: 10px">
+            <div class="col-9">
+              <strong>Total a Pagar:</strong>
+            </div>
+            <div class="col-3"><strong>{{accountantSaid.totalTaxes | currency:'USD':true:'2.2-4'}}</strong></div>
+          </div>
+          <hr>
+
+      </div>
+    </form>
+  </div>
+
+  <footer class="footer">
+    <button mat-raised-button (click)="onClose()">
+      Cancelar
+    </button>
+    <button mat-raised-button color="primary" [disabled]="!cierreForm.valid" (click)="onSave()">
+      Aceptar
+    </button>
+  </footer>
+</section>

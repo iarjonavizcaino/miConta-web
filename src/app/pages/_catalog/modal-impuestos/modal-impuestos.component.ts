@@ -27,29 +27,34 @@ export class ModalImpuestosComponent implements OnInit {
       this.loadIVA();
     }
   }
+
   private loadIVA() {
     this.taxes = [
       {
-        concept: 'Total IVA causado del periodo Publico en General',
+        concept: this.data.taxpayer ? 'Total IVA de ventas público en general' : 'Total IVA causado del periodo Publico en General',
         amount: this.data.tax.totalIvaCausadoPublicoGeneral
       },
       {
-        concept: 'Total IVA causado del periodo Clientes',
+        concept: this.data.taxpayer ? 'Total IVA de ventas a clientes' : 'Total IVA causado del periodo Clientes',
         amount: this.data.tax.totalIvaCausadoPeriodoClientes
       },
       {
-        concept: 'Total IVA causado del periodo',
+        concept: this.data.taxpayer ? 'Total IVA de ventas' : 'Total IVA causado del periodo',
         amount: this.data.tax.totalIvaCausadoPeriodo
       },
       {
-        concept: 'Iva acreditable (gastos)',
+        concept: this.data.taxpayer ? 'Total IVA de compras' : 'Iva acreditable (gastos)',
         amount: this.data.tax.ivaAcredGastos
       }
     ];
-    if (this.data.tax.ivaCargo) {
-      this.taxes.push({ concept: 'IVA A CARGO', amount: this.data.tax.ivaCargo });
+    if (this.data.tax.ivaCargo >= 0) {
+      if (this.data.taxpayer) {
+        this.taxes.push({ concept: 'IVA POR PAGAR', amount: this.data.tax.ivaCargo });
+      } else {
+        this.taxes.push({ concept: 'IVA A CARGO', amount: this.data.tax.ivaCargo });
+      }
     } else {
-      this.taxes.push({ concept: 'IVA A FAVOR', amount: this.data.tax.ivaFavor });
+      this.taxes.push({ concept: 'IVA A FAVOR', amount: this.data.tax.ivaCargo });
     }
   }
   private loadISR() {
@@ -65,8 +70,18 @@ export class ModalImpuestosComponent implements OnInit {
         red: false
       },
       {
+        concept: this.data.tax.utilidad >= 0 ? 'UTILIDAD' : 'PÉRDIDA FISCAL',
+        amount: this.data.tax.utilidad,
+        red: true
+      },
+      {
         concept: 'Diferencia de gastos mayores a ingresos de periodos anteriores',
         amount: this.data.tax.diferenciaGastosMayores,
+        red: false
+      },
+      {
+        concept: 'BASE GRAVABLE',
+        amount: this.data.tax.baseGravable,
         red: true
       },
       {

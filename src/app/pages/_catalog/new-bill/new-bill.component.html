@@ -100,6 +100,19 @@
                   </mat-error>
                 </mat-form-field>
               </div>
+              <div class="col-6">
+                <label>
+                  <strong>Fecha de emisión</strong>
+                </label>
+                <label>{{moment(bill.createdDate).format('LL')}}</label>
+              </div>
+              <div class="col-6">
+                <mat-form-field>
+                  <input (dateChange)="onChangeDate($event)" matInput [matDatepicker]="picker" placeholder="Cambiar fecha">
+                  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                  <mat-datepicker #picker></mat-datepicker>
+                </mat-form-field>
+              </div>
             </div>
           </mat-card-content>
         </mat-card>

@@ -129,6 +129,7 @@ import { NewBillComponent } from './pages/_catalog/new-bill/new-bill.component';
 import { NewItemProductComponent } from './pages/_catalog/new-item-product/new-item-product.component';
 import { ModalFechaComponent } from './pages/_catalog/modal-fecha/modal-fecha.component';
 import { ModalImpuestosComponent } from './pages/_catalog/modal-impuestos/modal-impuestos.component';
+import { ModalCierreBimestreComponent } from './pages/_catalog/modal-cierre-bimestre/modal-cierre-bimestre.component';
 
 
 // all routes pages
@@ -222,7 +223,8 @@ const routes: Routes = [
     NewBillComponent,
     NewItemProductComponent,
     ModalFechaComponent,
-    ModalImpuestosComponent
+    ModalImpuestosComponent,
+    ModalCierreBimestreComponent
   ],
   declarations: [
     AppComponent,
@@ -264,10 +266,6 @@ const routes: Routes = [
     InicioDespachoComponent,
     NotificacionesDespachoComponent,
     AsignarContribuyentesComponent,
-    ModalChangeStatusComponent,
-    UploadXmlComponent,
-    ModalNewStatementComponent,
-    UploadStatementFileComponent,
     InicioSuperadminComponent,
     PerfilesComponent,
     DespachosComponent,
@@ -278,6 +276,7 @@ const routes: Routes = [
     NewItemProductComponent,
     ModalFechaComponent,
     ModalImpuestosComponent,
+    ModalCierreBimestreComponent,
   ],
   imports: [
     BrowserModule,

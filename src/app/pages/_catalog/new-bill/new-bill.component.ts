@@ -224,6 +224,10 @@ export class NewBillComponent implements OnInit {
     this.bill.taxes = this.bill.subtotal * this.bill.tasa;
     this.bill.total = this.bill.subtotal + this.bill.taxes;
   }
+  onChangeDate(ev: any) {
+    console.log(ev);
+    this.bill.createdDate = ev.value;
+  }
   private stopPropagation(ev: Event) {
     if (ev) { ev.stopPropagation(); }
   }

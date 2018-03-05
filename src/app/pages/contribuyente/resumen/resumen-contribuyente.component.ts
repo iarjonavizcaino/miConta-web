@@ -10,6 +10,7 @@ import { NotificationsService } from 'angular2-notifications';
 import { BillProvider, TaxesProvider, HistoricalProvider } from '../../../providers/providers';
 import { ConfirmComponent } from '../../../components/confirm/confirm.component';
 import { ModalImpuestosComponent } from '../../_catalog/modal-impuestos/modal-impuestos.component';
+import { ModalCierreBimestreComponent } from '../../_catalog/modal-cierre-bimestre/modal-cierre-bimestre.component';
 
 @Component({
   selector: 'app-resumen-contribuyente',
@@ -86,7 +87,15 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
 
   // suma ingresos&egresos
   sumIngresos = 0;
+  ingresosCobrados = 0;
+  ingresosPorCobrar = 0;
+
   sumEgresos = 0;
+  egresosPagados = 0;
+  egresosPorPagar = 0;
+
+  // progress all year
+  progressYear = 0;
   constructor(
     private taxProv: TaxesProvider,
     private billProv: BillProvider,
@@ -390,7 +399,8 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
       data: {
         title: 'Detalle IVA',
         type: 'iva',
-        tax: this.IVA
+        tax: this.IVA,
+        taxpayer: this.accountant ? false : true
       }
     });
     // tslint:disable-next-line:no-shadowed-variable
@@ -461,13 +471,24 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
 
   private loadBills(filter: any) {
     this.billProv.getByTaxPayer(this.currentTaxpayer._id, filter).subscribe(bills => {
-      if (bills) {
-        this.dataIngresos = bills.ingresos;
-        this.sumIngresos = bills.sumIngresos;
+      // bills
+      this.dataIngresos = bills.ingresos;
+      this.dataEgresos = bills.egresos;
 
-        this.dataEgresos = bills.egresos;
-        this.sumEgresos = bills.sumEgresos;
-      }
+      // total
+      this.sumIngresos = bills.sumIngresos;
+      this.sumEgresos = bills.sumEgresos;
+
+      // ingresos cobrados y por cobrar
+      this.ingresosCobrados = bills.ingresosCobrados;
+      this.ingresosPorCobrar = bills.ingresosPorCobrar;
+
+      // egresos pagados y por pagar
+      this.egresosPagados = bills.egresosPagados;
+      this.egresosPorPagar = bills.egresosPorPagar;
+
+    }, err => {
+      console.log(err);
     });
   }
 
@@ -475,6 +496,7 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
     this.billProv.update(_id, bill).subscribe((res) => {
       this.notify.success('Acción Exitosa', 'Factura actualizada correctamente');
       this.loadTaxes({ year: this.selectedYear, bimester: this.selectedBimester.num }); // when the user mark a bill as payed
+      this.loadBills({ year: this.selectedYear, bimester: this.selectedBimester.num });
     }, err => {
       this.notify.error('Error', 'No se pudo actualizar la factura');
       if (this.updateDate) {
@@ -491,33 +513,43 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
   }
 
   closePeriod() {
-    const dialogRef = this.dialogCtrl.open(ConfirmComponent, {
+    const dialogRef1 = this.dialogCtrl.open(ModalCierreBimestreComponent, {
       disableClose: true,
       data: {
-        title: '¡ATENCIÓN!',
-        message: `¿Está seguro que desea cerrar el periodo ${this.currentPeriod.period.name}?`,
-        type: 'danger'
+        ISR: this.ISR,
+        IVA: this.IVA
       }
     });
 
-    dialogRef.afterClosed().subscribe((res) => {
-      if (!res) { return; }
-      const taxes = {
-        taxes: {
-          isr: this.ISR.isrNetoAPagar,
-          iva: this.IVA.ivaCargo !== 0 ? this.IVA.ivaCargo : this.IVA.ivaFavor
-        }
-      };
 
-      this.historicalProv.closePeriod(taxes, this.currentPeriod._id).subscribe(data => {
-        console.log(data);
-        this.currentBimester = this.bimesters[this.selectedBimester.num].name + ' ' + this.selectedYear;
-        this.loadBills({ year: this.selectedYear, bimester: ++this.selectedBimester.num });
-        this.loadTaxes({ year: this.selectedYear, bimester: ++this.selectedBimester.num });
+    // const dialogRef2 = this.dialogCtrl.open(ConfirmComponent, {
+    //   disableClose: true,
+    //   data: {
+    //     title: '¡ATENCIÓN!',
+    //     message: `¿Está seguro que desea cerrar el periodo ${this.currentPeriod.period.name}?`,
+    //     type: 'danger'
+    //   }
+    // });
 
-      });
-    });
-  }
+    // dialogRef2.afterClosed().subscribe((res) => {
+    //   if (!res) { return; }
+    //   const taxes = {
+    //     taxes: {
+    //       isr: this.ISR.isrNetoAPagar,
+    //       esta no iva: this.IVA.ivaCargo !== 0 ? this.IVA.ivaCargo : this.IVA.ivaFavor
+    //      iva: this.IVA.ivaCargo
+    //     }
+    //   };
+
+    //   this.historicalProv.closePeriod(taxes, this.currentPeriod._id).subscribe(data => {
+    //     console.log(data);
+    //     this.currentBimester = this.bimesters[this.selectedBimester.num].name + ' ' + this.selectedYear;
+    //     this.loadBills({ year: this.selectedYear, bimester: ++this.selectedBimester.num });
+    //     this.loadTaxes({ year: this.selectedYear, bimester: ++this.selectedBimester.num });
+
+    //   });
+    // });
+  } // closePeriod
 
   loadBimesters() {
     const year = new Date().getFullYear();
@@ -570,7 +602,8 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
 
     this.taxProv.getIVA(this.currentTaxpayer._id, filter).subscribe(res => {
       this.IVA = res.IVA;
-      this.totalTax += this.IVA.ivaCargo ? this.IVA.ivaCargo : this.IVA.ivaFavor;
+      // this.totalTax += this.IVA.ivaCargo ? this.IVA.ivaCargo : this.IVA.ivaFavor;
+      this.totalTax += this.IVA.ivaCargo;
     }, err => {
       console.log(err);
     });
