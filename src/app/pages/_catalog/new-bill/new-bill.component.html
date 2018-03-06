@@ -263,7 +263,7 @@
     </div>
   </section>
   <footer class="footer">
-    <button mat-button (click)="onClose()">
+    <button mat-button (click)="onClose($event)">
       Cancelar
     </button>
     <button mat-raised-button color="primary" [disabled]="!billForm.valid" (click)="onSave($event)">

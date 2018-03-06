@@ -18,12 +18,12 @@
   <li class="selected" *ngIf="roleUp === 'contribuyente'">Resumen</li>
 </ul>
 <div class="row">
-  <div class="col-4">
+  <div class="col-6">
     <h2>{{currentBimester}}</h2>
   </div>
   <div class="col-3">
     <mat-form-field>
-      <mat-select placeholder="Seleccionar Año" [(ngModel)]="selectedYear">
+      <mat-select placeholder="Seleccionar Año" [(ngModel)]="selectedYear" (ngModelChange)="getBimesterInfo($event)">
         <mat-option *ngFor="let y of years" [value]="y">
           {{ y }}
         </mat-option>
@@ -32,16 +32,16 @@
   </div>
   <div class="col-3">
     <mat-form-field>
-      <mat-select placeholder="Seleccionar Bimestre" [(ngModel)]="selectedBimester">
+      <mat-select placeholder="Seleccionar Bimestre" [(ngModel)]="selectedBimester" (ngModelChange)="getBimesterInfo($event)">
         <mat-option *ngFor="let b of bimesters" [value]="b">
           {{ b.name }}
         </mat-option>
       </mat-select>
     </mat-form-field>
   </div>
-  <div class="col-2">
+  <!-- <div class="col-2">
     <button mat-raised-button color="primary" (click)="getBimesterInfo()">Consultar</button>
-  </div>
+  </div> -->
 </div>
 <hr>
 <ng-container *ngIf="users">
