@@ -298,7 +298,7 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
     }
   }
 
-  onIngresosChecked(ev: any, type: string) {
+  onIngresosChecked(ev: any) {
     if (!ev.item.checked) {
       this.checkedIngresos++;
       ev.item.checked = !ev.item.checked;

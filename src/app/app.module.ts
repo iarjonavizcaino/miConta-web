@@ -39,8 +39,11 @@ import {
   MatButtonToggleModule,
   MatRadioModule,
   MatProgressBarModule,
-  MatListModule
+  MatListModule,
+  MatProgressSpinnerModule
 } from '@angular/material';
+
+import { SimpleNotificationsModule } from 'angular2-notifications';
 
 //  Types
 import { Credentials, Employee, Role } from './types/types';
@@ -82,8 +85,6 @@ import { SidemenuComponent } from './components/sidemenu/sidemenu.component';
 import { ToolbarComponent } from './components/toolbar/toolbar.component';
 import { ConfirmComponent } from './components/confirm/confirm.component';
 import { AlertComponent } from './components/alert/alert.component';
-
-import { SimpleNotificationsModule } from 'angular2-notifications';
 
 //  Angular Animatios
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -309,6 +310,7 @@ const routes: Routes = [
     MatRadioModule,
     MatProgressBarModule,
     MatListModule,
+    MatProgressSpinnerModule,
     DropzoneModule
   ],
   providers: [

@@ -9,7 +9,7 @@
 
   <div class="body">
     <div class="container" (keydown)="key($event)">
-      <dropzone [config]="config" [message]="'Click o suelta los archivos aquí'" (error)="onUploadError($event)" (success)="onUploadSuccess($event)"></dropzone>
+      <dropzone [message]="'Click o suelta los archivos aquí'" (error)="onUploadError($event)" (success)="onUploadSuccess($event)"></dropzone>
       </div>
     </div>
 

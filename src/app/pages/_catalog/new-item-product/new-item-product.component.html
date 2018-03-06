@@ -64,10 +64,10 @@
     </form>
   </section>
   <footer class="footer">
-    <button mat-button (click)="onClose()">
+    <button mat-button (click)="onClose($event)">
       Cancelar
     </button>
-    <button mat-raised-button color="primary" [disabled]="!itemForm.valid" (click)="onSave()">
+    <button mat-raised-button color="primary" [disabled]="!itemForm.valid" (click)="onSave($event)">
       Aceptar
     </button>
   </footer>
