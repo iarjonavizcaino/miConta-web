@@ -10,6 +10,7 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 
 @Component({
+  // tslint:disable-next-line:component-selector
   selector: 'rt-searchbar',
   templateUrl: './rt-searchbar.component.html',
   styleUrls: ['./rt-searchbar.component.scss']
@@ -19,10 +20,13 @@ export class RtSearchbarComponent {
   /**
     Time to wait to search after user finish typing
   */
+  // tslint:disable-next-line:no-input-rename
   @Input('wait') waitTime = 1000;
+  // tslint:disable-next-line:no-input-rename
   @Input('showLoader') isSearching: boolean;
   @Input('placeholder') placeholder = 'Buscar';
   @Input('textLength') textLength = 1;
+  // tslint:disable-next-line:no-output-rename
   @Output('search') searchEmitter = new EventEmitter();
 
   timer: any;
