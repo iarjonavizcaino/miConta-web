@@ -222,3 +222,10 @@ ul.breadcrumb li.selected {
     display: inline-block;
     box-sizing: border-box;
 }
+.separator{
+    width: 1px; /* Width instead of height */
+    height: 30px;
+    border-left: 2px solid lightgray;
+    margin-left: 7px;
+    margin-right: 7px;
+}
