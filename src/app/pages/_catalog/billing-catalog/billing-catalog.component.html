@@ -9,10 +9,10 @@
   <section class="body">
     <div class="container">
       <div class="row">
-        <div class="col-6">
+        <div class="col-5">
           <mat-form-field>
             <mat-icon matPrefix>clear_all</mat-icon>
-            <input matInput type="text" placeholder="No." [(ngModel)]="infoBill._id">
+            <input [readonly]="true" matInput type="text" placeholder="No." [(ngModel)]="infoBill._id">
           </mat-form-field>
         </div>
         <div class="col-4">
@@ -21,7 +21,7 @@
             <input [readonly]="true" matInput placeholder="Fecha" [(ngModel)]="createdDate">
           </mat-form-field>
         </div>
-        <div class="col-2">
+        <div class="col-3">
             <!-- [disabled]="infoBill.type !== 'Manual'" -->
           <mat-slide-toggle (ngModelChange)="changeStatus($event)" [(ngModel)]="infoBill.cobrada_pagada">{{ infoBill.type === 'Ingresos' ? 'Cobrada' : 'Pagada' }}</mat-slide-toggle>
         </div>

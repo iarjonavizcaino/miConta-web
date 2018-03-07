@@ -171,7 +171,7 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
 
   onManualBillEgresos(ev: any) {
     this.stopPropagation(ev);
-    const dialogRef = this.manualBill(false);
+    const dialogRef = this.manualBill(null, false, 'Nueva factura');
     dialogRef.afterClosed().subscribe((newBill) => {
       if (!newBill) { return; }
       console.log('new bill', newBill);
@@ -188,7 +188,7 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
 
   onManualBillIngresos(ev: any) {
     this.stopPropagation(ev);
-    const dialogRef = this.manualBill(true);
+    const dialogRef = this.manualBill(null, true, 'Nueva factura');
     dialogRef.afterClosed().subscribe((newBill) => {
       if (!newBill) { return; }
       console.log('new bill', newBill);
@@ -205,11 +205,13 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
     });
   }
 
-  private manualBill(type: boolean) {
+  private manualBill(bill: any, type: boolean, title: string) {
     return this.dialogCtrl.open(NewBillComponent, {
       disableClose: false,
       data: {
-        ingresos: type
+        bill: bill,
+        ingresos: type,
+        title: title
       }
     });
   }
@@ -327,16 +329,38 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
   /********************************************************************************* */
   onViewBillIngresos(ev) {
     this.stopPropagation(ev);
-    const dialogRef = this.billModal(this.selectedIngresos, true, 'Datos de Factura');
-    dialogRef.afterClosed().subscribe(res => {
-      this.loadTaxes({ year: this.selectedYear, bimester: this.selectedBimester.num });
-      if (!res) { return; }
-    });
+    let dialogRef;
+    if (this.selectedIngresos.captureMode !== 'Manual') {
+      dialogRef = this.billModal(this.selectedIngresos, false, 'Detalle de Factura');
+      dialogRef.afterClosed().subscribe(res => {
+        this.loadTaxes({ year: this.selectedYear, bimester: this.selectedBimester.num });
+        if (!res) { return; }
+      });
+    } else {
+      dialogRef = this.manualBill(this.selectedIngresos, true, 'Detalle de Factura');
+      dialogRef.afterClosed().subscribe(res => {
+        if (!res) { return; }
+        this.update(this.selectedIngresos._id, res);
+      });
+    }
   }
 
   onViewBillEgresos(ev: any) {
     this.stopPropagation(ev);
-    this.billModal(this.selectedEgresos, true, 'Datos de Factura');
+    let dialogRef;
+    if (this.selectedEgresos.captureMode !== 'Manual') {
+      dialogRef = this.billModal(this.selectedEgresos, false, 'Datos de Factura');
+      dialogRef.afterClosed().subscribe(res => {
+        this.loadTaxes({ year: this.selectedYear, bimester: this.selectedBimester.num });
+        if (!res) { return; }
+      });
+    } else {
+      dialogRef = this.manualBill(this.selectedEgresos, false, 'Detalle de Factura');
+      dialogRef.afterClosed().subscribe(res => {
+        if (!res) { return; }
+        this.update(this.selectedEgresos._id, res);
+      });
+    }
   }
 
   billModal(bill: any, readonly: boolean, title: string) {
