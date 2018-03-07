@@ -27,8 +27,8 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
     { name: 'Subtotal', prop: 'subtotal', default: '$ 0.00', align: 'right', accounting: true },
     { name: 'Tipo fact.', prop: 'captureMode', align: 'center', chip: true },
     { name: 'Fecha cobro', prop: 'cobrada_pagadaDate', default: '', align: 'center', moment: true },
-    { name: 'Cobrada', prop: 'cobrada_pagada', input: 'toggleFec' },
     { name: 'Público Gral', prop: 'general_public', default: false, align: 'center', input: 'toggleGeneralPublic' },
+    { name: 'Cobrada', prop: 'cobrada_pagada', input: 'toggleFec' },
   ];
   headersEgresos: Array<RtHeader> = [
     { name: 'Emisión', prop: 'createdDate', default: 'No date', moment: true },
@@ -580,6 +580,7 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
     for (let i = 2014; i <= year; i++) {
       this.years.push(i);
     }
+    const currentBim = Math.trunc((new Date().getMonth() / 2) + 1);
     this.bimesters = [
       {
         name: 'ENE-FEB',
@@ -606,6 +607,9 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
         num: 6
       }
     ];
+
+    const index = this.bimesters.findIndex(bimester => bimester.num === currentBim);
+    this.bimesters.splice(index + 1);
   }
 
   getBimesterInfo(ev: any) {
