@@ -143,27 +143,19 @@
   <div class="col-12">
     <mat-accordion class="example-headers-align">
       <mat-expansion-panel>
-        <mat-expansion-panel-header>
+        <mat-expansion-panel-header style="padding-top:5px; padding-bottom: 5px">
           <mat-panel-title>
             <mat-icon class="home-icon">assignment_returned</mat-icon>
-            <h3 class="panel-expandable-title">Mis Ingresos
-              <!-- <strong>(Sin IVA)</strong> -->
-              <mat-chip style="margin-left: 24px; height: 15px; font-size: 0.7em" color="primary" selected="true">Sin IVA</mat-chip>
-            </h3>
+            <h3 class="panel-expandable-title">Mis Ingresos</h3>
+            <mat-chip class="chip" color="primary" selected="true"><strong>Sin IVA</strong></mat-chip>
           </mat-panel-title>
-          <mat-panel-description style="margin-left: 60px">
-            <div>
-              <span>Total</span>
-              <h3>{{ sumIngresos | currency:'USD':true:'2.2-4'}}</h3>
-            </div>
-            <div>
-              <span>Cobrados</span>
-              <h3>{{ ingresosCobrados | currency:'USD':true:'2.2-4'}}</h3>
-            </div>
-            <div>
-              <span>Por cobrar</span>
-              <h3>{{ ingresosPorCobrar | currency:'USD':true:'2.2-4'}}</h3>
-            </div>
+          <mat-panel-description>
+            <h5>
+              <span>Total: </span> {{ sumIngresos | currency:'USD':true:'2.2-4'}}</h5>
+            <h5>
+              <span>Cobrados:</span> {{ ingresosCobrados | currency:'USD':true:'2.2-4'}}</h5>
+            <h5>
+              <span>Por cobrar: </span> {{ ingresosPorCobrar | currency:'USD':true:'2.2-4'}}</h5>
           </mat-panel-description>
         </mat-expansion-panel-header>
         <rt-datatable (selected)="onIngresosSelected($event)" (checked)="onIngresosChecked($event)" (toggleFec)="onToggleFec($event)"
@@ -203,26 +195,19 @@
       </mat-expansion-panel>
 
       <mat-expansion-panel>
-        <mat-expansion-panel-header>
-          <mat-panel-title class="width: 200px">
-            <mat-icon class="home-icon">assignment_return</mat-icon>
-            <h3 class="panel-expandable-title">Mis Egresos
-                <mat-chip style="margin-left: 31px; height: 15px; font-size: 0.7em" color="primary" selected="true">Sin IVA</mat-chip>
-            </h3>
+        <mat-expansion-panel-header style="padding-top:5px; padding-bottom: 5px">
+          <mat-panel-title>
+            <mat-icon style ="margin-top: 7px" class="home-icon">assignment_return</mat-icon>
+            <h3 class="panel-expandable-title">Mis Egresos</h3>
+            <mat-chip class="chip" style="margin-left: 20px" color="primary" selected="true"><strong>Sin IVA</strong></mat-chip>
           </mat-panel-title>
-          <mat-panel-description style="margin-left: 60px">
-            <div>
-              <span>Total</span>
-              <h3>{{sumEgresos | currency:'USD':true:'2.2-4'}}</h3>
-            </div>
-            <div>
-              <span>Pagados</span>
-              <h3>{{ egresosPagados | currency:'USD':true:'2.2-4'}}</h3>
-            </div>
-            <div>
-              <span>Por pagar</span>
-              <h3>{{ egresosPorPagar | currency:'USD':true:'2.2-4'}}</h3>
-            </div>
+          <mat-panel-description>
+            <h5>
+              <span>Total: </span> {{sumEgresos | currency:'USD':true:'2.2-4'}}</h5>
+            <h5>
+              <span>Pagados: </span> {{ egresosPagados | currency:'USD':true:'2.2-4'}}</h5>
+            <h5>
+              <span>Por pagar: </span> {{ egresosPorPagar | currency:'USD':true:'2.2-4'}}</h5>
           </mat-panel-description>
         </mat-expansion-panel-header>
         <rt-datatable (selected)="onEgresosSelected($event)" (checked)="onEgresosChecked($event)" (toggleDeducible)="toggleDeducible($event)"
