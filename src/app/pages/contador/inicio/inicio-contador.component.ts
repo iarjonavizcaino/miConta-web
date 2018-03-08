@@ -282,7 +282,7 @@ export class InicioContadorComponent implements OnInit, OnDestroy {
       disableClose: false,
       data: {
         title: title,
-        taxpayer: this.selectedTaxpayer._id
+        taxpayer: this.selectedTaxpayer
       }
     });
   }
