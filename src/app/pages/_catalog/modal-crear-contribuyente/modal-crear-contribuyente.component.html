@@ -124,7 +124,7 @@
           <div class="col-4">
             <mat-form-field>
               <mat-icon matPrefix>attach_money</mat-icon>
-              <input [formControl]="taxpayerForm.controls['difference']" matInput placeholder="Dif. gastos mayores a ingresos periodos ant."
+              <input style="text-align: right; padding-right: 10px" [formControl]="taxpayerForm.controls['difference']" matInput placeholder="Dif. gastos mayores a ingresos periodos ant."
                 type="number" [(ngModel)]="taxPayer.difference">
               <mat-error *ngIf="taxpayerForm.controls['difference'].hasError('required')">
                 Campo
@@ -135,7 +135,7 @@
           <div class="col-4">
             <mat-form-field>
               <mat-icon matPrefix>attach_money</mat-icon>
-              <input [formControl]="taxpayerForm.controls['ivaFavor']" matInput placeholder="IVA a favor periodos ant."
+              <input style="text-align: right; padding-right: 10px" [formControl]="taxpayerForm.controls['ivaFavor']" matInput placeholder="IVA a favor periodos ant."
                 type="number" [(ngModel)]="taxPayer.ivaFavor">
               <mat-error *ngIf="taxpayerForm.controls['ivaFavor'].hasError('required')">
                 Campo
@@ -146,7 +146,7 @@
           <div class="col-4">
             <mat-form-field>
               <mat-icon matPrefix>attach_money</mat-icon>
-              <input [formControl]="taxpayerForm.controls['yearBefore']" matInput placeholder="Ingresos totales ejercicio ant."
+              <input style="text-align: right; padding-right: 10px" [formControl]="taxpayerForm.controls['yearBefore']" matInput placeholder="Ingresos totales ejercicio ant."
                 type="number" [(ngModel)]="taxPayer.yearBefore">
               <mat-error *ngIf="taxpayerForm.controls['yearBefore'].hasError('required')">
                 Campo
@@ -165,7 +165,8 @@
                   </mat-panel-title>
                   <mat-panel-description style="width: 100%; text-align: left; margin-left: 50px">
                     <span>Detalle del perfil</span>
-                    <span style="margin-left: 120px">{{ currentProfile ? 'Actividad: ' + currentProfile?.activity.name + ' (' + currentProfile?.activity.percent + '%)' : '' }}</span>
+                    <span style="margin-left: 120px">{{ currentProfile ? 'Actividad: ' + currentProfile?.activity.name + ' (' + currentProfile?.activity.percent
+                      + '%)' : '' }}</span>
                   </mat-panel-description>
                 </mat-expansion-panel-header>
 
@@ -202,7 +203,7 @@
                     Archivos
                   </mat-panel-title>
                   <mat-panel-description style="width: 100%; text-align: left; margin-left: 30px">
-                    <span >Fiel y Sellos</span>
+                    <span>Fiel y Sellos</span>
                   </mat-panel-description>
                 </mat-expansion-panel-header>
                 <div class="row">

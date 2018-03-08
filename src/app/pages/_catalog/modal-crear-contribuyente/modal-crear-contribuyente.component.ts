@@ -112,9 +112,9 @@ export class ModalCrearContribuyenteComponent implements OnInit {
         loyalValidity: '',
         regimenRegister: '',
         sealValidity: '',
-        yearBefore: 0,
-        difference: 0,
-        ivaFavor: 0,
+        yearBefore: 0.00,
+        difference: 0.00,
+        ivaFavor: 0.00,
         account: {
           user: '',
           password: '',
