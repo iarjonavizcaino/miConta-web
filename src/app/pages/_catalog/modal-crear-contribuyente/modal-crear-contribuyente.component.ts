@@ -86,7 +86,8 @@ export class ModalCrearContribuyenteComponent implements OnInit {
 
       // configuration
       yearBefore: [null, Validators.required],
-      difference: [null, Validators.required]
+      difference: [null, Validators.required],
+      ivaFavor: [null, Validators.required]
     });
   }
 
@@ -113,6 +114,7 @@ export class ModalCrearContribuyenteComponent implements OnInit {
         sealValidity: '',
         yearBefore: 0,
         difference: 0,
+        ivaFavor: 0,
         account: {
           user: '',
           password: '',
