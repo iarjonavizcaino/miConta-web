@@ -74,7 +74,8 @@
           </div>
           <div class="col-8 text-right">
             <h3 class="float-right font-normal">
-              <span *ngIf="IVA.ivaCargo !== 0">
+              <span>
+                  <!-- *ngIf="IVA.ivaCargo !== 0" -->
                 {{IVA.ivaCargo | currency:'USD':true:'2.2-4'}}
               </span>
               <button mat-icon-button (click)="onIVA($event)">
