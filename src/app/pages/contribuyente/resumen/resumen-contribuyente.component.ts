@@ -129,13 +129,13 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
 
     this.historicalProv.getActive(this.currentTaxpayer._id).subscribe(data => {
       this.currentPeriod = data;
-      console.log(this.currentPeriod);
       this.loadBills({ year: this.currentPeriod.exercise, bimester: this.currentPeriod.period.num });
       this.loadTaxes({ year: this.currentPeriod.exercise, bimester: this.currentPeriod.period.num });
       this.selectedYear = this.currentPeriod.exercise;
-      const num  = this.currentPeriod.period.num - 1;
+      const num = this.currentPeriod.period.num - 1;
       this.selectedBimester = this.bimesters[num];
       this.currentBimester = this.selectedBimester.name + ' ' + this.selectedYear;
+      this.periodActive =  !this.currentPeriod.period.active ? false : true;
     });
 
     // const bimesterNum = Math.trunc((new Date().getMonth() / 2) + 1);
@@ -612,11 +612,12 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
   }
 
   getBimesterInfo(ev: any) {
+
     if (this.selectedBimester.num !== this.currentPeriod.period.num ||
       this.selectedYear !== this.currentPeriod.exercise) {
       this.periodActive = false;
     } else {
-      this.periodActive = true;
+      this.periodActive =  !this.currentPeriod.period.active ? false : true;
     }
     this.currentBimester = this.selectedBimester.name + ' ' + this.selectedYear;
     this.loadBills({ year: this.selectedYear, bimester: this.selectedBimester.num });
