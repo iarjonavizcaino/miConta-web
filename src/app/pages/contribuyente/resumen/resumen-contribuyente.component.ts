@@ -177,7 +177,6 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
     const dialogRef = this.manualBill(null, false, 'Nueva factura');
     dialogRef.afterClosed().subscribe((newBill) => {
       if (!newBill) { return; }
-      console.log('new bill', newBill);
       newBill.taxpayer = this.currentTaxpayer._id;
       this.actionEgresos.next({ name: RtActionName.CREATE, newItem: newBill });
       this.billProv.create(newBill).subscribe((res) => {
@@ -194,7 +193,6 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
     const dialogRef = this.manualBill(null, true, 'Nueva factura');
     dialogRef.afterClosed().subscribe((newBill) => {
       if (!newBill) { return; }
-      console.log('new bill', newBill);
       newBill.taxpayer = this.currentTaxpayer._id;
       this.actionIngresos.next({ name: RtActionName.CREATE, newItem: newBill });
 
@@ -256,11 +254,9 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
         }
       });
       dialogRef.afterClosed().subscribe(result => {
-        console.log(result);
         if (!result) { ev.item.cobrada_pagada = !ev.item.cobrada_pagada; return; }
         updateBill.cobrada_pagadaDate = result;
         updateBill.cobrada_pagada = true;
-        console.log(updateBill);
         this.update(updateBill._id, updateBill);  // without _id?
       });
     } else {
@@ -333,7 +329,6 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
   onViewBillIngresos(ev) {
     this.stopPropagation(ev);
     let dialogRef;
-    console.log(this.periodActive);
     if (this.selectedIngresos.captureMode === 'Manual' && this.periodActive) {
       dialogRef = this.manualBill(this.selectedIngresos, true, 'Detalle de Factura');
       dialogRef.afterClosed().subscribe(res => {
@@ -617,19 +612,12 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
   }
 
   getBimesterInfo(ev: any) {
-    console.log(this.selectedBimester.num);
-    console.log(this.currentPeriod.period.num);
-    console.log(this.currentPeriod.exercise);
-    console.log(this.selectedYear);
     if (this.selectedBimester.num !== this.currentPeriod.period.num ||
       this.selectedYear !== this.currentPeriod.exercise) {
       this.periodActive = false;
-      console.log('if');
     } else {
-      console.log('else');
       this.periodActive = true;
     }
-    console.log(this.periodActive);
     this.currentBimester = this.selectedBimester.name + ' ' + this.selectedYear;
     this.loadBills({ year: this.selectedYear, bimester: this.selectedBimester.num });
 
