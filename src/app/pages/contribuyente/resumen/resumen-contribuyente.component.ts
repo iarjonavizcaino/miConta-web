@@ -112,7 +112,6 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
     this.sub = this.route
       .queryParams
       .subscribe(params => {
-        console.log('params', params);
         // tslint:disable-next-line:triple-equals
         if (params.name) {
           this.contribuyente = params.name;
@@ -430,7 +429,6 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
     // tslint:disable-next-line:no-shadowed-variable
     dialogRef.afterClosed().subscribe(res => {
       if (!res) { return; }
-      console.log(res);
     }, err => {
       console.log(err);
     });
@@ -456,7 +454,6 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
         // tslint:disable-next-line:no-shadowed-variable
         dialogRef.afterClosed().subscribe(res => {
           if (!res) { return; }
-          console.log(res);
         });
       }, err => {
         console.log(err);
@@ -557,21 +554,24 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
 
     // dialogRef2.afterClosed().subscribe((res) => {
     //   if (!res) { return; }
-    //   const taxes = {
-    //     taxes: {
-    //       isr: this.ISR.isrNetoAPagar,
-    //       esta no iva: this.IVA.ivaCargo !== 0 ? this.IVA.ivaCargo : this.IVA.ivaFavor
-    //      iva: this.IVA.ivaCargo
-    //     }
-    //   };
+      // const taxes = {
+      //   taxes: {
+      //     isr: this.ISR.isrNetoAPagar,
+      //     esta no iva: this.IVA.ivaCargo !== 0 ? this.IVA.ivaCargo : this.IVA.ivaFavor
+      //    iva: this.IVA.ivaCargo
+      //   }
+      // };
 
-    //   this.historicalProv.closePeriod(taxes, this.currentPeriod._id).subscribe(data => {
-    //     console.log(data);
-    //     this.currentBimester = this.bimesters[this.selectedBimester.num].name + ' ' + this.selectedYear;
-    //     this.loadBills({ year: this.selectedYear, bimester: ++this.selectedBimester.num });
-    //     this.loadTaxes({ year: this.selectedYear, bimester: ++this.selectedBimester.num });
+      // this.historicalProv.closePeriod(taxes, this.currentPeriod._id).subscribe(data => {
+      //   this.currentPeriod = data.historical;
+      //   this.selectedBimester.name = this.currentPeriod.period.name;
+      //   this.selectedBimester.num = this.currentPeriod.period.num;
+      //   this.bimesters.push(this.selectedBimester);
+      //   this.currentBimester = this.bimesters[this.selectedBimester.num].name + ' ' + this.selectedYear;
+      //   this.loadBills({ year: this.selectedYear, bimester: ++this.selectedBimester.num });
+      //   this.loadTaxes({ year: this.selectedYear, bimester: ++this.selectedBimester.num });
 
-    //   });
+      // });
     // });
   } // closePeriod
 
@@ -611,7 +611,6 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
       this.allPeriods = false;
       const index = this.bimesters.findIndex(bimester => bimester.num === currentBim);
       this.bimesters.splice(index + 1);
-      console.log('aaaaaaaaaaaaaaaaaaaaaaaaa', this.bimesters);
     } else {
       this.allPeriods = true;
       this.bimesters = [
