@@ -107,7 +107,10 @@ export class InicioSuperadminComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe((res) => {
       if (!res) { return; }
-
+      if (this.despachoSelected.accountants.length) {
+        this.notification.error('Error', `El despacho ${this.despachoSelected.name} tiene contadores, no se puede eliminar`);
+        return;
+      }
       this.officeProv.delete(this.despachoSelected._id).subscribe(data => {
         res = data.office;
         this.notification.success('Acción exitosa', `Despacho ${this.despachoSelected.name} eliminado`);
@@ -140,6 +143,7 @@ export class InicioSuperadminComponent implements OnInit {
 
   onDespachoSelected(ev: any) {
     this.despachoSelected = ev.data;
+    console.log(this.despachoSelected);
   }
 
   filtrar(card: string) {
