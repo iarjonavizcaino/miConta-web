@@ -55,7 +55,7 @@
   <div class="row">
     <div class="col-12">
       <mat-progress-bar style="margin-bottom: 10px; height: 12px" color="primary" mode="determinate" [value]="((ingresosCobrados * 100) / 2000000)"></mat-progress-bar>
-      <label class="float-right">{{ingresosCobrados | currency:'USD':true:'2.2-4'}} / {{2000000 | currency:'USD':true:'2.2-4'}}</label>
+      <label class="float-right">{{ingresosCobrados | currency:'USD':'symbol':'2.2-4'}} / {{2000000 | currency:'USD':'symbol':'2.2-4'}}</label>
     </div>
   </div>
   <br>
@@ -76,7 +76,7 @@
             <h3 class="float-right font-normal">
               <span>
                   <!-- *ngIf="IVA.ivaCargo !== 0" -->
-                {{IVA.ivaCargo | currency:'USD':true:'2.2-4'}}
+                {{IVA.ivaCargo | currency:'USD':'symbol':'2.2-4'}}
               </span>
               <button mat-icon-button (click)="onIVA($event)">
                 <mat-icon>more_horiz</mat-icon>
@@ -87,7 +87,7 @@
             <h3 style="color: #444">ISR:</h3>
           </div>
           <div class="col-8">
-            <h3 class="float-right font-normal">{{ISR.isrNetoAPagar | currency:'USD':true:'2.2-4'}}
+            <h3 class="float-right font-normal">{{ISR.isrNetoAPagar | currency:'USD':'symbol':'2.2-4'}}
               <button mat-icon-button (click)="onISR($event)">
                 <mat-icon>more_horiz</mat-icon>
               </button>
@@ -102,7 +102,7 @@
             <h1 style="color: #444">Total:</h1>
           </div>
           <div class="col-8">
-            <h2 class="float-right font-normal">{{totalTax | currency:'USD':true:'2.2-4'}}</h2>
+            <h2 class="float-right font-normal">{{totalTax | currency:'USD':'symbol':'2.2-4'}}</h2>
           </div>
         </div>
       </mat-card-content>
@@ -152,11 +152,11 @@
           </mat-panel-title>
           <mat-panel-description>
             <h5>
-              <span>Total: </span> {{ sumIngresos | currency:'USD':true:'2.2-4'}}</h5>
+              <span>Total: </span> {{ sumIngresos | currency:'USD':'symbol':'2.2-4'}}</h5>
             <h5>
-              <span>Cobrados:</span> {{ ingresosCobrados | currency:'USD':true:'2.2-4'}}</h5>
+              <span>Cobrados:</span> {{ ingresosCobrados | currency:'USD':'symbol':'2.2-4'}}</h5>
             <h5>
-              <span>Por cobrar: </span> {{ ingresosPorCobrar | currency:'USD':true:'2.2-4'}}</h5>
+              <span>Por cobrar: </span> {{ ingresosPorCobrar | currency:'USD':'symbol':'2.2-4'}}</h5>
           </mat-panel-description>
         </mat-expansion-panel-header>
         <rt-datatable (selected)="onIngresosSelected($event)" (checked)="onIngresosChecked($event)" (toggleFec)="onToggleFec($event)"
@@ -204,11 +204,11 @@
           </mat-panel-title>
           <mat-panel-description>
             <h5>
-              <span>Total: </span> {{sumEgresos | currency:'USD':true:'2.2-4'}}</h5>
+              <span>Total: </span> {{sumEgresos | currency:'USD':'symbol':'2.2-4'}}</h5>
             <h5>
-              <span>Pagados: </span> {{ egresosPagados | currency:'USD':true:'2.2-4'}}</h5>
+              <span>Pagados: </span> {{ egresosPagados | currency:'USD':'symbol':'2.2-4'}}</h5>
             <h5>
-              <span>Por pagar: </span> {{ egresosPorPagar | currency:'USD':true:'2.2-4'}}</h5>
+              <span>Por pagar: </span> {{ egresosPorPagar | currency:'USD':'symbol':'2.2-4'}}</h5>
           </mat-panel-description>
         </mat-expansion-panel-header>
         <rt-datatable (selected)="onEgresosSelected($event)" (checked)="onEgresosChecked($event)" (toggleDeducible)="toggleDeducible($event)"

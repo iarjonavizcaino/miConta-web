@@ -74,6 +74,7 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
   roleUp = '';
   users = [];
   usersBackup = [];
+  allPeriods: boolean;
 
   // taxes
   ISR = {
@@ -125,17 +126,17 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
       });
 
     this.loadUsers();
-    this.loadBimesters();
 
     this.historicalProv.getActive(this.currentTaxpayer._id).subscribe(data => {
       this.currentPeriod = data;
       this.loadBills({ year: this.currentPeriod.exercise, bimester: this.currentPeriod.period.num });
       this.loadTaxes({ year: this.currentPeriod.exercise, bimester: this.currentPeriod.period.num });
       this.selectedYear = this.currentPeriod.exercise;
+      this.loadBimesters();
       const num = this.currentPeriod.period.num - 1;
       this.selectedBimester = this.bimesters[num];
       this.currentBimester = this.selectedBimester.name + ' ' + this.selectedYear;
-      this.periodActive =  !this.currentPeriod.period.active ? false : true;
+      this.periodActive = !this.currentPeriod.period.active ? false : true;
     });
 
     // const bimesterNum = Math.trunc((new Date().getMonth() / 2) + 1);
@@ -606,18 +607,58 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
         num: 6
       }
     ];
-
-    const index = this.bimesters.findIndex(bimester => bimester.num === currentBim);
-    this.bimesters.splice(index + 1);
+    if (this.selectedYear === this.currentPeriod.exercise) {
+      this.allPeriods = false;
+      const index = this.bimesters.findIndex(bimester => bimester.num === currentBim);
+      this.bimesters.splice(index + 1);
+      console.log('aaaaaaaaaaaaaaaaaaaaaaaaa', this.bimesters);
+    } else {
+      this.allPeriods = true;
+      this.bimesters = [
+        {
+          name: 'ENE-FEB',
+          num: 1
+        },
+        {
+          name: 'MAR-ABR',
+          num: 2
+        },
+        {
+          name: 'MAY-JUN',
+          num: 3
+        },
+        {
+          name: 'JUL-AGO',
+          num: 4
+        },
+        {
+          name: 'SEPT-OCT',
+          num: 5
+        },
+        {
+          name: 'NOV-DIC',
+          num: 6
+        }
+      ];
+    }
   }
 
   getBimesterInfo(ev: any) {
-
+    this.loadBimesters();
+    if (!this.allPeriods) {
+      if (this.currentPeriod.period.num < this.selectedBimester.num) {
+        this.selectedBimester = this.bimesters[this.currentPeriod.period.num - 1];
+      } else {
+        this.selectedBimester = this.bimesters[this.selectedBimester.num - 1];
+      }
+    } else {
+      this.selectedBimester = this.bimesters[this.selectedBimester.num - 1];
+    }
     if (this.selectedBimester.num !== this.currentPeriod.period.num ||
       this.selectedYear !== this.currentPeriod.exercise) {
       this.periodActive = false;
     } else {
-      this.periodActive =  !this.currentPeriod.period.active ? false : true;
+      this.periodActive = !this.currentPeriod.period.active ? false : true;
     }
     this.currentBimester = this.selectedBimester.name + ' ' + this.selectedYear;
     this.loadBills({ year: this.selectedYear, bimester: this.selectedBimester.num });

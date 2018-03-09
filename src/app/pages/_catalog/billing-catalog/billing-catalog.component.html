@@ -148,12 +148,12 @@
       <div>
         <div class="row" style="text-align: right; padding-top: 10px">
           <div class="col-9">Subtotal: </div>
-          <div class="col-3">{{infoBill.subtotal | currency:'USD':true:'2.2-4'}}</div>
+          <div class="col-3">{{infoBill.subtotal | currency:'USD':'symbol':'2.2-4'}}</div>
         </div>
         <hr>
         <div class="row" style="text-align: right;">
           <div class="col-9">IVA ({{ infoBill.tasa * 100}}%):</div>
-          <div class="col-3">{{infoBill.taxes | currency:'USD':true:'2.2-4'}}</div>
+          <div class="col-3">{{infoBill.taxes | currency:'USD':'symbol':'2.2-4'}}</div>
         </div>
         <hr>
         <div class="row" style="text-align: right;">
@@ -164,7 +164,7 @@
           </div>
           <div class="col-3">
             <h3>
-              <strong>{{infoBill.total | currency:'USD':true:'2.2-4'}}</strong>
+              <strong>{{infoBill.total | currency:'USD':'symbol':'2.2-4'}}</strong>
             </h3>
           </div>
         </div>

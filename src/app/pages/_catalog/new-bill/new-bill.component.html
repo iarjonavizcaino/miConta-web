@@ -233,7 +233,7 @@
         <div class="col-9">
           Subtotal:
         </div>
-        <div class="col-3">{{bill.subtotal | currency:'USD':true:'2.2-4'}}</div>
+        <div class="col-3">{{bill.subtotal | currency:'USD':'symbol':'2.2-4'}}</div>
       </div>
       <hr>
       <div class="row" style="text-align: right;">
@@ -242,7 +242,7 @@
           <br>
           <mat-slide-toggle (change)="tasaToggle($event)" [(ngModel)]="statustasa">Tasa 16%</mat-slide-toggle>
         </div>
-        <div class="col-3">{{bill.taxes | currency:'USD':true:'2.2-4'}}</div>
+        <div class="col-3">{{bill.taxes | currency:'USD':'symbol':'2.2-4'}}</div>
       </div>
       <hr>
       <div class="row" style="text-align: right;">
@@ -256,7 +256,7 @@
           <strong class="float-right">Total:</strong>
         </div>
         <div class="col-3">
-          <strong>{{bill.total | currency:'USD':true:'2.2-4'}}</strong>
+          <strong>{{bill.total | currency:'USD':'symbol':'2.2-4'}}</strong>
         </div>
       </div>
     </div>
