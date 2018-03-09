@@ -93,6 +93,7 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
   sumEgresos = 0;
   egresosPagados = 0;
   egresosPorPagar = 0;
+  periodActive = true;
 
   // progress all year
   progressYear = 0;
@@ -128,10 +129,12 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
 
     this.historicalProv.getActive(this.currentTaxpayer._id).subscribe(data => {
       this.currentPeriod = data;
+      console.log(this.currentPeriod);
       this.loadBills({ year: this.currentPeriod.exercise, bimester: this.currentPeriod.period.num });
       this.loadTaxes({ year: this.currentPeriod.exercise, bimester: this.currentPeriod.period.num });
       this.selectedYear = this.currentPeriod.exercise;
-      this.selectedBimester = this.bimesters[--this.currentPeriod.period.num];
+      const num  = this.currentPeriod.period.num - 1;
+      this.selectedBimester = this.bimesters[num];
       this.currentBimester = this.selectedBimester.name + ' ' + this.selectedYear;
     });
 
@@ -330,17 +333,18 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
   onViewBillIngresos(ev) {
     this.stopPropagation(ev);
     let dialogRef;
-    if (this.selectedIngresos.captureMode !== 'Manual') {
-      dialogRef = this.billModal(this.selectedIngresos, false, 'Detalle de Factura');
-      dialogRef.afterClosed().subscribe(res => {
-        this.loadTaxes({ year: this.selectedYear, bimester: this.selectedBimester.num });
-        if (!res) { return; }
-      });
-    } else {
+    console.log(this.periodActive);
+    if (this.selectedIngresos.captureMode === 'Manual' && this.periodActive) {
       dialogRef = this.manualBill(this.selectedIngresos, true, 'Detalle de Factura');
       dialogRef.afterClosed().subscribe(res => {
         if (!res) { return; }
         this.update(this.selectedIngresos._id, res);
+      });
+    } else {
+      dialogRef = this.billModal(this.selectedIngresos, false, 'Detalle de Factura');
+      dialogRef.afterClosed().subscribe(res => {
+        this.loadTaxes({ year: this.selectedYear, bimester: this.selectedBimester.num });
+        if (!res) { return; }
       });
     }
   }
@@ -348,17 +352,17 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
   onViewBillEgresos(ev: any) {
     this.stopPropagation(ev);
     let dialogRef;
-    if (this.selectedEgresos.captureMode !== 'Manual') {
-      dialogRef = this.billModal(this.selectedEgresos, false, 'Datos de Factura');
-      dialogRef.afterClosed().subscribe(res => {
-        this.loadTaxes({ year: this.selectedYear, bimester: this.selectedBimester.num });
-        if (!res) { return; }
-      });
-    } else {
+    if (this.selectedEgresos.captureMode === 'Manual' && this.periodActive) {
       dialogRef = this.manualBill(this.selectedEgresos, false, 'Detalle de Factura');
       dialogRef.afterClosed().subscribe(res => {
         if (!res) { return; }
         this.update(this.selectedEgresos._id, res);
+      });
+    } else {
+      dialogRef = this.billModal(this.selectedEgresos, false, 'Datos de Factura');
+      dialogRef.afterClosed().subscribe(res => {
+        this.loadTaxes({ year: this.selectedYear, bimester: this.selectedBimester.num });
+        if (!res) { return; }
       });
     }
   }
@@ -613,6 +617,19 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
   }
 
   getBimesterInfo(ev: any) {
+    console.log(this.selectedBimester.num);
+    console.log(this.currentPeriod.period.num);
+    console.log(this.currentPeriod.exercise);
+    console.log(this.selectedYear);
+    if (this.selectedBimester.num !== this.currentPeriod.period.num ||
+      this.selectedYear !== this.currentPeriod.exercise) {
+      this.periodActive = false;
+      console.log('if');
+    } else {
+      console.log('else');
+      this.periodActive = true;
+    }
+    console.log(this.periodActive);
     this.currentBimester = this.selectedBimester.name + ' ' + this.selectedYear;
     this.loadBills({ year: this.selectedYear, bimester: this.selectedBimester.num });
 
