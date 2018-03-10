@@ -84,6 +84,10 @@ export class ConceptosComponent implements OnInit {
       if (!res) { return; }
       this.conceptProv.delete(this.conceptSelected._id).subscribe(data => {
         res = data.concept;
+        if (data.code === 205) {
+          this.noti.error('Error', data.message);
+          return;
+        }
         this.noti.success('Acción exitosa', `Concepto ${this.conceptSelected.concept} eliminado`);
         this.action.next({ name: RtActionName.DELETE, itemId: this.conceptSelected._id });
         this.conceptSelected = null;

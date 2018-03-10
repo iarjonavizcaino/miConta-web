@@ -119,21 +119,21 @@
           <div class="col-9">
             ISR:
           </div>
-          <div class="col-3">{{accountantSaid.ISR.amount | currency:'USD':true:'2.2-4'}}</div>
+          <div class="col-3">{{accountantSaid.ISR.amount | currency:'USD':'symbol':'2.2-4'}}</div>
         </div>
         <hr>
         <div class="row" style="text-align: right; padding-top: 10px">
           <div class="col-9">
             IVA:
           </div>
-          <div class="col-3">{{accountantSaid.IVA.amount | currency:'USD':true:'2.2-4'}}</div>
+          <div class="col-3">{{accountantSaid.IVA.amount | currency:'USD':'symbol':'2.2-4'}}</div>
         </div>
         <hr>
         <div class="row" style="text-align: right; padding-top: 10px">
             <div class="col-9">
               <strong>Total a Pagar:</strong>
             </div>
-            <div class="col-3"><strong>{{accountantSaid.totalTaxes | currency:'USD':true:'2.2-4'}}</strong></div>
+            <div class="col-3"><strong>{{accountantSaid.totalTaxes | currency:'USD':'symbol':'2.2-4'}}</strong></div>
           </div>
           <hr>
 
@@ -146,7 +146,7 @@
       Cancelar
     </button>
     <button mat-raised-button color="primary" [disabled]="!cierreForm.valid" (click)="onSave()">
-      Aceptar
+      Cerrar periodo
     </button>
   </footer>
 </section>

@@ -35,7 +35,6 @@ export class ModalAsignarContribComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log(this.data);
     this.currentAccountant = this.data.accountant;
     this.officeProv.getById(this.data.office).subscribe(data => {
       this.accountants = data.office.accountants;
@@ -61,7 +60,6 @@ export class ModalAsignarContribComponent implements OnInit {
   }
 
   onSave() {
-    console.log(this.selectedAccountant);
     this.dialogRef.close(this.selectedAccountant);
   }
   onClose() {

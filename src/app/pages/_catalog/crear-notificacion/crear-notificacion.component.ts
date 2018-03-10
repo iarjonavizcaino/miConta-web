@@ -74,7 +74,6 @@ export class CrearNotificacionComponent implements OnInit {
   onClose() {
     this.numDestinataries = 0;
     this.dialogRef.close();
-    console.log(this.dataUsers);
   }
   onSave() {
     if (this.numDestinataries > 0) {  // user has check

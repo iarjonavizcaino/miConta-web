@@ -18,7 +18,6 @@ export class ObligacionesComponent implements OnInit, OnDestroy {
     this.sub = this.route
       .queryParams
       .subscribe(params => {
-        console.log('params', params);
         // tslint:disable-next-line:triple-equals
         if (params.name) {
           this.contribuyente = params.name;

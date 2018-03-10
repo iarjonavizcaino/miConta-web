@@ -81,17 +81,12 @@ export class InicioDespachoComponent implements OnInit, OnDestroy {
     const users = JSON.parse(localStorage.getItem('users'));
     if (users) {
       this.users = users;
-      // this.usersBackup = users.slice();
-      // this.usersBackup.pop();
       if (this.users.length > 1) {
         this.users.length = 1;
       }
     }
   }
   ngOnDestroy() {
-    // this.updateUsers();
-    // this.users = this.usersBackup;
-    // localStorage.setItem('users', JSON.stringify(this.usersBackup));
     this.sub.unsubscribe();
   }
 
@@ -213,6 +208,10 @@ export class InicioDespachoComponent implements OnInit, OnDestroy {
     });
     dialogRef.afterClosed().subscribe((res) => {
       if (!res) { return; }
+      if (this.selectedAccountant.taxpayers.length) {
+        this.notification.error('Error', `El contador ${this.selectedAccountant.name} tiene contribuyentes, no se puede eliminar`);
+        return;
+      }
       this.accountantProv.delete(this.selectedAccountant._id).subscribe(data => {
         res = data.accountant;
         // tslint:disable-next-line:no-shadowed-variable
@@ -273,7 +272,7 @@ export class InicioDespachoComponent implements OnInit, OnDestroy {
     this.setBgCard(card);
   }
   private setBgCard(card: string) {
-    const numCards = 7;
+    const numCards = 2;
     for (let i = 1; i <= numCards; i++) {
       document.getElementById('card' + i).style.background = '#F5F5F5';
       document.getElementById('div' + i).style.background = '#E0E0E0';

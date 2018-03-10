@@ -4,11 +4,10 @@ import { Subject } from 'rxjs/Subject';
 import { MatDialog } from '@angular/material';
 import { ModalCrearContribuyenteComponent } from '../../_catalog/modal-crear-contribuyente/modal-crear-contribuyente.component';
 import { Router, ActivatedRoute } from '@angular/router';
-import { Location } from '@angular/common';
 import { ConfirmComponent } from '../../../components/confirm/confirm.component';
 import { NotificationsService } from 'angular2-notifications';
 import { UploadXmlComponent } from '../../_catalog/upload-xml/upload-xml.component';
-import { TaxpayerProvider, AccountantProvider, BillProvider } from '../../../providers/providers';
+import { TaxpayerProvider, AccountantProvider, BillProvider, HistoricalProvider } from '../../../providers/providers';
 
 @Component({
   selector: 'app-inicio-contador',
@@ -43,7 +42,8 @@ export class InicioContadorComponent implements OnInit, OnDestroy {
     private taxpayerProv: TaxpayerProvider,
     private accountantProv: AccountantProvider,
     private billProv: BillProvider,
-    private location: Location) { }
+    private historicalProv: HistoricalProvider
+  ) { }
 
   ngOnInit() {
     let idAccountant;
@@ -79,8 +79,6 @@ export class InicioContadorComponent implements OnInit, OnDestroy {
     const users = JSON.parse(localStorage.getItem('users'));
     if (users) {
       this.users = users;
-      // this.usersBackup = users.slice();
-      // this.usersBackup.pop();
       if (this.users.length > 2) {
         this.users.length = 2;
       }
@@ -88,10 +86,6 @@ export class InicioContadorComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    // this.updateUsers();
-    // this.location.back();
-    // this.users = this.usersBackup;
-    // localStorage.setItem('users', JSON.stringify(this.usersBackup));
     this.sub.unsubscribe();
   }
 
@@ -127,6 +121,54 @@ export class InicioContadorComponent implements OnInit, OnDestroy {
         // tslint:disable-next-line:no-shadowed-variable
         this.accountantProv.addTaxpayer(taxpayer._id, this.currentAccountant).subscribe(data => {
           this.accountant = data.accountant;
+        });
+        const currentBim = Math.trunc((new Date().getMonth() / 2) + 1);
+
+        const bimesters = [
+          {
+            name: 'ENE-FEB',
+            num: 1
+          },
+          {
+            name: 'MAR-ABR',
+            num: 2
+          },
+          {
+            name: 'MAY-JUN',
+            num: 3
+          },
+          {
+            name: 'JUL-AGO',
+            num: 4
+          },
+          {
+            name: 'SEPT-OCT',
+            num: 5
+          },
+          {
+            name: 'NOV-DIC',
+            num: 6
+          }
+        ];
+
+        const index = bimesters.findIndex(bimester => bimester.num === currentBim);
+
+        const historical = {
+          taxpayer: taxpayer._id,
+          exercise: (new Date()).getFullYear(),
+          active: true,
+          ingresosAnt: taxpayer.yearBefore,
+          periods: [{
+            name: bimesters[index].name,
+            num: bimesters[index].num,
+            active: true,
+            debtSAT: 0,
+            bills: []
+          }]
+        };
+        // tslint:disable-next-line:no-shadowed-variable
+        this.historicalProv.create(historical).subscribe(data => {
+          console.log(data.historical);
         });
         this.action.next({ name: RtActionName.CREATE, newItem: taxpayer });
         const dialogRef2 = this.dialogCtrl.open(ConfirmComponent, {
@@ -178,7 +220,7 @@ export class InicioContadorComponent implements OnInit, OnDestroy {
   }
 
   private setBgCard(card: string) {
-    const numCards = 4;
+    const numCards = 1;
     for (let i = 1; i <= numCards; i++) {
       document.getElementById('card' + i).style.background = '#F5F5F5';
       document.getElementById('div' + i).style.background = '#E0E0E0';
@@ -240,7 +282,7 @@ export class InicioContadorComponent implements OnInit, OnDestroy {
       disableClose: false,
       data: {
         title: title,
-        taxpayer: this.selectedTaxpayer._id
+        taxpayer: this.selectedTaxpayer
       }
     });
   }

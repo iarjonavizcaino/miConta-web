@@ -20,7 +20,6 @@ export class InicioComponent implements OnInit {
   ngOnInit() {
     this.user$ = this.session.user;
     this.user$.subscribe((user) => {
-      console.log(user);
       if (user) {
         this.welcome.socialReason = user.socialReason;
         this.welcome.name = user.name;

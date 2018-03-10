@@ -21,7 +21,7 @@ export class ModalImpuestosComponent implements OnInit {
     if (!this.data) { return; }
     this.title = this.data.title;
     if (this.data.type === 'isr') {
-      this.newAmount = this.data.tax.isrNetoAPagar;
+      this.newAmount = this.data.tax.isrNetoAPagar.toFixed(2);
       this.loadISR();
     } else {
       this.loadIVA();
@@ -32,71 +32,71 @@ export class ModalImpuestosComponent implements OnInit {
     this.taxes = [
       {
         concept: this.data.taxpayer ? 'Total IVA de ventas público en general' : 'Total IVA causado del periodo Publico en General',
-        amount: this.data.tax.totalIvaCausadoPublicoGeneral
+        amount: this.data.tax.totalIvaCausadoPublicoGeneral.toFixed(2)
       },
       {
         concept: this.data.taxpayer ? 'Total IVA de ventas a clientes' : 'Total IVA causado del periodo Clientes',
-        amount: this.data.tax.totalIvaCausadoPeriodoClientes
+        amount: this.data.tax.totalIvaCausadoPeriodoClientes.toFixed(2)
       },
       {
         concept: this.data.taxpayer ? 'Total IVA de ventas' : 'Total IVA causado del periodo',
-        amount: this.data.tax.totalIvaCausadoPeriodo
+        amount: this.data.tax.totalIvaCausadoPeriodo.toFixed(2)
       },
       {
-        concept: this.data.taxpayer ? 'Total IVA de compras' : 'Iva acreditable (gastos)',
-        amount: this.data.tax.ivaAcredGastos
+        concept: this.data.taxpayer ? 'Total IVA de compras' : 'IVA acreditable (gastos)',
+        amount: this.data.tax.ivaAcredGastos.toFixed(2)
       }
     ];
     if (this.data.tax.ivaCargo >= 0) {
       if (this.data.taxpayer) {
-        this.taxes.push({ concept: 'IVA POR PAGAR', amount: this.data.tax.ivaCargo });
+        this.taxes.push({ concept: 'IVA POR PAGAR', amount: this.data.tax.ivaCargo.toFixed(2) });
       } else {
-        this.taxes.push({ concept: 'IVA A CARGO', amount: this.data.tax.ivaCargo });
+        this.taxes.push({ concept: 'IVA A CARGO', amount: this.data.tax.ivaCargo.toFixed(2) });
       }
     } else {
-      this.taxes.push({ concept: 'IVA A FAVOR', amount: this.data.tax.ivaCargo });
+      this.taxes.push({ concept: 'IVA A FAVOR', amount: this.data.tax.ivaCargo.toFixed(2) });
     }
   }
   private loadISR() {
     this.taxes = [
       {
         concept: 'Ingresos Bimestrales Cobrados',
-        amount: this.data.tax.ingresosBimestralesCobrados,
+        amount: this.data.tax.ingresosBimestralesCobrados.toFixed(2),
         red: false
       },
       {
         concept: 'Deducciones Bimestrales Pagadas',
-        amount: this.data.tax.deduccionesBimestralesPagadas,
+        amount: this.data.tax.deduccionesBimestralesPagadas.toFixed(2),
         red: false
       },
       {
         concept: this.data.tax.utilidad >= 0 ? 'UTILIDAD' : 'PÉRDIDA FISCAL',
-        amount: this.data.tax.utilidad,
+        amount: this.data.tax.utilidad.toFixed(2),
         red: true
       },
       {
         concept: 'Diferencia de gastos mayores a ingresos de periodos anteriores',
-        amount: this.data.tax.diferenciaGastosMayores,
+        amount: this.data.tax.diferenciaGastosMayores.toFixed(2),
         red: false
       },
       {
         concept: 'BASE GRAVABLE',
-        amount: this.data.tax.baseGravable,
+        amount: this.data.tax.baseGravable.toFixed(2),
         red: true
       },
       {
         concept: 'ISR A PAGAR',
-        amount: this.data.tax.isrAPagar,
+        amount: this.data.tax.isrAPagar.toFixed(2),
         red: false
       },
       {
         concept: `MONTO DE REDUCCIÓN (${this.data.tax.porcentajeReduccion}%)`,
-        amount: this.data.tax.montoReduccion,
+        amount: this.data.tax.montoReduccion.toFixed(2),
         red: true
       },
       {
         concept: 'ISR NETO A PAGAR',
-        amount: this.data.tax.isrNetoAPagar,
+        amount: this.data.tax.isrNetoAPagar.toFixed(2),
         red: false
       }
     ];

@@ -23,7 +23,6 @@ export class ConfirmComponent implements OnInit {
 
   ngOnInit() {
     if (this.data) {
-      console.log(this.data);
       this.type = this.data.type;
     }
   }

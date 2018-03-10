@@ -84,6 +84,10 @@ export class PerfilesComponent implements OnInit {
       if (!res) { return; }
       this.profileProv.delete(this.profileSelected._id).subscribe(data => {
         res = data.profile;
+        if (data.code === 205) {
+          this.noti.error('Error', data.message);
+          return;
+        }
         this.noti.success('Acción exitosa', `Perfil ${this.profileSelected.name} eliminado`);
         this.action.next({ name: RtActionName.DELETE, itemId: this.profileSelected._id, newItem: res });
       }, err => {

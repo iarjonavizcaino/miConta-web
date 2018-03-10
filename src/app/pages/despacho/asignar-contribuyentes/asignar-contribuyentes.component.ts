@@ -46,11 +46,9 @@ export class AsignarContribuyentesComponent implements OnInit {
   }
   private loadData() {
     this.officeProv.getById(this.currentOffice).subscribe(data => {
-      console.log(data);
       data.office.accountants.forEach(accountant => {
         accountant.taxpayers.forEach(id => {
           this.taxpayerProv.getById(id).subscribe(res => { // get taxpayer by id
-            console.log('taxpayer', res.taxpayer);
             const taxpayer = res.taxpayer;
             // tslint:disable-next-line:max-line-length
             this.data.push({ checked: false, _idAccountant: accountant._id, _idTaxpayer: taxpayer._id, name: accountant.name, taxpayer: taxpayer.name, socialReason: taxpayer.socialReason, regimen_fiscal: taxpayer.fiscalRegime });
@@ -103,7 +101,6 @@ export class AsignarContribuyentesComponent implements OnInit {
   }
   onChange(ev) {
     this.stopPropagation(ev);
-    console.log(this.selectedItem);
     const newAccountant = this.dialogCtrl.open(ModalAsignarContribComponent, {
       disableClose: false,
       data: {

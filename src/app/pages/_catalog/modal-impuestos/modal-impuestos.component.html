@@ -13,10 +13,10 @@
         </div>
         <div class="col-3" style="text-align: right; padding-right: 40px">
           <ng-container *ngIf="t.red; else noRed">
-            <span style="color: red">- {{t.amount | currency:'USD':true:'2.2-4'}}</span>
+            <span style="color: red">- {{t.amount | currency:'USD':'symbol':'2.2-4'}}</span>
           </ng-container>
           <ng-template #noRed>
-            <span>{{t.amount | currency:'USD':true:'2.2-4'}}</span>
+            <span>{{t.amount | currency:'USD':'symbol':'2.2-4'}}</span>
           </ng-template>
         </div>
       </div>

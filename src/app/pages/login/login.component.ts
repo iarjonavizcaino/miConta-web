@@ -52,7 +52,6 @@ export class LoginComponent implements OnInit {
     switch (this.selectedRole) {
       case _roles.accountant_prod: // contador
         this.auth.loginAccountant(credentials).subscribe(user => {
-          console.log('contador', user);
           this.isLoginWrong = !user.token;
           if (!this.isLoginWrong) {
             this.auth.loginSuccess(user.userInfo, user.token);
@@ -70,7 +69,6 @@ export class LoginComponent implements OnInit {
         break;
       case _roles.taxpayer_prod: // contribuyente
         this.auth.loginTaxpayer(credentials).subscribe(user => {
-          console.log('contribuyente', user);
           this.isLoginWrong = !user.token;
           if (!this.isLoginWrong) {
             this.auth.loginSuccess(user.userInfo, user.token);
@@ -88,7 +86,6 @@ export class LoginComponent implements OnInit {
         break;
       case _roles.offices_prod: // despacho
         this.auth.loginOffice(credentials).subscribe(user => {
-          console.log('despacho', user);
           this.isLoginWrong = !user.token;
           if (!this.isLoginWrong) {
             this.auth.loginSuccess(user.userInfo, user.token);
@@ -106,7 +103,6 @@ export class LoginComponent implements OnInit {
         break;
       case _roles.superadmin_prod: // superadmin
         this.auth.loginSuperadmin(credentials).subscribe(user => {
-          console.log('superadmin', user);
           this.isLoginWrong = !user.token;
           if (!this.isLoginWrong) {
             this.auth.loginSuccess(user.userInfo, user.token);

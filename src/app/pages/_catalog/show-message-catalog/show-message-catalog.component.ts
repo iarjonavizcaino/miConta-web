@@ -33,7 +33,6 @@ export class ShowMessageCatalogComponent implements OnInit {
   ngOnInit() {
     this.title = this.data.title || 'Título del modal';
     if (this.data) {  // data: info from table
-      console.log(this.data);
       this.destinataries = this.data.destinataries;
       this.message = this.data.message;
     }

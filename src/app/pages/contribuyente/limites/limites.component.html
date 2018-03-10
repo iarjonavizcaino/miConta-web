@@ -22,7 +22,7 @@
       <div class="col-6">
         <mat-progress-bar [matTooltip]="((limit.now * 10) / 100).toString() + '%'" color="primary" matTooltipPosition="left" class="bar-progress" mode="determinate" [value]="(limit.now * 10) / 100"></mat-progress-bar>
         <p class="text-center">
-          <br> {{limit.now | currency:'USD':true:'2.2-4'}} / {{limit.limit | currency:'USD':true:'2.2-4'}}
+          <br> {{limit.now | currency:'USD':'symbol':'2.2-4'}} / {{limit.limit | currency:'USD':'symbol':'2.2-4'}}
         </p>
       </div>
     </div>
@@ -36,7 +36,7 @@
         <strong>{{limit.concept}}</strong>
       </mat-panel-title>
       <mat-panel-description>
-        {{limit.limit | currency:'USD':true:'2.2-4'}}
+        {{limit.limit | currency:'USD':'symbol':'2.2-4'}}
       </mat-panel-description>
     </mat-expansion-panel-header>
     <p class="text-justify">
@@ -51,12 +51,12 @@
       <div class="col-6 remove-padding">
         <mat-progress-bar matTooltip="40%" color="primary" matTooltipPosition="right" class="bar-progress" mode="determinate" value="40"></mat-progress-bar>
         <p class="text-center">
-          <br> $400,000 / {{limit.limit | currency:'USD':true:'2.2-4'}}
+          <br> $400,000 / {{limit.limit | currency:'USD':'symbol':'2.2-4'}}
         </p>
       </div>
       <div class="col-2 remove-padding">
         <span class="text-right">
-          <strong>{{limit.limit | currency:'USD':true:'2.2-4'}}</strong>
+          <strong>{{limit.limit | currency:'USD':'symbol':'2.2-4'}}</strong>
         </span>
       </div>
     </div>
@@ -70,12 +70,12 @@
         <mat-progress-bar matTooltip="50%" color="accent" matTooltipPosition="right" class="bar-progress status-yellow" mode="determinate"
           value="50"></mat-progress-bar>
         <p class="text-center">
-          <br> $1,000,000 / {{limit.limit | currency:'USD':true:'2.2-4'}}
+          <br> $1,000,000 / {{limit.limit | currency:'USD':'symbol':'2.2-4'}}
         </p>
       </div>
       <div class="col-2 remove-padding">
         <span class="text-right">
-          <strong>{{limit.limit | currency:'USD':true:'2.2-4'}}</strong>
+          <strong>{{limit.limit | currency:'USD':'symbol':'2.2-4'}}</strong>
         </span>
       </div>
     </div>
@@ -88,12 +88,12 @@
       <div class="col-6 remove-padding">
         <mat-progress-bar matTooltip="80%" matTooltipPosition="right" class="bar-progress" mode="determinate" value="80" color="warn"></mat-progress-bar>
         <p class="text-center">
-          <br> $1,600,000 / {{limit.limit | currency:'USD':true:'2.2-4'}}
+          <br> $1,600,000 / {{limit.limit | currency:'USD':'symbol':'2.2-4'}}
         </p>
       </div>
       <div class="col-2 remove-padding">
         <span class="text-right">
-          <strong>{{limit.limit | currency:'USD':true:'2.2-4'}}</strong>
+          <strong>{{limit.limit | currency:'USD':'symbol':'2.2-4'}}</strong>
         </span>
       </div>
     </div>

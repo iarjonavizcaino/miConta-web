@@ -107,7 +107,10 @@ export class InicioSuperadminComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe((res) => {
       if (!res) { return; }
-
+      if (this.despachoSelected.accountants.length) {
+        this.notification.error('Error', `El despacho ${this.despachoSelected.name} tiene contadores, no se puede eliminar`);
+        return;
+      }
       this.officeProv.delete(this.despachoSelected._id).subscribe(data => {
         res = data.office;
         this.notification.success('Acción exitosa', `Despacho ${this.despachoSelected.name} eliminado`);
@@ -149,7 +152,6 @@ export class InicioSuperadminComponent implements OnInit {
 
   activateMicroRif(ev: any) {
     // this.stopPropagation(ev);
-    console.log(ev.item);
     const dialogRef = this.dialogCtrl.open(ConfirmComponent, {
       disableClose: false,
       data: {
@@ -162,7 +164,6 @@ export class InicioSuperadminComponent implements OnInit {
     dialogRef.afterClosed().subscribe(res => {
       if (!res) { ev.item.microRif = !ev.item.microRif; return; }
       this.officeProv.updateMicroRif(ev.item._id).subscribe(data => {
-        console.log(data);
         this.despachoSelected = data.office;
         ev.item = data.office;
         this.action.next({ name: RtActionName.UPDATE, itemId: this.despachoSelected._id, newItem: this.despachoSelected });
@@ -176,7 +177,7 @@ export class InicioSuperadminComponent implements OnInit {
   }
 
   private setBgCard(card: string) {
-    const numCards = 8;
+    const numCards = 3;
     for (let i = 1; i <= numCards; i++) {
       document.getElementById('card' + i).style.background = '#F5F5F5';
       document.getElementById('div' + i).style.background = '#E0E0E0';

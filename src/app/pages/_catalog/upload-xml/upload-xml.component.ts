@@ -14,6 +14,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 // import * as fastXmlParser from 'fast-xml-parser';
 // import * as xmlData from 'xml-parse';
 import * as xml2json from 'xml-js';
+import { ConceptProvider } from '../../../providers/providers';
 
 @Component({
   selector: 'app-upload-xml',
@@ -24,18 +25,24 @@ import * as xml2json from 'xml-js';
 export class UploadXmlComponent implements OnInit {
   xml = false;
   title: string;
-  taxpayer: string;
-  // fastXmlParser = fastXmlParser;
-  // xmlData = xmlData;
+  taxpayer: any;
+  concepts = [];
+  allConcepts = [];
   files = [];
   constructor(
     private dialogRef: MatDialogRef<UploadXmlComponent>,
-    @Inject(MAT_DIALOG_DATA) private data: any
+    @Inject(MAT_DIALOG_DATA) private data: any,
+    private conceptProv: ConceptProvider
   ) { }
 
   ngOnInit() {
     this.title = this.data.title;
     this.taxpayer = this.data.taxpayer;
+    this.concepts = this.taxpayer.profile.concepts;
+
+    this.conceptProv.getAll().subscribe(data => {
+      this.allConcepts = data.concepts;
+    });
   }
 
   onSave() {
@@ -50,7 +57,7 @@ export class UploadXmlComponent implements OnInit {
     const xml_str = ev[1].files.file; // XML text
     // parse to json
     let jsonBill: any = xml2json.xml2json(xml_str, { compact: true, spaces: 4 }); // convert to json
-    console.log(jsonBill);
+    // console.log(jsonBill);
     jsonBill = jsonBill.replace(/cfdi:/g, '');
     jsonBill = JSON.parse(jsonBill);
     const paymentKey = jsonBill.Comprobante._attributes.FormaPago;
@@ -116,12 +123,12 @@ export class UploadXmlComponent implements OnInit {
     }
     const type = jsonBill.Comprobante._attributes.TipoDeComprobante;
     const newBill = {
-      taxpayer: this.taxpayer,
+      taxpayer: this.taxpayer._id,
       type: type === 'I' ? 'Ingresos' : 'Egresos',
       createdDate: jsonBill.Comprobante._attributes.Fecha,
       cobrada_pagada: jsonBill.Comprobante._attributes.MetodoPago === 'PUE' ? true : false,
       cobrada_pagadaDate: jsonBill.Comprobante._attributes.MetodoPago === 'PUE' ? jsonBill.Comprobante._attributes.Fecha : null,
-      deducible: '',
+      deducible: true,
       payMethod: {
         key: paymentKey,
         // tslint:disable-next-line:max-line-length
@@ -155,28 +162,73 @@ export class UploadXmlComponent implements OnInit {
     if (jsonBill.Comprobante.Conceptos.Concepto.length) {
       jsonBill.Comprobante.Conceptos.Concepto.forEach(concept => {
         product = {
-          code: concept._attributes.ClaveProdServ.toString().substr(0, 4),
+          code: concept._attributes.ClaveProdServ,
           concept: concept._attributes.Descripcion,
           product: concept._attributes.Descripcion,
           quantity: concept._attributes.Cantidad,
           price: concept._attributes.ValorUnitario,
           amount: concept._attributes.Importe
         };
-
+        // if (newBill.type === 'Egresos') {
+        const conceptCode = product.code.substr(0, 2);
+        const index = this.concepts.findIndex(concepto => concepto.code.substr(0, 2) === conceptCode);
+        if (index !== -1) {
+          product.code = this.concepts[index].code.substr(0, 2);
+          product.concept = this.concepts[index].concept;
+          product.deducible = true;
+        } else {
+          const index2 = this.allConcepts.findIndex(concepto => concepto.code.substr(0, 2) === conceptCode);
+          product.code = this.allConcepts[index2].code.substr(0, 2);
+          product.concept = this.allConcepts[index2].concept;
+          newBill.deducible = false;
+          product.deducible = false;
+        }
+        // }
         newBill.products.push(product);
       });
     } else {
       product = {
-        code: jsonBill.Comprobante.Conceptos.Concepto._attributes.ClaveProdServ.toString().substr(0, 4),
+        code: jsonBill.Comprobante.Conceptos.Concepto._attributes.ClaveProdServ,
         concept: jsonBill.Comprobante.Conceptos.Concepto._attributes.Descripcion,
         product: jsonBill.Comprobante.Conceptos.Concepto._attributes.Descripcion,
         quantity: jsonBill.Comprobante.Conceptos.Concepto._attributes.Cantidad,
         price: jsonBill.Comprobante.Conceptos.Concepto._attributes.ValorUnitario,
         amount: jsonBill.Comprobante.Conceptos.Concepto._attributes.Importe
       };
+      // if (newBill.type === 'Egresos') {
+      const conceptCode = product.code.substr(0, 2);
+      const index = this.concepts.findIndex(concept => concept.code.substr(0, 2) === conceptCode);
+      if (index !== -1) {
+        product.code = this.concepts[index].code.substr(0, 2);
+        product.concept = this.concepts[index].concept;
+        product.deducible = true;
+      } else {
+        const index2 = this.allConcepts.findIndex(concept => concept.code.substr(0, 2) === conceptCode);
+        product.code = this.allConcepts[index2].code.substr(0, 2);
+        product.concept = this.allConcepts[index2].concept;
+        newBill.deducible = false;
+        product.deducible = false;
+      }
+      // }
       newBill.products.push(product);
     }
-    console.log(newBill);
+    // let code;
+    // newBill.products.forEach(producto => {
+    //   code  = producto.code.substr(0, 2);
+    //   const index = this.concepts.findIndex(concept => concept.code.substr(0, 2) === code);
+    //   if (index !== -1) {
+    //     producto.code = this.concepts[index].code.substr(0, 2);
+    //     producto.concept = this.concepts[index].concept;
+    //     producto.deducible = true;
+    //   } else {
+    //     const index2 = this.allConcepts.findIndex(concept => concept.code.substr(0, 2) === code);
+    //     producto.code = this.allConcepts[index2].code.substr(0, 2);
+    //     producto.concept = this.allConcepts[index2].concept;
+    //     newBill.deducible = false;
+    //     producto.deducible = false;
+    //   }
+    // });
+    // console.log(newBill);
     this.files.push(newBill);
   }
 

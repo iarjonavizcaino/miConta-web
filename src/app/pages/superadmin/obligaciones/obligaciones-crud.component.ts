@@ -83,9 +83,12 @@ export class ObligacionesCrudComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe((res) => {
       if (!res) { return; }
-      console.log(res);
       this.obligationProv.delete(this.obligationSelected._id).subscribe(data => {
         res = data.obligation;
+        if (data.code === 205) {
+          this.noti.error('Error', data.message);
+          return;
+        }
         this.noti.success('Acción exitosa', 'Obligación eliminada');
         this.action.next({ name: RtActionName.DELETE, itemId: this.obligationSelected._id });
         this.obligationSelected = null;

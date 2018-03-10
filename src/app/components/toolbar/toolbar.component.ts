@@ -31,7 +31,6 @@ export class ToolbarComponent {
       if (data) {
         // this.role = data.role._id;
         this.role = data.role.name;
-        console.log(this.role);
       }
     });
     this.role = JSON.parse(localStorage.getItem('user')).role.name;

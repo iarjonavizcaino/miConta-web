@@ -16,7 +16,33 @@
   <hr>
   <br>
 </ng-container>
-<div class="row">
+
+<div class="row" style="width: 100%; margin: 0 auto; display: flex; justify-content: center">
+  <div class="col-6 col-md-5">
+    <mat-card id="card1" class="example-card pointer  new-padding" (click)="filtrar('1')">
+      <div id="div1" class="dashboard-card-icon">
+        <i class="material-icons big-icon">people</i>
+      </div>
+      <div class="dashboard-card-text">
+        <h1 class="text-center big-font remove-margin-bottom">{{ office?.totalAccountant || 0 }}</h1>
+        <h6 class="text-center jessi-color">Total contadores</h6>
+      </div>
+    </mat-card>
+  </div>
+  <div class="col-6 col-md-5">
+    <mat-card id="card2" class="example-card pointer  new-padding" (click)="filtrar('2')">
+      <div id="div2" class="dashboard-card-icon">
+        <i class="material-icons big-icon">people</i>
+      </div>
+      <div class="dashboard-card-text">
+        <h1 class="text-center big-font remove-margin-bottom">{{ office?.totalTaxpayer || 0 }}</h1>
+        <h6 class="text-center jessi-color">Total contribuyentes</h6>
+      </div>
+    </mat-card>
+  </div>
+</div>
+
+<!-- <div class="row">
   <div class="col-6 col-md-4">
     <mat-card id="card1" class="example-card pointer  new-padding" (click)="filtrar('1')">
       <div id="div1" class="dashboard-card-icon">
@@ -97,7 +123,7 @@
       </div>
     </mat-card>
   </div>
-</div>
+</div> -->
 <br>
 <rt-datatable (selected)="onContadorSelected($event)" (checked)="onRowChecked($event)" [showRowNumber]="true" searchWait="600"
   [headers]="headers" [action]="action" [data]="data">

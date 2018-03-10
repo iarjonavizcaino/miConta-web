@@ -27,8 +27,8 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
     { name: 'Subtotal', prop: 'subtotal', default: '$ 0.00', align: 'right', accounting: true },
     { name: 'Tipo fact.', prop: 'captureMode', align: 'center', chip: true },
     { name: 'Fecha cobro', prop: 'cobrada_pagadaDate', default: '', align: 'center', moment: true },
-    { name: 'Cobrada', prop: 'cobrada_pagada', input: 'toggleFec' },
     { name: 'Público Gral', prop: 'general_public', default: false, align: 'center', input: 'toggleGeneralPublic' },
+    { name: 'Cobrada', prop: 'cobrada_pagada', input: 'toggleFec' },
   ];
   headersEgresos: Array<RtHeader> = [
     { name: 'Emisión', prop: 'createdDate', default: 'No date', moment: true },
@@ -74,6 +74,7 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
   roleUp = '';
   users = [];
   usersBackup = [];
+  allPeriods: boolean;
 
   // taxes
   ISR = {
@@ -93,6 +94,7 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
   sumEgresos = 0;
   egresosPagados = 0;
   egresosPorPagar = 0;
+  periodActive = true;
 
   // progress all year
   progressYear = 0;
@@ -110,7 +112,6 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
     this.sub = this.route
       .queryParams
       .subscribe(params => {
-        console.log('params', params);
         // tslint:disable-next-line:triple-equals
         if (params.name) {
           this.contribuyente = params.name;
@@ -124,15 +125,17 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
       });
 
     this.loadUsers();
-    this.loadBimesters();
 
     this.historicalProv.getActive(this.currentTaxpayer._id).subscribe(data => {
       this.currentPeriod = data;
       this.loadBills({ year: this.currentPeriod.exercise, bimester: this.currentPeriod.period.num });
       this.loadTaxes({ year: this.currentPeriod.exercise, bimester: this.currentPeriod.period.num });
       this.selectedYear = this.currentPeriod.exercise;
-      this.selectedBimester = this.bimesters[--this.currentPeriod.period.num];
+      this.loadBimesters();
+      const num = this.currentPeriod.period.num - 1;
+      this.selectedBimester = this.bimesters[num];
       this.currentBimester = this.selectedBimester.name + ' ' + this.selectedYear;
+      this.periodActive = !this.currentPeriod.period.active ? false : true;
     });
 
     // const bimesterNum = Math.trunc((new Date().getMonth() / 2) + 1);
@@ -171,10 +174,9 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
 
   onManualBillEgresos(ev: any) {
     this.stopPropagation(ev);
-    const dialogRef = this.manualBill(false);
+    const dialogRef = this.manualBill(null, false, 'Nueva factura');
     dialogRef.afterClosed().subscribe((newBill) => {
       if (!newBill) { return; }
-      console.log('new bill', newBill);
       newBill.taxpayer = this.currentTaxpayer._id;
       this.actionEgresos.next({ name: RtActionName.CREATE, newItem: newBill });
       this.billProv.create(newBill).subscribe((res) => {
@@ -188,10 +190,9 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
 
   onManualBillIngresos(ev: any) {
     this.stopPropagation(ev);
-    const dialogRef = this.manualBill(true);
+    const dialogRef = this.manualBill(null, true, 'Nueva factura');
     dialogRef.afterClosed().subscribe((newBill) => {
       if (!newBill) { return; }
-      console.log('new bill', newBill);
       newBill.taxpayer = this.currentTaxpayer._id;
       this.actionIngresos.next({ name: RtActionName.CREATE, newItem: newBill });
 
@@ -205,11 +206,13 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
     });
   }
 
-  private manualBill(type: boolean) {
+  private manualBill(bill: any, type: boolean, title: string) {
     return this.dialogCtrl.open(NewBillComponent, {
       disableClose: false,
       data: {
-        ingresos: type
+        bill: bill,
+        ingresos: type,
+        title: title
       }
     });
   }
@@ -251,11 +254,9 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
         }
       });
       dialogRef.afterClosed().subscribe(result => {
-        console.log(result);
         if (!result) { ev.item.cobrada_pagada = !ev.item.cobrada_pagada; return; }
         updateBill.cobrada_pagadaDate = result;
         updateBill.cobrada_pagada = true;
-        console.log(updateBill);
         this.update(updateBill._id, updateBill);  // without _id?
       });
     } else {
@@ -327,16 +328,38 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
   /********************************************************************************* */
   onViewBillIngresos(ev) {
     this.stopPropagation(ev);
-    const dialogRef = this.billModal(this.selectedIngresos, true, 'Datos de Factura');
-    dialogRef.afterClosed().subscribe(res => {
-      this.loadTaxes({ year: this.selectedYear, bimester: this.selectedBimester.num });
-      if (!res) { return; }
-    });
+    let dialogRef;
+    if (this.selectedIngresos.captureMode === 'Manual' && this.periodActive) {
+      dialogRef = this.manualBill(this.selectedIngresos, true, 'Detalle de Factura');
+      dialogRef.afterClosed().subscribe(res => {
+        if (!res) { return; }
+        this.update(this.selectedIngresos._id, res);
+      });
+    } else {
+      dialogRef = this.billModal(this.selectedIngresos, false, 'Detalle de Factura');
+      dialogRef.afterClosed().subscribe(res => {
+        this.loadTaxes({ year: this.selectedYear, bimester: this.selectedBimester.num });
+        if (!res) { return; }
+      });
+    }
   }
 
   onViewBillEgresos(ev: any) {
     this.stopPropagation(ev);
-    this.billModal(this.selectedEgresos, true, 'Datos de Factura');
+    let dialogRef;
+    if (this.selectedEgresos.captureMode === 'Manual' && this.periodActive) {
+      dialogRef = this.manualBill(this.selectedEgresos, false, 'Detalle de Factura');
+      dialogRef.afterClosed().subscribe(res => {
+        if (!res) { return; }
+        this.update(this.selectedEgresos._id, res);
+      });
+    } else {
+      dialogRef = this.billModal(this.selectedEgresos, false, 'Datos de Factura');
+      dialogRef.afterClosed().subscribe(res => {
+        this.loadTaxes({ year: this.selectedYear, bimester: this.selectedBimester.num });
+        if (!res) { return; }
+      });
+    }
   }
 
   billModal(bill: any, readonly: boolean, title: string) {
@@ -406,7 +429,6 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
     // tslint:disable-next-line:no-shadowed-variable
     dialogRef.afterClosed().subscribe(res => {
       if (!res) { return; }
-      console.log(res);
     }, err => {
       console.log(err);
     });
@@ -432,7 +454,6 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
         // tslint:disable-next-line:no-shadowed-variable
         dialogRef.afterClosed().subscribe(res => {
           if (!res) { return; }
-          console.log(res);
         });
       }, err => {
         console.log(err);
@@ -533,21 +554,30 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
 
     // dialogRef2.afterClosed().subscribe((res) => {
     //   if (!res) { return; }
-    //   const taxes = {
-    //     taxes: {
-    //       isr: this.ISR.isrNetoAPagar,
-    //       esta no iva: this.IVA.ivaCargo !== 0 ? this.IVA.ivaCargo : this.IVA.ivaFavor
-    //      iva: this.IVA.ivaCargo
-    //     }
-    //   };
 
-    //   this.historicalProv.closePeriod(taxes, this.currentPeriod._id).subscribe(data => {
-    //     console.log(data);
-    //     this.currentBimester = this.bimesters[this.selectedBimester.num].name + ' ' + this.selectedYear;
-    //     this.loadBills({ year: this.selectedYear, bimester: ++this.selectedBimester.num });
-    //     this.loadTaxes({ year: this.selectedYear, bimester: ++this.selectedBimester.num });
+    // formato del objeto que recibe la api al cerrar el periodo
+    // const data = {
+    //   debtSAT: res.debtSAT,
+    //   earnings: // ganancias periodo
+    //   expenses: //gastos periodo
+    //   taxes: {
+    //     isr: this.ISR.isrNetoAPagar,
+    //     // esta no iva: this.IVA.ivaCargo !== 0 ? this.IVA.ivaCargo : this.IVA.ivaFavor
+    //    iva: this.IVA.ivaCargo
+    //   }
+    // };
 
-    //   });
+    // this.historicalProv.closePeriod(data, this.currentPeriod._id).subscribe(data => {
+    //   this.currentPeriod = data.historical;
+    //   this.selectedBimester.name = this.currentPeriod.period.name;
+    //   this.selectedBimester.num = this.currentPeriod.period.num;
+    //   this.bimesters.push(this.selectedBimester);
+    //   this.currentBimester = this.bimesters[this.selectedBimester.num].name + ' ' + this.selectedYear;
+    //   this.periodActive = !this.currentPeriod.period.active ? false : true;
+    //   this.loadBills({ year: this.selectedYear, bimester: ++this.selectedBimester.num });
+    //   this.loadTaxes({ year: this.selectedYear, bimester: ++this.selectedBimester.num });
+
+    // });
     // });
   } // closePeriod
 
@@ -556,6 +586,7 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
     for (let i = 2014; i <= year; i++) {
       this.years.push(i);
     }
+
     this.bimesters = [
       {
         name: 'ENE-FEB',
@@ -582,9 +613,58 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
         num: 6
       }
     ];
+    if (this.selectedYear === this.currentPeriod.exercise) {
+      this.allPeriods = false;
+      const index = this.bimesters.findIndex(bimester => bimester.num === this.currentPeriod.period.num);
+      this.bimesters.splice(index + 1);
+    } else {
+      this.allPeriods = true;
+      this.bimesters = [
+        {
+          name: 'ENE-FEB',
+          num: 1
+        },
+        {
+          name: 'MAR-ABR',
+          num: 2
+        },
+        {
+          name: 'MAY-JUN',
+          num: 3
+        },
+        {
+          name: 'JUL-AGO',
+          num: 4
+        },
+        {
+          name: 'SEPT-OCT',
+          num: 5
+        },
+        {
+          name: 'NOV-DIC',
+          num: 6
+        }
+      ];
+    }
   }
 
   getBimesterInfo(ev: any) {
+    this.loadBimesters();
+    if (!this.allPeriods) {
+      if (this.currentPeriod.period.num < this.selectedBimester.num) {
+        this.selectedBimester = this.bimesters[this.currentPeriod.period.num - 1];
+      } else {
+        this.selectedBimester = this.bimesters[this.selectedBimester.num - 1];
+      }
+    } else {
+      this.selectedBimester = this.bimesters[this.selectedBimester.num - 1];
+    }
+    if (this.selectedBimester.num !== this.currentPeriod.period.num ||
+      this.selectedYear !== this.currentPeriod.exercise) {
+      this.periodActive = false;
+    } else {
+      this.periodActive = !this.currentPeriod.period.active ? false : true;
+    }
     this.currentBimester = this.selectedBimester.name + ' ' + this.selectedYear;
     this.loadBills({ year: this.selectedYear, bimester: this.selectedBimester.num });
 

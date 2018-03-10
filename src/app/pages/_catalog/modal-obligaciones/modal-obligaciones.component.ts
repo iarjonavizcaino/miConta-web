@@ -29,7 +29,6 @@ export class ModalObligacionesComponent implements OnInit {
   ngOnInit() {
     this.title = this.data.title || 'Título del modal';
     this.readonly = this.data.readonly;
-    console.log(this.data);
     if (this.data.obligation) {  // data: info from table
       this.obligation = this.data.obligation;
     } else {

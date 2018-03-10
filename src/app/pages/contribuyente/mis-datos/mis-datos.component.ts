@@ -90,7 +90,6 @@ export class MisDatosComponent implements OnInit {
   updateTaxpayer() {
     this.taxpayer.address.state = this.currentState;
     this.taxpayerProv.update(this.taxpayer).subscribe(data => {
-      console.log(data.taxpayer);
       this.notification.success('Acción exitosa', 'Los datos se actualizaron correctamente');
     }, err => {
       this.notification.error('Error', 'Ocurrió un error al actualizar los datos');

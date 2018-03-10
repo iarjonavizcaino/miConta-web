@@ -68,7 +68,6 @@ export class ModalCierreBimestreComponent implements OnInit {
   }
 
   onChange(ev: any) {
-    console.log(ev);
     this.doMath();
   }
 
