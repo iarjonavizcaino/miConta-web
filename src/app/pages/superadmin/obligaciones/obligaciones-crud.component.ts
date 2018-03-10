@@ -83,7 +83,6 @@ export class ObligacionesCrudComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe((res) => {
       if (!res) { return; }
-      console.log(res);
       this.obligationProv.delete(this.obligationSelected._id).subscribe(data => {
         res = data.obligation;
         if (data.code === 205) {

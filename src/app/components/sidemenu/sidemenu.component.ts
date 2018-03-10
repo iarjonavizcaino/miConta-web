@@ -25,7 +25,6 @@ export class SidemenuComponent implements OnInit {
     this.user$ = this.session.user;
     this.user$.subscribe(data => {
       if (data) {
-        console.log('data', data);
         switch (data.role._id) {
           case '5a728f4bb15f741695e35c96': // contribuyente
             this.permission = {
@@ -36,7 +35,6 @@ export class SidemenuComponent implements OnInit {
             };
             break;
           case '5a728f50b15f741695e35c97': // contador
-            console.log('contador');
             this.permission = {
               contribuyente: false,
               contador: true,

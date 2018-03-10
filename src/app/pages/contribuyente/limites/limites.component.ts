@@ -43,10 +43,8 @@ export class LimitesComponent implements OnInit, OnDestroy {
   }
 
   private getLimits(_id: string, concepts: any) {
-    console.log(concepts);
-    this.conceptProv.getByTaxpayer(this.user._id, { 'concepts': concepts }).subscribe(res => {
+    this.conceptProv.getByTaxpayer(_id, { 'concepts': concepts }).subscribe(res => {
       this.limits = res.data;
-      console.log('response limits', res);
     }, err => {
       console.log(err);
     });

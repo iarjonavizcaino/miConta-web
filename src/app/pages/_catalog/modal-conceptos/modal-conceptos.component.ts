@@ -28,7 +28,6 @@ export class ModalConceptosComponent implements OnInit {
   ngOnInit() {
     this.title = this.data.title || 'Título del modal';
     this.readonly = this.data.readonly;
-    console.log(this.data);
     if (this.data.concept) {  // data: info from table
       this.concept = this.data.concept;
     } else {

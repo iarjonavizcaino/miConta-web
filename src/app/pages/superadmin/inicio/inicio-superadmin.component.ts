@@ -143,7 +143,6 @@ export class InicioSuperadminComponent implements OnInit {
 
   onDespachoSelected(ev: any) {
     this.despachoSelected = ev.data;
-    console.log(this.despachoSelected);
   }
 
   filtrar(card: string) {
@@ -153,7 +152,6 @@ export class InicioSuperadminComponent implements OnInit {
 
   activateMicroRif(ev: any) {
     // this.stopPropagation(ev);
-    console.log(ev.item);
     const dialogRef = this.dialogCtrl.open(ConfirmComponent, {
       disableClose: false,
       data: {
@@ -166,7 +164,6 @@ export class InicioSuperadminComponent implements OnInit {
     dialogRef.afterClosed().subscribe(res => {
       if (!res) { ev.item.microRif = !ev.item.microRif; return; }
       this.officeProv.updateMicroRif(ev.item._id).subscribe(data => {
-        console.log(data);
         this.despachoSelected = data.office;
         ev.item = data.office;
         this.action.next({ name: RtActionName.UPDATE, itemId: this.despachoSelected._id, newItem: this.despachoSelected });

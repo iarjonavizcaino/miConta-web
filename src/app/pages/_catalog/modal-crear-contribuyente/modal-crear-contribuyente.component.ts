@@ -237,7 +237,6 @@ export class ModalCrearContribuyenteComponent implements OnInit {
   }
 
   displayFnProfile(profile: any): any {
-    // console.log(profile);
     // this.currentProfile = profile ? profile : profile;
     return profile ? profile.name : profile;
   }

@@ -39,7 +39,6 @@ export class NewItemProductComponent implements OnInit {
 
   ngOnInit() {
     if (!this.data) { return; }
-    console.log(this.data);
     if (this.data.ingresos) {
       // ingresos, see all
       this.conceptProv.getAll().subscribe(data => {

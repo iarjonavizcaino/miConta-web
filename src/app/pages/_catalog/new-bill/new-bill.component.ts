@@ -220,7 +220,6 @@ export class NewBillComponent implements OnInit {
   }
 
   matchRFC(ev: any) {
-    console.log('typing', this.bill.customer_provider.rfc);
     this.bill.customer_provider.rfc.toUpperCase();
     if (this.bill.customer_provider.rfc === 'XAXX010101000') {
       this.bill.general_public = true;
@@ -230,7 +229,6 @@ export class NewBillComponent implements OnInit {
   }
 
   private calc(newItem: any, add: boolean) {
-    console.log('calc', newItem);
     if (add) {
       this.bill.subtotal += parseFloat(newItem.amount);
       this.bill.taxes = this.bill.subtotal * this.bill.tasa;
@@ -243,7 +241,6 @@ export class NewBillComponent implements OnInit {
   }
 
   tasaToggle(ev: any) {
-    console.log(ev);
     if (ev.checked) {
       // IVA for 16%
       this.bill.tasa = _global.IVA;
@@ -256,7 +253,6 @@ export class NewBillComponent implements OnInit {
   }
 
   onChangeDate(ev: any) {
-    console.log(ev);
     this.bill.createdDate = ev.value;
   }
 

@@ -70,8 +70,6 @@ export class TaxpayerCatalogComponent implements OnInit {
     } else {
       this.checkedTaxpayers--;
     }
-    console.log(this.taxpayers);
-    console.log(this.checkedTaxpayers);
   }
 
   onCheckAll(ev) {
@@ -109,7 +107,6 @@ export class TaxpayerCatalogComponent implements OnInit {
       });
       // tslint:disable-next-line:no-shadowed-variable
       this.accountantProv.reasignTaxpayers(newTaxpayers, this.currentAccountant, data._id).subscribe(data => {
-        console.log('reasign', data.accountant.totalTaxpayers);
         newTaxpayers.forEach(taxpayer => {
           this.action.next({ name: RtActionName.DELETE, itemId: taxpayer });
         });

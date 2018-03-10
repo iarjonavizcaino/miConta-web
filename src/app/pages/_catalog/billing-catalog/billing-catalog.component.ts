@@ -74,7 +74,6 @@ export class BillingCatalogComponent implements OnInit {
     this.title = this.data.title || 'Título del modal';
     if (this.data) {  // data: info from table
       this.infoBill = this.data.bill;
-      console.log(this.infoBill);
       // formats
       if (this.infoBill.customer_provider.phone) {
         this.infoBill.customer_provider.phone = this.formatPhone(this.infoBill.customer_provider.phone);
@@ -83,7 +82,6 @@ export class BillingCatalogComponent implements OnInit {
     }
   }
   formatPhone(text: string) {
-    console.log(text);
     text = text.replace(/(\d{3})(\d{3})(\d{4})/, '$1-$2-$3');
     return text;
   }
@@ -94,7 +92,6 @@ export class BillingCatalogComponent implements OnInit {
 
   changeStatus(ev) {
     this.updatedDate = true;
-    console.log(ev);
     if (ev) {
       const dialogRef = this.dialogCtrl.open(ModalFechaComponent, {
         data: {
@@ -108,7 +105,6 @@ export class BillingCatalogComponent implements OnInit {
         if (!res) { this.infoBill.cobrada_pagada = !this.infoBill.cobrada_pagada; return; }
         this.infoBill.cobrada_pagadaDate = res;
         this.infoBill.cobrada_pagada = true;
-        console.log('holaaaa');
         // Make HTTP request to change date
         this.billProv.update(this.infoBill._id, this.infoBill).subscribe((data) => {
           this.notify.success('Acción Exitosa', 'Factura actualizada correctamente');
@@ -132,7 +128,6 @@ export class BillingCatalogComponent implements OnInit {
   }
 
   onSave() {
-    console.log('Guardar');
     this.dialogRef.close({saved: true, bill: this.infoBill, updatedDate: this.updatedDate});
   }
 
