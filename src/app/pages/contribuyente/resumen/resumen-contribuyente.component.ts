@@ -534,51 +534,47 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
   }
 
   closePeriod() {
-    const dialogRef1 = this.dialogCtrl.open(ModalCierreBimestreComponent, {
+    console.log(this.currentTaxpayer);
+    const dialogRef = this.dialogCtrl.open(ModalCierreBimestreComponent, {
       disableClose: true,
       data: {
         ISR: this.ISR,
-        IVA: this.IVA
+        IVA: this.IVA,
+        debtSAT: this.currentTaxpayer.difference,
+        debtIVA: this.currentTaxpayer.ivaFavor,
+        periodName: this.currentPeriod.period.name
       }
     });
 
+    dialogRef.afterClosed().subscribe((res) => {
+      if (!res) { return; }
+      // formato del objeto que recibe la api al cerrar el periodo
+      const data = {
+        debtSAT: res.debtSAT,
+        debtIVA: res.debtIVA,
+        earnings: this.sumIngresos - this.sumEgresos, // ganancias periodo
+        expenses: this.sumEgresos, // gastos periodo
+        taxes: {
+          isr: this.ISR.isrNetoAPagar,
+          iva: this.IVA.ivaCargo
+        },
+        historico: res.historico
+      };
+      console.log(data);
+      this.historicalProv.closePeriod(data, this.currentPeriod._id).subscribe(response => {
+        console.log(res);
+        this.currentPeriod = response.historical;
+        this.selectedBimester.name = this.currentPeriod.period.name;
+        this.selectedBimester.num = this.currentPeriod.period.num;
+        this.bimesters.push(this.selectedBimester);
+        this.currentBimester = this.bimesters[this.bimesters.length - 1].name + ' ' + this.selectedYear;
+        // this.currentBimester = this.bimesters[this.selectedBimester.num].name + ' ' + this.selectedYear;
+        this.periodActive = !this.currentPeriod.period.active ? false : true;
+        this.loadBills({ year: this.selectedYear, bimester: ++this.selectedBimester.num });
+        this.loadTaxes({ year: this.selectedYear, bimester: ++this.selectedBimester.num });
 
-    // const dialogRef2 = this.dialogCtrl.open(ConfirmComponent, {
-    //   disableClose: true,
-    //   data: {
-    //     title: '¡ATENCIÓN!',
-    //     message: `¿Está seguro que desea cerrar el periodo ${this.currentPeriod.period.name}?`,
-    //     type: 'danger'
-    //   }
-    // });
-
-    // dialogRef2.afterClosed().subscribe((res) => {
-    //   if (!res) { return; }
-
-    // formato del objeto que recibe la api al cerrar el periodo
-    // const data = {
-    //   debtSAT: res.debtSAT,
-    //   earnings: // ganancias periodo
-    //   expenses: //gastos periodo
-    //   taxes: {
-    //     isr: this.ISR.isrNetoAPagar,
-    //     // esta no iva: this.IVA.ivaCargo !== 0 ? this.IVA.ivaCargo : this.IVA.ivaFavor
-    //    iva: this.IVA.ivaCargo
-    //   }
-    // };
-
-    // this.historicalProv.closePeriod(data, this.currentPeriod._id).subscribe(data => {
-    //   this.currentPeriod = data.historical;
-    //   this.selectedBimester.name = this.currentPeriod.period.name;
-    //   this.selectedBimester.num = this.currentPeriod.period.num;
-    //   this.bimesters.push(this.selectedBimester);
-    //   this.currentBimester = this.bimesters[this.selectedBimester.num].name + ' ' + this.selectedYear;
-    //   this.periodActive = !this.currentPeriod.period.active ? false : true;
-    //   this.loadBills({ year: this.selectedYear, bimester: ++this.selectedBimester.num });
-    //   this.loadTaxes({ year: this.selectedYear, bimester: ++this.selectedBimester.num });
-
-    // });
-    // });
+      });
+    });
   } // closePeriod
 
   loadBimesters() {
