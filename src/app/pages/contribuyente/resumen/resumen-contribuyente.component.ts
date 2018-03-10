@@ -554,24 +554,30 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
 
     // dialogRef2.afterClosed().subscribe((res) => {
     //   if (!res) { return; }
-      // const taxes = {
-      //   taxes: {
-      //     isr: this.ISR.isrNetoAPagar,
-      //     esta no iva: this.IVA.ivaCargo !== 0 ? this.IVA.ivaCargo : this.IVA.ivaFavor
-      //    iva: this.IVA.ivaCargo
-      //   }
-      // };
 
-      // this.historicalProv.closePeriod(taxes, this.currentPeriod._id).subscribe(data => {
-      //   this.currentPeriod = data.historical;
-      //   this.selectedBimester.name = this.currentPeriod.period.name;
-      //   this.selectedBimester.num = this.currentPeriod.period.num;
-      //   this.bimesters.push(this.selectedBimester);
-      //   this.currentBimester = this.bimesters[this.selectedBimester.num].name + ' ' + this.selectedYear;
-      //   this.loadBills({ year: this.selectedYear, bimester: ++this.selectedBimester.num });
-      //   this.loadTaxes({ year: this.selectedYear, bimester: ++this.selectedBimester.num });
+    // formato del objeto que recibe la api al cerrar el periodo
+    // const data = {
+    //   debtSAT: res.debtSAT,
+    //   earnings: // ganancias periodo
+    //   expenses: //gastos periodo
+    //   taxes: {
+    //     isr: this.ISR.isrNetoAPagar,
+    //     // esta no iva: this.IVA.ivaCargo !== 0 ? this.IVA.ivaCargo : this.IVA.ivaFavor
+    //    iva: this.IVA.ivaCargo
+    //   }
+    // };
 
-      // });
+    // this.historicalProv.closePeriod(data, this.currentPeriod._id).subscribe(data => {
+    //   this.currentPeriod = data.historical;
+    //   this.selectedBimester.name = this.currentPeriod.period.name;
+    //   this.selectedBimester.num = this.currentPeriod.period.num;
+    //   this.bimesters.push(this.selectedBimester);
+    //   this.currentBimester = this.bimesters[this.selectedBimester.num].name + ' ' + this.selectedYear;
+    //   this.periodActive = !this.currentPeriod.period.active ? false : true;
+    //   this.loadBills({ year: this.selectedYear, bimester: ++this.selectedBimester.num });
+    //   this.loadTaxes({ year: this.selectedYear, bimester: ++this.selectedBimester.num });
+
+    // });
     // });
   } // closePeriod
 
@@ -580,7 +586,7 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
     for (let i = 2014; i <= year; i++) {
       this.years.push(i);
     }
-    const currentBim = Math.trunc((new Date().getMonth() / 2) + 1);
+
     this.bimesters = [
       {
         name: 'ENE-FEB',
@@ -609,7 +615,7 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
     ];
     if (this.selectedYear === this.currentPeriod.exercise) {
       this.allPeriods = false;
-      const index = this.bimesters.findIndex(bimester => bimester.num === currentBim);
+      const index = this.bimesters.findIndex(bimester => bimester.num === this.currentPeriod.period.num);
       this.bimesters.splice(index + 1);
     } else {
       this.allPeriods = true;
