@@ -220,7 +220,7 @@ export class InicioContadorComponent implements OnInit, OnDestroy {
   }
 
   private setBgCard(card: string) {
-    const numCards = 4;
+    const numCards = 1;
     for (let i = 1; i <= numCards; i++) {
       document.getElementById('card' + i).style.background = '#F5F5F5';
       document.getElementById('div' + i).style.background = '#E0E0E0';

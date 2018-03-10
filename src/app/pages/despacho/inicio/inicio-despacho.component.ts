@@ -272,7 +272,7 @@ export class InicioDespachoComponent implements OnInit, OnDestroy {
     this.setBgCard(card);
   }
   private setBgCard(card: string) {
-    const numCards = 7;
+    const numCards = 2;
     for (let i = 1; i <= numCards; i++) {
       document.getElementById('card' + i).style.background = '#F5F5F5';
       document.getElementById('div' + i).style.background = '#E0E0E0';

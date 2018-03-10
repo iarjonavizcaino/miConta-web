@@ -19,8 +19,20 @@
   <hr>
   <br>
 </ng-container>
-
 <div class="row">
+  <div class="col-8 col-md-5" style="width: 100%; margin: 0 auto;">
+    <mat-card id="card1" class="example-card pointer  new-padding" (click)="filtrar('1')">
+      <div id="div1" class="dashboard-card-icon">
+        <i class="material-icons big-icon">people</i>
+      </div>
+      <div class="dashboard-card-text">
+        <h1 class="text-center big-font remove-margin-bottom">{{ accountant?.totalTaxpayer || 0 }}</h1>
+        <h6 class="text-center jessi-color">Total contrib.</h6>
+      </div>
+    </mat-card>
+  </div>
+</div>
+<!-- <div class="row">
   <div class="col-6 col-md-3">
     <mat-card id="card1" class="example-card pointer  new-padding" (click)="filtrar('1')">
       <div id="div1" class="dashboard-card-icon">
@@ -65,7 +77,7 @@
       </div>
     </mat-card>
   </div>
-</div>
+</div> -->
 <br>
 <rt-datatable (selected)="onTaxpayerSelected($event)" [showRowNumber]="true" searchWait="600" [headers]="headers" [action]="action"
   [data]="data">
