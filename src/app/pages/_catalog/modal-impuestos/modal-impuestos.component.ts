@@ -72,17 +72,17 @@ export class ModalImpuestosComponent implements OnInit {
       {
         concept: this.data.tax.utilidad >= 0 ? 'UTILIDAD' : 'PÉRDIDA FISCAL',
         amount: this.data.tax.utilidad.toFixed(2),
-        red: true
+        red: false
       },
       {
         concept: 'Diferencia de gastos mayores a ingresos de periodos anteriores',
         amount: this.data.tax.diferenciaGastosMayores.toFixed(2),
-        red: false
+        red: true
       },
       {
         concept: 'BASE GRAVABLE',
         amount: this.data.tax.baseGravable.toFixed(2),
-        red: true
+        red: false
       },
       {
         concept: 'ISR A PAGAR',
