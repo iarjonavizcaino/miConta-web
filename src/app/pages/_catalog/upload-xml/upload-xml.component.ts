@@ -135,7 +135,7 @@ export class UploadXmlComponent implements OnInit {
         method: paymentMethod,
       },
       general_public: jsonBill.Comprobante.Receptor._attributes.Rfc === 'XAXX010101000' ? true : false,
-      captureMode: 'XML',
+      captureMode: 'X',
       tasa: jsonBill.Comprobante.Impuestos.Traslados.Traslado._attributes.TasaOCuota,
       taxes: jsonBill.Comprobante.Impuestos._attributes.TotalImpuestosTrasladados,
       retenciones: jsonBill.Comprobante.Impuestos._attributes.TotalImpuestosRetenidos,

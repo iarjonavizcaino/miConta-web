@@ -89,7 +89,7 @@ export class NewBillComponent implements OnInit {
         createdDate: new Date(),  // date when this bill was created
         cobrada_pagada: false,  // toggle button
         cobrada_pagadaDate: '', // date when taxpayer mark as cobrada(ingresos) or pagada(egresos)
-        captureMode: 'Manual',  // Manual, XML, Automática
+        captureMode: 'M',  // Manual, XML, Automática
         deducible: true,
         general_public: false,
         payMethod: {},
