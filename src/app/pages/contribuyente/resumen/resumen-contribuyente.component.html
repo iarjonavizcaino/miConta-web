@@ -75,7 +75,7 @@
           <div class="col-8 text-right">
             <h3 class="float-right font-normal">
               <span>
-                  <!-- *ngIf="IVA.ivaCargo !== 0" -->
+                <!-- *ngIf="IVA.ivaCargo !== 0" -->
                 {{IVA.ivaCargo | currency:'USD':'symbol':'2.2-4'}}
               </span>
               <button mat-icon-button (click)="onIVA($event)">
@@ -148,17 +148,26 @@
           <mat-panel-title>
             <mat-icon class="home-icon">assignment_returned</mat-icon>
             <h3 class="panel-expandable-title">Mis Ingresos</h3>
-            <mat-chip class="chip" color="primary" selected="true"><strong>Sin IVA</strong></mat-chip>
+            <mat-chip class="chip" color="primary" selected="true">
+              <strong>Sin IVA</strong>
+            </mat-chip>
           </mat-panel-title>
           <mat-panel-description>
             <h5>
-              <span>Total: </span> {{ sumIngresos | currency:'USD':'symbol':'2.2-4'}}</h5>
+              <span>Subtotal: </span> {{ sumIngresos | currency:'USD':'symbol':'2.2-4'}}</h5>
             <h5>
               <span>Cobrados:</span> {{ ingresosCobrados | currency:'USD':'symbol':'2.2-4'}}</h5>
             <h5>
               <span>Por cobrar: </span> {{ ingresosPorCobrar | currency:'USD':'symbol':'2.2-4'}}</h5>
           </mat-panel-description>
         </mat-expansion-panel-header>
+        <div class="row">
+          <div class="col-8"></div>
+          <div class="col-3">
+            <label>
+              <strong>Subtotal tasa(16%):</strong> {{ingresosIVA16 | currency:'USD':'symbol':'2.2-4'}}</label>
+          </div>
+        </div>
         <rt-datatable (selected)="onIngresosSelected($event)" (checked)="onIngresosChecked($event)" (toggleFec)="onToggleFec($event)"
           searchWait="600" [showRowNumber]="false" [headers]="headersIngresos" [action]="actionIngresos" [data]="dataIngresos"
           (toggleGeneralPublic)="changeToGeneralPublic($event)">
@@ -198,19 +207,28 @@
       <mat-expansion-panel>
         <mat-expansion-panel-header style="padding-top:5px; padding-bottom: 5px">
           <mat-panel-title>
-            <mat-icon style ="margin-top: 7px" class="home-icon">assignment_return</mat-icon>
+            <mat-icon style="margin-top: 7px" class="home-icon">assignment_return</mat-icon>
             <h3 class="panel-expandable-title">Mis Egresos</h3>
-            <mat-chip class="chip" style="margin-left: 20px" color="primary" selected="true"><strong>Sin IVA</strong></mat-chip>
+            <mat-chip class="chip" style="margin-left: 20px" color="primary" selected="true">
+              <strong>Sin IVA</strong>
+            </mat-chip>
           </mat-panel-title>
           <mat-panel-description>
             <h5>
-              <span>Total: </span> {{sumEgresos | currency:'USD':'symbol':'2.2-4'}}</h5>
+              <span>Subtotal: </span> {{sumEgresos | currency:'USD':'symbol':'2.2-4'}}</h5>
             <h5>
               <span>Pagados: </span> {{ egresosPagados | currency:'USD':'symbol':'2.2-4'}}</h5>
             <h5>
               <span>Por pagar: </span> {{ egresosPorPagar | currency:'USD':'symbol':'2.2-4'}}</h5>
           </mat-panel-description>
         </mat-expansion-panel-header>
+        <div class="row">
+          <div class="col-8"></div>
+          <div class="col-3">
+            <label>
+              <strong>Subtotal tasa(16%):</strong> {{egresosIVA16 | currency:'USD':'symbol':'2.2-4'}}</label>
+          </div>
+        </div>
         <rt-datatable (selected)="onEgresosSelected($event)" (checked)="onEgresosChecked($event)" (toggleDeducible)="toggleDeducible($event)"
           (toggleFec)="onToggleFec($event)" searchWait="600" [showRowNumber]="false" [headers]="headersEgresos" [action]="actionEgresos"
           [data]="dataEgresos">

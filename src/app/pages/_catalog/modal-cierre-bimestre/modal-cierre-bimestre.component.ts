@@ -26,6 +26,7 @@ export class ModalCierreBimestreComponent implements OnInit {
       subtotal: 0
     },
     totalTaxes: 0,
+    accesories: 0, // surcharges + updates
     debtSAT: 0,
     debtIVA: 0
   };
@@ -75,6 +76,8 @@ export class ModalCierreBimestreComponent implements OnInit {
     this.accountantSaid.ISR.subtotal = this.accountantSaid.ISR.surcharges + this.accountantSaid.ISR.updates + this.accountantSaid.ISR.amount;
     // tslint:disable-next-line:max-line-length
     this.accountantSaid.IVA.subtotal = this.accountantSaid.IVA.surcharges + this.accountantSaid.IVA.updates + this.accountantSaid.IVA.amount;
+    // tslint:disable-next-line:max-line-length
+    this.accountantSaid.accesories = this.accountantSaid.ISR.surcharges + this.accountantSaid.ISR.updates + this.accountantSaid.IVA.surcharges + this.accountantSaid.IVA.updates;
     this.accountantSaid.totalTaxes = this.accountantSaid.ISR.amount + this.accountantSaid.IVA.amount;
   }
 

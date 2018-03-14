@@ -23,7 +23,6 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
   headersIngresos: Array<RtHeader> = [
     { name: 'Emisión', prop: 'createdDate', default: 'No date', moment: true },  // from xml file
     { name: 'Cliente', prop: 'customer_provider.name', default: 'No customer', width: '20' },
-    // { name: 'RFC', prop: 'customer.rfc', default: 'XXXX-XXX-XXXX' },
     { name: 'Subtotal', prop: 'subtotal', default: '$ 0.00', align: 'right', accounting: true },
     { name: 'Tipo fact.', prop: 'captureMode', align: 'center', chip: true },
     { name: 'Fecha cobro', prop: 'cobrada_pagadaDate', default: '', align: 'center', moment: true },
@@ -32,10 +31,9 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
   ];
   headersEgresos: Array<RtHeader> = [
     { name: 'Emisión', prop: 'createdDate', default: 'No date', moment: true },
-    // { name: 'Estado', prop: 'status', default: 'Pendiente', chip: true },
     { name: 'Proveedor', prop: 'customer_provider.name', default: 'No customer', width: '20' },
-    // { name: 'RFC', prop: 'customer.rfc', default: 'XXXX-XXX-XXXX' },
-    { name: 'Total', prop: 'total', default: '$ 0.00', align: 'right', accounting: true },
+    { name: 'Subtotal', prop: 'subtotal', default: '$ 0.00', align: 'right', accounting: true },
+    // { name: 'Total', prop: 'total', default: '$ 0.00', align: 'right', accounting: true },
     { name: 'Tipo fact.', prop: 'captureMode', default: '', align: 'center', chip: true },
     { name: 'Fecha pago', prop: 'cobrada_pagadaDate', default: '', align: 'center', moment: true },
     { name: 'Pagada', prop: 'cobrada_pagada', input: 'toggleFec' },
@@ -78,7 +76,8 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
 
   // taxes
   ISR = {
-    isrNetoAPagar: 0
+    isrNetoAPagar: 0,
+    debtSAT: 0
   };
   IVA = {
     ivaCargo: 0,
@@ -90,10 +89,12 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
   sumIngresos = 0;
   ingresosCobrados = 0;
   ingresosPorCobrar = 0;
+  ingresosIVA16 = 0;
 
   sumEgresos = 0;
   egresosPagados = 0;
   egresosPorPagar = 0;
+  egresosIVA16 = 0;
   periodActive = true;
 
   // progress all year
@@ -499,6 +500,8 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
       // total
       this.sumIngresos = bills.sumIngresos;
       this.sumEgresos = bills.sumEgresos;
+      this.ingresosIVA16 = bills.ingresosIVA16;
+      this.egresosIVA16 = bills.egresosIVA16;
 
       // ingresos cobrados y por cobrar
       this.ingresosCobrados = bills.ingresosCobrados;
@@ -540,7 +543,7 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
       data: {
         ISR: this.ISR,
         IVA: this.IVA,
-        debtSAT: this.currentTaxpayer.difference,
+        debtSAT: this.ISR.debtSAT,
         debtIVA: this.currentTaxpayer.ivaFavor,
         periodName: this.currentPeriod.period.name
       }
