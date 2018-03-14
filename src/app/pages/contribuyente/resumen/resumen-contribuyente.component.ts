@@ -99,6 +99,11 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
 
   // progress all year
   progressYear = 0;
+
+  buttonPeriod: any = {
+    text: 'Cerrar Bimestre',
+    color: 'warn'
+  };
   constructor(
     private taxProv: TaxesProvider,
     private billProv: BillProvider,
@@ -330,7 +335,7 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
   onViewBillIngresos(ev) {
     this.stopPropagation(ev);
     let dialogRef;
-    if (this.selectedIngresos.captureMode === 'Manual' && this.periodActive) {
+    if (this.selectedIngresos.captureMode === 'M' && this.periodActive) {
       dialogRef = this.manualBill(this.selectedIngresos, true, 'Detalle de Factura');
       dialogRef.afterClosed().subscribe(res => {
         if (!res) { return; }
@@ -348,7 +353,7 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
   onViewBillEgresos(ev: any) {
     this.stopPropagation(ev);
     let dialogRef;
-    if (this.selectedEgresos.captureMode === 'Manual' && this.periodActive) {
+    if (this.selectedEgresos.captureMode === 'M' && this.periodActive) {
       dialogRef = this.manualBill(this.selectedEgresos, false, 'Detalle de Factura');
       dialogRef.afterClosed().subscribe(res => {
         if (!res) { return; }
@@ -665,9 +670,20 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
       this.periodActive = !this.currentPeriod.period.active ? false : true;
     }
     this.currentBimester = this.selectedBimester.name + ' ' + this.selectedYear;
-    this.loadBills({ year: this.selectedYear, bimester: this.selectedBimester.num });
+    console.log(this.periodActive);
+    if (this.periodActive) {  // active period
+      this.loadBills({ year: this.selectedYear, bimester: this.selectedBimester.num });
+      this.loadTaxes({ year: this.selectedYear, bimester: this.selectedBimester.num });
+    } else {
+      this.loadBills({ year: this.selectedYear, bimester: this.selectedBimester.num });
+      this.loadTaxes({ year: this.selectedYear, bimester: this.selectedBimester.num });
 
-    this.loadTaxes({ year: this.selectedYear, bimester: this.selectedBimester.num });
+      this.buttonPeriod.text = 'Consultar Bimestre';
+      this.buttonPeriod.color = 'primary';
+      // past period: get data from historical
+      // make request to historical and get info: ISR, IVA, bills, etc
+      // use loadBill & loadTaxes, and someway modify to do not get bills in wrong period
+    }
   }
 
   private loadTaxes(filter: any) {
