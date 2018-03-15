@@ -63,7 +63,8 @@ import {
   ActivityProvider,
   PayMethodProvider,
   TaxesProvider,
-  HistoricalProvider
+  HistoricalProvider,
+  BitacoraProvider
 } from './providers/providers';
 
 // Pages
@@ -131,6 +132,7 @@ import { NewItemProductComponent } from './pages/_catalog/new-item-product/new-i
 import { ModalFechaComponent } from './pages/_catalog/modal-fecha/modal-fecha.component';
 import { ModalImpuestosComponent } from './pages/_catalog/modal-impuestos/modal-impuestos.component';
 import { ModalCierreBimestreComponent } from './pages/_catalog/modal-cierre-bimestre/modal-cierre-bimestre.component';
+import { ModalBitacoraComponent } from './pages/_catalog/modal-bitacora/modal-bitacora.component';
 
 
 // all routes pages
@@ -225,7 +227,8 @@ const routes: Routes = [
     NewItemProductComponent,
     ModalFechaComponent,
     ModalImpuestosComponent,
-    ModalCierreBimestreComponent
+    ModalCierreBimestreComponent,
+    ModalBitacoraComponent
   ],
   declarations: [
     AppComponent,
@@ -278,6 +281,7 @@ const routes: Routes = [
     ModalFechaComponent,
     ModalImpuestosComponent,
     ModalCierreBimestreComponent,
+    ModalBitacoraComponent,
   ],
   imports: [
     BrowserModule,
@@ -329,6 +333,7 @@ const routes: Routes = [
     PayMethodProvider,
     TaxesProvider,
     HistoricalProvider,
+    BitacoraProvider,
     //  Services
     RoleGuard,
     AuthGuard,
