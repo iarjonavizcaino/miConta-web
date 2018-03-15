@@ -7,6 +7,7 @@ import { SessionService } from './services/session.serv';
 import { trigger, transition, style, animate } from '@angular/animations';
 import * as moment from 'moment';
 import { AuthService } from './services/services';
+import { _roles } from '../app/services/global';
 
 @Component({
   selector: 'app-root',
@@ -41,7 +42,7 @@ export class AppComponent implements OnInit {
   constructor(
     public auth: AuthService,
     private router: Router,
-    private session: SessionService) {}
+    private session: SessionService) { }
 
   @HostListener('window:resize', ['$event'])
   onResize(event) {
@@ -82,6 +83,24 @@ export class AppComponent implements OnInit {
   private _checkSession() {
     if (!this.auth.checkSession()) {
       this.router.navigate(['/login']);
+    } else {
+      switch (JSON.parse(localStorage.getItem('user')).role._id) {
+        case _roles.accountant_prod:
+          this.router.navigate(['/contador/inicio']);
+          break;
+
+        case _roles.taxpayer_prod:
+          this.router.navigate(['/contribuyente/inicio']);
+          break;
+
+        case _roles.offices_prod:
+          this.router.navigate(['/despacho/inicio']);
+          break;
+
+        case _roles.superadmin_prod:
+          this.router.navigate(['/superadmin/inicio']);
+          break;
+      }
     }
   }
 }// class
