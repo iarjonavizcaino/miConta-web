@@ -557,6 +557,21 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
     dialogRef.afterClosed().subscribe((res) => {
       if (!res) { return; }
       // formato del objeto que recibe la api al cerrar el periodo
+      const earningns = [];
+      const expenses = [];
+
+      this.dataIngresos.forEach(ingreso => {
+        if (ingreso.cobrada_pagada) {
+          earningns.push(ingreso);
+        }
+      });
+
+      this.dataEgresos.forEach(ingreso => {
+        if (ingreso.cobrada_pagada) {
+          expenses.push(ingreso);
+        }
+      });
+
       const data = {
         debtSAT: res.debtSAT,
         debtIVA: res.debtIVA,
@@ -566,20 +581,34 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
           isr: this.ISR.isrNetoAPagar,
           iva: this.IVA.ivaCargo
         },
-        historico: res.historico
+        historico: res.historico,
+        bills: {
+          earnings: earningns,
+          expenses: expenses
+        }
       };
-      console.log(data);
+      console.log('dataaa', data);
       this.historicalProv.closePeriod(data, this.currentPeriod._id).subscribe(response => {
-        console.log(res);
         this.currentPeriod = response.historical;
-        this.selectedBimester.name = this.currentPeriod.period.name;
-        this.selectedBimester.num = this.currentPeriod.period.num;
-        this.bimesters.push(this.selectedBimester);
+        console.log('currentPeriod', this.currentPeriod);
+        console.log('array', this.bimesters);
+        // this.selectedBimester.name = this.currentPeriod.period.name;
+        // this.selectedBimester.num = this.currentPeriod.period.num;
+        console.log('selectedBim', this.selectedBimester);
+        const currentBim = Math.trunc((new Date().getMonth() / 2) + 1);
+        console.log(currentBim !== this.currentPeriod.period.num);
+        if (currentBim !== this.currentPeriod.period.num) {
+          console.log('holaaa');
+          const bim = {name: this.currentPeriod.period.name, num: this.currentPeriod.period.num};
+          this.bimesters.push(bim);
+        }
+        this.selectedBimester = this.bimesters[this.bimesters.length - 1];
         this.currentBimester = this.bimesters[this.bimesters.length - 1].name + ' ' + this.selectedYear;
+        console.log('bimesters', this.bimesters);
         // this.currentBimester = this.bimesters[this.selectedBimester.num].name + ' ' + this.selectedYear;
         this.periodActive = !this.currentPeriod.period.active ? false : true;
-        this.loadBills({ year: this.selectedYear, bimester: ++this.selectedBimester.num });
-        this.loadTaxes({ year: this.selectedYear, bimester: ++this.selectedBimester.num });
+        this.loadBills({ year: this.selectedYear, bimester: this.selectedBimester.num + 1 });
+        this.loadTaxes({ year: this.selectedYear, bimester: this.selectedBimester.num + 1 });
 
       });
     });
@@ -590,6 +619,7 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
     for (let i = 2014; i <= year; i++) {
       this.years.push(i);
     }
+    const currentBim = Math.trunc((new Date().getMonth() / 2) + 1);
 
     this.bimesters = [
       {
@@ -619,7 +649,7 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
     ];
     if (this.selectedYear === this.currentPeriod.exercise) {
       this.allPeriods = false;
-      const index = this.bimesters.findIndex(bimester => bimester.num === this.currentPeriod.period.num);
+      const index = this.bimesters.findIndex(bimester => bimester.num === currentBim);
       this.bimesters.splice(index + 1);
     } else {
       this.allPeriods = true;
