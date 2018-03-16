@@ -14,7 +14,8 @@ export class BillProvider {
         return this.api.get(this.base + _id);
     }
     getByTaxPayer(_id: string, filter: any) {
-        return this.api.get(this.base + 'taxpayer/' + _id + '/year/' + filter.year + '/bimester/' + filter.bimester);
+        // tslint:disable-next-line:max-line-length
+        return this.api.get(this.base + 'taxpayer/' + _id + '/year/' + filter.year + '/bimester/' + filter.bimester + '/active/' + filter.active);
     }
     create(bill: any) {
         return this.api.post(this.base, bill);

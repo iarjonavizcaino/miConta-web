@@ -60,20 +60,20 @@
                     [(ngModel)]="row[h.prop]"></mat-checkbox>
                 </ng-container>
                 <ng-container *ngSwitchCase="'toggle'">
-                  <mat-slide-toggle (click)="$event.stopPropagation()" (ngModelChange)="onCheckboxChanged(row, h)"
+                  <mat-slide-toggle (click)="$event.stopPropagation()" [disabled]="disableToggle" (ngModelChange)="onCheckboxChanged(row, h)"
                     [(ngModel)]="row[h.prop]"></mat-slide-toggle>
                 </ng-container>
                 <ng-container *ngSwitchCase="'toggleDeducible'">
-                  <mat-slide-toggle (click)="$event.stopPropagation()" (ngModelChange)="onToggleDeducibleChanged(row, h)"
+                  <mat-slide-toggle (click)="$event.stopPropagation()" [disabled]="disableToggle" (ngModelChange)="onToggleDeducibleChanged(row, h)"
                     [(ngModel)]="row[h.prop]"></mat-slide-toggle>
                 </ng-container>
                 <ng-container *ngSwitchCase="'toggleGeneralPublic'">
-                  <mat-slide-toggle (click)="$event.stopPropagation()" (ngModelChange)="onToggleGeneralPublicChanged(row, h)"
+                  <mat-slide-toggle (click)="$event.stopPropagation()" [disabled]="disableToggle" (ngModelChange)="onToggleGeneralPublicChanged(row, h)"
                     [(ngModel)]="row[h.prop]"></mat-slide-toggle>
                 </ng-container>
                 <ng-container *ngSwitchCase="'toggleFec'">
                   <!--[disabled]="row['captureMode'] !== 'Manual'? true : false"-->
-                  <mat-slide-toggle (click)="$event.stopPropagation()" (ngModelChange)="onToggleFecChanged(row, h)"
+                  <mat-slide-toggle (click)="$event.stopPropagation()" [disabled]="disableToggle" (ngModelChange)="onToggleFecChanged(row, h)"
                     [(ngModel)]="row[h.prop]"></mat-slide-toggle>
                 </ng-container>
                 <ng-container *ngSwitchDefault>
