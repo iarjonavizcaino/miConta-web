@@ -84,23 +84,29 @@ export class AppComponent implements OnInit {
     if (!this.auth.checkSession()) {
       this.router.navigate(['/login']);
     } else {
-      switch (JSON.parse(localStorage.getItem('user')).role._id) {
-        case _roles.accountant_prod:
-          this.router.navigate(['/contador/inicio']);
-          break;
+      let urlName;
+      this.router.events.subscribe((url: any) => {
+        urlName = url.url;
+        if (urlName === '/') {
+          switch (JSON.parse(localStorage.getItem('user')).role._id) {
+            case _roles.accountant_prod:
+              this.router.navigate(['/contador/inicio']);
+              break;
 
-        case _roles.taxpayer_prod:
-          this.router.navigate(['/contribuyente/inicio']);
-          break;
+            case _roles.taxpayer_prod:
+              this.router.navigate(['/contribuyente/inicio']);
+              break;
 
-        case _roles.offices_prod:
-          this.router.navigate(['/despacho/inicio']);
-          break;
+            case _roles.offices_prod:
+              this.router.navigate(['/despacho/inicio']);
+              break;
 
-        case _roles.superadmin_prod:
-          this.router.navigate(['/superadmin/inicio']);
-          break;
-      }
+            case _roles.superadmin_prod:
+              this.router.navigate(['/superadmin/inicio']);
+              break;
+          }
+        }
+      });
     }
   }
 }// class
