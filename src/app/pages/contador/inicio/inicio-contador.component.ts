@@ -7,7 +7,8 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { ConfirmComponent } from '../../../components/confirm/confirm.component';
 import { NotificationsService } from 'angular2-notifications';
 import { UploadXmlComponent } from '../../_catalog/upload-xml/upload-xml.component';
-import { TaxpayerProvider, AccountantProvider, BillProvider, HistoricalProvider } from '../../../providers/providers';
+import { TaxpayerProvider, AccountantProvider, BillProvider, HistoricalProvider, BitacoraProvider } from '../../../providers/providers';
+import { ModalBitacoraComponent } from '../../_catalog/modal-bitacora/modal-bitacora.component';
 
 @Component({
   selector: 'app-inicio-contador',
@@ -39,6 +40,7 @@ export class InicioContadorComponent implements OnInit, OnDestroy {
     private dialogCtrl: MatDialog,
     private notify: NotificationsService,
     private route: ActivatedRoute,
+    private bitacoraProv: BitacoraProvider,
     private taxpayerProv: TaxpayerProvider,
     private accountantProv: AccountantProvider,
     private billProv: BillProvider,
@@ -261,7 +263,20 @@ export class InicioContadorComponent implements OnInit, OnDestroy {
       });
     });
   }
-
+  showBitacora(ev: any) {
+    this.stopPropagation(ev);
+    this.bitacoraProv.getByTaxpayer(this.selectedTaxpayer._id).subscribe(res => {
+      this.dialogCtrl.open(ModalBitacoraComponent, {
+        disableClose: false,
+        data: {
+          bitacoras: res,
+          name: this.selectedTaxpayer.socialReason
+        }
+      });
+    }, err => {
+      console.log(err);
+    });
+  }
   stopPropagation(ev: Event) {
     if (ev) { ev.stopPropagation(); }
   }

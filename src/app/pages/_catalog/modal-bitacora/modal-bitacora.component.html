@@ -1,0 +1,30 @@
+<section class="billing-catalog">
+  <header class="header">
+    <h3 class="title">Bitácora: {{nameTaxpayer}}</h3>
+    <button mat-icon-button (click)="onClose()">
+      <mat-icon>close</mat-icon>
+    </button>
+  </header>
+  <section class="body">
+    <span class="float-left">Total:</span>
+    <strong class="float-right">{{total | currency:'USD':'symbol':'2.2-4'}}</strong>
+    <br><br>
+    <hr>
+    <div *ngFor="let b of bitacoras">
+      <p>
+        <span class="float-left">{{b.payMethod.method}}</span>
+        <strong class="float-right">{{b.total | currency:'USD':'symbol':'2.2-4'}}</strong>
+        <br> {{moment(b.date).format('LL')}}
+      </p>
+      <hr>
+    </div>
+  </section>
+  <footer class="footer">
+    <button mat-button (click)="onClose()">
+      Cancelar
+    </button>
+    <button mat-raised-button color="primary" (click)="onSave()">
+      Aceptar
+    </button>
+  </footer>
+</section>
