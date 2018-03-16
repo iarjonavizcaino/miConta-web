@@ -132,7 +132,12 @@
             <br>
             <br>
             <!-- habilitar button cuando los archivos existan -->
-            <button mat-raised-button [color]="buttonPeriod.color" (click)="closePeriod()">{{buttonPeriod.text}}</button>
+            <ng-container *ngIf="periodActive; else noActive">
+              <button mat-raised-button [color]="buttonPeriod.color" (click)="closePeriod()">{{buttonPeriod.text}}</button>
+            </ng-container>
+            <ng-template #noActive>
+              <button mat-raised-button [color]="buttonPeriod.color" (click)="showPeriod()">{{buttonPeriod.text}}</button>
+            </ng-template>
           </div>
         </div>
       </mat-card-content>
@@ -170,7 +175,7 @@
         </div>
         <rt-datatable (selected)="onIngresosSelected($event)" (checked)="onIngresosChecked($event)" (toggleFec)="onToggleFec($event)"
           searchWait="600" [showRowNumber]="false" [headers]="headersIngresos" [action]="actionIngresos" [data]="dataIngresos"
-          (toggleGeneralPublic)="changeToGeneralPublic($event)">
+          (toggleGeneralPublic)="changeToGeneralPublic($event)"  [disableToggle]="!periodActive">
           <section class="actions">
             <ng-container *ngIf="selectedIngresos">
               <button mat-icon-button (click)="onViewBillIngresos($event)">
@@ -230,7 +235,7 @@
           </div>
         </div>
         <rt-datatable (selected)="onEgresosSelected($event)" (checked)="onEgresosChecked($event)" (toggleDeducible)="toggleDeducible($event)"
-          (toggleFec)="onToggleFec($event)" searchWait="600" [showRowNumber]="false" [headers]="headersEgresos" [action]="actionEgresos"
+          (toggleFec)="onToggleFec($event)" [disableToggle]="!periodActive" searchWait="600" [showRowNumber]="false" [headers]="headersEgresos" [action]="actionEgresos"
           [data]="dataEgresos">
           <section class="actions">
             <ng-container *ngIf="selectedEgresos">

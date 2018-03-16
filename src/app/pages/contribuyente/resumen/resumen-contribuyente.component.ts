@@ -101,8 +101,8 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
   progressYear = 0;
 
   buttonPeriod: any = {
-    text: 'Cerrar Bimestre',
-    color: 'warn'
+    text: '',
+    color: ''
   };
   constructor(
     private taxProv: TaxesProvider,
@@ -134,14 +134,27 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
 
     this.historicalProv.getActive(this.currentTaxpayer._id).subscribe(data => {
       this.currentPeriod = data;
-      this.loadBills({ year: this.currentPeriod.exercise, bimester: this.currentPeriod.period.num });
-      this.loadTaxes({ year: this.currentPeriod.exercise, bimester: this.currentPeriod.period.num });
       this.selectedYear = this.currentPeriod.exercise;
       this.loadBimesters();
       const num = this.currentPeriod.period.num - 1;
       this.selectedBimester = this.bimesters[num];
       this.currentBimester = this.selectedBimester.name + ' ' + this.selectedYear;
       this.periodActive = !this.currentPeriod.period.active ? false : true;
+      if (this.periodActive) {
+        this.buttonPeriod = {
+          text: 'Cerrar Periodo',
+          color: 'warn'
+        };
+        this.loadBills({ year: this.currentPeriod.exercise, bimester: this.currentPeriod.period.num, active: 1 });
+        this.loadTaxes({ year: this.currentPeriod.exercise, bimester: this.currentPeriod.period.num });
+      } else {
+        this.buttonPeriod = {
+          text: 'Consultar Periodo',
+          color: 'primary'
+        };
+        this.loadBills({ year: this.currentPeriod.exercise, bimester: this.currentPeriod.period.num, active: 0 });
+        this.loadTaxes({ year: this.currentPeriod.exercise, bimester: this.currentPeriod.period.num });
+      }
     });
 
     // const bimesterNum = Math.trunc((new Date().getMonth() / 2) + 1);
@@ -525,7 +538,7 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
     this.billProv.update(_id, bill).subscribe((res) => {
       this.notify.success('Acción Exitosa', 'Factura actualizada correctamente');
       this.loadTaxes({ year: this.selectedYear, bimester: this.selectedBimester.num }); // when the user mark a bill as payed
-      this.loadBills({ year: this.selectedYear, bimester: this.selectedBimester.num });
+      this.loadBills({ year: this.selectedYear, bimester: this.selectedBimester.num, active: 1 });
     }, err => {
       this.notify.error('Error', 'No se pudo actualizar la factura');
       if (this.updateDate) {
@@ -542,7 +555,6 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
   }
 
   closePeriod() {
-    console.log(this.currentTaxpayer);
     const dialogRef = this.dialogCtrl.open(ModalCierreBimestreComponent, {
       disableClose: true,
       data: {
@@ -557,18 +569,18 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
     dialogRef.afterClosed().subscribe((res) => {
       if (!res) { return; }
       // formato del objeto que recibe la api al cerrar el periodo
-      const earningns = [];
+      const earnings = [];
       const expenses = [];
 
       this.dataIngresos.forEach(ingreso => {
         if (ingreso.cobrada_pagada) {
-          earningns.push(ingreso);
+          earnings.push(ingreso._id);
         }
       });
 
       this.dataEgresos.forEach(ingreso => {
         if (ingreso.cobrada_pagada) {
-          expenses.push(ingreso);
+          expenses.push(ingreso._id);
         }
       });
 
@@ -582,37 +594,57 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
           iva: this.IVA.ivaCargo
         },
         historico: res.historico,
-        bills: {
-          earnings: earningns,
-          expenses: expenses
-        }
+        earningsBills: earnings,
+        expensesBills: expenses
       };
       console.log('dataaa', data);
       this.historicalProv.closePeriod(data, this.currentPeriod._id).subscribe(response => {
         this.currentPeriod = response.historical;
-        console.log('currentPeriod', this.currentPeriod);
-        console.log('array', this.bimesters);
-        // this.selectedBimester.name = this.currentPeriod.period.name;
-        // this.selectedBimester.num = this.currentPeriod.period.num;
-        console.log('selectedBim', this.selectedBimester);
         const currentBim = Math.trunc((new Date().getMonth() / 2) + 1);
-        console.log(currentBim !== this.currentPeriod.period.num);
         if (currentBim !== this.currentPeriod.period.num) {
-          console.log('holaaa');
-          const bim = {name: this.currentPeriod.period.name, num: this.currentPeriod.period.num};
+          const bim = { name: this.currentPeriod.period.name, num: this.currentPeriod.period.num };
           this.bimesters.push(bim);
         }
         this.selectedBimester = this.bimesters[this.bimesters.length - 1];
         this.currentBimester = this.bimesters[this.bimesters.length - 1].name + ' ' + this.selectedYear;
-        console.log('bimesters', this.bimesters);
-        // this.currentBimester = this.bimesters[this.selectedBimester.num].name + ' ' + this.selectedYear;
         this.periodActive = !this.currentPeriod.period.active ? false : true;
-        this.loadBills({ year: this.selectedYear, bimester: this.selectedBimester.num + 1 });
-        this.loadTaxes({ year: this.selectedYear, bimester: this.selectedBimester.num + 1 });
+        if (this.periodActive) {
+          this.buttonPeriod = {
+            text: 'Cerrar Periodo',
+            color: 'warn'
+          };
+          this.loadBills({ year: this.selectedYear, bimester: this.selectedBimester.num + 1, active: 1 });
+          this.loadTaxes({ year: this.selectedYear, bimester: this.selectedBimester.num + 1 });
+        } else {
+          this.buttonPeriod = {
+            text: 'Consultar Periodo',
+            color: 'primary'
+          };
+          this.loadBills({ year: this.selectedYear, bimester: this.selectedBimester.num + 1, active: 0 });
+          this.loadTaxes({ year: this.selectedYear, bimester: this.selectedBimester.num + 1 });
+        }
 
       });
     });
   } // closePeriod
+
+  showPeriod() {
+    console.log('period', this.currentPeriod);
+    const dialogRef = this.dialogCtrl.open(ModalCierreBimestreComponent, {
+      disableClose: true,
+      data: {
+        ISR: this.ISR,
+        IVA: this.IVA,
+        debtSAT: this.ISR.debtSAT,
+        debtIVA: this.currentTaxpayer.ivaFavor,
+        periodName: this.currentPeriod.period.name
+      }
+    });
+
+    dialogRef.afterClosed().subscribe((res) => {
+      if (!res) { return; }
+    });
+  }
 
   loadBimesters() {
     const year = new Date().getFullYear();
@@ -700,16 +732,20 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
       this.periodActive = !this.currentPeriod.period.active ? false : true;
     }
     this.currentBimester = this.selectedBimester.name + ' ' + this.selectedYear;
-    console.log(this.periodActive);
     if (this.periodActive) {  // active period
-      this.loadBills({ year: this.selectedYear, bimester: this.selectedBimester.num });
+      this.buttonPeriod = {
+        text: 'Cerrar Periodo',
+        color: 'warn'
+      };
+      this.loadBills({ year: this.selectedYear, bimester: this.selectedBimester.num, active: 1 });
       this.loadTaxes({ year: this.selectedYear, bimester: this.selectedBimester.num });
     } else {
-      this.loadBills({ year: this.selectedYear, bimester: this.selectedBimester.num });
+      this.buttonPeriod = {
+        text: 'Consultar Periodo',
+        color: 'primary'
+      };
+      this.loadBills({ year: this.selectedYear, bimester: this.selectedBimester.num, active: 0 });
       this.loadTaxes({ year: this.selectedYear, bimester: this.selectedBimester.num });
-
-      this.buttonPeriod.text = 'Consultar Bimestre';
-      this.buttonPeriod.color = 'primary';
       // past period: get data from historical
       // make request to historical and get info: ISR, IVA, bills, etc
       // use loadBill & loadTaxes, and someway modify to do not get bills in wrong period

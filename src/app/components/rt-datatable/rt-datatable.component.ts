@@ -27,6 +27,9 @@ export class RtDatatableComponent implements OnInit, OnDestroy {
 
   // tslint:disable-next-line:no-input-rename
   @Input('showRowNumber') isRowNumber = true;
+
+  @Input('disableToggle') disableToggle = false;
+
   // tslint:disable-next-line:no-input-rename
   @Input('lazyness') isLazyness: boolean;
   @Input('searchWait') searchWait = 1000;
