@@ -22,8 +22,10 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
 
   headersIngresos: Array<RtHeader> = [
     { name: 'Emisión', prop: 'createdDate', default: 'No date', moment: true },  // from xml file
-    { name: 'Cliente', prop: 'customer_provider.name', default: 'No customer', width: '20' },
+    { name: 'Cliente', prop: 'customer_provider.name', default: 'No customer', width: '15' },
     { name: 'Subtotal', prop: 'subtotal', default: '$ 0.00', align: 'right', accounting: true },
+    { name: 'IVA', prop: 'taxes', default: '$ 0.00', align: 'right', accounting: true },
+    { name: 'Total', prop: 'total', default: '$ 0.00', align: 'right', accounting: true },
     { name: 'Tipo fact.', prop: 'captureMode', align: 'center', chip: true },
     { name: 'Fecha cobro', prop: 'cobrada_pagadaDate', default: '', align: 'center', moment: true },
     { name: 'Público Gral', prop: 'general_public', default: false, align: 'center', input: 'toggleGeneralPublic' },
@@ -31,8 +33,10 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
   ];
   headersEgresos: Array<RtHeader> = [
     { name: 'Emisión', prop: 'createdDate', default: 'No date', moment: true },
-    { name: 'Proveedor', prop: 'customer_provider.name', default: 'No customer', width: '20' },
+    { name: 'Proveedor', prop: 'customer_provider.name', default: 'No customer', width: '15' },
     { name: 'Subtotal', prop: 'subtotal', default: '$ 0.00', align: 'right', accounting: true },
+    { name: 'IVA', prop: 'taxes', default: '$ 0.00', align: 'right', accounting: true },
+    { name: 'Total', prop: 'total', default: '$ 0.00', align: 'right', accounting: true },
     // { name: 'Total', prop: 'total', default: '$ 0.00', align: 'right', accounting: true },
     { name: 'Tipo fact.', prop: 'captureMode', default: '', align: 'center', chip: true },
     { name: 'Fecha pago', prop: 'cobrada_pagadaDate', default: '', align: 'center', moment: true },
