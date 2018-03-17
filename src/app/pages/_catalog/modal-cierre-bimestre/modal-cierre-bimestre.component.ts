@@ -10,7 +10,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 })
 export class ModalCierreBimestreComponent implements OnInit {
   cierreForm: FormGroup;
-
+  readonly: boolean;
   // total to pay
   accountantSaid = {
     ISR: {
@@ -56,16 +56,35 @@ export class ModalCierreBimestreComponent implements OnInit {
 
   ngOnInit() {
     if (!this.data) { return; }
+    console.log(this.data);
+    this.readonly = this.data.readonly;
     this.miContaSaid = {
       ISR: this.data.ISR,
       IVA: this.data.IVA
     };
     this.accountantSaid.debtSAT = this.data.debtSAT;
     this.accountantSaid.debtIVA = this.data.debtIVA;
-
+    console.log(this.miContaSaid);
     // set to default
     this.accountantSaid.ISR.amount = this.miContaSaid.ISR.isrNetoAPagar;
     this.accountantSaid.IVA.amount = this.miContaSaid.IVA.ivaCargo;
+    if (this.data.extraData) {
+      console.log(this.data.extraData);
+      // ISR data
+      this.accountantSaid.ISR.subtotal = this.data.extraData.ISR.subtotal;
+      this.accountantSaid.ISR.amount = this.data.extraData.ISR.amount;
+      this.accountantSaid.ISR.updates = this.data.extraData.ISR.updates;
+      this.accountantSaid.ISR.surcharges = this.data.extraData.ISR.surcharges;
+
+      // IVA data
+      this.accountantSaid.IVA.subtotal = this.data.extraData.IVA.subtotal;
+      this.accountantSaid.IVA.amount = this.data.extraData.IVA.amount;
+      this.accountantSaid.IVA.updates = this.data.extraData.IVA.updates;
+      this.accountantSaid.IVA.surcharges = this.data.extraData.IVA.surcharges;
+
+      this.accountantSaid.accesories = this.data.extraData.accesories;
+      this.accountantSaid.totalTaxes = this.data.extraData.totalTaxes;
+    }
     this.doMath();
 
   }

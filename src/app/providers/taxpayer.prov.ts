@@ -32,4 +32,8 @@ export class TaxpayerProvider {
     return this.api.delete(`${this.base}${id}`);
   }
 
+  updateSATDebtIvaFavor (id: string, data: any) {
+    return this.api.put(`${this.base}SATdebt/${id}`, data);
+  }
+
 }

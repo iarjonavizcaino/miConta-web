@@ -7,7 +7,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { NewBillComponent } from '../../_catalog/new-bill/new-bill.component';
 import { ModalFechaComponent } from '../../_catalog/modal-fecha/modal-fecha.component';
 import { NotificationsService } from 'angular2-notifications';
-import { BillProvider, TaxesProvider, HistoricalProvider } from '../../../providers/providers';
+import { BillProvider, TaxesProvider, HistoricalProvider, TaxpayerProvider } from '../../../providers/providers';
 import { ConfirmComponent } from '../../../components/confirm/confirm.component';
 import { ModalImpuestosComponent } from '../../_catalog/modal-impuestos/modal-impuestos.component';
 import { ModalCierreBimestreComponent } from '../../_catalog/modal-cierre-bimestre/modal-cierre-bimestre.component';
@@ -22,8 +22,10 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
 
   headersIngresos: Array<RtHeader> = [
     { name: 'Emisión', prop: 'createdDate', default: 'No date', moment: true },  // from xml file
-    { name: 'Cliente', prop: 'customer_provider.name', default: 'No customer', width: '20' },
+    { name: 'Cliente', prop: 'customer_provider.name', default: 'No customer', width: '15' },
     { name: 'Subtotal', prop: 'subtotal', default: '$ 0.00', align: 'right', accounting: true },
+    { name: 'IVA', prop: 'taxes', default: '$ 0.00', align: 'right', accounting: true },
+    { name: 'Total', prop: 'total', default: '$ 0.00', align: 'right', accounting: true },
     { name: 'Tipo fact.', prop: 'captureMode', align: 'center', chip: true },
     { name: 'Fecha cobro', prop: 'cobrada_pagadaDate', default: '', align: 'center', moment: true },
     { name: 'Público Gral', prop: 'general_public', default: false, align: 'center', input: 'toggleGeneralPublic' },
@@ -31,8 +33,10 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
   ];
   headersEgresos: Array<RtHeader> = [
     { name: 'Emisión', prop: 'createdDate', default: 'No date', moment: true },
-    { name: 'Proveedor', prop: 'customer_provider.name', default: 'No customer', width: '20' },
+    { name: 'Proveedor', prop: 'customer_provider.name', default: 'No customer', width: '15' },
     { name: 'Subtotal', prop: 'subtotal', default: '$ 0.00', align: 'right', accounting: true },
+    { name: 'IVA', prop: 'taxes', default: '$ 0.00', align: 'right', accounting: true },
+    { name: 'Total', prop: 'total', default: '$ 0.00', align: 'right', accounting: true },
     // { name: 'Total', prop: 'total', default: '$ 0.00', align: 'right', accounting: true },
     { name: 'Tipo fact.', prop: 'captureMode', default: '', align: 'center', chip: true },
     { name: 'Fecha pago', prop: 'cobrada_pagadaDate', default: '', align: 'center', moment: true },
@@ -107,6 +111,7 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
   constructor(
     private taxProv: TaxesProvider,
     private billProv: BillProvider,
+    private taxpayerProv: TaxpayerProvider,
     private notify: NotificationsService,
     private router: Router,
     private dialogCtrl: MatDialog,
@@ -115,6 +120,7 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.roleUp = JSON.parse(localStorage.getItem('user')).role.name.toString().toLowerCase();
+    console.log(this.roleUp);
     this.sub = this.route
       .queryParams
       .subscribe(params => {
@@ -562,7 +568,8 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
         IVA: this.IVA,
         debtSAT: this.ISR.debtSAT,
         debtIVA: this.currentTaxpayer.ivaFavor,
-        periodName: this.currentPeriod.period.name
+        periodName: this.currentPeriod.period.name,
+        extraData: null
       }
     });
 
@@ -599,12 +606,17 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
       };
       console.log('dataaa', data);
       this.historicalProv.closePeriod(data, this.currentPeriod._id).subscribe(response => {
+        const difference = { debtSAT: data.debtSAT, ivaFavor: data.debtIVA };
+        this.taxpayerProv.updateSATDebtIvaFavor(this.currentTaxpayer._id, difference).subscribe(debt => {
+          this.currentTaxpayer = debt.taxpayer;
+        });
         this.currentPeriod = response.historical;
-        const currentBim = Math.trunc((new Date().getMonth() / 2) + 1);
-        if (currentBim !== this.currentPeriod.period.num) {
-          const bim = { name: this.currentPeriod.period.name, num: this.currentPeriod.period.num };
-          this.bimesters.push(bim);
-        }
+        // const currentBim = Math.trunc((new Date().getMonth() / 2) + 1);
+        // if (currentBim !== this.currentPeriod.period.num) {
+        //   const bim = { name: this.currentPeriod.period.name, num: this.currentPeriod.period.num };
+        //   this.bimesters.push(bim);
+        // }
+        this.bimesters.push({ name: this.currentPeriod.period.name, num: this.currentPeriod.period.num });
         this.selectedBimester = this.bimesters[this.bimesters.length - 1];
         this.currentBimester = this.bimesters[this.bimesters.length - 1].name + ' ' + this.selectedYear;
         this.periodActive = !this.currentPeriod.period.active ? false : true;
@@ -629,20 +641,39 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
   } // closePeriod
 
   showPeriod() {
-    console.log('period', this.currentPeriod);
-    const dialogRef = this.dialogCtrl.open(ModalCierreBimestreComponent, {
-      disableClose: true,
-      data: {
-        ISR: this.ISR,
-        IVA: this.IVA,
-        debtSAT: this.ISR.debtSAT,
-        debtIVA: this.currentTaxpayer.ivaFavor,
-        periodName: this.currentPeriod.period.name
-      }
-    });
-
-    dialogRef.afterClosed().subscribe((res) => {
-      if (!res) { return; }
+    this.historicalProv.getPastPeriod(this.selectedYear, this.selectedBimester.num).subscribe(data => {
+      const historical = data.historical;
+      console.log(historical);
+      const dialogRef = this.dialogCtrl.open(ModalCierreBimestreComponent, {
+        disableClose: true,
+        data: {
+          readonly: true,
+          ISR: historical.period.historico.miConta.ISR,
+          IVA: historical.period.historico.miConta.IVA,
+          debtSAT: historical.period.historico.accountant.debtSAT,
+          debtIVA: historical.period.historico.accountant.debtIVA,
+          periodName: historical.period.name,
+          extraData: {
+            ISR: {
+              subtotal: historical.period.historico.accountant.ISR.subtotal,
+              updates: historical.period.historico.accountant.ISR.updates,
+              surcharges: historical.period.historico.accountant.ISR.surcharges,
+              amount: historical.period.historico.accountant.ISR.amount,
+            },
+            IVA: {
+              subtotal: historical.period.historico.accountant.IVA.amount,
+              updates: historical.period.historico.accountant.IVA.updates,
+              surcharges: historical.period.historico.accountant.IVA.surcharges,
+              amount: historical.period.historico.accountant.IVA.amount,
+            },
+            accesories: historical.period.historico.accountant.accesories,
+            totalTaxes: historical.period.historico.accountant.totalTaxes
+          }
+        }
+      });
+      dialogRef.afterClosed().subscribe((res) => {
+        if (!res) { return; }
+      });
     });
   }
 
@@ -651,7 +682,7 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
     for (let i = 2014; i <= year; i++) {
       this.years.push(i);
     }
-    const currentBim = Math.trunc((new Date().getMonth() / 2) + 1);
+    // const currentBim = Math.trunc((new Date().getMonth() / 2) + 1);
 
     this.bimesters = [
       {
@@ -681,7 +712,7 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
     ];
     if (this.selectedYear === this.currentPeriod.exercise) {
       this.allPeriods = false;
-      const index = this.bimesters.findIndex(bimester => bimester.num === currentBim);
+      const index = this.bimesters.findIndex(bimester => bimester.num === this.currentPeriod.period.num);
       this.bimesters.splice(index + 1);
     } else {
       this.allPeriods = true;

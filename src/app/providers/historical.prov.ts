@@ -24,6 +24,10 @@ export class HistoricalProvider {
     return this.api.put(`${this.base}closeExercise/${_id}`, data);
   }
 
+  getPastPeriod(year: string, bimester: string) {
+    return this.api.get(`${this.base}past/year/${year}/bimester/${bimester}`);
+  }
+
   create(concept: any) {
     return this.api.post(`${this.base}`, concept);
   }
