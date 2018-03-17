@@ -133,16 +133,18 @@
             <br>
             <!-- habilitar button cuando los archivos existan -->
             <ng-container *ngIf="roleUp !== 'contribuyente'; else contrib">
-              <ng-container *ngIf="periodActive; else noActive">                
+              <ng-container *ngIf="periodActive; else noActive">
                 <button mat-raised-button [color]="buttonPeriod.color" (click)="closePeriod()">{{buttonPeriod.text}}</button>
               </ng-container>
-              <ng-template #noActive>                
+              <ng-template #noActive>
                 <button mat-raised-button [color]="buttonPeriod.color" (click)="showPeriod()">{{buttonPeriod.text}}</button>
               </ng-template>
             </ng-container>
             <ng-template #contrib>
-                <button *ngIf="!periodActive" mat-raised-button [color]="buttonPeriod.color" (click)="showPeriod()">{{buttonPeriod.text}}</button>
-                <mat-chip *ngIf="periodActive" color="accent" selected="true"><strong>INFORMACIÓN DEL PERIODO NO DISPONIBLE</strong></mat-chip>
+              <button *ngIf="!periodActive" mat-raised-button [color]="buttonPeriod.color" (click)="showPeriod()">{{buttonPeriod.text}}</button>
+              <mat-chip *ngIf="periodActive" color="accent" selected="true">
+                <strong>INFORMACIÓN DEL PERIODO NO DISPONIBLE</strong>
+              </mat-chip>
             </ng-template>
           </div>
         </div>
@@ -173,15 +175,21 @@
           </mat-panel-description>
         </mat-expansion-panel-header>
         <div class="row">
-          <div class="col-8"></div>
           <div class="col-3">
-            <label>
-              <strong>Subtotal tasa(16%):</strong> {{ingresosIVA16 | currency:'USD':'symbol':'2.2-4'}}</label>
+              <label>
+                  <strong>IVA total:</strong> {{ingresosIVA16 | currency:'USD':'symbol':'2.2-4'}}
+                </label>
           </div>
+          <div class="col-3">
+              <label>
+                  <strong>Total facturas:</strong> {{ingresosIVA16 + sumIngresos | currency:'USD':'symbol':'2.2-4'}}
+                </label>
+          </div>
+          <div class="col-6"></div>
         </div>
         <rt-datatable (selected)="onIngresosSelected($event)" (checked)="onIngresosChecked($event)" (toggleFec)="onToggleFec($event)"
           searchWait="600" [showRowNumber]="false" [headers]="headersIngresos" [action]="actionIngresos" [data]="dataIngresos"
-          (toggleGeneralPublic)="changeToGeneralPublic($event)"  [disableToggle]="!periodActive">
+          (toggleGeneralPublic)="changeToGeneralPublic($event)" [disableToggle]="!periodActive">
           <section class="actions">
             <ng-container *ngIf="selectedIngresos">
               <button mat-icon-button (click)="onViewBillIngresos($event)">
@@ -234,15 +242,19 @@
           </mat-panel-description>
         </mat-expansion-panel-header>
         <div class="row">
-          <div class="col-8"></div>
           <div class="col-3">
             <label>
-              <strong>Subtotal tasa(16%):</strong> {{egresosIVA16 | currency:'USD':'symbol':'2.2-4'}}</label>
+              <strong>IVA total:</strong> {{egresosIVA16 | currency:'USD':'symbol':'2.2-4'}}</label>
           </div>
+          <div class="col-3">
+              <label>
+                <strong>Total facturas:</strong> {{egresosIVA16 + sumEgresos | currency:'USD':'symbol':'2.2-4'}}</label>
+            </div>
+            <div class="col-6"></div>
         </div>
         <rt-datatable (selected)="onEgresosSelected($event)" (checked)="onEgresosChecked($event)" (toggleDeducible)="toggleDeducible($event)"
-          (toggleFec)="onToggleFec($event)" [disableToggle]="!periodActive" searchWait="600" [showRowNumber]="false" [headers]="headersEgresos" [action]="actionEgresos"
-          [data]="dataEgresos">
+          (toggleFec)="onToggleFec($event)" [disableToggle]="!periodActive" searchWait="600" [showRowNumber]="false" [headers]="headersEgresos"
+          [action]="actionEgresos" [data]="dataEgresos">
           <section class="actions">
             <ng-container *ngIf="selectedEgresos">
               <button mat-icon-button (click)="onViewBillEgresos($event)">
