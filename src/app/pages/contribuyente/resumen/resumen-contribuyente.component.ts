@@ -116,6 +116,7 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.roleUp = JSON.parse(localStorage.getItem('user')).role.name.toString().toLowerCase();
+    console.log(this.roleUp);
     this.sub = this.route
       .queryParams
       .subscribe(params => {

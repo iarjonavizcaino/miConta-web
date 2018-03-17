@@ -132,11 +132,17 @@
             <br>
             <br>
             <!-- habilitar button cuando los archivos existan -->
-            <ng-container *ngIf="periodActive; else noActive">
-              <button mat-raised-button [color]="buttonPeriod.color" (click)="closePeriod()">{{buttonPeriod.text}}</button>
+            <ng-container *ngIf="roleUp !== 'contribuyente'; else contrib">
+              <ng-container *ngIf="periodActive; else noActive">                
+                <button mat-raised-button [color]="buttonPeriod.color" (click)="closePeriod()">{{buttonPeriod.text}}</button>
+              </ng-container>
+              <ng-template #noActive>                
+                <button mat-raised-button [color]="buttonPeriod.color" (click)="showPeriod()">{{buttonPeriod.text}}</button>
+              </ng-template>
             </ng-container>
-            <ng-template #noActive>
-              <button mat-raised-button [color]="buttonPeriod.color" (click)="showPeriod()">{{buttonPeriod.text}}</button>
+            <ng-template #contrib>
+                <button *ngIf="!periodActive" mat-raised-button [color]="buttonPeriod.color" (click)="showPeriod()">{{buttonPeriod.text}}</button>
+                <mat-chip *ngIf="periodActive" color="accent" selected="true"><strong>INFORMACIÓN DEL PERIODO NO DISPONIBLE</strong></mat-chip>
             </ng-template>
           </div>
         </div>
