@@ -25,7 +25,7 @@
                   <div class="col-6">
                     <mat-form-field>
                       <mat-icon matPrefix>attach_money</mat-icon>
-                      <input (input)="onChange($event.target.value)" [(ngModel)]="accountantSaid.ISR.amount" [formControl]="cierreForm.controls['isrCalculated']"
+                      <input (input)="onChange($event.target.value)" [readonly]="readonly" [(ngModel)]="accountantSaid.ISR.amount" [formControl]="cierreForm.controls['isrCalculated']"
                         matInput type="number" placeholder="Calculado por el contador">
                       <mat-error *ngIf="cierreForm.controls['isrCalculated'].hasError('required')">
                         Campo
@@ -36,7 +36,7 @@
                   <div class="col-6">
                     <mat-form-field>
                       <mat-icon matPrefix>attach_money</mat-icon>
-                      <input (input)="onChange($event.target.value)" [(ngModel)]="accountantSaid.ISR.surcharges" [formControl]="cierreForm.controls['isrSurcharges']"
+                      <input (input)="onChange($event.target.value)" [readonly]="readonly" [(ngModel)]="accountantSaid.ISR.surcharges" [formControl]="cierreForm.controls['isrSurcharges']"
                         matInput type="number" placeholder="Recargos">
                       <mat-error *ngIf="cierreForm.controls['isrSurcharges'].hasError('required')">
                         Campo
@@ -49,7 +49,7 @@
                   <div class="col-6">
                     <mat-form-field>
                       <mat-icon matPrefix>attach_money</mat-icon>
-                      <input (input)="onChange($event.target.value)" [(ngModel)]="accountantSaid.ISR.updates" [formControl]="cierreForm.controls['isrUpdates']"
+                      <input (input)="onChange($event.target.value)" [readonly]="readonly" [(ngModel)]="accountantSaid.ISR.updates" [formControl]="cierreForm.controls['isrUpdates']"
                         matInput type="number" placeholder="Actualizaciones">
                       <mat-error *ngIf="cierreForm.controls['isrUpdates'].hasError('required')">
                         Campo
@@ -60,8 +60,8 @@
                   <div class="col-6">
                     <mat-form-field>
                       <mat-icon matPrefix>attach_money</mat-icon>
-                      <input (input)="onChange($event.target.value)" [(ngModel)]="accountantSaid.debtSAT" [formControl]="cierreForm.controls['isrDifference']" matInput type="number"
-                        placeholder="Dif. de gastos mayores">
+                      <input (input)="onChange($event.target.value)" [readonly]="readonly" [(ngModel)]="accountantSaid.debtSAT" [formControl]="cierreForm.controls['isrDifference']"
+                        matInput type="number" placeholder="Dif. de gastos mayores">
                       <mat-error *ngIf="cierreForm.controls['isrDifference'].hasError('required')">
                         Campo
                         <strong>requerido</strong>
@@ -87,7 +87,7 @@
                   <div class="col-6">
                     <mat-form-field>
                       <mat-icon matPrefix>attach_money</mat-icon>
-                      <input (input)="onChange($event.target.value)" [(ngModel)]="accountantSaid.IVA.amount" [formControl]="cierreForm.controls['ivaCalculated']"
+                      <input (input)="onChange($event.target.value)" [readonly]="readonly" [(ngModel)]="accountantSaid.IVA.amount" [formControl]="cierreForm.controls['ivaCalculated']"
                         matInput type="number" placeholder="Calculado por el contador">
                       <mat-error *ngIf="cierreForm.controls['ivaCalculated'].hasError('required')">
                         Campo
@@ -98,7 +98,7 @@
                   <div class="col-6">
                     <mat-form-field>
                       <mat-icon matPrefix>attach_money</mat-icon>
-                      <input (input)="onChange($event.target.value)" [(ngModel)]="accountantSaid.IVA.surcharges" [formControl]="cierreForm.controls['ivaSurcharges']"
+                      <input (input)="onChange($event.target.value)" [readonly]="readonly" [(ngModel)]="accountantSaid.IVA.surcharges" [formControl]="cierreForm.controls['ivaSurcharges']"
                         matInput type="number" placeholder="Recargos">
                       <mat-error *ngIf="cierreForm.controls['ivaSurcharges'].hasError('required')">
                         Campo
@@ -111,7 +111,7 @@
                   <div class="col-6">
                     <mat-form-field>
                       <mat-icon matPrefix>attach_money</mat-icon>
-                      <input (input)="onChange($event.target.value)" [(ngModel)]="accountantSaid.IVA.updates" [formControl]="cierreForm.controls['ivaUpdates']"
+                      <input (input)="onChange($event.target.value)" [readonly]="readonly" [(ngModel)]="accountantSaid.IVA.updates" [formControl]="cierreForm.controls['ivaUpdates']"
                         matInput type="number" placeholder="Actualizaciones">
                       <mat-error *ngIf="cierreForm.controls['ivaUpdates'].hasError('required')">
                         Campo
@@ -122,8 +122,8 @@
                   <div class="col-6">
                     <mat-form-field>
                       <mat-icon matPrefix>attach_money</mat-icon>
-                      <input (input)="onChange($event.target.value)" [(ngModel)]="accountantSaid.debtIVA" [formControl]="cierreForm.controls['ivaFavorPeriodAnt']" matInput type="number"
-                        placeholder="IVA a favor de periodos ant.">
+                      <input (input)="onChange($event.target.value)" [readonly]="readonly" [(ngModel)]="accountantSaid.debtIVA" [formControl]="cierreForm.controls['ivaFavorPeriodAnt']"
+                        matInput type="number" placeholder="IVA a favor de periodos ant.">
                       <mat-error *ngIf="cierreForm.controls['ivaFavorPeriodAnt'].hasError('required')">
                         Campo
                         <strong>requerido</strong>
@@ -173,11 +173,18 @@
   </div>
 
   <footer class="footer">
-    <button mat-raised-button (click)="onClose()">
-      Cancelar
-    </button>
-    <button mat-raised-button color="primary" [disabled]="!cierreForm.valid" (click)="onSave()">
-      Cerrar periodo
-    </button>
+    <ng-container *ngIf="readonly; else noReadonly">
+      <button mat-raised-button color="primary" (click)="onClose()">
+        Cerrar periodo
+      </button>
+    </ng-container>
+    <ng-template #noReadonly>
+      <button mat-raised-button (click)="onClose()">
+        Cancelar
+      </button>
+      <button mat-raised-button color="primary" [disabled]="!cierreForm.valid" (click)="onSave()">
+        Aceptar
+      </button>
+    </ng-template>
   </footer>
 </section>
