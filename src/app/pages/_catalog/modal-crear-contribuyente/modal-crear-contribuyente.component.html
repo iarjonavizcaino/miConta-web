@@ -124,9 +124,9 @@
           <div class="col-4">
             <mat-form-field>
               <mat-icon matPrefix>attach_money</mat-icon>
-              <input style="text-align: right; padding-right: 10px" [formControl]="taxpayerForm.controls['debtSAT']" matInput placeholder="Dif. gastos mayores a ingresos periodos ant."
-                type="number" [(ngModel)]="taxPayer.debtSAT">
-              <mat-error *ngIf="taxpayerForm.controls['debtSAT'].hasError('required')">
+              <input style="text-align: right; padding-right: 10px" [formControl]="taxpayerForm.controls['difference']" matInput placeholder="Dif. gastos mayores a ingresos periodos ant."
+                type="number" [(ngModel)]="taxPayer.difference">
+              <mat-error *ngIf="taxpayerForm.controls['difference'].hasError('required')">
                 Campo
                 <strong>requerido</strong>
               </mat-error>
