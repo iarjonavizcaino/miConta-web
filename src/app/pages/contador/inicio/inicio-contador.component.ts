@@ -185,6 +185,7 @@ export class InicioContadorComponent implements OnInit, OnDestroy {
           this.notify.success('Acción exitosa', `Nuevo contribuyente creado: ${taxpayer.socialReason}`);
         });
       }, err => {
+        console.log(err);
         this.notify.error('Error', 'No se pudo crear el contribuyente');
       });
     });
