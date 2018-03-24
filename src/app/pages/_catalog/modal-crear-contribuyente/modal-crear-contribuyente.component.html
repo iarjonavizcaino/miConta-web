@@ -124,7 +124,7 @@
           <div class="col-4">
             <mat-form-field>
               <mat-icon matPrefix>attach_money</mat-icon>
-              <input style="text-align: right; padding-right: 10px" [formControl]="taxpayerForm.controls['debtSAT']" matInput placeholder="Dif. gastos mayores a ingresos periodos ant."
+              <input min="1" style="text-align: right; padding-right: 10px" [formControl]="taxpayerForm.controls['debtSAT']" matInput placeholder="Dif. gastos mayores a ingresos periodos ant."
                 type="number" [(ngModel)]="taxPayer.debtSAT">
               <mat-error *ngIf="taxpayerForm.controls['debtSAT'].hasError('required')">
                 Campo
@@ -135,7 +135,7 @@
           <div class="col-4">
             <mat-form-field>
               <mat-icon matPrefix>attach_money</mat-icon>
-              <input style="text-align: right; padding-right: 10px" [formControl]="taxpayerForm.controls['ivaFavor']" matInput placeholder="IVA a favor periodos ant."
+              <input min="1" style="text-align: right; padding-right: 10px" [formControl]="taxpayerForm.controls['ivaFavor']" matInput placeholder="IVA a favor periodos ant."
                 type="number" [(ngModel)]="taxPayer.ivaFavor">
               <mat-error *ngIf="taxpayerForm.controls['ivaFavor'].hasError('required')">
                 Campo
@@ -146,7 +146,7 @@
           <div class="col-4">
             <mat-form-field>
               <mat-icon matPrefix>attach_money</mat-icon>
-              <input style="text-align: right; padding-right: 10px" [formControl]="taxpayerForm.controls['yearBefore']" matInput placeholder="Ingresos totales ejercicio ant."
+              <input min="1" style="text-align: right; padding-right: 10px" [formControl]="taxpayerForm.controls['yearBefore']" matInput placeholder="Ingresos totales ejercicio ant."
                 type="number" [(ngModel)]="taxPayer.yearBefore">
               <mat-error *ngIf="taxpayerForm.controls['yearBefore'].hasError('required')">
                 Campo
@@ -207,20 +207,30 @@
                   </mat-panel-description>
                 </mat-expansion-panel-header>
                 <div class="row">
-                  <div class="col-2"></div>
-                  <div class="col-3">
-                    <a href="#" target="_blank" class="no-style">
-                      <mat-icon class="big-icon">insert_drive_file</mat-icon>
-                      <br>
-                      <span class="text-center">Archivo de Fiel</span>
-                    </a>
+                  <div class="col-5">
+                    <div class="file-picker">
+                      <div class="file-btn">
+                        Seleccionar Fiel
+                        <input class="picker" type="file" (change)="uploadLoyalFile($event)">
+                      </div>
+                      <span class="filename" *ngIf="loyalFileName">
+                        Archivo: {{loyalFileName}}
+                      </span>
+                      <span class="filename" *ngIf="taxPayer.loyalFile">
+                        <a [href]="taxPayer.loyalFile" download>Descargar</a>
+                      </span>
+                    </div>
                   </div>
-                  <div class="col-3" class="center">
-                    <a href="#" target="_blank" class="no-style">
-                      <mat-icon class="big-icon">insert_drive_file</mat-icon>
-                      <br>
-                      <span class="text-center">Archivo de Sellos</span>
-                    </a>
+                  <div class="col-5" class="center">
+                    <div class="file-picker">
+                      <div class="file-btn">
+                        Seleccionar Sellos
+                        <input class="picker" type="file" (change)="uploadLoyalFile($event)">
+                      </div>
+                      <span class="filename">
+                        Archivo seleccionado
+                      </span>
+                    </div>
                   </div>
                 </div>
               </mat-expansion-panel>

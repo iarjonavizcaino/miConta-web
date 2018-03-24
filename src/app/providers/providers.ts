@@ -12,6 +12,8 @@ import { PayMethodProvider } from './payMethod.prov';
 import { TaxesProvider } from './taxes.prov';
 import { HistoricalProvider } from './historical.prov';
 import { BitacoraProvider } from './bitacora.prov';
+import { FirebaseProvider } from './firebase.prov';
+
 export {
     ConceptProvider,
     ObligationProvider,
@@ -26,5 +28,6 @@ export {
     PayMethodProvider,
     TaxesProvider,
     HistoricalProvider,
-    BitacoraProvider
+    BitacoraProvider,
+    FirebaseProvider
 };

@@ -133,7 +133,7 @@
                     <input class="picker" type="file" (change)="onLoyalFile($event)">
                   </div>
                   <span class="filename">
-                    {{ loyalFile?.name || 'Ningún archivo seleccionado' }}
+                    {{ loyalFile || 'Ningún archivo seleccionado' }}
                   </span>
                 </div>
                 <br>

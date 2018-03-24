@@ -64,7 +64,8 @@ import {
   PayMethodProvider,
   TaxesProvider,
   HistoricalProvider,
-  BitacoraProvider
+  BitacoraProvider,
+  FirebaseProvider
 } from './providers/providers';
 
 // Pages
@@ -334,6 +335,7 @@ const routes: Routes = [
     TaxesProvider,
     HistoricalProvider,
     BitacoraProvider,
+    FirebaseProvider,
     //  Services
     RoleGuard,
     AuthGuard,
