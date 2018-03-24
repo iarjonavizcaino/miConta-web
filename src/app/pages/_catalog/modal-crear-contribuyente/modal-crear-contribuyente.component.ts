@@ -21,8 +21,8 @@ const RFC_REGEX = /^([A-ZÑ]{3,4}([0-9]{2})(0[1-9]|1[0-2])(0[1-9]|1[0-9]|2[0-9]|
   styleUrls: ['./modal-crear-contribuyente.component.scss']
 })
 export class ModalCrearContribuyenteComponent implements OnInit {
-  // files
-  loyalFile: any;
+  loyalFile: any; // file
+  loyalFileName = '';
 
   obligations = [];
   concepts = [];
@@ -66,7 +66,6 @@ export class ModalCrearContribuyenteComponent implements OnInit {
   ];
 
   constructor(
-    private firebaseProv: FirebaseProvider,
     private dialogCtrl: MatDialog,
     private dialogRef: MatDialogRef<ModalCrearContribuyenteComponent>,
     @Inject(MAT_DIALOG_DATA) private data: any,
@@ -113,9 +112,9 @@ export class ModalCrearContribuyenteComponent implements OnInit {
         fiscalRegime: '',
         activitySuspension: '',
         regimeChangey: '',
-        loyalValidity: '',
+        loyalValidity: '',  // dates
         regimenRegister: '',
-        sealValidity: '',
+        sealValidity: '', // dates
         yearBefore: 0.00,
         debtSAT: 0.00,
         ivaFavor: 0.00,
@@ -137,7 +136,8 @@ export class ModalCrearContribuyenteComponent implements OnInit {
             name: '',
             _id: ''
           }
-        }
+        },
+        loyalFile: '' // file
       };
     }
     this.profileProv.getAll().subscribe(data => {
@@ -221,7 +221,7 @@ export class ModalCrearContribuyenteComponent implements OnInit {
     this.currentProfile.obligations = this.obligations;
     this.taxPayer.profile = this.currentProfile;
     this.taxPayer.fiscalRegime = this.regimen;
-    this.dialogRef.close(this.taxPayer);
+    this.dialogRef.close({ taxpayer: this.taxPayer, loyalFile: this.loyalFile });  // close modal
   }
   onClose() {
     this.dialogRef.close();
@@ -295,16 +295,10 @@ export class ModalCrearContribuyenteComponent implements OnInit {
     });
   }
   uploadLoyalFile(ev: any) {
-    console.log(this.taxPayer);
+    console.log(ev);
     if (ev.target.files[0] && ev.target.files[0]) {
+      this.loyalFileName = ev.target.files[0].name;
       this.loyalFile = ev.target.files[0];  // get the file
-
-      // call provider and send file
-      this.firebaseProv.uploadFile('fiel/', this.taxPayer._id, 'txt', this.loyalFile).then(res => {
-        console.log(res.downloadURL);
-      }, err => {
-        console.log(err);
-      });
     }
   }
 } // class

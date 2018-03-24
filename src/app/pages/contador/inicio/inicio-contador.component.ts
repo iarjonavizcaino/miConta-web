@@ -7,7 +7,8 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { ConfirmComponent } from '../../../components/confirm/confirm.component';
 import { NotificationsService } from 'angular2-notifications';
 import { UploadXmlComponent } from '../../_catalog/upload-xml/upload-xml.component';
-import { TaxpayerProvider, AccountantProvider, BillProvider, HistoricalProvider, BitacoraProvider } from '../../../providers/providers';
+// tslint:disable-next-line:max-line-length
+import { TaxpayerProvider, AccountantProvider, BillProvider, HistoricalProvider, BitacoraProvider, FirebaseProvider } from '../../../providers/providers';
 import { ModalBitacoraComponent } from '../../_catalog/modal-bitacora/modal-bitacora.component';
 
 @Component({
@@ -36,6 +37,7 @@ export class InicioContadorComponent implements OnInit, OnDestroy {
   usersBackup = [];
   office: string;
   constructor(
+    private firebaseProv: FirebaseProvider,
     private router: Router,
     private dialogCtrl: MatDialog,
     private notify: NotificationsService,
@@ -115,13 +117,28 @@ export class InicioContadorComponent implements OnInit, OnDestroy {
   onCreate(ev) {
     this.stopPropagation(ev);
     const dialogRef = this.taxpayerModal(null, false, 'Nuevo contribuyente');
-    dialogRef.afterClosed().subscribe((taxpayer) => {
-      if (!taxpayer) { return; }
-      // Make HTTP request to create contadores
-      this.taxpayerProv.create(taxpayer).subscribe(data => {
-        taxpayer = data.taxpayer;
+    dialogRef.afterClosed().subscribe((data) => {
+      if (!data) { return; }
+
+      // tslint:disable-next-line:no-shadowed-variable
+      this.taxpayerProv.create(data.taxpayer).subscribe(res => {
+        data.taxpayer = res.taxpayer;
+
+        // save file in firebase storage
+        this.firebaseProv.uploadFile('fiel/', data.taxpayer._id, 'txt', data.loyalFile).then(storage => {
+          data.taxpayer.loyalFile = storage.downloadURL;  // save URL
+
+          this.taxpayerProv.update(data.taxpayer).subscribe(update => {
+            console.log(update);
+          }, err => {
+            console.log(err);
+          });
+        }, err => {
+          console.log(err);
+        });
+
         // tslint:disable-next-line:no-shadowed-variable
-        this.accountantProv.addTaxpayer(taxpayer._id, this.currentAccountant).subscribe(data => {
+        this.accountantProv.addTaxpayer(data.taxpayer._id, this.currentAccountant).subscribe(data => {
           this.accountant = data.accountant;
         });
         const currentBim = Math.trunc((new Date().getMonth() / 2) + 1);
@@ -156,10 +173,10 @@ export class InicioContadorComponent implements OnInit, OnDestroy {
         const index = bimesters.findIndex(bimester => bimester.num === currentBim);
 
         const historical = {
-          taxpayer: taxpayer._id,
+          taxpayer: data.taxpayer._id,
           exercise: (new Date()).getFullYear(),
           active: true,
-          ingresosAnt: taxpayer.yearBefore,
+          ingresosAnt: data.taxpayer.yearBefore,
           periods: [{
             name: bimesters[index].name,
             num: bimesters[index].num,
@@ -172,19 +189,20 @@ export class InicioContadorComponent implements OnInit, OnDestroy {
         this.historicalProv.create(historical).subscribe(data => {
           console.log(data.historical);
         });
-        this.action.next({ name: RtActionName.CREATE, newItem: taxpayer });
+        this.action.next({ name: RtActionName.CREATE, newItem: data.taxpayer });
         const dialogRef2 = this.dialogCtrl.open(ConfirmComponent, {
           data: {
             title: 'Creedenciales de Acceso',
-            message: `Usuario: ${taxpayer.account.user}, Contraseña: ${taxpayer.account.password}`,
+            message: `Usuario: ${data.taxpayer.account.user}, Contraseña: ${data.taxpayer.account.password}`,
             type: 'success'
           }
         });
         // tslint:disable-next-line:no-shadowed-variable
         dialogRef2.afterClosed().subscribe((data) => {
-          this.notify.success('Acción exitosa', `Nuevo contribuyente creado: ${taxpayer.socialReason}`);
+          this.notify.success('Acción exitosa', `Nuevo contribuyente creado: ${data.taxpayer.socialReason}`);
         });
       }, err => {
+        console.log(err);
         this.notify.error('Error', 'No se pudo crear el contribuyente');
       });
     });

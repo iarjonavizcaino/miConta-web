@@ -124,7 +124,7 @@
           <div class="col-4">
             <mat-form-field>
               <mat-icon matPrefix>attach_money</mat-icon>
-              <input style="text-align: right; padding-right: 10px" [formControl]="taxpayerForm.controls['debtSAT']" matInput placeholder="Dif. gastos mayores a ingresos periodos ant."
+              <input min="1" style="text-align: right; padding-right: 10px" [formControl]="taxpayerForm.controls['debtSAT']" matInput placeholder="Dif. gastos mayores a ingresos periodos ant."
                 type="number" [(ngModel)]="taxPayer.debtSAT">
               <mat-error *ngIf="taxpayerForm.controls['debtSAT'].hasError('required')">
                 Campo
@@ -135,7 +135,7 @@
           <div class="col-4">
             <mat-form-field>
               <mat-icon matPrefix>attach_money</mat-icon>
-              <input style="text-align: right; padding-right: 10px" [formControl]="taxpayerForm.controls['ivaFavor']" matInput placeholder="IVA a favor periodos ant."
+              <input min="1" style="text-align: right; padding-right: 10px" [formControl]="taxpayerForm.controls['ivaFavor']" matInput placeholder="IVA a favor periodos ant."
                 type="number" [(ngModel)]="taxPayer.ivaFavor">
               <mat-error *ngIf="taxpayerForm.controls['ivaFavor'].hasError('required')">
                 Campo
@@ -146,7 +146,7 @@
           <div class="col-4">
             <mat-form-field>
               <mat-icon matPrefix>attach_money</mat-icon>
-              <input style="text-align: right; padding-right: 10px" [formControl]="taxpayerForm.controls['yearBefore']" matInput placeholder="Ingresos totales ejercicio ant."
+              <input min="1" style="text-align: right; padding-right: 10px" [formControl]="taxpayerForm.controls['yearBefore']" matInput placeholder="Ingresos totales ejercicio ant."
                 type="number" [(ngModel)]="taxPayer.yearBefore">
               <mat-error *ngIf="taxpayerForm.controls['yearBefore'].hasError('required')">
                 Campo
@@ -213,8 +213,11 @@
                         Seleccionar Fiel
                         <input class="picker" type="file" (change)="uploadLoyalFile($event)">
                       </div>
-                      <span class="filename" *ngIf="loyalFile">
-                        Archivo seleccionado
+                      <span class="filename" *ngIf="loyalFileName">
+                        Archivo: {{loyalFileName}}
+                      </span>
+                      <span class="filename" *ngIf="taxPayer.loyalFile">
+                        <a [href]="taxPayer.loyalFile" download>Descargar</a>
                       </span>
                     </div>
                   </div>
@@ -224,7 +227,7 @@
                         Seleccionar Sellos
                         <input class="picker" type="file" (change)="uploadLoyalFile($event)">
                       </div>
-                      <span class="filename" *ngIf="loyalFile">
+                      <span class="filename">
                         Archivo seleccionado
                       </span>
                     </div>
