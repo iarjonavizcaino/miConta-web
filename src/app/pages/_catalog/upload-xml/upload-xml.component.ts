@@ -191,8 +191,13 @@ export class UploadXmlComponent implements OnInit {
           product.deducible = true;
         } else {
           const index2 = this.allConcepts.findIndex(concepto => concepto.code.substr(0, 2) === conceptCode);
-          product.code = this.allConcepts[index2].code.substr(0, 2);
-          product.concept = this.allConcepts[index2].concept;
+          if (index2 !== -1) {
+            product.code = this.allConcepts[index2].code.substr(0, 2);
+            product.concept = this.allConcepts[index2].concept;
+          } else {
+            product.code = concept._attributes.ClaveProdServ.substr(0, 2);
+            product.concept = 'Concepto no registrado';
+          }
           newBill.deducible = false;
           product.deducible = false;
         }
@@ -217,8 +222,13 @@ export class UploadXmlComponent implements OnInit {
         product.deducible = true;
       } else {
         const index2 = this.allConcepts.findIndex(concept => concept.code.substr(0, 2) === conceptCode);
-        product.code = this.allConcepts[index2].code.substr(0, 2);
-        product.concept = this.allConcepts[index2].concept;
+        if (index2 !== -1) {
+          product.code = this.allConcepts[index2].code.substr(0, 2);
+          product.concept = this.allConcepts[index2].concept;
+        } else {
+          product.code = jsonBill.Comprobante.Conceptos.Concepto._attributes.ClaveProdServ.substr(0, 2);
+          product.concept = 'Concepto no registrado';
+        }
         newBill.deducible = false;
         product.deducible = false;
       }
