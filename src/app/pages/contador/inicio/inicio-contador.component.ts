@@ -273,11 +273,23 @@ export class InicioContadorComponent implements OnInit, OnDestroy {
 
     dialogRef.afterClosed().subscribe(data => {
       if (!data) { return; }
-      // use provier and notify
-      this.billProv.create(data).subscribe((res) => {
-        this.notify.success('Acción exitosa', 'Las facturas se han guardado correctamente');
-      }, err => {
-        this.notify.error('Error', 'No se pudo guardar la factura');
+      // save link to download file
+      data.forEach(element => {
+
+        // use provier and notify
+        this.billProv.create(element.bill).subscribe((res) => {
+          // save in firebase storage
+          console.log(res.bill);
+          this.firebaseProv.uploadFile('xml/', res.bill_.id + '-' + new Date(), 'xml', element.file).then(storage => {
+            console.log(storage.downloadURL);
+            res.bill.xmlFile = storage.downloadURL;
+            this.billProv.update(res.bill._id, res.bill).subscribe(update => {
+              this.notify.success('Acción exitosa', 'La factura se han guardado correctamente');
+            }, err => { console.log(err); }); // update bill with xmlFile
+          }, err => { console.log(err); });  // save in firebase
+        }, err => { // create bill
+          this.notify.error('Error', 'No se pudo guardar la factura');
+        });
       });
     });
   }
