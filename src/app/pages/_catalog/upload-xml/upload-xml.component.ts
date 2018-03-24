@@ -29,6 +29,7 @@ export class UploadXmlComponent implements OnInit {
   concepts = [];
   allConcepts = [];
   files = [];
+  xmlFileURL = '';
   constructor(
     private firebaseProv: FirebaseProvider,
     private dialogRef: MatDialogRef<UploadXmlComponent>,
@@ -53,8 +54,17 @@ export class UploadXmlComponent implements OnInit {
   onClose() {
     this.dialogRef.close();
   }
-
+  // quitenlo no sirve, nomas estorba (lo guarda vacío)
+  uploadFirebase(ev: any) {
+    this.firebaseProv.uploadFile('xml/', this.taxpayer._id, 'xml', ev[0]).then(res => {
+      console.log(res.downloadURL);
+      this.xmlFileURL = res.downloadURL;
+    }, err => {
+      console.log(err);
+    });
+  }
   onUploadSuccess(ev: any) {
+    this.uploadFirebase(ev);
     this.xml = true;
     const xml_str = ev[1].files.file; // XML text
     // parse to json
@@ -138,6 +148,7 @@ export class UploadXmlComponent implements OnInit {
       },
       general_public: jsonBill.Comprobante.Receptor._attributes.Rfc === 'XAXX010101000' ? true : false,
       captureMode: 'X',
+      xmlFile: this.xmlFileURL,
       tasa: jsonBill.Comprobante.Impuestos.Traslados.Traslado._attributes.TasaOCuota,
       taxes: jsonBill.Comprobante.Impuestos._attributes.TotalImpuestosTrasladados,
       retenciones: jsonBill.Comprobante.Impuestos._attributes.TotalImpuestosRetenidos,
