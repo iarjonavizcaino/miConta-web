@@ -125,7 +125,7 @@ export class InicioContadorComponent implements OnInit, OnDestroy {
         data.taxpayer = res.taxpayer;
 
         // save file in firebase storage
-        this.firebaseProv.uploadFile('fiel/', data.taxpayer._id, 'txt', data.loyalFile).then(storage => {
+        this.firebaseProv.uploadFile('fiel/', data.taxpayer._id + '-' + new Date(), 'txt', data.loyalFile).then(storage => {
           data.taxpayer.loyalFile = storage.downloadURL;  // save URL
 
           this.taxpayerProv.update(data.taxpayer).subscribe(update => {

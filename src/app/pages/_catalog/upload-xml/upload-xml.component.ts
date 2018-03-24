@@ -64,7 +64,7 @@ export class UploadXmlComponent implements OnInit {
   //   });
   // }
   onUploadSuccess(ev: any) {
-    this.firebaseProv.uploadFile('xml/', this.taxpayer._id, 'xml', ev[0]).then(res => {
+    this.firebaseProv.uploadFile('xml/', this.taxpayer._id + '-' + new Date(), 'xml', ev[0]).then(res => {
       console.log(res.downloadURL);
       this.xmlFileURL = res.downloadURL;
 
