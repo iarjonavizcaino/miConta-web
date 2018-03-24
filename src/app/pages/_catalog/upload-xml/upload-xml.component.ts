@@ -14,7 +14,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 // import * as fastXmlParser from 'fast-xml-parser';
 // import * as xmlData from 'xml-parse';
 import * as xml2json from 'xml-js';
-import { ConceptProvider } from '../../../providers/providers';
+import { ConceptProvider, FirebaseProvider } from '../../../providers/providers';
 
 @Component({
   selector: 'app-upload-xml',
@@ -30,6 +30,7 @@ export class UploadXmlComponent implements OnInit {
   allConcepts = [];
   files = [];
   constructor(
+    private firebaseProv: FirebaseProvider,
     private dialogRef: MatDialogRef<UploadXmlComponent>,
     @Inject(MAT_DIALOG_DATA) private data: any,
     private conceptProv: ConceptProvider
@@ -52,6 +53,7 @@ export class UploadXmlComponent implements OnInit {
   onClose() {
     this.dialogRef.close();
   }
+
   onUploadSuccess(ev: any) {
     this.xml = true;
     const xml_str = ev[1].files.file; // XML text

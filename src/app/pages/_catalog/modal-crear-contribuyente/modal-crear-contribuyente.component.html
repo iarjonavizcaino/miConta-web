@@ -207,20 +207,27 @@
                   </mat-panel-description>
                 </mat-expansion-panel-header>
                 <div class="row">
-                  <div class="col-2"></div>
-                  <div class="col-3">
-                    <a href="#" target="_blank" class="no-style">
-                      <mat-icon class="big-icon">insert_drive_file</mat-icon>
-                      <br>
-                      <span class="text-center">Archivo de Fiel</span>
-                    </a>
+                  <div class="col-5">
+                    <div class="file-picker">
+                      <div class="file-btn">
+                        Seleccionar Fiel
+                        <input class="picker" type="file" (change)="uploadLoyalFile($event)">
+                      </div>
+                      <span class="filename" *ngIf="loyalFile">
+                        Archivo seleccionado
+                      </span>
+                    </div>
                   </div>
-                  <div class="col-3" class="center">
-                    <a href="#" target="_blank" class="no-style">
-                      <mat-icon class="big-icon">insert_drive_file</mat-icon>
-                      <br>
-                      <span class="text-center">Archivo de Sellos</span>
-                    </a>
+                  <div class="col-5" class="center">
+                    <div class="file-picker">
+                      <div class="file-btn">
+                        Seleccionar Sellos
+                        <input class="picker" type="file" (change)="uploadLoyalFile($event)">
+                      </div>
+                      <span class="filename" *ngIf="loyalFile">
+                        Archivo seleccionado
+                      </span>
+                    </div>
                   </div>
                 </div>
               </mat-expansion-panel>

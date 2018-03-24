@@ -8,6 +8,8 @@ import { trigger, transition, style, animate } from '@angular/animations';
 import * as moment from 'moment';
 import { AuthService } from './services/services';
 import { _roles } from '../app/services/global';
+import * as firebase from 'firebase';
+import { firebaseConfig } from '../app/app.firebase';
 
 @Component({
   selector: 'app-root',
@@ -42,7 +44,9 @@ export class AppComponent implements OnInit {
   constructor(
     public auth: AuthService,
     private router: Router,
-    private session: SessionService) { }
+    private session: SessionService) {
+    firebase.initializeApp(firebaseConfig);
+  }
 
   @HostListener('window:resize', ['$event'])
   onResize(event) {
