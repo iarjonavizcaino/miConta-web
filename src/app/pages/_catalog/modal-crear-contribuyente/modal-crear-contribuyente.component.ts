@@ -13,6 +13,8 @@ import { Observable } from 'rxjs/Observable';
 import { ModalConceptosComponent } from '../modal-conceptos/modal-conceptos.component';
 import { ModalObligacionesComponent } from '../modal-obligaciones/modal-obligaciones.component';
 import { ProfileProvider, FirebaseProvider } from '../../../providers/providers';
+import { UploadMultipleComponent } from '../upload-multiple/upload-multiple.component';
+import { DownloadFilesComponent } from '../download-files/download-files.component';
 const RFC_REGEX = /^([A-ZÑ]{3,4}([0-9]{2})(0[1-9]|1[0-2])(0[1-9]|1[0-9]|2[0-9]|3[0-1]))([A-Z\d]{3})?$/;
 
 @Component({
@@ -21,8 +23,10 @@ const RFC_REGEX = /^([A-ZÑ]{3,4}([0-9]{2})(0[1-9]|1[0-2])(0[1-9]|1[0-9]|2[0-9]|
   styleUrls: ['./modal-crear-contribuyente.component.scss']
 })
 export class ModalCrearContribuyenteComponent implements OnInit {
-  loyalFile: any; // file
+  loyalFile: any; // fiel
   loyalFileName = '';
+
+  sailsFile = []; // sellos
 
   obligations = [];
   concepts = [];
@@ -137,7 +141,8 @@ export class ModalCrearContribuyenteComponent implements OnInit {
             _id: ''
           }
         },
-        loyalFile: '' // file
+        loyalFile: '', // file
+        sailsFile: [] // file
       };
     }
     this.profileProv.getAll().subscribe(data => {
@@ -221,7 +226,7 @@ export class ModalCrearContribuyenteComponent implements OnInit {
     this.currentProfile.obligations = this.obligations;
     this.taxPayer.profile = this.currentProfile;
     this.taxPayer.fiscalRegime = this.regimen;
-    this.dialogRef.close({ taxpayer: this.taxPayer, loyalFile: this.loyalFile });  // close modal
+    this.dialogRef.close({ taxpayer: this.taxPayer, loyalFile: this.loyalFile, sailsFile: this.sailsFile });  // close modal
   }
   onClose() {
     this.dialogRef.close();
@@ -294,11 +299,33 @@ export class ModalCrearContribuyenteComponent implements OnInit {
       }
     });
   }
+
   uploadLoyalFile(ev: any) {
-    console.log(ev);
     if (ev.target.files[0] && ev.target.files[0]) {
       this.loyalFileName = ev.target.files[0].name;
       this.loyalFile = ev.target.files[0];  // get the file
     }
+  }
+  uploadMultiple() {
+    const dialogRef = this.dialogCtrl.open(UploadMultipleComponent, {
+      disableClose: true,
+      data: {
+        title: 'Subir Sellos'
+      }
+    });
+    dialogRef.afterClosed().subscribe(files => {
+      if (!files) { return; }
+      this.sailsFile = files; // save for now
+    });
+  }
+  downloadFiles() {
+    this.dialogCtrl.open(DownloadFilesComponent, {
+      disableClose: true,
+      data: {
+        title: 'Descargar Sellos',
+        taxpayer: this.taxPayer,
+        files: this.taxPayer.sailsFile
+      }
+    });
   }
 } // class

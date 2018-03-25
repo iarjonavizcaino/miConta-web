@@ -1,0 +1,46 @@
+<section class="download-files-catalog">
+  <header class="header">
+    <h3 class="title">
+      {{title}}</h3>
+    <button mat-icon-button (click)="onClose()">
+      <mat-icon>close</mat-icon>
+    </button>
+  </header>
+
+  <div class="body">
+    <div class="row">
+      <div class="col-12">
+        <mat-card>
+          <strong class="float-left">{{currentTaxpayer.name}}</strong>
+          <strong class="float-right">{{currentTaxpayer.rfc}}</strong>
+          <br>
+        </mat-card>
+      </div>
+    </div>
+    <br>
+    <div class="row">
+      <div class="col-12">
+        <mat-card>
+          <div *ngFor="let file of files">
+            <span class="float-left">{{file.fileName.split('-')[0]}}</span>
+            <br>
+            <span class="float-left">{{file.fileName.split('-')[1]}}</span>
+            <span class="float-right">
+              <div class="file-picker">
+                  <a class="file-btn" [href]="file.link" download>Descargar</a>
+              </div>
+            </span>
+            <br><br>
+            <hr>
+          </div>
+        </mat-card>
+      </div>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <button mat-raised-button color="primary" (click)="onClose()">
+      Cerrar
+    </button>
+  </footer>
+</section>

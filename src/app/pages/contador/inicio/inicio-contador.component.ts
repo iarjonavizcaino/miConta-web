@@ -119,17 +119,27 @@ export class InicioContadorComponent implements OnInit, OnDestroy {
     const dialogRef = this.taxpayerModal(null, false, 'Nuevo contribuyente');
     dialogRef.afterClosed().subscribe((data) => {
       if (!data) { return; }
-
+      const sailsFile = data.sailsFile;
       // tslint:disable-next-line:no-shadowed-variable
       this.taxpayerProv.create(data.taxpayer).subscribe(res => {
         data.taxpayer = res.taxpayer;
 
-        // save file in firebase storage
-        this.firebaseProv.uploadFile('fiel/', data.taxpayer._id, 'txt', data.loyalFile).then(storage => {
-          data.taxpayer.loyalFile = storage.downloadURL;  // save URL
+        // save sailsFile
+        for (let i = 0; i < sailsFile.length; i++) {
+          const name = data.taxpayer._id + '-' + new Date();
+          // tslint:disable-next-line:no-shadowed-variable
+          this.firebaseProv.uploadFile('sellos/', name, 'txt', sailsFile[i]).then(sailsFile => {
+            data.taxpayer.sailsFile.push({ fileName: name, link: sailsFile.downloadURL });
+          });
+        } // OK
 
+        // save loyalFile in firebase storage
+        this.firebaseProv.uploadFile('fiel/', data.taxpayer._id + '-' + new Date(), 'txt', data.loyalFile).then(loyalFile => {
+          data.taxpayer.loyalFile = loyalFile.downloadURL;  // save URL
+          console.log('before', data.taxpayer.sailsFile);
+          // update taxpayer with loyal and sails files
           this.taxpayerProv.update(data.taxpayer).subscribe(update => {
-            console.log(update);
+            console.log('after', update);
           }, err => {
             console.log(err);
           });

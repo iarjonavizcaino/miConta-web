@@ -123,6 +123,7 @@ import { ModalAsignarContribComponent } from './pages/_catalog/modal-asignar-con
 import { TaxpayerCatalogComponent } from './pages/_catalog/taxpayer-catalog/taxpayer-catalog.component';
 import { ModalChangeStatusComponent } from './pages/_catalog/modal-change-status/modal-change-status.component';
 import { UploadXmlComponent } from './pages/_catalog/upload-xml/upload-xml.component';
+import { UploadMultipleComponent } from './pages/_catalog/upload-multiple/upload-multiple.component';
 import { ModalNewStatementComponent } from './pages/_catalog/modal-new-statement/modal-new-statement.component';
 import { UploadStatementFileComponent } from './pages/_catalog/upload-statement-file/upload-statement-file.component';
 import { ModalObligacionesComponent } from './pages/_catalog/modal-obligaciones/modal-obligaciones.component';
@@ -134,7 +135,7 @@ import { ModalFechaComponent } from './pages/_catalog/modal-fecha/modal-fecha.co
 import { ModalImpuestosComponent } from './pages/_catalog/modal-impuestos/modal-impuestos.component';
 import { ModalCierreBimestreComponent } from './pages/_catalog/modal-cierre-bimestre/modal-cierre-bimestre.component';
 import { ModalBitacoraComponent } from './pages/_catalog/modal-bitacora/modal-bitacora.component';
-
+import { DownloadFilesComponent } from './pages/_catalog/download-files/download-files.component';
 
 // all routes pages
 const routes: Routes = [
@@ -219,6 +220,7 @@ const routes: Routes = [
     TaxpayerCatalogComponent,
     ModalChangeStatusComponent,
     UploadXmlComponent,
+    UploadMultipleComponent,
     UploadStatementFileComponent,
     ModalNewStatementComponent,
     ModalObligacionesComponent,
@@ -229,7 +231,8 @@ const routes: Routes = [
     ModalFechaComponent,
     ModalImpuestosComponent,
     ModalCierreBimestreComponent,
-    ModalBitacoraComponent
+    ModalBitacoraComponent,
+    DownloadFilesComponent
   ],
   declarations: [
     AppComponent,
@@ -243,6 +246,7 @@ const routes: Routes = [
     TaxpayerCatalogComponent,
     ModalChangeStatusComponent,
     UploadXmlComponent,
+    UploadMultipleComponent,
     UploadStatementFileComponent,
     ModalNewStatementComponent,
     ModalObligacionesComponent,
@@ -283,6 +287,7 @@ const routes: Routes = [
     ModalImpuestosComponent,
     ModalCierreBimestreComponent,
     ModalBitacoraComponent,
+    DownloadFilesComponent
   ],
   imports: [
     BrowserModule,

@@ -1,8 +1,7 @@
-.taxpayer-catalog {
+.download-files-catalog {
     $bd-divider: 1px solid #ccc;
     
-    // min-width: 600px;
-    max-width: 800px;
+    min-width: 600px;
 
     .header,
     .body,
@@ -35,35 +34,6 @@
         .row:last-child {
             margin-top: 8px;
         }
-
-        .file-picker {
-
-            .file-btn {
-                position: relative;
-                display: inline-block;
-                overflow: hidden;
-                padding: 8px 16px;
-                border-radius: 4px;
-                border: 1px solid #ccc;
-
-                .picker {
-                    position: absolute;
-                    left: 0;
-                    top: 0;
-                    right: 0;
-                    bottom: 0;
-                    opacity: 0;
-                }
-            }
-            .file-btn:hover{
-                cursor: pointer;
-            }
-
-            .filename {
-                display: block;
-                color: #444;
-            }
-        }
     }
 
     .footer {
@@ -74,12 +44,6 @@
 }
 
 :host ::ng-deep {
-    .mat-icon {
-        color: #666;
-    }
-    .mat-expansion-panel-body{
-        overflow-x: hidden;
-    }
     mat-form-field {
         .mat-form-field-prefix {
             margin-right: 8px;
@@ -88,20 +52,33 @@
         .mat-icon {
             color: #666;
         }
-        .mat-expansion-panel-body{
-            overflow-x: hidden;
-        }
     }
 }
-.little-icon{
-    font-size: 1.2em;
-}
-.little-margin-left{
-    margin-left: 2.3%;
-}
-.no-style{
-    text-decoration: none;
-    color: inherit;
+
+.file-picker {
+
+    .file-btn {
+        position: relative;
+        display: inline-block;
+        overflow: hidden;
+        padding: 8px 16px;
+        border-radius: 4px;
+        border: 1px solid #ccc;
+
+        .picker {
+            position: absolute;
+            left: 0;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            opacity: 0;
+        }
+    }
+
+    .filename {
+        display: block;
+        color: #444;
+    }
 }
 .file-picker {
 

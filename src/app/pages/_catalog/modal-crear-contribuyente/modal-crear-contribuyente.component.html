@@ -135,8 +135,8 @@
           <div class="col-4">
             <mat-form-field>
               <mat-icon matPrefix>attach_money</mat-icon>
-              <input min="1" style="text-align: right; padding-right: 10px" [formControl]="taxpayerForm.controls['ivaFavor']" matInput placeholder="IVA a favor periodos ant."
-                type="number" [(ngModel)]="taxPayer.ivaFavor">
+              <input min="1" style="text-align: right; padding-right: 10px" [formControl]="taxpayerForm.controls['ivaFavor']" matInput
+                placeholder="IVA a favor periodos ant." type="number" [(ngModel)]="taxPayer.ivaFavor">
               <mat-error *ngIf="taxpayerForm.controls['ivaFavor'].hasError('required')">
                 Campo
                 <strong>requerido</strong>
@@ -146,8 +146,8 @@
           <div class="col-4">
             <mat-form-field>
               <mat-icon matPrefix>attach_money</mat-icon>
-              <input min="1" style="text-align: right; padding-right: 10px" [formControl]="taxpayerForm.controls['yearBefore']" matInput placeholder="Ingresos totales ejercicio ant."
-                type="number" [(ngModel)]="taxPayer.yearBefore">
+              <input min="1" style="text-align: right; padding-right: 10px" [formControl]="taxpayerForm.controls['yearBefore']" matInput
+                placeholder="Ingresos totales ejercicio ant." type="number" [(ngModel)]="taxPayer.yearBefore">
               <mat-error *ngIf="taxpayerForm.controls['yearBefore'].hasError('required')">
                 Campo
                 <strong>requerido</strong>
@@ -223,12 +223,12 @@
                   </div>
                   <div class="col-5" class="center">
                     <div class="file-picker">
-                      <div class="file-btn">
-                        Seleccionar Sellos
-                        <input class="picker" type="file" (change)="uploadLoyalFile($event)">
-                      </div>
-                      <span class="filename">
-                        Archivo seleccionado
+                      <a class="file-btn" (click)="uploadMultiple()">Seleccionar Sellos</a>
+                      <span class="filename" *ngIf="sailsFile.length !== 0">
+                        Archivo(s) seleccionado(s)
+                      </span>
+                      <span class="filename" *ngIf="taxPayer.sailsFile.length !== 0">
+                        <a class="active" (click)="downloadFiles()">Descargar</a>
                       </span>
                     </div>
                   </div>
@@ -267,26 +267,6 @@
             </mat-form-field>
           </div>
         </div>
-        <!-- <div class="row">
-        <div class="col-12">
-          <mat-accordion>
-            <mat-expansion-panel>
-              <mat-expansion-panel-header>
-                <mat-panel-title>
-                  <strong>Archivo de situación fiscal</strong>
-                </mat-panel-title>
-              </mat-expansion-panel-header>
-              <mat-card>
-                <mat-card-content>
-                  <input placeholder="Archivo" type="file">
-                  <br>
-                  <a target="_blank" href="http://archivo.html">Ver archivo</a>
-                </mat-card-content>
-              </mat-card>
-            </mat-expansion-panel>
-          </mat-accordion>
-        </div>
-      </div> -->
         <br>
         <ng-container *ngIf="readonly">
 

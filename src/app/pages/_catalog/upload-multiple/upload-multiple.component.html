@@ -1,0 +1,24 @@
+<section class="upload-multiple-catalog">
+  <header class="header">
+    <h3 class="title">
+      {{title}}</h3>
+    <button mat-icon-button (click)="onClose()">
+      <mat-icon>close</mat-icon>
+    </button>
+  </header>
+
+  <div class="body">
+    <div class="container" (keydown)="key($event)">
+      <dropzone [config]="customConfig" [message]="'Click o suelta los archivos aquí'" (error)="onUploadError($event)" (success)="onUploadSuccess($event)"></dropzone>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <button mat-button (click)="onClose()">
+      Cancelar
+    </button>
+    <button mat-raised-button color="primary" [disabled]="!multipleFiles" (click)="onSave()">
+      Guardar
+    </button>
+  </footer>
+</section>
