@@ -122,10 +122,10 @@ export class UploadXmlComponent implements OnInit {
         paymentMethod = 'Otros';
         break;
     }
-    const type = jsonBill.Comprobante._attributes.TipoDeComprobante;
+    const type = this.taxpayer.rfc === jsonBill.Comprobante.Emisor._attributes.Nombre ? 'Ingresos' : 'Egresos';
     const newBill = {
       taxpayer: this.taxpayer._id,
-      type: type === 'I' ? 'Ingresos' : 'Egresos',
+      type: type,
       createdDate: jsonBill.Comprobante._attributes.Fecha,
       cobrada_pagada: jsonBill.Comprobante._attributes.MetodoPago === 'PUE' ? true : false,
       cobrada_pagadaDate: jsonBill.Comprobante._attributes.MetodoPago === 'PUE' ? jsonBill.Comprobante._attributes.Fecha : null,
@@ -143,8 +143,8 @@ export class UploadXmlComponent implements OnInit {
       subtotal: jsonBill.Comprobante._attributes.SubTotal,
       total: jsonBill.Comprobante._attributes.Total,
       customer_provider: {
-        name: type === 'I' ? jsonBill.Comprobante.Receptor._attributes.Nombre : jsonBill.Comprobante.Emisor._attributes.Nombre,
-        rfc: type === 'I' ? jsonBill.Comprobante.Receptor._attributes.Rfc : jsonBill.Comprobante.Emisor._attributes.Rfc,
+        name: type === 'Ingresos' ? jsonBill.Comprobante.Receptor._attributes.Nombre : jsonBill.Comprobante.Emisor._attributes.Nombre,
+        rfc: type === 'Egresos' ? jsonBill.Comprobante.Receptor._attributes.Rfc : jsonBill.Comprobante.Emisor._attributes.Rfc,
         address: {
           street: '',
           number: '',
