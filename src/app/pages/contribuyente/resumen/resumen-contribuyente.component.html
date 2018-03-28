@@ -176,14 +176,14 @@
         </mat-expansion-panel-header>
         <div class="row">
           <div class="col-3">
-              <label>
-                  <strong>IVA total:</strong> {{ingresosIVA16 | currency:'USD':'symbol':'2.2-4'}}
-                </label>
+            <label>
+              <strong>IVA total:</strong> {{ingresosIVA16 | currency:'USD':'symbol':'2.2-4'}}
+            </label>
           </div>
           <div class="col-3">
-              <label>
-                  <strong>Total ingresos:</strong> {{ingresosIVA16 + sumIngresos | currency:'USD':'symbol':'2.2-4'}}
-                </label>
+            <label>
+              <strong>Total ingresos:</strong> {{ingresosIVA16 + sumIngresos | currency:'USD':'symbol':'2.2-4'}}
+            </label>
           </div>
           <div class="col-6"></div>
         </div>
@@ -198,9 +198,9 @@
               <button mat-icon-button (click)="onDownloadPDF($event)">
                 <mat-icon matTooltip="Descargar PDF" matTooltipPosition="above">picture_as_pdf</mat-icon>
               </button>
-              <button mat-icon-button (click)="onDownloadXMLIngresos($event)">
+              <a *ngIf="selectedIngresos.xmlFile" [href]="selectedIngresos.xmlFile" download mat-icon-button (click)="onDownloadXMLIngresos($event)">
                 <mat-icon matTooltip="Descargar XML" matTooltipPosition="above">code</mat-icon>
-              </button>
+              </a>
             </ng-container>
             <span *ngIf="contribuyente">
               <span class="separator" *ngIf="selectedIngresos"></span>
@@ -247,10 +247,10 @@
               <strong>IVA total:</strong> {{egresosIVA16 | currency:'USD':'symbol':'2.2-4'}}</label>
           </div>
           <div class="col-3">
-              <label>
-                <strong>Total egresos:</strong> {{egresosIVA16 + sumEgresos | currency:'USD':'symbol':'2.2-4'}}</label>
-            </div>
-            <div class="col-6"></div>
+            <label>
+              <strong>Total egresos:</strong> {{egresosIVA16 + sumEgresos | currency:'USD':'symbol':'2.2-4'}}</label>
+          </div>
+          <div class="col-6"></div>
         </div>
         <rt-datatable (selected)="onEgresosSelected($event)" (checked)="onEgresosChecked($event)" (toggleDeducible)="toggleDeducible($event)"
           (toggleFec)="onToggleFec($event)" [disableToggle]="!periodActive" searchWait="600" [showRowNumber]="false" [headers]="headersEgresos"

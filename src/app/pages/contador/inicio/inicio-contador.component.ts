@@ -83,8 +83,16 @@ export class InicioContadorComponent implements OnInit, OnDestroy {
     const users = JSON.parse(localStorage.getItem('users'));
     if (users) {
       this.users = users;
-      if (this.users.length > 2) {
-        this.users.length = 2;
+      if (this.role === 'Superadmin') {
+        if (this.users.length > 2) {
+          this.users.length = 2;
+        }
+      } else if (this.role === 'Despacho') {
+        if (this.users.length > 1) {
+          this.users.length = 1;
+        }
+      } else if (this.role === 'Contador') {
+        this.users.length = 0;
       }
     }
   }
@@ -119,17 +127,27 @@ export class InicioContadorComponent implements OnInit, OnDestroy {
     const dialogRef = this.taxpayerModal(null, false, 'Nuevo contribuyente');
     dialogRef.afterClosed().subscribe((data) => {
       if (!data) { return; }
-
+      const sailsFile = data.sailsFile;
       // tslint:disable-next-line:no-shadowed-variable
       this.taxpayerProv.create(data.taxpayer).subscribe(res => {
         data.taxpayer = res.taxpayer;
 
-        // save file in firebase storage
-        this.firebaseProv.uploadFile('fiel/', data.taxpayer._id + '-' + new Date(), 'txt', data.loyalFile).then(storage => {
-          data.taxpayer.loyalFile = storage.downloadURL;  // save URL
+        // save sailsFile
+        for (let i = 0; i < sailsFile.length; i++) {
+          const name = data.taxpayer._id + '-' + new Date();
+          // tslint:disable-next-line:no-shadowed-variable
+          this.firebaseProv.uploadFile('sellos/', name, 'txt', sailsFile[i]).then(sailsFile => {
+            data.taxpayer.sailsFile.push({ fileName: name, link: sailsFile.downloadURL });
+          });
+        } // OK
 
+        // save loyalFile in firebase storage
+        this.firebaseProv.uploadFile('fiel/', data.taxpayer._id + '-' + new Date(), 'txt', data.loyalFile).then(loyalFile => {
+          data.taxpayer.loyalFile = loyalFile.downloadURL;  // save URL
+          console.log('before', data.taxpayer.sailsFile);
+          // update taxpayer with loyal and sails files
           this.taxpayerProv.update(data.taxpayer).subscribe(update => {
-            console.log(update);
+            console.log('after', update);
           }, err => {
             console.log(err);
           });
@@ -273,11 +291,23 @@ export class InicioContadorComponent implements OnInit, OnDestroy {
 
     dialogRef.afterClosed().subscribe(data => {
       if (!data) { return; }
-      // use provier and notify
-      this.billProv.create(data).subscribe((res) => {
-        this.notify.success('Acción exitosa', 'Las facturas se han guardado correctamente');
-      }, err => {
-        this.notify.error('Error', 'No se pudo guardar la factura');
+      // save link to download file
+      data.forEach(element => {
+
+        // use provier and notify
+        this.billProv.create(element.bill).subscribe((res) => {
+          // save in firebase storage
+          console.log(res.bill);
+          this.firebaseProv.uploadFile('xml/', res.bill_.id + '-' + new Date(), 'xml', element.file).then(storage => {
+            console.log(storage.downloadURL);
+            res.bill.xmlFile = storage.downloadURL;
+            this.billProv.update(res.bill._id, res.bill).subscribe(update => {
+              this.notify.success('Acción exitosa', 'La factura se han guardado correctamente');
+            }, err => { console.log(err); }); // update bill with xmlFile
+          }, err => { console.log(err); });  // save in firebase
+        }, err => { // create bill
+          this.notify.error('Error', 'No se pudo guardar la factura');
+        });
       });
     });
   }

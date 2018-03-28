@@ -182,8 +182,20 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
     const users = JSON.parse(localStorage.getItem('users'));
     if (users) {
       this.users = users;
-      if (this.users.length > 3) {
-        this.users.length = 3;
+      if (isTax.role.name === 'Superadmin') {
+        if (this.users.length > 3) {
+          this.users.length = 3;
+        }
+      } else if (isTax.role.name === 'Despacho') {
+        if (this.users.length > 2) {
+          this.users.length = 2;
+        }
+      } else if (isTax.role.name === 'Contador') {
+        if (this.users.length > 1) {
+          this.users.length = 1;
+        }
+      } else {
+        this.users.length = 0;
       }
     }
   }
