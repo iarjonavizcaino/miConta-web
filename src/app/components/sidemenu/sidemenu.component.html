@@ -1,98 +1,213 @@
 <ul *ngIf="(user$ | async)" class="sidemenu">
-  <li>
+  <mat-accordion #matacordion>
+    <mat-expansion-panel #homeTaxPanel [expanded]="false" *ngIf="permission.contribuyente">
+      <mat-expansion-panel-header mat-button class="menu-item-sub" [routerLinkActiveOptions]="{ exact: true }" [routerLinkActive]="['is-active']"
+        routerLink="/contribuyente/inicio" (click)="selectedOption ='child'; homeTaxPanel.close()">
+        <mat-icon>home</mat-icon>
+        <div class="menu-item-title">Inicio</div>
+      </mat-expansion-panel-header>
+    </mat-expansion-panel>
+
+    <!-- <li>
     <button *ngIf="permission.contribuyente" mat-button class="home-item" [routerLinkActiveOptions]="{ exact: true }" [routerLinkActive]="['is-active']"
       routerLink="/contribuyente/inicio" (click)="selectedOption ='home'; home=true;">
       <mat-icon class="home-icon">home</mat-icon>
       <div class="home-item-title">Inicio</div>
     </button>
-  </li>
-  <li>
+  </li> -->
+
+    <mat-expansion-panel #homeAccoPanel [expanded]="false" *ngIf="permission.contador">
+      <mat-expansion-panel-header mat-button class="menu-item-sub" [routerLinkActiveOptions]="{ exact: true }" [routerLinkActive]="['is-active']"
+        routerLink="/contador/inicio" (click)="selectedOption ='child'; homeAccoPanel.close()">
+        <mat-icon>home</mat-icon>
+        <div class="menu-item-title">Inicio</div>
+      </mat-expansion-panel-header>
+    </mat-expansion-panel>
+
+    <!-- <li>
     <button *ngIf="permission.contador" mat-button class="home-item" [routerLinkActiveOptions]="{ exact: true }" [routerLinkActive]="['is-active']"
       routerLink="/contador/inicio" (click)="selectedOption ='home'; home=true;">
       <mat-icon class="home-icon">home</mat-icon>
       <div class="home-item-title">Inicio</div>
     </button>
-  </li>
-  <li>
+  </li> -->
+
+    <mat-expansion-panel #homeOffiPanel [expanded]="false" *ngIf="permission.despacho">
+      <mat-expansion-panel-header mat-button class="menu-item-sub" [routerLinkActiveOptions]="{ exact: true }" [routerLinkActive]="['is-active']"
+        routerLink="/despacho/inicio" (click)="selectedOption ='child'; homeOffiPanel.close()">
+        <mat-icon>home</mat-icon>
+        <div class="menu-item-title">Inicio</div>
+      </mat-expansion-panel-header>
+    </mat-expansion-panel>
+
+    <!-- <li>
     <button *ngIf="permission.despacho" mat-button class="home-item" [routerLinkActiveOptions]="{ exact: true }" [routerLinkActive]="['is-active']"
       routerLink="/despacho/inicio" (click)="selectedOption ='home'; home=true;">
       <mat-icon class="home-icon">home</mat-icon>
       <div class="home-item-title">Inicio</div>
     </button>
-  </li>
-  <li>
+  </li> -->
+
+    <mat-expansion-panel #homeAdminPanel [expanded]="false" *ngIf="permission.superadmin">
+      <mat-expansion-panel-header mat-button class="menu-item-sub" [routerLinkActiveOptions]="{ exact: true }" [routerLinkActive]="['is-active']"
+        routerLink="/superadmin/inicio" (click)="selectedOption ='child'; homeAdminPanel.close()">
+        <mat-icon>home</mat-icon>
+        <div class="menu-item-title">Inicio</div>
+      </mat-expansion-panel-header>
+    </mat-expansion-panel>
+
+    <!-- <li>
     <button *ngIf="permission.superadmin" mat-button class="home-item" [routerLinkActiveOptions]="{ exact: true }" [routerLinkActive]="['is-active']"
       routerLink="/superadmin/inicio" (click)="selectedOption ='home'; home=true;">
       <mat-icon class="home-icon">home</mat-icon>
       <div class="home-item-title">Inicio</div>
     </button>
-  </li>
-  <li>
+  </li> -->
+
+    <mat-expansion-panel #conceptsAdminPanel [expanded]="false" *ngIf="permission.superadmin">
+      <mat-expansion-panel-header mat-button class="menu-item-sub" [routerLinkActiveOptions]="{ exact: true }" [routerLinkActive]="['is-active']"
+        routerLink="/superadmin/conceptos" (click)="selectedOption ='child'; conceptsAdminPanel.close()">
+        <mat-icon>list</mat-icon>
+        <div class="menu-item-title">Conceptos</div>
+      </mat-expansion-panel-header>
+    </mat-expansion-panel>
+
+    <!-- <li>
     <button *ngIf="permission.superadmin" mat-button class="home-item" [routerLinkActiveOptions]="{ exact: true }" [routerLinkActive]="['is-active']"
       routerLink="/superadmin/conceptos" (click)="selectedOption ='home'; home=true;">
       <mat-icon class="home-icon">list</mat-icon>
       <div class="home-item-title">Conceptos</div>
     </button>
-  </li>
-  <li>
+  </li> -->
+
+    <mat-expansion-panel #obligationsAdminPanel [expanded]="false" *ngIf="permission.superadmin">
+      <mat-expansion-panel-header mat-button class="menu-item-sub" [routerLinkActiveOptions]="{ exact: true }" [routerLinkActive]="['is-active']"
+        routerLink="/superadmin/obligaciones" (click)="selectedOption ='child'; obligationsAdminPanel.close()">
+        <mat-icon>widgets</mat-icon>
+        <div class="menu-item-title">obligaciones</div>
+      </mat-expansion-panel-header>
+    </mat-expansion-panel>
+
+    <!-- <li>
     <button *ngIf="permission.superadmin" mat-button class="home-item" [routerLinkActiveOptions]="{ exact: true }" [routerLinkActive]="['is-active']"
       routerLink="/superadmin/obligaciones" (click)="selectedOption ='home'; home=true;">
       <mat-icon class="home-icon">widgets</mat-icon>
-      <div class="home-item-title">Obligaciones</div>
+      <div class="home-item-title">obligaciones</div>
     </button>
-  </li>
-  <li>
+  </li> -->
+
+    <mat-expansion-panel #profilesAdminPanel [expanded]="false" *ngIf="permission.superadmin">
+      <mat-expansion-panel-header mat-button class="menu-item-sub" [routerLinkActiveOptions]="{ exact: true }" [routerLinkActive]="['is-active']"
+        routerLink="/superadmin/obligaciones" (click)="selectedOption ='child'; profilesAdminPanel.close()">
+        <mat-icon>supervisor_account</mat-icon>
+        <div class="menu-item-title">Perfiles</div>
+      </mat-expansion-panel-header>
+    </mat-expansion-panel>
+
+    <!-- <li>
     <button *ngIf="permission.superadmin" mat-button class="home-item" [routerLinkActiveOptions]="{ exact: true }" [routerLinkActive]="['is-active']"
       routerLink="/superadmin/perfiles" (click)="selectedOption ='home'; home=true;">
       <mat-icon class="home-icon">supervisor_account</mat-icon>
       <div class="home-item-title">Perfiles</div>
     </button>
-  </li>
-  <li>
+  </li> -->
+
+    <mat-expansion-panel #notificationsAdminPanel [expanded]="false" *ngIf="permission.superadmin">
+      <mat-expansion-panel-header mat-button class="menu-item-sub" [routerLinkActiveOptions]="{ exact: true }" [routerLinkActive]="['is-active']"
+        routerLink="/superadmin/notificaciones" (click)="selectedOption ='child'; notificationsAdminPanel.close()">
+        <mat-icon>add_alert</mat-icon>
+        <div class="menu-item-title">Notificaciones</div>
+      </mat-expansion-panel-header>
+    </mat-expansion-panel>
+
+    <!-- <li>
     <button *ngIf="permission.superadmin" mat-button class="home-item" [routerLinkActiveOptions]="{ exact: true }" [routerLinkActive]="['is-active']"
       routerLink="/superadmin/notificaciones" (click)="selectedOption ='home'; home=true;">
       <mat-icon class="home-icon">add_alert</mat-icon>
       <div class="home-item-title">Notificaciones</div>
     </button>
-  </li>
-  <li>
+  </li> -->
+
+    <mat-expansion-panel #assignOffiPanel [expanded]="false" *ngIf="permission.despacho">
+      <mat-expansion-panel-header mat-button class="menu-item-sub" [routerLinkActiveOptions]="{ exact: true }" [routerLinkActive]="['is-active']"
+        routerLink="/despacho/asignar" (click)="selectedOption ='child'; assignOffiPanel.close()">
+        <mat-icon>swap_horiz</mat-icon>
+        <div class="menu-item-title">Asignar Contribuyentes</div>
+      </mat-expansion-panel-header>
+    </mat-expansion-panel>
+
+    <!-- <li>
     <button *ngIf="permission.despacho" mat-button class="home-item" [routerLinkActiveOptions]="{ exact: true }" [routerLinkActive]="['is-active']"
       routerLink="/despacho/asignar" (click)="selectedOption ='home'; home=true;">
       <mat-icon class="home-icon">swap_horiz</mat-icon>
       <div class="home-item-title">Asignar Contribuyentes</div>
     </button>
-  </li>
-  <li>
+  </li> -->
+
+    <mat-expansion-panel #notificationOffiPanel [expanded]="false" *ngIf="permission.despacho">
+      <mat-expansion-panel-header mat-button class="menu-item-sub" [routerLinkActiveOptions]="{ exact: true }" [routerLinkActive]="['is-active']"
+        routerLink="/despacho/notificaciones" (click)="selectedOption ='child'; notificationOffiPanel.close()">
+        <mat-icon>add_alert</mat-icon>
+        <div class="menu-item-title">Notificaciones</div>
+      </mat-expansion-panel-header>
+    </mat-expansion-panel>
+
+    <!-- <li>
     <button *ngIf="permission.despacho" mat-button class="home-item" [routerLinkActiveOptions]="{ exact: true }" [routerLinkActive]="['is-active']"
       routerLink="/despacho/notificaciones" (click)="selectedOption ='home'; home=true;">
       <mat-icon class="home-icon">add_alert</mat-icon>
       <div class="home-item-title">Notificaciones</div>
     </button>
-  </li>
-  <li>
+  </li> -->
+
+    <mat-expansion-panel #dashboardTaxPanel [expanded]="false" *ngIf="permission.contribuyente">
+      <mat-expansion-panel-header mat-button class="menu-item-sub" [routerLinkActiveOptions]="{ exact: true }" [routerLinkActive]="['is-active']"
+        routerLink="/contribuyente/resumen" (click)="selectedOption ='child'; dashboardTaxPanel.close()">
+        <mat-icon>assessment</mat-icon>
+        <div class="menu-item-title">Resumen</div>
+      </mat-expansion-panel-header>
+    </mat-expansion-panel>
+
+    <!-- <li>
     <button *ngIf="permission.contribuyente" mat-button class="home-item" [routerLinkActiveOptions]="{ exact: true }" [routerLinkActive]="['is-active']"
       routerLink="/contribuyente/resumen" (click)="selectedOption ='home'; home=true;">
       <mat-icon class="home-icon">assessment</mat-icon>
       <div class="home-item-title">Resumen</div>
     </button>
-  </li>
-  <li>
+  </li> -->
+
+    <mat-expansion-panel #notificationAccoPanel [expanded]="false" *ngIf="permission.contador">
+      <mat-expansion-panel-header mat-button class="menu-item-sub" [routerLinkActiveOptions]="{ exact: true }" [routerLinkActive]="['is-active']"
+        routerLink="/contador/notificaciones" (click)="selectedOption ='child'; notificationAccoPanel.close()">
+        <mat-icon>add_alert</mat-icon>
+        <div class="menu-item-title">Notificaciones</div>
+      </mat-expansion-panel-header>
+    </mat-expansion-panel>
+
+    <!-- <li>
     <button *ngIf="permission.contador" mat-button class="home-item" [routerLinkActiveOptions]="{ exact: true }" [routerLinkActive]="['is-active']"
       routerLink="/contador/notificaciones" (click)="selectedOption ='home'; home=true;">
       <mat-icon class="home-icon">add_alert</mat-icon>
       <div class="home-item-title">Notificaciones</div>
     </button>
-  </li>
-  <li>
+  </li> -->
+
+    <mat-expansion-panel #notificationTaxPanel [expanded]="false" *ngIf="permission.contribuyente">
+      <mat-expansion-panel-header mat-button class="menu-item-sub" [routerLinkActiveOptions]="{ exact: true }" [routerLinkActive]="['is-active']"
+        routerLink="/contribuyente/notificaciones" (click)="selectedOption ='child'; notificationTaxPanel.close()">
+        <mat-icon>add_alert</mat-icon>
+        <div class="menu-item-title">Notificaciones</div>
+      </mat-expansion-panel-header>
+    </mat-expansion-panel>
+
+    <!-- <li>
     <button *ngIf="permission.contribuyente" mat-button class="home-item" [routerLinkActiveOptions]="{ exact: true }" [routerLinkActive]="['is-active']"
       routerLink="/contribuyente/notificaciones" (click)="selectedOption ='home'; home=true;">
       <mat-icon matPrefix class="home-icon">add_alert</mat-icon>
       <div class="home-item-title">Notificaciones</div>
     </button>
-  </li>
-  <li>
-    <mat-accordion #matacordion *ngIf="permission.contribuyente">
-      <mat-expansion-panel [expanded]="!home && inventory" (opened)="setToFalse(); inventory=true;">
+  </li> -->
+      <mat-expansion-panel *ngIf="permission.contribuyente">
         <mat-expansion-panel-header class="menu-item" (click)="selectedOption ='header'">
           <mat-icon matPrefix>account_circle</mat-icon>
           <div class="menu-item-title">Mi Perfil</div>
@@ -116,6 +231,5 @@
           <div class="menu-item-title">Mis Limites</div>
         </button>
       </mat-expansion-panel>
-    </mat-accordion>
-  </li>
+  </mat-accordion>
 </ul>

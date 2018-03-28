@@ -72,17 +72,23 @@ export class InicioDespachoComponent implements OnInit, OnDestroy {
     });
 
     // this.accountantProv.getAll().subscribe(data => {
-      //   this.data = data.accountants;
-      // });
-      this.setBgCard('1');
-      this.loadUsers();
+    //   this.data = data.accountants;
+    // });
+    this.setBgCard('1');
+    this.loadUsers();
   }
   private loadUsers() {
     const users = JSON.parse(localStorage.getItem('users'));
     if (users) {
       this.users = users;
-      if (this.users.length > 1) {
-        this.users.length = 1;
+      if (this.role === 'Superadmin') {
+        if (this.users.length > 1) {
+          this.users.length = 1;
+        }
+      } else if (this.role === 'Despacho') {
+        if (this.users.length > 0) {
+          this.users.length = 0;
+        }
       }
     }
   }

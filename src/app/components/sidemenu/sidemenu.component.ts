@@ -10,11 +10,6 @@ import { SessionService } from '../../services/services';
 })
 export class SidemenuComponent implements OnInit {
   selectedOption;
-  home = true;
-  catalogs = false;
-  inventory = false;
-  sales = false;
-  billing = false;
   permission: any;
   user$: Observable<any>;
   constructor(private session: SessionService) {
@@ -60,14 +55,6 @@ export class SidemenuComponent implements OnInit {
         }// switch
       }
     });
-  }
-
-  setToFalse() {
-    this.home = false;
-    this.catalogs = false;
-    this.inventory = false;
-    this.sales = false;
-    this.billing = false;
   }
 
   getSelectedOption() {

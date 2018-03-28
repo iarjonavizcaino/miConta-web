@@ -83,8 +83,16 @@ export class InicioContadorComponent implements OnInit, OnDestroy {
     const users = JSON.parse(localStorage.getItem('users'));
     if (users) {
       this.users = users;
-      if (this.users.length > 2) {
-        this.users.length = 2;
+      if (this.role === 'Superadmin') {
+        if (this.users.length > 2) {
+          this.users.length = 2;
+        }
+      } else if (this.role === 'Despacho') {
+        if (this.users.length > 1) {
+          this.users.length = 1;
+        }
+      } else if (this.role === 'Contador') {
+        this.users.length = 0;
       }
     }
   }
