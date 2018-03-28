@@ -122,7 +122,7 @@ export class UploadXmlComponent implements OnInit {
         paymentMethod = 'Otros';
         break;
     }
-    const type = this.taxpayer.rfc === jsonBill.Comprobante.Emisor._attributes.Nombre ? 'Ingresos' : 'Egresos';
+    const type = this.taxpayer.rfc === jsonBill.Comprobante.Emisor._attributes.Rfc ? 'Ingresos' : 'Egresos';
     const newBill = {
       taxpayer: this.taxpayer._id,
       type: type,
