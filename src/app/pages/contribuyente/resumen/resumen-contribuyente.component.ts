@@ -331,9 +331,7 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
   }
 
   onIngresosSelected(ev) {
-    if (ev.data) {
-      this.selectedIngresos = ev.data;
-    }
+    this.selectedIngresos = ev.data;
   }
 
   onIngresosChecked(ev: any) {

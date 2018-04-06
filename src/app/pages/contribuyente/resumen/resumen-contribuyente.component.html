@@ -208,7 +208,7 @@
                 <mat-icon matTooltip="Factura Manual" matTooltipPosition="above">add</mat-icon>
               </button>
               <span *ngIf="selectedIngresos">
-                <button *ngIf="selectedIngresos.captureMode === 'M' && periodActive" mat-icon-button (click)="onDeleteStatementIngresos($event)">
+                <button *ngIf="(selectedIngresos.captureMode === 'M' || selectedIngresos.captureMode === 'X') && periodActive" mat-icon-button (click)="onDeleteStatementIngresos($event)">
                   <mat-icon matTooltip="Eliminar declaración" matTooltipPosition="above">delete</mat-icon>
                 </button>
               </span>
@@ -273,7 +273,7 @@
                 <mat-icon matTooltip="Factura Manual" matTooltipPosition="above">add</mat-icon>
               </button>
               <span *ngIf="selectedEgresos">
-                <button *ngIf="selectedEgresos.captureMode === 'M' && periodActive" mat-icon-button (click)="onDeleteStatementEgresos($event)">
+                <button *ngIf="(selectedEgresos.captureMode === 'M' || selectedEgresos.captureMode === 'X') && periodActive" mat-icon-button (click)="onDeleteStatementEgresos($event)">
                   <mat-icon matTooltip="Eliminar declaración" matTooltipPosition="above">delete</mat-icon>
                 </button>
               </span>
