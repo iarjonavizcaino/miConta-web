@@ -331,9 +331,7 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
   }
 
   onIngresosSelected(ev) {
-    if (ev.data) {
-      this.selectedIngresos = ev.data;
-    }
+    this.selectedIngresos = ev.data;
   }
 
   onIngresosChecked(ev: any) {
@@ -428,6 +426,8 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
     dialogRef.afterClosed().subscribe((result) => {
       if (!result) { return; } // confirm yes: true, cancel: false
       this.billProv.delete(this.selectedEgresos._id).subscribe((res) => {
+        this.loadBills({ year: this.currentPeriod.exercise, bimester: this.currentPeriod.period.num, active: 1 });
+        this.loadTaxes({ year: this.currentPeriod.exercise, bimester: this.currentPeriod.period.num });
         this.actionEgresos.next({ name: RtActionName.DELETE, itemId: this.selectedEgresos._id, newItem: this.selectedEgresos });
         this.notify.success('Acción exitosa', 'La factura se ha eliminado');
       }, err => {
