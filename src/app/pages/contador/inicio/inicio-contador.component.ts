@@ -127,33 +127,35 @@ export class InicioContadorComponent implements OnInit, OnDestroy {
     const dialogRef = this.taxpayerModal(null, false, 'Nuevo contribuyente');
     dialogRef.afterClosed().subscribe((data) => {
       if (!data) { return; }
-      const sailsFile = data.sailsFile;
+      const sailsFile = data.sailsFile ? data.sailsFile : [];
       // tslint:disable-next-line:no-shadowed-variable
       this.taxpayerProv.create(data.taxpayer).subscribe(res => {
         data.taxpayer = res.taxpayer;
-
         // save sailsFile
         for (let i = 0; i < sailsFile.length; i++) {
           const name = data.taxpayer._id + '-' + new Date();
           // tslint:disable-next-line:no-shadowed-variable
           this.firebaseProv.uploadFile('sellos/', name, 'txt', sailsFile[i]).then(sailsFile => {
             data.taxpayer.sailsFile.push({ fileName: name, link: sailsFile.downloadURL });
-          });
+          }, err => { console.log(err); });
         } // OK
-
+        console.log('before upload fiel');
         // save loyalFile in firebase storage
-        this.firebaseProv.uploadFile('fiel/', data.taxpayer._id + '-' + new Date(), 'txt', data.loyalFile).then(loyalFile => {
-          data.taxpayer.loyalFile = loyalFile.downloadURL;  // save URL
-          console.log('before', data.taxpayer.sailsFile);
-          // update taxpayer with loyal and sails files
-          this.taxpayerProv.update(data.taxpayer).subscribe(update => {
-            console.log('after', update);
+        if (data.sailsFile.length !== 0) {
+          console.log('run this?');
+          this.firebaseProv.uploadFile('fiel/', data.taxpayer._id + '-' + new Date(), 'txt', data.loyalFile).then(loyalFile => {
+            data.taxpayer.loyalFile = loyalFile.downloadURL;  // save URL
+            console.log('before', data.taxpayer.sailsFile);
+            // update taxpayer with loyal and sails files
+            this.taxpayerProv.update(data.taxpayer).subscribe(update => {
+              console.log('after', update);
+            }, err => {
+              console.log(err);
+            });
           }, err => {
             console.log(err);
           });
-        }, err => {
-          console.log(err);
-        });
+        }
 
         // tslint:disable-next-line:no-shadowed-variable
         this.accountantProv.addTaxpayer(data.taxpayer._id, this.currentAccountant).subscribe(data => {
@@ -224,7 +226,7 @@ export class InicioContadorComponent implements OnInit, OnDestroy {
         this.notify.error('Error', 'No se pudo crear el contribuyente');
       });
     });
-  }
+  } // onCreate()
 
   onDelete(ev: any) {
     this.stopPropagation(ev);
