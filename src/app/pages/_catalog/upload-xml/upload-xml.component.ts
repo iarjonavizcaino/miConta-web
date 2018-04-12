@@ -15,6 +15,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 // import * as xmlData from 'xml-parse';
 import * as xml2json from 'xml-js';
 import { ConceptProvider } from '../../../providers/providers';
+import { NotificationsService } from 'angular2-notifications';
 
 @Component({
   selector: 'app-upload-xml',
@@ -32,7 +33,8 @@ export class UploadXmlComponent implements OnInit {
   constructor(
     private dialogRef: MatDialogRef<UploadXmlComponent>,
     @Inject(MAT_DIALOG_DATA) private data: any,
-    private conceptProv: ConceptProvider
+    private conceptProv: ConceptProvider,
+    private notify: NotificationsService
   ) { }
 
   ngOnInit() {
@@ -123,6 +125,18 @@ export class UploadXmlComponent implements OnInit {
         break;
     }
     const type = this.taxpayer.rfc === jsonBill.Comprobante.Emisor._attributes.Rfc ? 'Ingresos' : 'Egresos';
+
+    if (type === 'Ingresos') {
+      if (jsonBill.Comprobante.Emisor._attributes.Rfc !== this.taxpayer.rfc) {
+        this.notify.error('Error', 'La factura no corresponde al contribuyente, no se guardará');
+        return;
+      }
+    } else {
+      if (jsonBill.Comprobante.Receptor._attributes.Rfc !== this.taxpayer.rfc) {
+        this.notify.error('Error', 'La factura no corresponde al contribuyente, no se guardará');
+        return;
+      }
+    }
     const newBill = {
       taxpayer: this.taxpayer._id,
       type: type,
@@ -144,7 +158,7 @@ export class UploadXmlComponent implements OnInit {
       total: jsonBill.Comprobante._attributes.Total,
       customer_provider: {
         name: type === 'Ingresos' ? jsonBill.Comprobante.Receptor._attributes.Nombre : jsonBill.Comprobante.Emisor._attributes.Nombre,
-        rfc: type === 'Egresos' ? jsonBill.Comprobante.Receptor._attributes.Rfc : jsonBill.Comprobante.Emisor._attributes.Rfc,
+        rfc: type === 'Ingresos' ? jsonBill.Comprobante.Receptor._attributes.Rfc : jsonBill.Comprobante.Emisor._attributes.Rfc,
         address: {
           street: '',
           number: '',
@@ -221,6 +235,7 @@ export class UploadXmlComponent implements OnInit {
         product.deducible = false;
       }
       // }
+      console.log('hola');
       newBill.products.push(product);
     }
     // let code;

@@ -27,7 +27,7 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
     { name: 'IVA', prop: 'taxes', default: '$ 0.00', align: 'right', accounting: true },
     { name: 'Total', prop: 'total', default: '$ 0.00', align: 'right', accounting: true },
     { name: 'Tipo fact.', prop: 'captureMode', align: 'center', chip: true },
-    { name: 'Fecha cobro', prop: 'cobrada_pagadaDate', default: '', align: 'center', moment: true },
+    { name: 'Fecha cobro', prop: 'cobrada_pagadaDate', default: 'Sin fecha', align: 'center', moment: true },
     { name: 'Público Gral', prop: 'general_public', default: false, align: 'center', input: 'toggleGeneralPublic' },
     { name: 'Cobrada', prop: 'cobrada_pagada', input: 'toggleFec' },
   ];
@@ -39,7 +39,7 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
     { name: 'Total', prop: 'total', default: '$ 0.00', align: 'right', accounting: true },
     // { name: 'Total', prop: 'total', default: '$ 0.00', align: 'right', accounting: true },
     { name: 'Tipo fact.', prop: 'captureMode', default: '', align: 'center', chip: true },
-    { name: 'Fecha pago', prop: 'cobrada_pagadaDate', default: '', align: 'center', moment: true },
+    { name: 'Fecha pago', prop: 'cobrada_pagadaDate', default: 'Sin fecha', align: 'center', moment: true },
     { name: 'Pagada', prop: 'cobrada_pagada', input: 'toggleFec' },
   ];
 
@@ -215,8 +215,9 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
     dialogRef.afterClosed().subscribe((newBill) => {
       if (!newBill) { return; }
       newBill.taxpayer = this.currentTaxpayer._id;
-      this.actionEgresos.next({ name: RtActionName.CREATE, newItem: newBill });
       this.billProv.create(newBill).subscribe((res) => {
+        this.actionEgresos.next({ name: RtActionName.CREATE, newItem: newBill });
+        console.log(res);
         this.notify.success('Registro exitoso', 'Se ha creado la nueva factura');
       }, err => {
         this.notify.error('Error', 'No se pudo guardar la factura');
@@ -231,10 +232,10 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
     dialogRef.afterClosed().subscribe((newBill) => {
       if (!newBill) { return; }
       newBill.taxpayer = this.currentTaxpayer._id;
-      this.actionIngresos.next({ name: RtActionName.CREATE, newItem: newBill });
-
       // use provier and notify
       this.billProv.create(newBill).subscribe((res) => {
+        console.log(res);
+        this.actionIngresos.next({ name: RtActionName.CREATE, newItem: newBill });
         this.notify.success('Registro exitoso', 'Se ha creado la nueva factura');
       }, err => {
         this.notify.error('Error', 'No se pudo guardar la factural');
@@ -282,7 +283,7 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
     if (!updateBill.cobrada_pagada) {
       // open a modal
       const dialogRef = this.dialogCtrl.open(ModalFechaComponent, {
-        disableClose: true,
+        disableClose: false,
         data: {
           config: {
             title: 'Fecha de cobro',
@@ -455,7 +456,7 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
   onIVA(ev: any) {
     if (!this.IVA) { return; }
     const dialogRef = this.dialogCtrl.open(ModalImpuestosComponent, {
-      disableClose: true,
+      disableClose: false,
       data: {
         title: 'Detalle IVA',
         type: 'iva',
@@ -481,7 +482,7 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
       this.taxProv.getISR(this.currentTaxpayer._id, { year: this.selectedYear, bimester: this.selectedBimester.num }).subscribe(res => {
         this.ISR = res.ISR;
         const dialogRef = this.dialogCtrl.open(ModalImpuestosComponent, {
-          disableClose: true,
+          disableClose: false,
           data: {
             title: 'Detalle ISR',
             type: 'isr',
@@ -498,7 +499,7 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
 
     } else {
       const dialogRef = this.dialogCtrl.open(ModalImpuestosComponent, {
-        disableClose: true,
+        disableClose: false,
         data: {
           title: 'Detalle ISR',
           type: 'isr',
@@ -574,7 +575,7 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
 
   closePeriod() {
     const dialogRef = this.dialogCtrl.open(ModalCierreBimestreComponent, {
-      disableClose: true,
+      disableClose: false,
       data: {
         ISR: this.ISR,
         IVA: this.IVA,
@@ -657,7 +658,7 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
       const historical = data.historical;
       console.log(historical);
       const dialogRef = this.dialogCtrl.open(ModalCierreBimestreComponent, {
-        disableClose: true,
+        disableClose: false,
         data: {
           readonly: true,
           ISR: historical.period.historico.miConta.ISR,

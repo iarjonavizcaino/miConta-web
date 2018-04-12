@@ -308,7 +308,7 @@ export class ModalCrearContribuyenteComponent implements OnInit {
   }
   uploadMultiple() {
     const dialogRef = this.dialogCtrl.open(UploadMultipleComponent, {
-      disableClose: true,
+      disableClose: false,
       data: {
         title: 'Subir Sellos'
       }
@@ -320,7 +320,7 @@ export class ModalCrearContribuyenteComponent implements OnInit {
   }
   downloadFiles() {
     this.dialogCtrl.open(DownloadFilesComponent, {
-      disableClose: true,
+      disableClose: false,
       data: {
         title: 'Descargar Sellos',
         taxpayer: this.taxPayer,

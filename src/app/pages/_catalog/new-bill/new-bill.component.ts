@@ -166,7 +166,7 @@ export class NewBillComponent implements OnInit {
     this.stopPropagation(ev);
     if (this.bill.products.length === 0) {
       this.dialogCtrl.open(ConfirmComponent, {
-        disableClose: true,
+        disableClose: false,
         data: {
           title: 'Atención!',
           message: 'No se han registrado productos/servicio para la factura',
@@ -178,6 +178,7 @@ export class NewBillComponent implements OnInit {
       this.bill.customer_provider.address.state = this.currentState.name;
       const index = this.allMethods.findIndex(method => method.key === this.currentPayMethod);
       this.bill.payMethod = this.allMethods[index];
+      console.log(this.bill);
       this.dialogRef.close(this.bill);  // return bill data
     }
   }
@@ -199,7 +200,7 @@ export class NewBillComponent implements OnInit {
   toggle(ev: any) {
     if (ev.checked) {
       const dialogRef = this.dialogCtrl.open(ModalFechaComponent, {
-        disableClose: true,
+        disableClose: false,
         data: {
           config: {
             title: 'Fecha de Pago',
