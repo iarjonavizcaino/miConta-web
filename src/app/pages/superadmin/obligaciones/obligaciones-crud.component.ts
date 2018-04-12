@@ -74,7 +74,7 @@ export class ObligacionesCrudComponent implements OnInit {
   onDelete(ev: any) {
     this.stopPropagation(ev);
     const dialogRef = this.dialogCtrl.open(ConfirmComponent, {
-      disableClose: true,
+      disableClose: false,
       data: {
         title: '¡ATENCIÓN!',
         message: '¿Está seguro de eliminar esta obligación?',

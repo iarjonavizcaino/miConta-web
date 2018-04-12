@@ -41,7 +41,7 @@ export class ModalChangeStatusComponent implements OnInit {
         this.dialogRef.close(this.statusForm.get('status').value);
       } else {
         this.dialogCtrl.open(ConfirmComponent, {
-          disableClose: true,
+          disableClose: false,
           data: {
             title: 'Atención!',
             message: 'El campo de fecha no puede estár vacío',
