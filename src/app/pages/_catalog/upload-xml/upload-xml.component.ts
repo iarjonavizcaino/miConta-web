@@ -30,6 +30,7 @@ export class UploadXmlComponent implements OnInit {
   concepts = [];
   allConcepts = [];
   files = [];
+  currentFile: string;
   constructor(
     private dialogRef: MatDialogRef<UploadXmlComponent>,
     @Inject(MAT_DIALOG_DATA) private data: any,
@@ -58,11 +59,27 @@ export class UploadXmlComponent implements OnInit {
   onUploadSuccess(ev: any) {
     this.xml = true;
     const xml_str = ev[1].files.file; // XML text
+    this.currentFile = ev[0].name;
     // parse to json
     let jsonBill: any = xml2json.xml2json(xml_str, { compact: true, spaces: 4 }); // convert to json
-    // console.log(jsonBill);
     jsonBill = jsonBill.replace(/cfdi:/g, '');
     jsonBill = JSON.parse(jsonBill);
+    // console.log(jsonBill);
+
+    const type = this.taxpayer.rfc === jsonBill.Comprobante.Emisor._attributes.Rfc ? 'Ingresos' : 'Egresos';
+
+    if (type === 'Ingresos') {
+      if (jsonBill.Comprobante.Emisor._attributes.Rfc !== this.taxpayer.rfc) {
+        this.notify.error('Error', 'La factura no corresponde al contribuyente, no se guardará');
+        return;
+      }
+    } else {
+      if (jsonBill.Comprobante.Receptor._attributes.Rfc !== this.taxpayer.rfc) {
+        this.notify.error('Error', 'La factura no corresponde al contribuyente, no se guardará');
+        return;
+      }
+    }
+
     const paymentKey = jsonBill.Comprobante._attributes.FormaPago;
     let paymentMethod: string;
     switch (paymentKey) {
@@ -124,19 +141,25 @@ export class UploadXmlComponent implements OnInit {
         paymentMethod = 'Otros';
         break;
     }
-    const type = this.taxpayer.rfc === jsonBill.Comprobante.Emisor._attributes.Rfc ? 'Ingresos' : 'Egresos';
 
-    if (type === 'Ingresos') {
-      if (jsonBill.Comprobante.Emisor._attributes.Rfc !== this.taxpayer.rfc) {
-        this.notify.error('Error', 'La factura no corresponde al contribuyente, no se guardará');
-        return;
-      }
-    } else {
-      if (jsonBill.Comprobante.Receptor._attributes.Rfc !== this.taxpayer.rfc) {
-        this.notify.error('Error', 'La factura no corresponde al contribuyente, no se guardará');
-        return;
-      }
-    }
+    // if (jsonBill.Comprobante.Impuestos) {
+    //   if (jsonBill.Comprobante.Impuestos.Traslados) {
+    //     if (jsonBill.Comprobante.Impuestos.Traslados.Traslado) {
+    //       if (jsonBill.Comprobante.Impuestos.Traslados.Traslado._attributes) {
+    //         if (jsonBill.Comprobante.Impuestos.Traslados.Traslado._attributes.TasaOCuota) {
+    //           tasa = jsonBill.Comprobante.Impuestos.Traslados.Traslado._attributes.TasaOCuota;
+    //         } else { tasa = 0; }
+    //       } else { tasa = 0; }
+    //     } else { tasa = 0; }
+    //   } else { tasa = 0; }
+    // } else { tasa = 0; }
+
+    // (((test || {}).level1 || {}).level2 || {}).level3
+
+    const tasa = (((((jsonBill.Comprobante.Impuestos || 0 ).Traslados || 0).Traslado || 0)._attributes || 0).TasaOCuota || 0);
+    const taxes = (((jsonBill.Comprobante.Impuestos || 0 )._attributes || 0).TotalImpuestosTrasladados || 0);
+    const retenciones = (((jsonBill.Comprobante.Impuestos || 0 )._attributes || 0).TotalImpuestosRetenidos || 0);
+
     const newBill = {
       taxpayer: this.taxpayer._id,
       type: type,
@@ -151,10 +174,11 @@ export class UploadXmlComponent implements OnInit {
       },
       general_public: jsonBill.Comprobante.Receptor._attributes.Rfc === 'XAXX010101000' ? true : false,
       captureMode: 'X',
-      tasa: jsonBill.Comprobante.Impuestos.Traslados.Traslado._attributes.TasaOCuota,
-      taxes: jsonBill.Comprobante.Impuestos._attributes.TotalImpuestosTrasladados,
-      retenciones: jsonBill.Comprobante.Impuestos._attributes.TotalImpuestosRetenidos,
+      tasa: tasa,
+      taxes: taxes,
+      retenciones: retenciones,
       subtotal: jsonBill.Comprobante._attributes.SubTotal,
+      discount: jsonBill.Comprobante._attributes.Descuento ? jsonBill.Comprobante._attributes.Descuento : 0,
       total: jsonBill.Comprobante._attributes.Total,
       customer_provider: {
         name: type === 'Ingresos' ? jsonBill.Comprobante.Receptor._attributes.Nombre : jsonBill.Comprobante.Emisor._attributes.Nombre,
@@ -235,7 +259,6 @@ export class UploadXmlComponent implements OnInit {
         product.deducible = false;
       }
       // }
-      console.log('hola');
       newBill.products.push(product);
     }
     // let code;
@@ -254,13 +277,13 @@ export class UploadXmlComponent implements OnInit {
     //     producto.deducible = false;
     //   }
     // });
-    // console.log(newBill);
+    console.log(newBill);
     this.files.push({ bill: newBill, file: ev[0] });
 
   }
 
   onUploadError(ev: any) {
-    console.log('No puedes subir archivos de este tipo');
+    this.notify.error('Error', `No se pudo cargar el archivo: ${this.currentFile}`);
   }
 
   key(ev: any) {

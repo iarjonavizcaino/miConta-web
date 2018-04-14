@@ -231,7 +231,7 @@ export class InicioContadorComponent implements OnInit, OnDestroy {
   onDelete(ev: any) {
     this.stopPropagation(ev);
     const dialogRef = this.dialogCtrl.open(ConfirmComponent, {
-      disableClose: false,
+      disableClose: true,
       data: {
         title: '¡ATENCIÓN!',
         message: `¿Está seguro de eliminar el contribuyente ${this.selectedTaxpayer.socialReason}?`,
@@ -301,7 +301,7 @@ export class InicioContadorComponent implements OnInit, OnDestroy {
           this.notify.success('Acción exitosa', 'Las facturas se han guardado correctamente');
           // save in firebase storage
           console.log(res.bill);
-          this.firebaseProv.uploadFile('xml/', res.bill_.id + '-' + new Date(), 'xml', element.file).then(storage => {
+          this.firebaseProv.uploadFile('xml/', res.bill._id + '-' + new Date(), 'xml', element.file).then(storage => {
             console.log(storage.downloadURL);
             res.bill.xmlFile = storage.downloadURL;
             this.billProv.update(res.bill._id, res.bill).subscribe(update => {
@@ -317,7 +317,7 @@ export class InicioContadorComponent implements OnInit, OnDestroy {
     this.stopPropagation(ev);
     this.bitacoraProv.getByTaxpayer(this.selectedTaxpayer._id).subscribe(res => {
       this.dialogCtrl.open(ModalBitacoraComponent, {
-        disableClose: false,
+        disableClose: true,
         data: {
           bitacoras: res,
           name: this.selectedTaxpayer.socialReason
@@ -333,7 +333,7 @@ export class InicioContadorComponent implements OnInit, OnDestroy {
 
   taxpayerModal(taxPayer: any, readonly: boolean, title: string) {
     return this.dialogCtrl.open(ModalCrearContribuyenteComponent, {
-      disableClose: false,
+      disableClose: true,
       data: {
         title: title,
         readonly: readonly,
@@ -344,7 +344,7 @@ export class InicioContadorComponent implements OnInit, OnDestroy {
 
   xmlModal(title: string) {
     return this.dialogCtrl.open(UploadXmlComponent, {
-      disableClose: false,
+      disableClose: true,
       data: {
         title: title,
         taxpayer: this.selectedTaxpayer

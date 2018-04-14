@@ -205,7 +205,7 @@ export class InicioDespachoComponent implements OnInit, OnDestroy {
   onDelete(ev: any) {
     this.stopPropagation(ev);
     const dialogRef = this.dialogCtrl.open(ConfirmComponent, {
-      disableClose: false,
+      disableClose: true,
       data: {
         title: '¡ATENCIÓN!',
         message: `¿Está seguro de eliminar el contador ${this.selectedAccountant.name}?`,
@@ -235,7 +235,7 @@ export class InicioDespachoComponent implements OnInit, OnDestroy {
 
   accountantModal(accountant: any, readonly: boolean, title: string) {
     return this.dialogCtrl.open(ModalContadorComponent, {
-      disableClose: false,
+      disableClose: true,
       data: {
         title: title,
         readonly: readonly,
@@ -246,7 +246,7 @@ export class InicioDespachoComponent implements OnInit, OnDestroy {
 
   taxPayersListModal(taxpayer: any, title: string) {
     return this.dialogCtrl.open(TaxpayerCatalogComponent, {
-      disableClose: false,
+      disableClose: true,
       data: {
         title: title,
         taxpayer: taxpayer,
