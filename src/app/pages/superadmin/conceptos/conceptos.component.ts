@@ -73,7 +73,7 @@ export class ConceptosComponent implements OnInit {
   onDelete(ev: any) {
     this.stopPropagation(ev);
     const dialogRef = this.dialogCtrl.open(ConfirmComponent, {
-      disableClose: false,
+      disableClose: true,
       data: {
         title: '¸ATENCIÓN!',
         message: `¿Está seguro de eliminar el concepto: ${this.conceptSelected.concept}?`,
@@ -100,7 +100,7 @@ export class ConceptosComponent implements OnInit {
 
   conceptModal(title: string, concept: any) {
     return this.dialogCtrl.open(ModalConceptosComponent, {
-      disableClose: false,
+      disableClose: true,
       data: {
         title: title,
         concept: concept

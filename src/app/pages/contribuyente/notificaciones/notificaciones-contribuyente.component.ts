@@ -69,7 +69,7 @@ export class NotificacionesContribuyenteComponent implements OnInit, OnDestroy {
 
   showMessage(message: any, readonly: boolean, title: string) {
     return this.dialogCtrl.open(ShowMessageCatalogComponent, {
-      disableClose: false,
+      disableClose: true,
       data: {
         title: title,
         readonly: readonly,

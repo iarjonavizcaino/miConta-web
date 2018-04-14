@@ -131,7 +131,7 @@ export class NewBillComponent implements OnInit {
   onCreate(ev: any) {
     this.stopPropagation(ev);
     const dialogRef = this.dialogCtrl.open(NewItemProductComponent, {
-      disableClose: false,
+      disableClose: true,
       data: {
         ingresos: this.ingresos
       }
@@ -166,7 +166,7 @@ export class NewBillComponent implements OnInit {
     this.stopPropagation(ev);
     if (this.bill.products.length === 0) {
       this.dialogCtrl.open(ConfirmComponent, {
-        disableClose: false,
+        disableClose: true,
         data: {
           title: 'Atención!',
           message: 'No se han registrado productos/servicio para la factura',
@@ -200,7 +200,7 @@ export class NewBillComponent implements OnInit {
   toggle(ev: any) {
     if (ev.checked) {
       const dialogRef = this.dialogCtrl.open(ModalFechaComponent, {
-        disableClose: false,
+        disableClose: true,
         data: {
           config: {
             title: 'Fecha de Pago',
