@@ -54,7 +54,7 @@ export class NotificacionesSuperadminComponent implements OnInit {
     });
 
   }
-  
+
   onCreate(ev: any) {
     this.stopPropagation(ev);
     const dialogRef = this.dialogCtrl.open(CrearNotificacionComponent, {

@@ -295,10 +295,9 @@ export class InicioContadorComponent implements OnInit, OnDestroy {
       if (!data) { return; }
       // save link to download file
       data.forEach(element => {
-
         // use provier and notify
         this.billProv.create(element.bill).subscribe((res) => {
-          this.notify.success('Acción exitosa', 'Las facturas se han guardado correctamente');
+          this.notify.success('Acción exitosa', 'La factura se ha guardado correctamente');
           // save in firebase storage
           console.log(res.bill);
           this.firebaseProv.uploadFile('xml/', res.bill._id + '-' + new Date(), 'xml', element.file).then(storage => {
@@ -308,7 +307,7 @@ export class InicioContadorComponent implements OnInit, OnDestroy {
             }, err => { console.log(err); }); // update bill with xmlFile
           }, err => { console.log(err); });  // save in firebase
         }, err => { // create bill
-          this.notify.error('Error', 'No se pudo guardar la factura');
+          this.notify.error('Error', JSON.parse(err._body).message);
         });
       });
     });

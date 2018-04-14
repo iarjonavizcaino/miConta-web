@@ -63,8 +63,9 @@ export class UploadXmlComponent implements OnInit {
     // parse to json
     let jsonBill: any = xml2json.xml2json(xml_str, { compact: true, spaces: 4 }); // convert to json
     jsonBill = jsonBill.replace(/cfdi:/g, '');
+    jsonBill = jsonBill.replace(/tfd:/g, '');
     jsonBill = JSON.parse(jsonBill);
-    // console.log(jsonBill);
+    console.log(jsonBill);
 
     const type = this.taxpayer.rfc === jsonBill.Comprobante.Emisor._attributes.Rfc ? 'Ingresos' : 'Egresos';
 
@@ -142,20 +143,6 @@ export class UploadXmlComponent implements OnInit {
         break;
     }
 
-    // if (jsonBill.Comprobante.Impuestos) {
-    //   if (jsonBill.Comprobante.Impuestos.Traslados) {
-    //     if (jsonBill.Comprobante.Impuestos.Traslados.Traslado) {
-    //       if (jsonBill.Comprobante.Impuestos.Traslados.Traslado._attributes) {
-    //         if (jsonBill.Comprobante.Impuestos.Traslados.Traslado._attributes.TasaOCuota) {
-    //           tasa = jsonBill.Comprobante.Impuestos.Traslados.Traslado._attributes.TasaOCuota;
-    //         } else { tasa = 0; }
-    //       } else { tasa = 0; }
-    //     } else { tasa = 0; }
-    //   } else { tasa = 0; }
-    // } else { tasa = 0; }
-
-    // (((test || {}).level1 || {}).level2 || {}).level3
-
     const tasa = (((((jsonBill.Comprobante.Impuestos || 0 ).Traslados || 0).Traslado || 0)._attributes || 0).TasaOCuota || 0);
     const taxes = (((jsonBill.Comprobante.Impuestos || 0 )._attributes || 0).TotalImpuestosTrasladados || 0);
     const retenciones = (((jsonBill.Comprobante.Impuestos || 0 )._attributes || 0).TotalImpuestosRetenidos || 0);
@@ -193,7 +180,8 @@ export class UploadXmlComponent implements OnInit {
           state: '',
         }
       },
-      products: []
+      products: [],
+      uuid: jsonBill.Comprobante.Complemento.TimbreFiscalDigital._attributes.UUID
     };
 
     let product;
@@ -279,7 +267,7 @@ export class UploadXmlComponent implements OnInit {
     // });
     console.log(newBill);
     this.files.push({ bill: newBill, file: ev[0] });
-
+    console.log(this.files);
   }
 
   onUploadError(ev: any) {
