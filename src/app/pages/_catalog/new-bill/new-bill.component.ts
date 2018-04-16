@@ -131,7 +131,7 @@ export class NewBillComponent implements OnInit {
   onCreate(ev: any) {
     this.stopPropagation(ev);
     const dialogRef = this.dialogCtrl.open(NewItemProductComponent, {
-      disableClose: false,
+      disableClose: true,
       data: {
         ingresos: this.ingresos
       }
@@ -178,6 +178,7 @@ export class NewBillComponent implements OnInit {
       this.bill.customer_provider.address.state = this.currentState.name;
       const index = this.allMethods.findIndex(method => method.key === this.currentPayMethod);
       this.bill.payMethod = this.allMethods[index];
+      console.log(this.bill);
       this.dialogRef.close(this.bill);  // return bill data
     }
   }

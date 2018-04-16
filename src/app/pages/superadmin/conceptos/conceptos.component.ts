@@ -100,7 +100,7 @@ export class ConceptosComponent implements OnInit {
 
   conceptModal(title: string, concept: any) {
     return this.dialogCtrl.open(ModalConceptosComponent, {
-      disableClose: false,
+      disableClose: true,
       data: {
         title: title,
         concept: concept

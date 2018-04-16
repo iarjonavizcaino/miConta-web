@@ -147,7 +147,7 @@ export class ModalProfilesComponent implements OnInit {
   onConceptDetail(ev) {
     this.stopPropagation(ev);
     this.dialogCtrl.open(ModalConceptosComponent, {
-      disableClose: false,
+      disableClose: true,
       data: {
         title: 'Detalle concepto',
         concept: this.conceptSelected,
@@ -159,7 +159,7 @@ export class ModalProfilesComponent implements OnInit {
   onObligationDetail(ev) {
     this.stopPropagation(ev);
     this.dialogCtrl.open(ModalObligacionesComponent, {
-      disableClose: false,
+      disableClose: true,
       data: {
         title: 'Detalle obligación',
         obligation: this.obligationSelected,

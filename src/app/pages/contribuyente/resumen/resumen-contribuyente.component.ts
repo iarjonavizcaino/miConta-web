@@ -27,7 +27,7 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
     { name: 'IVA', prop: 'taxes', default: '$ 0.00', align: 'right', accounting: true },
     { name: 'Total', prop: 'total', default: '$ 0.00', align: 'right', accounting: true },
     { name: 'Tipo fact.', prop: 'captureMode', align: 'center', chip: true },
-    { name: 'Fecha cobro', prop: 'cobrada_pagadaDate', default: '', align: 'center', moment: true },
+    { name: 'Fecha cobro', prop: 'cobrada_pagadaDate', default: 'Sin fecha', align: 'center', moment: true },
     { name: 'Público Gral', prop: 'general_public', default: false, align: 'center', input: 'toggleGeneralPublic' },
     { name: 'Cobrada', prop: 'cobrada_pagada', input: 'toggleFec' },
   ];
@@ -39,7 +39,7 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
     { name: 'Total', prop: 'total', default: '$ 0.00', align: 'right', accounting: true },
     // { name: 'Total', prop: 'total', default: '$ 0.00', align: 'right', accounting: true },
     { name: 'Tipo fact.', prop: 'captureMode', default: '', align: 'center', chip: true },
-    { name: 'Fecha pago', prop: 'cobrada_pagadaDate', default: '', align: 'center', moment: true },
+    { name: 'Fecha pago', prop: 'cobrada_pagadaDate', default: 'Sin fecha', align: 'center', moment: true },
     { name: 'Pagada', prop: 'cobrada_pagada', input: 'toggleFec' },
   ];
 
@@ -215,8 +215,9 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
     dialogRef.afterClosed().subscribe((newBill) => {
       if (!newBill) { return; }
       newBill.taxpayer = this.currentTaxpayer._id;
-      this.actionEgresos.next({ name: RtActionName.CREATE, newItem: newBill });
       this.billProv.create(newBill).subscribe((res) => {
+        this.actionEgresos.next({ name: RtActionName.CREATE, newItem: newBill });
+        console.log(res);
         this.notify.success('Registro exitoso', 'Se ha creado la nueva factura');
       }, err => {
         this.notify.error('Error', 'No se pudo guardar la factura');
@@ -231,10 +232,10 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
     dialogRef.afterClosed().subscribe((newBill) => {
       if (!newBill) { return; }
       newBill.taxpayer = this.currentTaxpayer._id;
-      this.actionIngresos.next({ name: RtActionName.CREATE, newItem: newBill });
-
       // use provier and notify
       this.billProv.create(newBill).subscribe((res) => {
+        console.log(res);
+        this.actionIngresos.next({ name: RtActionName.CREATE, newItem: newBill });
         this.notify.success('Registro exitoso', 'Se ha creado la nueva factura');
       }, err => {
         this.notify.error('Error', 'No se pudo guardar la factural');
@@ -245,7 +246,7 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
 
   private manualBill(bill: any, type: boolean, title: string) {
     return this.dialogCtrl.open(NewBillComponent, {
-      disableClose: false,
+      disableClose: true,
       data: {
         bill: bill,
         ingresos: type,
@@ -399,7 +400,7 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
 
   billModal(bill: any, readonly: boolean, title: string) {
     return this.dialogCtrl.open(BillingCatalogComponent, {
-      disableClose: false,
+      disableClose: true,
       data: {
         title: title,
         readonly: readonly,
@@ -514,7 +515,7 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
   }
   private modalConfirm() {
     return this.dialogCtrl.open(ConfirmComponent, {
-      disableClose: false,
+      disableClose: true,
       data: {
         type: 'danger',
         title: 'Atención!',

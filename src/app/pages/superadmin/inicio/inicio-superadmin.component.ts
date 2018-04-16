@@ -124,7 +124,7 @@ export class InicioSuperadminComponent implements OnInit {
 
   modalDespacho(title: string, despacho: any) {
     return this.dialogCtrl.open(ModalContadorComponent, {
-      disableClose: false,
+      disableClose: true,
       data: {
         title: title,
         accountant: despacho,
@@ -153,7 +153,7 @@ export class InicioSuperadminComponent implements OnInit {
   activateMicroRif(ev: any) {
     // this.stopPropagation(ev);
     const dialogRef = this.dialogCtrl.open(ConfirmComponent, {
-      disableClose: false,
+      disableClose: true,
       data: {
         title: '¡Atención!',
         // tslint:disable-next-line:max-line-length

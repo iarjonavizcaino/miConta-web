@@ -100,7 +100,7 @@ export class ObligacionesCrudComponent implements OnInit {
 
   obligationModal(title: string, obligation: any) {
     return this.dialogCtrl.open(ModalObligacionesComponent, {
-      disableClose: false,
+      disableClose: true,
       data: {
         title: title,
         obligation: obligation

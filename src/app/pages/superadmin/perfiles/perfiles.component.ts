@@ -98,7 +98,7 @@ export class PerfilesComponent implements OnInit {
 
   profileModal(title: string, profile: any) {
     return this.dialogCtrl.open(ModalProfilesComponent, {
-      disableClose: false,
+      disableClose: true,
       data: {
         title: title,
         // tslint:disable-next-line:max-line-length

@@ -64,7 +64,7 @@ export class NotificacionesComponent implements OnInit {
   onCreate(ev: any) {
     this.stopPropagation(ev);
     const dialogRef = this.dialogCtrl.open(CrearNotificacionComponent, {
-      disableClose: false,
+      disableClose: true,
       data: this.destinataries, // placeholder to auto-complete in select user
     });
     dialogRef.afterClosed().subscribe((data) => {
@@ -96,7 +96,7 @@ export class NotificacionesComponent implements OnInit {
 
   showMessage(message: any, destinataries: any, readonly: boolean, title: string) {
     return this.dialogCtrl.open(ShowMessageCatalogComponent, {
-      disableClose: false,
+      disableClose: true,
       data: {
         title: title,
         readonly: readonly,
