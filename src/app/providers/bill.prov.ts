@@ -1,5 +1,6 @@
 import { Api } from './api';
 import { Injectable } from '@angular/core';
+import { config } from '../app.config';
 
 @Injectable()
 export class BillProvider {
@@ -26,4 +27,9 @@ export class BillProvider {
     delete(_id: string) {
         return this.api.delete(this.base + _id);
     }
+
+    generateBill(_id: string) {
+        const url = config.api.prod;
+        window.open(`${url}${this.base}bill/${_id}`);
+      }
 }// class

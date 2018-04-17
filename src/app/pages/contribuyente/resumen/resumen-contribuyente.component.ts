@@ -417,8 +417,14 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
     this.stopPropagation(ev);
   }
 
-  onDownloadPDF(ev: any) {
+  onDownloadPDFEgresos(ev: any) {
     this.stopPropagation(ev);
+    this.billProv.generateBill(this.selectedEgresos._id);
+  }
+
+  onDownloadPDFIngresos(ev: any) {
+    this.stopPropagation(ev);
+    this.billProv.generateBill(this.selectedIngresos._id);
   }
 
   onDeleteStatementEgresos(ev: any) {

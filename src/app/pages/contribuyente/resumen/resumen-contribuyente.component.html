@@ -195,7 +195,7 @@
               <button mat-icon-button (click)="onViewBillIngresos($event)">
                 <mat-icon matTooltip="Ver detalles" matTooltipPosition="above">visibility</mat-icon>
               </button>
-              <button mat-icon-button (click)="onDownloadPDF($event)">
+              <button mat-icon-button (click)="onDownloadPDFIngresos($event)">
                 <mat-icon matTooltip="Descargar PDF" matTooltipPosition="above">picture_as_pdf</mat-icon>
               </button>
               <a *ngIf="selectedIngresos.xmlFile" [href]="selectedIngresos.xmlFile" download mat-icon-button (click)="onDownloadXMLIngresos($event)">
@@ -260,7 +260,7 @@
               <button mat-icon-button (click)="onViewBillEgresos($event)">
                 <mat-icon matTooltip="Ver detalles" matTooltipPosition="above">visibility</mat-icon>
               </button>
-              <button mat-icon-button (click)="onDownloadPDF($event)">
+              <button mat-icon-button (click)="onDownloadPDFEgresos($event)">
                 <mat-icon matTooltip="Descargar PDF" matTooltipPosition="above">picture_as_pdf</mat-icon>
               </button>
               <button mat-icon-button (click)="onDownloadXMLEgresos($event)">
