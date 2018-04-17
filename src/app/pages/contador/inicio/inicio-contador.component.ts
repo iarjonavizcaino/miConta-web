@@ -110,6 +110,7 @@ export class InicioContadorComponent implements OnInit, OnDestroy {
     const dialogRef = this.taxpayerModal(this.selectedTaxpayer, true, 'Detalle contribuyente');
     dialogRef.afterClosed().subscribe((taxpayer) => {
       if (!taxpayer) { return; }
+      console.log(taxpayer);
       this.taxpayerProv.update(taxpayer).subscribe(data => {
         taxpayer = data.taxpayer;
         this.action.next({ name: RtActionName.UPDATE, itemId: taxpayer._id, newItem: taxpayer });
