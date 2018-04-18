@@ -11,6 +11,14 @@ import { BillProvider, TaxesProvider, HistoricalProvider, TaxpayerProvider } fro
 import { ConfirmComponent } from '../../../components/confirm/confirm.component';
 import { ModalImpuestosComponent } from '../../_catalog/modal-impuestos/modal-impuestos.component';
 import { ModalCierreBimestreComponent } from '../../_catalog/modal-cierre-bimestre/modal-cierre-bimestre.component';
+import * as FileSaver from 'file-saver';
+import * as XLSX from 'xlsx';
+import * as moment from 'moment';
+import * as accounting from 'accounting-js';
+import { BidiModule } from '@angular/cdk/bidi';
+
+const EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
+const EXCEL_EXTENSION = '.xls';
 
 @Component({
   selector: 'app-resumen-contribuyente',
@@ -21,24 +29,24 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
   updateGeneralPublic: boolean;
 
   headersIngresos: Array<RtHeader> = [
-    { name: 'Emisión', prop: 'createdDate', default: 'No date', moment: true },  // from xml file
+    { name: 'Emisión', prop: 'createdDate', default: 'No date', moment: true, align: 'center' },  // from xml file
     { name: 'Cliente', prop: 'customer_provider.name', default: 'No customer', width: '15' },
     { name: 'Subtotal', prop: 'subtotal', default: '$ 0.00', align: 'right', accounting: true },
     { name: 'IVA', prop: 'taxes', default: '$ 0.00', align: 'right', accounting: true },
     { name: 'Total', prop: 'total', default: '$ 0.00', align: 'right', accounting: true },
-    { name: 'Tipo fact.', prop: 'captureMode', align: 'center', chip: true },
+    { name: 'Tipo fact.', prop: 'captureMode', align: 'center', chip: true, width: '7' },
     { name: 'Fecha cobro', prop: 'cobrada_pagadaDate', default: 'Sin fecha', align: 'center', moment: true },
     { name: 'Público Gral', prop: 'general_public', default: false, align: 'center', input: 'toggleGeneralPublic' },
     { name: 'Cobrada', prop: 'cobrada_pagada', input: 'toggleFec' },
   ];
   headersEgresos: Array<RtHeader> = [
-    { name: 'Emisión', prop: 'createdDate', default: 'No date', moment: true },
+    { name: 'Emisión', prop: 'createdDate', default: 'No date', moment: true, align: 'center' },
     { name: 'Proveedor', prop: 'customer_provider.name', default: 'No customer', width: '15' },
     { name: 'Subtotal', prop: 'subtotal', default: '$ 0.00', align: 'right', accounting: true },
     { name: 'IVA', prop: 'taxes', default: '$ 0.00', align: 'right', accounting: true },
     { name: 'Total', prop: 'total', default: '$ 0.00', align: 'right', accounting: true },
     // { name: 'Total', prop: 'total', default: '$ 0.00', align: 'right', accounting: true },
-    { name: 'Tipo fact.', prop: 'captureMode', default: '', align: 'center', chip: true },
+    { name: 'Tipo fact.', prop: 'captureMode', default: '', align: 'center', chip: true, width: '7' },
     { name: 'Fecha pago', prop: 'cobrada_pagadaDate', default: 'Sin fecha', align: 'center', moment: true },
     { name: 'Pagada', prop: 'cobrada_pagada', input: 'toggleFec' },
   ];
@@ -129,8 +137,8 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
           this.contribuyente = params.name;
           this.office = params.office;
           this.accountant = params.accountant;
-          this.headersIngresos.splice(0, 0, { name: 'Seleccionar', prop: 'checked', input: 'checkbox', align: 'center' });
-          this.headersEgresos.splice(0, 0, { name: 'Seleccionar', prop: 'checked', input: 'checkbox', align: 'center' });
+          this.headersIngresos.splice(0, 0, { name: 'Selec.', prop: 'checked', input: 'checkbox', width: '8' });
+          this.headersEgresos.splice(0, 0, { name: 'Selec.', prop: 'checked', input: 'checkbox', width: '8' });
           // tslint:disable-next-line:max-line-length
           this.headersEgresos.splice(this.headersEgresos.length - 1, 0, { name: 'Deducible', prop: 'deducible', input: 'toggleDeducible', width: '12', align: 'center' });
         }
@@ -303,6 +311,96 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
       updateBill.cobrada_pagadaDate = '';
       this.update(updateBill._id, updateBill);
     }
+  }
+
+  onDownLoadExcelIngresos(ev: any) {
+    this.stopPropagation(ev);
+    if ((this.checkedIngresos === 0 && this.dataIngresos.length) || this.checkedIngresos === this.dataIngresos.length) {
+      // let data = this.dataIngresos.slice();
+      const data = this.dataIngresos.map(a => ({...a}));
+      data.forEach(bill => {
+        delete bill._id;
+        delete bill.taxpayer;
+        bill.Tipo = bill.type;
+        delete bill.type;
+        bill.Cobrada = bill.cobrada_pagada ? 'Sí' : 'No';
+        delete bill.cobrada_pagada;
+        bill.Tasa = bill.tasa + '%';
+        delete bill.tasa;
+        bill.Impuestos = bill.taxes ? accounting.formatMoney(bill.taxes) : 0;
+        delete bill.taxes;
+        bill.Retenciones = bill.retenciones ? accounting.formatMoney(bill.retenciones) : 0;
+        delete bill.retenciones;
+        bill.Subtotal = accounting.formatMoney(bill.subtotal);
+        delete bill.subtotal;
+        bill.Total = accounting.formatMoney(bill.total);
+        delete bill.total;
+        delete bill.__v;
+        delete bill.products;
+        bill.Cliente = bill.customer_provider.name;
+        delete bill.customer_provider;
+        bill.Publico_General = bill.general_public ? 'Sí' : 'No';
+        delete bill.general_public;
+        bill.Metodo_pago = bill.payMethod.method;
+        delete bill.payMethod;
+        delete bill.deducible;
+        bill.Fecha_Cobro = moment(bill.cobrada_pagadaDate).format('DD/MMM/YYYY');
+        delete bill.cobrada_pagadaDate;
+        bill.Fecha_Emision = moment(bill.createdDate).format('DD/MMM/YYYY');
+        delete bill.createdDate;
+        delete bill.checked;
+      });
+      this.exportAsExcelFile(data, `ingresos`);
+    }
+  }
+
+  onDownLoadExcelEgresos(ev: any) {
+    this.stopPropagation(ev);
+    if ((this.checkedEgresos === 0 && this.dataEgresos.length) || this.checkedEgresos === this.dataEgresos.length) {
+      // let data = this.dataIngresos.slice();
+      const data = this.dataEgresos.map(a => ({...a}));
+      data.forEach(bill => {
+        delete bill._id;
+        delete bill.taxpayer;
+        bill.Tipo = bill.type;
+        delete bill.type;
+        bill.Pagada = bill.cobrada_pagada ? 'Sí' : 'No';
+        delete bill.cobrada_pagada;
+        bill.Tasa = bill.tasa + '%';
+        delete bill.tasa;
+        bill.Impuestos = bill.taxes ? accounting.formatMoney(bill.taxes) : 0;
+        delete bill.taxes;
+        bill.Retenciones = bill.retenciones ? accounting.formatMoney(bill.retenciones) : 0;
+        delete bill.retenciones;
+        bill.Subtotal = accounting.formatMoney(bill.subtotal);
+        delete bill.subtotal;
+        bill.Total = accounting.formatMoney(bill.total);
+        delete bill.total;
+        delete bill.__v;
+        delete bill.products;
+        bill.Proveedor = bill.customer_provider.name;
+        delete bill.customer_provider;
+        bill.Publico_General = bill.general_public ? 'Sí' : 'No';
+        delete bill.general_public;
+        bill.Metodo_pago = bill.payMethod.method;
+        delete bill.payMethod;
+        bill.Deducible = bill.deducible ? 'Sí' : 'No';
+        delete bill.deducible;
+        bill.Fecha_Cobro = moment(bill.cobrada_pagadaDate).format('DD/MMM/YYYY');
+        delete bill.cobrada_pagadaDate;
+        bill.Fecha_Emision = moment(bill.createdDate).format('DD/MMM/YYYY');
+        delete bill.createdDate;
+        delete bill.checked;
+      });
+      this.exportAsExcelFile(data, `egresos`);
+    }
+  }
+
+  private exportAsExcelFile(json: any[], excelFileName: string): void {
+    const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(json);
+    const workbook: XLSX.WorkBook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, 'Hoja 1');
+    XLSX.writeFile(workbook, `${excelFileName}_${this.currentBimester}_${this.currentTaxpayer.name}${EXCEL_EXTENSION}`);
   }
 
   onCheckAllEgresos(ev: any) {
