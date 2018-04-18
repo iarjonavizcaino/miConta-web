@@ -317,12 +317,15 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
     this.stopPropagation(ev);
     if ((this.checkedIngresos === 0 && this.dataIngresos.length) || this.checkedIngresos === this.dataIngresos.length) {
       // let data = this.dataIngresos.slice();
-      const data = this.dataIngresos.map(a => ({...a}));
+      const data = this.dataIngresos.map(a => ({ ...a }));
+      console.log(data);
       data.forEach(bill => {
         delete bill._id;
         delete bill.taxpayer;
         bill.Tipo = bill.type;
         delete bill.type;
+        bill.Modo_Captura = bill.captureMode;
+        delete bill.captureMode;
         bill.Cobrada = bill.cobrada_pagada ? 'Sí' : 'No';
         delete bill.cobrada_pagada;
         bill.Tasa = bill.tasa + '%';
@@ -351,6 +354,53 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
         delete bill.checked;
       });
       this.exportAsExcelFile(data, `ingresos`);
+    } else {
+      console.log('holaaaaaaaaaaaaa');
+      const data = this.dataIngresos.map(a => ({ ...a }));
+      const newData = [];
+      data.forEach(bill => {
+        if (bill.checked) {
+          console.log('holaaa');
+          newData.push(bill);
+        }
+      });
+      console.log(newData);
+
+      newData.forEach(bill => {
+        delete bill._id;
+        delete bill.taxpayer;
+        bill.Tipo = bill.type;
+        delete bill.type;
+        bill.Modo_Captura = bill.captureMode;
+        delete bill.captureMode;
+        bill.Cobrada = bill.cobrada_pagada ? 'Sí' : 'No';
+        delete bill.cobrada_pagada;
+        bill.Tasa = bill.tasa + '%';
+        delete bill.tasa;
+        bill.Impuestos = bill.taxes ? accounting.formatMoney(bill.taxes) : 0;
+        delete bill.taxes;
+        bill.Retenciones = bill.retenciones ? accounting.formatMoney(bill.retenciones) : 0;
+        delete bill.retenciones;
+        bill.Subtotal = accounting.formatMoney(bill.subtotal);
+        delete bill.subtotal;
+        bill.Total = accounting.formatMoney(bill.total);
+        delete bill.total;
+        delete bill.__v;
+        delete bill.products;
+        bill.Cliente = bill.customer_provider.name;
+        delete bill.customer_provider;
+        bill.Publico_General = bill.general_public ? 'Sí' : 'No';
+        delete bill.general_public;
+        bill.Metodo_pago = bill.payMethod.method;
+        delete bill.payMethod;
+        delete bill.deducible;
+        bill.Fecha_Cobro = moment(bill.cobrada_pagadaDate).format('DD/MMM/YYYY');
+        delete bill.cobrada_pagadaDate;
+        bill.Fecha_Emision = moment(bill.createdDate).format('DD/MMM/YYYY');
+        delete bill.createdDate;
+        delete bill.checked;
+      });
+      this.exportAsExcelFile(newData, `ingresos`);
     }
   }
 
@@ -358,12 +408,14 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
     this.stopPropagation(ev);
     if ((this.checkedEgresos === 0 && this.dataEgresos.length) || this.checkedEgresos === this.dataEgresos.length) {
       // let data = this.dataIngresos.slice();
-      const data = this.dataEgresos.map(a => ({...a}));
+      const data = this.dataEgresos.map(a => ({ ...a }));
       data.forEach(bill => {
         delete bill._id;
         delete bill.taxpayer;
         bill.Tipo = bill.type;
         delete bill.type;
+        bill.Modo_Captura = bill.captureMode;
+        delete bill.captureMode;
         bill.Pagada = bill.cobrada_pagada ? 'Sí' : 'No';
         delete bill.cobrada_pagada;
         bill.Tasa = bill.tasa + '%';
@@ -393,6 +445,54 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
         delete bill.checked;
       });
       this.exportAsExcelFile(data, `egresos`);
+    } else {
+      console.log('holaaaaaaaaaaaaa');
+      const data = this.dataEgresos.map(a => ({ ...a }));
+      const newData = [];
+      data.forEach(bill => {
+        if (bill.checked) {
+          console.log('holaaa');
+          newData.push(bill);
+        }
+      });
+      console.log(newData);
+
+      newData.forEach(bill => {
+        delete bill._id;
+        delete bill.taxpayer;
+        bill.Tipo = bill.type;
+        delete bill.type;
+        bill.Modo_Captura = bill.captureMode;
+        delete bill.captureMode;
+        bill.Pagada = bill.cobrada_pagada ? 'Sí' : 'No';
+        delete bill.cobrada_pagada;
+        bill.Tasa = bill.tasa + '%';
+        delete bill.tasa;
+        bill.Impuestos = bill.taxes ? accounting.formatMoney(bill.taxes) : 0;
+        delete bill.taxes;
+        bill.Retenciones = bill.retenciones ? accounting.formatMoney(bill.retenciones) : 0;
+        delete bill.retenciones;
+        bill.Subtotal = accounting.formatMoney(bill.subtotal);
+        delete bill.subtotal;
+        bill.Total = accounting.formatMoney(bill.total);
+        delete bill.total;
+        delete bill.__v;
+        delete bill.products;
+        bill.Proveedor = bill.customer_provider.name;
+        delete bill.customer_provider;
+        bill.Publico_General = bill.general_public ? 'Sí' : 'No';
+        delete bill.general_public;
+        bill.Metodo_pago = bill.payMethod.method;
+        delete bill.payMethod;
+        bill.Deducible = bill.deducible ? 'Sí' : 'No';
+        delete bill.deducible;
+        bill.Fecha_Cobro = moment(bill.cobrada_pagadaDate).format('DD/MMM/YYYY');
+        delete bill.cobrada_pagadaDate;
+        bill.Fecha_Emision = moment(bill.createdDate).format('DD/MMM/YYYY');
+        delete bill.createdDate;
+        delete bill.checked;
+      });
+      this.exportAsExcelFile(newData, `egresos`);
     }
   }
 
