@@ -21,7 +21,7 @@ export class TaxpayerProvider {
   }
 
   update(taxpayer: any) {
-    return this.api.put(`${this.base}${taxpayer._id}`, taxpayer);
+    return this.api.put(`${this.base}${taxpayer.taxpayer._id}`, taxpayer);
   }
 
   updatePassword(taxpayer: any) {
