@@ -73,7 +73,7 @@ export class PerfilesComponent implements OnInit {
   onDelete(ev: any) {
     this.stopPropagation(ev);
     const dialogRef = this.dialogCtrl.open(ConfirmComponent, {
-      disableClose: false,
+      disableClose: true,
       data: {
         title: '¡ATENCIÓN!',
         message: `Está seguro de eliminar el perfil: ${this.profileSelected.name}?`,
@@ -98,7 +98,7 @@ export class PerfilesComponent implements OnInit {
 
   profileModal(title: string, profile: any) {
     return this.dialogCtrl.open(ModalProfilesComponent, {
-      disableClose: false,
+      disableClose: true,
       data: {
         title: title,
         // tslint:disable-next-line:max-line-length

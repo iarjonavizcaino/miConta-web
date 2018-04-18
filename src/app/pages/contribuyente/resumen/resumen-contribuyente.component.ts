@@ -246,7 +246,7 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
 
   private manualBill(bill: any, type: boolean, title: string) {
     return this.dialogCtrl.open(NewBillComponent, {
-      disableClose: false,
+      disableClose: true,
       data: {
         bill: bill,
         ingresos: type,
@@ -283,7 +283,7 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
     if (!updateBill.cobrada_pagada) {
       // open a modal
       const dialogRef = this.dialogCtrl.open(ModalFechaComponent, {
-        disableClose: false,
+        disableClose: true,
         data: {
           config: {
             title: 'Fecha de cobro',
@@ -400,7 +400,7 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
 
   billModal(bill: any, readonly: boolean, title: string) {
     return this.dialogCtrl.open(BillingCatalogComponent, {
-      disableClose: false,
+      disableClose: true,
       data: {
         title: title,
         readonly: readonly,
@@ -456,7 +456,7 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
   onIVA(ev: any) {
     if (!this.IVA) { return; }
     const dialogRef = this.dialogCtrl.open(ModalImpuestosComponent, {
-      disableClose: false,
+      disableClose: true,
       data: {
         title: 'Detalle IVA',
         type: 'iva',
@@ -482,7 +482,7 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
       this.taxProv.getISR(this.currentTaxpayer._id, { year: this.selectedYear, bimester: this.selectedBimester.num }).subscribe(res => {
         this.ISR = res.ISR;
         const dialogRef = this.dialogCtrl.open(ModalImpuestosComponent, {
-          disableClose: false,
+          disableClose: true,
           data: {
             title: 'Detalle ISR',
             type: 'isr',
@@ -499,7 +499,7 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
 
     } else {
       const dialogRef = this.dialogCtrl.open(ModalImpuestosComponent, {
-        disableClose: false,
+        disableClose: true,
         data: {
           title: 'Detalle ISR',
           type: 'isr',
@@ -515,7 +515,7 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
   }
   private modalConfirm() {
     return this.dialogCtrl.open(ConfirmComponent, {
-      disableClose: false,
+      disableClose: true,
       data: {
         type: 'danger',
         title: 'Atención!',
@@ -575,7 +575,7 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
 
   closePeriod() {
     const dialogRef = this.dialogCtrl.open(ModalCierreBimestreComponent, {
-      disableClose: false,
+      disableClose: true,
       data: {
         ISR: this.ISR,
         IVA: this.IVA,
@@ -658,7 +658,7 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
       const historical = data.historical;
       console.log(historical);
       const dialogRef = this.dialogCtrl.open(ModalCierreBimestreComponent, {
-        disableClose: false,
+        disableClose: true,
         data: {
           readonly: true,
           ISR: historical.period.historico.miConta.ISR,

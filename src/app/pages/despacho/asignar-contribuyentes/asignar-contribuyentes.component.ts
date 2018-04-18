@@ -102,7 +102,7 @@ export class AsignarContribuyentesComponent implements OnInit {
   onChange(ev) {
     this.stopPropagation(ev);
     const newAccountant = this.dialogCtrl.open(ModalAsignarContribComponent, {
-      disableClose: false,
+      disableClose: true,
       data: {
         todayAccontant: this.selectedItem ? this.selectedItem.accountant : '',
         selectedAll: this.allChecked,

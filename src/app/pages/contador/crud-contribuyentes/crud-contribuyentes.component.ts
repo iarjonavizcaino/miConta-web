@@ -155,7 +155,7 @@ export class CrudContribuyentesComponent implements OnInit {
 
   taxpayerModal(taxPayer: any, readonly: boolean, title: string) {
     return this.dialogCtrl.open(ModalCrearContribuyenteComponent, {
-      disableClose: false,
+      disableClose: true,
       data: {
         title: title,
         readonly: readonly,

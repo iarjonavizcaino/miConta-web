@@ -51,7 +51,7 @@ export class ToolbarComponent {
 */
   /*inputOutputModal() {
     return this.dialogCtrl.open(InputOutputMoneyCatalogComponent, {
-      disableClose: false
+      disableClose: true
     });
   }*/
 

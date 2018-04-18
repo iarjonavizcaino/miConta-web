@@ -90,7 +90,7 @@ export class CrearNotificacionComponent implements OnInit {
     } else {
       // show warning. Need to select a least a person
       this.dialogCtrl.open(ConfirmComponent, {
-        disableClose: false,
+        disableClose: true,
         data: {
           title: 'Atención!',
           message: 'Debes seleccionar al menos 1 usuario',

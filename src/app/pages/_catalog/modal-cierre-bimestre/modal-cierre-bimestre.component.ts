@@ -110,7 +110,7 @@ export class ModalCierreBimestreComponent implements OnInit {
 
   onSave() {
     const dialogRef = this.dialogCtrl.open(ConfirmComponent, {
-      disableClose: false,
+      disableClose: true,
       data: {
         type: 'danger',
         title: '¡ATENCIÓN!',

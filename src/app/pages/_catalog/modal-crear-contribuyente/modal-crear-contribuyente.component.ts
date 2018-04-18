@@ -169,7 +169,7 @@ export class ModalCrearContribuyenteComponent implements OnInit {
 
   changeStatusModal(title: string) {
     return this.dialogCtrl.open(ModalChangeStatusComponent, {
-      disableClose: false,
+      disableClose: true,
       data: {
         title: title,
         status: this.selectedStatement.type
@@ -179,7 +179,7 @@ export class ModalCrearContribuyenteComponent implements OnInit {
 
   uploadFilesModal(title: string) {
     return this.dialogCtrl.open(UploadStatementFileComponent, {
-      disableClose: false,
+      disableClose: true,
       data: {
         title: title
       }
@@ -188,7 +188,7 @@ export class ModalCrearContribuyenteComponent implements OnInit {
 
   createStatementModal(title: string) {
     return this.dialogCtrl.open(ModalNewStatementComponent, {
-      disableClose: false,
+      disableClose: true,
       data: {
         title: title
       }
@@ -279,7 +279,7 @@ export class ModalCrearContribuyenteComponent implements OnInit {
   onViewConcept(ev: any) {
     this.stopPropagation(ev);
     this.dialogCtrl.open(ModalConceptosComponent, {
-      disableClose: false,
+      disableClose: true,
       data: {
         title: 'Detalle concepto',
         concept: this.conceptSelected,
@@ -291,7 +291,7 @@ export class ModalCrearContribuyenteComponent implements OnInit {
   onViewObligation(ev) {
     this.stopPropagation(ev);
     this.dialogCtrl.open(ModalObligacionesComponent, {
-      disableClose: false,
+      disableClose: true,
       data: {
         title: 'Detalle obligación',
         obligation: this.obligationSelected,
@@ -308,7 +308,7 @@ export class ModalCrearContribuyenteComponent implements OnInit {
   }
   uploadMultiple() {
     const dialogRef = this.dialogCtrl.open(UploadMultipleComponent, {
-      disableClose: false,
+      disableClose: true,
       data: {
         title: 'Subir Sellos'
       }
@@ -320,7 +320,7 @@ export class ModalCrearContribuyenteComponent implements OnInit {
   }
   downloadFiles() {
     this.dialogCtrl.open(DownloadFilesComponent, {
-      disableClose: false,
+      disableClose: true,
       data: {
         title: 'Descargar Sellos',
         taxpayer: this.taxPayer,

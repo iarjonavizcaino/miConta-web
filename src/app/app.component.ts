@@ -36,7 +36,7 @@ export class AppComponent implements OnInit {
   smallScreen: boolean;
   mode = 'side';
   notifyOptions = {
-    position: ['bottom', 'right'],
+    position: ['bottom', 'left'],
     timeOut: 4000,
     animate: 'fromLeft',
     maxStack: 5

@@ -119,7 +119,7 @@ export class TaxpayerCatalogComponent implements OnInit {
 
   reasignModal(title: string) {
     return this.dialogCtrl.open(ModalAsignarContribComponent, {
-      disableClose: false,
+      disableClose: true,
       data: {
         title: title,
         todayAccontant: this.selectedTaxpayer ? this.selectedTaxpayer.accountant : '',

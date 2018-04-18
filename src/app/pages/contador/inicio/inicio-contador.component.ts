@@ -231,7 +231,7 @@ export class InicioContadorComponent implements OnInit, OnDestroy {
   onDelete(ev: any) {
     this.stopPropagation(ev);
     const dialogRef = this.dialogCtrl.open(ConfirmComponent, {
-      disableClose: false,
+      disableClose: true,
       data: {
         title: '¡ATENCIÓN!',
         message: `¿Está seguro de eliminar el contribuyente ${this.selectedTaxpayer.socialReason}?`,
@@ -295,20 +295,19 @@ export class InicioContadorComponent implements OnInit, OnDestroy {
       if (!data) { return; }
       // save link to download file
       data.forEach(element => {
-
         // use provier and notify
         this.billProv.create(element.bill).subscribe((res) => {
-          this.notify.success('Acción exitosa', 'Las facturas se han guardado correctamente');
+          this.notify.success('Acción exitosa', 'La factura se ha guardado correctamente');
           // save in firebase storage
           console.log(res.bill);
-          this.firebaseProv.uploadFile('xml/', res.bill_.id + '-' + new Date(), 'xml', element.file).then(storage => {
+          this.firebaseProv.uploadFile('xml/', res.bill._id + '-' + new Date(), 'xml', element.file).then(storage => {
             console.log(storage.downloadURL);
             res.bill.xmlFile = storage.downloadURL;
             this.billProv.update(res.bill._id, res.bill).subscribe(update => {
             }, err => { console.log(err); }); // update bill with xmlFile
           }, err => { console.log(err); });  // save in firebase
         }, err => { // create bill
-          this.notify.error('Error', 'No se pudo guardar la factura');
+          this.notify.error('Error', JSON.parse(err._body).message);
         });
       });
     });
@@ -317,7 +316,7 @@ export class InicioContadorComponent implements OnInit, OnDestroy {
     this.stopPropagation(ev);
     this.bitacoraProv.getByTaxpayer(this.selectedTaxpayer._id).subscribe(res => {
       this.dialogCtrl.open(ModalBitacoraComponent, {
-        disableClose: false,
+        disableClose: true,
         data: {
           bitacoras: res,
           name: this.selectedTaxpayer.socialReason
@@ -333,7 +332,7 @@ export class InicioContadorComponent implements OnInit, OnDestroy {
 
   taxpayerModal(taxPayer: any, readonly: boolean, title: string) {
     return this.dialogCtrl.open(ModalCrearContribuyenteComponent, {
-      disableClose: false,
+      disableClose: true,
       data: {
         title: title,
         readonly: readonly,
@@ -344,7 +343,7 @@ export class InicioContadorComponent implements OnInit, OnDestroy {
 
   xmlModal(title: string) {
     return this.dialogCtrl.open(UploadXmlComponent, {
-      disableClose: false,
+      disableClose: true,
       data: {
         title: title,
         taxpayer: this.selectedTaxpayer
