@@ -119,7 +119,7 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
   };
   showDeleteButton1 = false;
   showDeleteButton2 = false;
-  
+
   constructor(
     private taxProv: TaxesProvider,
     private billProv: BillProvider,
@@ -229,7 +229,7 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
       newBill.taxpayer = this.currentTaxpayer._id;
       this.billProv.create(newBill).subscribe((res) => {
         this.actionEgresos.next({ name: RtActionName.CREATE, newItem: newBill });
-        console.log(res);
+        this.loadBills({ year: this.selectedYear, bimester: this.selectedBimester.num, active: 1 });
         this.notify.success('Registro exitoso', 'Se ha creado la nueva factura');
       }, err => {
         this.notify.error('Error', 'No se pudo guardar la factura');
@@ -248,6 +248,7 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
       this.billProv.create(newBill).subscribe((res) => {
         console.log(res);
         this.actionIngresos.next({ name: RtActionName.CREATE, newItem: newBill });
+        this.loadTaxes({ year: this.currentPeriod.exercise, bimester: this.currentPeriod.period.num });
         this.notify.success('Registro exitoso', 'Se ha creado la nueva factura');
       }, err => {
         this.notify.error('Error', 'No se pudo guardar la factural');
@@ -683,7 +684,7 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
     dialogRef.afterClosed().subscribe((result) => {
       if (!result) { return; }
       this.billProv.deleteMany(billsToDelete).subscribe((res) => {
-        this.loadTaxes({ year: this.currentPeriod.exercise, bimester: this.currentPeriod.period.num });        
+        this.loadTaxes({ year: this.currentPeriod.exercise, bimester: this.currentPeriod.period.num });
         this.loadBills({ year: this.selectedYear, bimester: this.selectedBimester.num, active: 1 });
         this.notify.success('Acción exitosa', 'La factura se ha eliminado');
       }, err => {
