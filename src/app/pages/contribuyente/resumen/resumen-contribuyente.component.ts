@@ -93,7 +93,8 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
   };
   IVA = {
     ivaCargo: 0,
-    ivaFavor: 0
+    ivaFavor: 0,
+    ivaAcredGastos: 0
   };
   totalTax: 0;
 
@@ -320,6 +321,10 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
       const data = this.dataIngresos.map(a => ({ ...a }));
       console.log(data);
       data.forEach(bill => {
+        if (bill.captureMode === 'X') {
+          delete bill.uuid;
+          delete bill.xmlFile;
+        }
         delete bill._id;
         delete bill.taxpayer;
         bill.Tipo = bill.type;
@@ -328,15 +333,15 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
         delete bill.captureMode;
         bill.Cobrada = bill.cobrada_pagada ? 'Sí' : 'No';
         delete bill.cobrada_pagada;
-        bill.Tasa = bill.tasa + '%';
+        bill.Tasa = bill.tasa;
         delete bill.tasa;
-        bill.Impuestos = bill.taxes ? accounting.formatMoney(bill.taxes) : 0;
+        bill.Impuestos = bill.taxes ? bill.taxes : 0;
         delete bill.taxes;
-        bill.Retenciones = bill.retenciones ? accounting.formatMoney(bill.retenciones) : 0;
+        bill.Retenciones = bill.retenciones ? bill.retenciones : 0;
         delete bill.retenciones;
-        bill.Subtotal = accounting.formatMoney(bill.subtotal);
+        bill.Subtotal = bill.subtotal;
         delete bill.subtotal;
-        bill.Total = accounting.formatMoney(bill.total);
+        bill.Total = bill.total;
         delete bill.total;
         delete bill.__v;
         delete bill.products;
@@ -367,6 +372,10 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
       console.log(newData);
 
       newData.forEach(bill => {
+        if (bill.captureMode === 'X') {
+          delete bill.uuid;
+          delete bill.xmlFile;
+        }
         delete bill._id;
         delete bill.taxpayer;
         bill.Tipo = bill.type;
@@ -375,15 +384,15 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
         delete bill.captureMode;
         bill.Cobrada = bill.cobrada_pagada ? 'Sí' : 'No';
         delete bill.cobrada_pagada;
-        bill.Tasa = bill.tasa + '%';
+        bill.Tasa = bill.tasa;
         delete bill.tasa;
-        bill.Impuestos = bill.taxes ? accounting.formatMoney(bill.taxes) : 0;
+        bill.Impuestos = bill.taxes ? bill.taxes : 0;
         delete bill.taxes;
-        bill.Retenciones = bill.retenciones ? accounting.formatMoney(bill.retenciones) : 0;
+        bill.Retenciones = bill.retenciones ? bill.retenciones : 0;
         delete bill.retenciones;
-        bill.Subtotal = accounting.formatMoney(bill.subtotal);
+        bill.Subtotal = bill.subtotal;
         delete bill.subtotal;
-        bill.Total = accounting.formatMoney(bill.total);
+        bill.Total = bill.total;
         delete bill.total;
         delete bill.__v;
         delete bill.products;
@@ -410,6 +419,10 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
       // let data = this.dataIngresos.slice();
       const data = this.dataEgresos.map(a => ({ ...a }));
       data.forEach(bill => {
+        if (bill.captureMode === 'X') {
+          delete bill.uuid;
+          delete bill.xmlFile;
+        }
         delete bill._id;
         delete bill.taxpayer;
         bill.Tipo = bill.type;
@@ -420,13 +433,13 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
         delete bill.cobrada_pagada;
         bill.Tasa = bill.tasa + '%';
         delete bill.tasa;
-        bill.Impuestos = bill.taxes ? accounting.formatMoney(bill.taxes) : 0;
+        bill.Impuestos = bill.taxes ? bill.taxes : 0;
         delete bill.taxes;
-        bill.Retenciones = bill.retenciones ? accounting.formatMoney(bill.retenciones) : 0;
+        bill.Retenciones = bill.retenciones ? bill.retenciones : 0;
         delete bill.retenciones;
-        bill.Subtotal = accounting.formatMoney(bill.subtotal);
+        bill.Subtotal = bill.subtotal;
         delete bill.subtotal;
-        bill.Total = accounting.formatMoney(bill.total);
+        bill.Total = bill.total;
         delete bill.total;
         delete bill.__v;
         delete bill.products;
@@ -446,7 +459,6 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
       });
       this.exportAsExcelFile(data, `egresos`);
     } else {
-      console.log('holaaaaaaaaaaaaa');
       const data = this.dataEgresos.map(a => ({ ...a }));
       const newData = [];
       data.forEach(bill => {
@@ -458,6 +470,10 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
       console.log(newData);
 
       newData.forEach(bill => {
+        if (bill.captureMode === 'X') {
+          delete bill.uuid;
+          delete bill.xmlFile;
+        }
         delete bill._id;
         delete bill.taxpayer;
         bill.Tipo = bill.type;
@@ -466,15 +482,15 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
         delete bill.captureMode;
         bill.Pagada = bill.cobrada_pagada ? 'Sí' : 'No';
         delete bill.cobrada_pagada;
-        bill.Tasa = bill.tasa + '%';
+        bill.Tasa = bill.tasa;
         delete bill.tasa;
-        bill.Impuestos = bill.taxes ? accounting.formatMoney(bill.taxes) : 0;
+        bill.Impuestos = bill.taxes ? bill.taxes : 0;
         delete bill.taxes;
-        bill.Retenciones = bill.retenciones ? accounting.formatMoney(bill.retenciones) : 0;
+        bill.Retenciones = bill.retenciones ? bill.retenciones : 0;
         delete bill.retenciones;
-        bill.Subtotal = accounting.formatMoney(bill.subtotal);
+        bill.Subtotal = bill.subtotal;
         delete bill.subtotal;
-        bill.Total = accounting.formatMoney(bill.total);
+        bill.Total = bill.total;
         delete bill.total;
         delete bill.__v;
         delete bill.products;
@@ -722,8 +738,8 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
       disableClose: true,
       data: {
         type: 'danger',
-        title: 'Atención!',
-        message: 'Estás seguro de eliminar la factura?'
+        title: '¡Atención!',
+        message: '¿Estás seguro de eliminar la factura?'
       }
     });
   }
