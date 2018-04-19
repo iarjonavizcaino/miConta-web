@@ -117,6 +117,9 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
     text: '',
     color: ''
   };
+  showDeleteButton1 = false;
+  showDeleteButton2 = false;
+  
   constructor(
     private taxProv: TaxesProvider,
     private billProv: BillProvider,
@@ -272,8 +275,10 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
     if (!ev.item.checked) {
       this.checkedEgresos++;
       ev.item.checked = !ev.item.checked;
+      this.showDeleteButton2 = true;
     } else {
       this.checkedEgresos--;
+      this.showDeleteButton2 = this.checkedEgresos === 0 ? false : true;
     }
   }
 
@@ -553,8 +558,10 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
     if (!ev.item.checked) {
       this.checkedIngresos++;
       ev.item.checked = !ev.item.checked;
+      this.showDeleteButton1 = true;
     } else {
       this.checkedIngresos--;
+      this.showDeleteButton1 = this.checkedIngresos === 0 ? false : true;
     }
   }
 
@@ -643,13 +650,18 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
 
   onDeleteStatementEgresos(ev: any) {
     this.stopPropagation(ev);
+    const billsToDelete2 = [];
+    this.dataEgresos.forEach(bill => {
+      if (bill.checked) {
+        billsToDelete2.push(bill._id);
+      }
+    });
     const dialogRef = this.modalConfirm();
     dialogRef.afterClosed().subscribe((result) => {
       if (!result) { return; } // confirm yes: true, cancel: false
-      this.billProv.delete(this.selectedEgresos._id).subscribe((res) => {
+      this.billProv.deleteMany(billsToDelete2).subscribe((res) => {
         this.loadBills({ year: this.currentPeriod.exercise, bimester: this.currentPeriod.period.num, active: 1 });
         this.loadTaxes({ year: this.currentPeriod.exercise, bimester: this.currentPeriod.period.num });
-        this.actionEgresos.next({ name: RtActionName.DELETE, itemId: this.selectedEgresos._id, newItem: this.selectedEgresos });
         this.notify.success('Acción exitosa', 'La factura se ha eliminado');
       }, err => {
         this.notify.error('Error', 'No se pudo eliminar la factura');
@@ -660,11 +672,19 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
 
   onDeleteStatementIngresos(ev: any) {
     this.stopPropagation(ev);
+    // this.selectedIngresos.checked = !this.selectedIngresos.checked;
+    const billsToDelete = [];
+    this.dataIngresos.forEach(bill => {
+      if (bill.checked) {
+        billsToDelete.push(bill._id);
+      }
+    });
     const dialogRef = this.modalConfirm();
     dialogRef.afterClosed().subscribe((result) => {
       if (!result) { return; }
-      this.billProv.delete(this.selectedIngresos._id).subscribe((res) => {
-        this.actionIngresos.next({ name: RtActionName.DELETE, itemId: this.selectedIngresos._id, newItem: this.selectedIngresos });
+      this.billProv.deleteMany(billsToDelete).subscribe((res) => {
+        this.loadTaxes({ year: this.currentPeriod.exercise, bimester: this.currentPeriod.period.num });        
+        this.loadBills({ year: this.selectedYear, bimester: this.selectedBimester.num, active: 1 });
         this.notify.success('Acción exitosa', 'La factura se ha eliminado');
       }, err => {
         this.notify.error('Error', 'No se pudo eliminar la factura');
@@ -739,7 +759,7 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
       data: {
         type: 'danger',
         title: '¡Atención!',
-        message: '¿Estás seguro de eliminar la factura?'
+        message: '¿Estás seguro de eliminar la(s) factura(s) seleccionada(s)?'
       }
     });
   }

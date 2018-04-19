@@ -27,9 +27,12 @@ export class BillProvider {
     delete(_id: string) {
         return this.api.delete(this.base + _id);
     }
+    deleteMany(bills: any) {
+        return this.api.post(this.base + 'removeMany', bills);
+    }
 
     generateBill(_id: string) {
         const url = config.api.prod;
         window.open(`${url}${this.base}bill/${_id}`);
-      }
+    }
 }// class
