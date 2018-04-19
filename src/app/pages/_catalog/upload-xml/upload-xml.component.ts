@@ -88,16 +88,16 @@ export class UploadXmlComponent implements OnInit {
         paymentMethod = 'Efectivo';
         break;
       case '02':
-        paymentMethod = 'Cheque';
+        paymentMethod = 'Cheque nominativo';
         break;
       case '03':
-        paymentMethod = 'Transferencia';
+        paymentMethod = 'Transferencia electrónica de fondos';
         break;
       case '04':
         paymentMethod = 'Tarjetas de crédito';
         break;
       case '05':
-        paymentMethod = 'Monederos electrónicos';
+        paymentMethod = 'Monedero electrónico';
         break;
       case '06':
         paymentMethod = 'Dinero electrónico';
@@ -135,11 +135,38 @@ export class UploadXmlComponent implements OnInit {
       case '17':
         paymentMethod = 'Compensación';
         break;
+        case '23':
+        paymentMethod = 'Novación';
+        break;
+        case '24':
+        paymentMethod = 'Confusión';
+        break;
+        case '25':
+        paymentMethod = 'Remisión de deuda';
+        break;
+        case '26':
+        paymentMethod = 'Prescripción o caducidad';
+        break;
+        case '27':
+        paymentMethod = 'A satisfacción del acreedor';
+        break;
+        case '28':
+        paymentMethod = 'Tarjeta de débito';
+        break;
+        case '29':
+        paymentMethod = 'Tarjeta de servicios';
+        break;
+        case '30':
+        paymentMethod = 'Ampliación de anticipos';
+        break;
+        case '31':
+        paymentMethod = 'Intermediario pagos';
+        break;
       case '98':
         paymentMethod = 'NA';
         break;
       case '99':
-        paymentMethod = 'Otros';
+        paymentMethod = 'Por definir';
         break;
     }
 
