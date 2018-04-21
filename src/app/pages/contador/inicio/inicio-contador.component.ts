@@ -299,9 +299,7 @@ export class InicioContadorComponent implements OnInit, OnDestroy {
         this.billProv.create(element.bill).subscribe((res) => {
           this.notify.success('Acción exitosa', 'La factura se ha guardado correctamente');
           // save in firebase storage
-          console.log(res.bill);
-          this.firebaseProv.uploadFile('xml/', res.bill._id + '-' + new Date(), 'xml', element.file).then(storage => {
-            console.log(storage.downloadURL);
+          this.firebaseProv.uploadFile('xml/', res.bill.uuid, 'xml', element.file).then(storage => {
             res.bill.xmlFile = storage.downloadURL;
             this.billProv.update(res.bill._id, res.bill).subscribe(update => {
             }, err => { console.log(err); }); // update bill with xmlFile
