@@ -31,8 +31,8 @@ export class LoginComponent implements OnInit {
   ) {
     this.loginForm = fb.group({
       role: ['superadmin', Validators.required],
-      username: ['conta', Validators.required],
-      password: ['1234', Validators.required]
+      username: ['', Validators.required],
+      password: ['', Validators.required]
     });
   }
 
@@ -119,45 +119,6 @@ export class LoginComponent implements OnInit {
         });
         break;
     }
-    // let emp: Employee;
-    // let root = '';
-    // switch (this.loginForm.get('username').value) {
-    //   case 'contribuyente':
-    //     emp = {
-    //       name: 'Juan Antonio Rojas Hernández',
-    //       role: {
-    //         name: 'contribuyente'
-    //       }
-    //     };
-    //     root = '/contribuyente/inicio';
-    //     break;
-    //   case 'contador':
-    //     emp = {
-    //       name: 'Ernesto Lago',
-    //       role: {
-    //         name: 'contador'
-    //       }
-    //     };
-    //     root = '/contador/inicio';
-    //     break;
-    //   case 'despacho':
-    //     emp = {
-    //       name: 'Andrea Ramírez',
-    //       role: {
-    //         name: 'despacho'
-    //       }
-    //     };
-    //     root = 'despacho/inicio';
-    //     break;
-    //   case 'superadmin':
-    //     emp = {
-    //       name: 'Jaime Maussan',
-    //       role: {
-    //         name: 'superadmin'
-    //       }
-    //     };
-    //     root = 'superadmin/inicio';
-    // }
     localStorage.removeItem('users');
   }
 
