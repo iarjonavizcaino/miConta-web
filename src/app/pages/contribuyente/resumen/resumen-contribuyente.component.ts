@@ -533,12 +533,14 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
       });
       this.dataEgresos.forEach((element) => {  // check all items
         element.checked = true;
+        this.showDeleteButton2 = true;
       });
       this.checkedEgresos = this.dataEgresos.length;
     } else {
       this.checkedEgresos = 0;
       this.dataEgresos.forEach((element) => {  // uncheck all items
         element.checked = false;
+        this.showDeleteButton2 = false;
       });
     }
   }
@@ -574,12 +576,14 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
       });
       this.dataIngresos.forEach((element) => {  // check all items
         element.checked = true;
+        this.showDeleteButton1 = true;
       });
       this.checkedIngresos = this.dataIngresos.length;
     } else {
       this.checkedIngresos = 0;
       this.dataIngresos.forEach((element) => {  // uncheck all items
         element.checked = false;
+        this.showDeleteButton1 = true;
       });
     }
   }
