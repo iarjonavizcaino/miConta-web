@@ -65,7 +65,8 @@ import {
   TaxesProvider,
   HistoricalProvider,
   BitacoraProvider,
-  FirebaseProvider
+  FirebaseProvider,
+  SendMailProvider
 } from './providers/providers';
 
 // Pages
@@ -136,7 +137,7 @@ import { ModalImpuestosComponent } from './pages/_catalog/modal-impuestos/modal-
 import { ModalCierreBimestreComponent } from './pages/_catalog/modal-cierre-bimestre/modal-cierre-bimestre.component';
 import { ModalBitacoraComponent } from './pages/_catalog/modal-bitacora/modal-bitacora.component';
 import { DownloadFilesComponent } from './pages/_catalog/download-files/download-files.component';
-
+import { RecoverPasswordComponent } from './pages/_catalog/recover-password/recover-password.component';
 // all routes pages
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -232,7 +233,8 @@ const routes: Routes = [
     ModalImpuestosComponent,
     ModalCierreBimestreComponent,
     ModalBitacoraComponent,
-    DownloadFilesComponent
+    DownloadFilesComponent,
+    RecoverPasswordComponent
   ],
   declarations: [
     AppComponent,
@@ -287,7 +289,8 @@ const routes: Routes = [
     ModalImpuestosComponent,
     ModalCierreBimestreComponent,
     ModalBitacoraComponent,
-    DownloadFilesComponent
+    DownloadFilesComponent,
+    RecoverPasswordComponent
   ],
   imports: [
     BrowserModule,
@@ -341,6 +344,7 @@ const routes: Routes = [
     HistoricalProvider,
     BitacoraProvider,
     FirebaseProvider,
+    SendMailProvider,
     //  Services
     RoleGuard,
     AuthGuard,

@@ -13,6 +13,7 @@ import { TaxesProvider } from './taxes.prov';
 import { HistoricalProvider } from './historical.prov';
 import { BitacoraProvider } from './bitacora.prov';
 import { FirebaseProvider } from './firebase.prov';
+import { SendMailProvider } from './sendMail.prov';
 
 export {
     ConceptProvider,
@@ -29,5 +30,6 @@ export {
     TaxesProvider,
     HistoricalProvider,
     BitacoraProvider,
-    FirebaseProvider
+    FirebaseProvider,
+    SendMailProvider
 };

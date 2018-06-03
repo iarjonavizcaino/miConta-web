@@ -7,6 +7,8 @@ import { AuthService } from '../../services/services';
 import { RoleProvider } from '../../providers/providers';
 import { Credentials } from '../../types/types';
 import { _roles } from '../../services/global';
+import { RecoverPasswordComponent } from '../_catalog/recover-password/recover-password.component';
+import { MatDialog } from '@angular/material';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -23,6 +25,7 @@ export class LoginComponent implements OnInit {
   selectedRole: any;
 
   constructor(
+    private dialogCtrl: MatDialog,
     private router: Router,
     private auth: AuthService,
     private fb: FormBuilder,
@@ -41,6 +44,12 @@ export class LoginComponent implements OnInit {
       this.roles = data.roles;
     });
   }
+
+  recoverPassword() {
+    const dialogRef = this.dialogCtrl.open(RecoverPasswordComponent, {
+      disableClose: true,
+    });
+  } // recoverPassword()
 
   onLogin() {
 
