@@ -16,11 +16,34 @@ import { ProfileProvider, FirebaseProvider } from '../../../providers/providers'
 import { UploadMultipleComponent } from '../upload-multiple/upload-multiple.component';
 import { DownloadFilesComponent } from '../download-files/download-files.component';
 const RFC_REGEX = /^([A-ZÑ]{3,4}([0-9]{2})(0[1-9]|1[0-2])(0[1-9]|1[0-9]|2[0-9]|3[0-1]))([A-Z\d]{3})?$/;
-
+import { MatSidenav, MAT_DATE_LOCALE, DateAdapter, MAT_DATE_FORMATS } from '@angular/material';
+import { MAT_MOMENT_DATE_FORMATS, MomentDateAdapter } from '@angular/material-moment-adapter';
+export const MY_FORMATS = {
+  parse: {
+    dateInput: 'LL',
+  },
+  display: {
+    dateInput: 'LL',
+    monthYearLabel: 'MMM YYYY',
+    dateA11yLabel: 'LL',
+    monthYearA11yLabel: 'MMMM YYYY',
+  },
+};
 @Component({
   selector: 'app-modal-crear-contribuyente',
   templateUrl: './modal-crear-contribuyente.component.html',
-  styleUrls: ['./modal-crear-contribuyente.component.scss']
+  styleUrls: ['./modal-crear-contribuyente.component.scss'],
+  providers: [
+    // The locale would typically be provided on the root module of your application. We do it at
+    // the component level here, due to limitations of our example generation script.
+    { provide: MAT_DATE_LOCALE, useValue: 'esp-ESP' },
+
+    // `MomentDateAdapter` and `MAT_MOMENT_DATE_FORMATS` can be automatically provided by importing
+    // `MatMomentDateModule` in your applications root module. We provide it at the component level
+    // here, due to limitations of our example generation script.
+    { provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE] },
+    { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
+  ],
 })
 export class ModalCrearContribuyenteComponent implements OnInit {
   loyalFile: any; // fiel
@@ -70,6 +93,7 @@ export class ModalCrearContribuyenteComponent implements OnInit {
   ];
 
   constructor(
+    private adapter: DateAdapter<any>,
     private dialogCtrl: MatDialog,
     private dialogRef: MatDialogRef<ModalCrearContribuyenteComponent>,
     @Inject(MAT_DIALOG_DATA) private data: any,
@@ -96,6 +120,7 @@ export class ModalCrearContribuyenteComponent implements OnInit {
       debtSAT: [null, Validators.required],
       ivaFavor: [null, Validators.required]
     });
+    this.adapter.setLocale('esp');
   }
 
   ngOnInit() {

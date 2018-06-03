@@ -1,6 +1,5 @@
 import { Component, OnInit, HostListener, ViewChild } from '@angular/core';
 import { SidemenuComponent } from './components/sidemenu/sidemenu.component';
-import { MatSidenav } from '@angular/material';
 import { Observable } from 'rxjs/Observable';
 import { Router } from '@angular/router';
 import { SessionService } from './services/session.serv';
@@ -10,6 +9,8 @@ import { AuthService } from './services/services';
 import { _roles } from '../app/services/global';
 import * as firebase from 'firebase';
 import { firebaseConfig } from '../app/app.firebase';
+import { MatSidenav, MAT_DATE_LOCALE, DateAdapter, MAT_DATE_FORMATS } from '@angular/material';
+import { MAT_MOMENT_DATE_FORMATS, MomentDateAdapter } from '@angular/material-moment-adapter';
 
 @Component({
   selector: 'app-root',
@@ -25,7 +26,18 @@ import { firebaseConfig } from '../app/app.firebase';
         animate('400ms cubic-bezier(.25,.8,.25,1)', style({ transform: 'translateY(-56px)' }))
       ])
     ])
-  ]
+  ],
+  providers: [
+    // The locale would typically be provided on the root module of your application. We do it at
+    // the component level here, due to limitations of our example generation script.
+    { provide: MAT_DATE_LOCALE, useValue: 'esp-ESP' },
+
+    // `MomentDateAdapter` and `MAT_MOMENT_DATE_FORMATS` can be automatically provided by importing
+    // `MatMomentDateModule` in your applications root module. We provide it at the component level
+    // here, due to limitations of our example generation script.
+    { provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE] },
+    { provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS },
+  ],
 })
 export class AppComponent implements OnInit {
   @ViewChild('sidenav') sidenav: MatSidenav;
@@ -42,10 +54,12 @@ export class AppComponent implements OnInit {
     maxStack: 5
   };
   constructor(
+    private adapter: DateAdapter<any>,
     public auth: AuthService,
     private router: Router,
     private session: SessionService) {
     firebase.initializeApp(firebaseConfig);
+    this.adapter.setLocale('esp');
   }
 
   @HostListener('window:resize', ['$event'])
@@ -55,7 +69,6 @@ export class AppComponent implements OnInit {
   ngOnInit() {
     this.configureSidenav();
     this.configureMoment();
-    // this.router.navigate(['/login']);
     this._checkSession();
     this.user$ = this.session.user;
   }

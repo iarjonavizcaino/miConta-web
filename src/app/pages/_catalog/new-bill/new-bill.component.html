@@ -38,7 +38,7 @@
               <div class="col-12">
                 <mat-form-field>
                   <mat-icon matPrefix>person</mat-icon>
-                    <input matInput placeholder="{{ ingresos ? 'Cliente' : 'Proveedor'}}" [(ngModel)]="bill.customer_provider.name" [formControl]="billForm.controls['name']">
+                  <input matInput placeholder="{{ ingresos ? 'Cliente' : 'Proveedor'}}" [(ngModel)]="bill.customer_provider.name" [formControl]="billForm.controls['name']">
                   <mat-error *ngIf="billForm.controls['name'].hasError('required')">
                     Campo
                     <strong>requerido</strong>
@@ -59,7 +59,8 @@
               </div>
               <div class="col-5" *ngIf="ingresos">
                 <br>
-                <mat-slide-toggle class="float-right" [disabled]="false" [checked]="bill.general_public" [(ngModel)]="bill.general_public" [formControl]="billForm.controls['general_public']">
+                <mat-slide-toggle class="float-right" [disabled]="false" [checked]="bill.general_public" [(ngModel)]="bill.general_public"
+                  [formControl]="billForm.controls['general_public']">
                   Público en General
                 </mat-slide-toggle>
               </div>
@@ -85,7 +86,7 @@
                   </mat-error>
                 </mat-form-field>
               </div>
-              <div class="col-12">
+              <div class="col-6">
                 <mat-form-field>
                   <mat-icon matPrefix>payment</mat-icon>
                   <mat-select placeholder="Método de pago" [formControl]="billForm.controls['payMethod']" [(ngModel)]="currentPayMethod">
@@ -100,14 +101,8 @@
                 </mat-form-field>
               </div>
               <div class="col-6">
-                <label>
-                  <strong>Fecha de emisión</strong>
-                </label>
-                <label>{{moment(bill.createdDate).format('LL')}}</label>
-              </div>
-              <div class="col-6">
                 <mat-form-field>
-                  <input [(ngModel)]="bill.createdDate" (dateChange)="onChangeDate($event)" matInput [matDatepicker]="picker" placeholder="Cambiar fecha" [formControl]="billForm.controls['createdDate']">
+                  <input [(ngModel)]="bill.createdDate" matInput [matDatepicker]="picker" placeholder="Fecha de emisión" [formControl]="billForm.controls['createdDate']">
                   <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                   <mat-datepicker #picker></mat-datepicker>
                 </mat-form-field>
@@ -196,8 +191,8 @@
               <div class="col-12 col-md-6">
                 <mat-form-field>
                   <mat-icon matPrefix>location_on</mat-icon>
-                  <input type="text" required placeholder="Estado" matInput [formControl]="billForm.controls['state']"
-                    [matAutocomplete]="state" [(ngModel)]="currentState">
+                  <input type="text" required placeholder="Estado" matInput [formControl]="billForm.controls['state']" [matAutocomplete]="state"
+                    [(ngModel)]="currentState">
                   <mat-autocomplete #state="matAutocomplete" [displayWith]="displayFnState">
                     <mat-option *ngFor="let option of filteredStates | async" [value]="option">
                       {{ option.name }}
