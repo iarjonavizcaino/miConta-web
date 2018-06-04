@@ -5,7 +5,7 @@ import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { Observable } from 'rxjs/Observable';
 import { states } from '../../../../states';
 
-const EMAIL_REGEX = /^[a-z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-z0-9-]+(\.[a-z0-9-]+)+$/;
+const EMAIL_REGEX =  /^[a-z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-z0-9-]+(\.[a-z0-9-]+)+$/;
 
 @Component({
   selector: 'app-modal-contador',

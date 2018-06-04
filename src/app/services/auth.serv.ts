@@ -26,19 +26,19 @@ export class AuthService {
   ) { }
 
   loginAccountant(cred: Credentials): Observable<any> {
-    return this.api.post('login/accountant/', cred);
+    return this.api.post('login/accountant/', {username: cred.usuario, password: cred.contrasena});
   }
 
   loginOffice(cred: Credentials): Observable<any> {
-    return this.api.post('login/office/', cred);
+    return this.api.post('login/office/', {username: cred.usuario, password: cred.contrasena});
   }
 
   loginTaxpayer(cred: Credentials): Observable<any> {
-    return this.api.post('login/taxpayer/', cred);
+    return this.api.post('login/taxpayer/', {username: cred.usuario, password: cred.contrasena});
   }
 
   loginSuperadmin(cred: Credentials): Observable<any> {
-    return this.api.post('login/superadmin/', cred);
+    return this.api.post('login/superadmin/', {username: cred.usuario, password: cred.contrasena});
   }
 
   loginSuccess(user: Employee, token: string) {

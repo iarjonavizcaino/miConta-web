@@ -3,7 +3,8 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { SendMailProvider } from '../../../providers/providers';
 
-const EMAIL_REGEX = /^[a-z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-z0-9-]+(\.[a-z0-9-]+)+$/;
+const EMAIL_REGEX =  /^[a-z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-z0-9-]+(\.[a-z0-9-]+)+$/;
+
 @Component({
   selector: 'app-recover-password',
   templateUrl: './recover-password.component.html',

@@ -21,16 +21,16 @@
         </mat-form-field>
         <mat-form-field class="wrap-input100">
           <!-- <span class="label-input100">Usuario</span> -->
-          <input required matInput placeholder="Nombre de usuario" formControlName="username">
-          <mat-error *ngIf="loginForm.get('username').hasError('required')">
-            El nombre de usuario es
+          <input required matInput placeholder="Nombre de usuario" formControlName="usuario">
+          <mat-error *ngIf="loginForm.get('usuario').hasError('required')">
+            El nombre de usuario esS
             <strong>requerido</strong>
           </mat-error>
         </mat-form-field>
         <mat-form-field class="wrap-input100">
           <!-- <span class="label-input100">Contraseña</span> -->
-          <input required matInput placeholder="Contraseña" type="password" formControlName="password">
-          <mat-error *ngIf="loginForm.get('password').hasError('required')">
+          <input required matInput placeholder="Contraseña" type="password" formControlName="contrasena">
+          <mat-error *ngIf="loginForm.get('contrasena').hasError('required')">
             La contraseña es
             <strong>requerida</strong>
           </mat-error>
