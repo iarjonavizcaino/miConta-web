@@ -1,6 +1,6 @@
 const prod = {
     host: 'http://167.99.108.179',
-    port: '3002'
+    port: ''
 };
 
 const test = {

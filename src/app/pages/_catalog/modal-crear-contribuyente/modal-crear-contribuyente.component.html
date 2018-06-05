@@ -248,7 +248,7 @@
           <div class="col-12 col-md-6">
             <mat-form-field>
               <mat-icon matPrefix>person</mat-icon>
-              <input [readonly]="false" required matInput placeholder="Usuario" [(ngModel)]="taxPayer.account.user" [formControl]="taxpayerForm.controls['user']">
+              <input [readonly]="false" required matInput placeholder="Usuario" [(ngModel)]="taxPayer.account.user" [formControl]="taxpayerForm.controls['user']" autocomplete="off">
               <mat-error *ngIf="taxpayerForm.controls['user'].hasError('required')">
                 Campo
                 <strong>requerido</strong>
@@ -258,7 +258,7 @@
           <div class="col-12 col-md-6">
             <mat-form-field>
               <mat-icon matPrefix>vpn_key</mat-icon>
-              <input [readonly]="false" type="password" required matInput placeholder="Contraseña" [(ngModel)]="taxPayer.account.password"
+              <input [readonly]="false" type="password" required matInput placeholder="Contraseña" [(ngModel)]="taxPayer.account.password" autocomplete="new-password"
                 [formControl]="taxpayerForm.controls['password']">
               <mat-error *ngIf="taxpayerForm.controls['password'].hasError('required')">
                 Campo

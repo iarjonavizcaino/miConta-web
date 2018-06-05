@@ -10,7 +10,7 @@ import { SessionService } from '../services/session.serv';
 
 @Injectable()
 export class Api {
-  url = config.api.prod;
+  url = config.api.test;
   headers: Headers = new Headers();
 
   constructor(
