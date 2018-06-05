@@ -207,6 +207,9 @@
                 <mat-icon matTooltip="Eliminar declaración" matTooltipPosition="above">delete</mat-icon>
               </button>
             </span>
+            <button *ngIf="taxpayer.role.name !== 'Contribuyente'" mat-icon-button (click)="onUploadXML($event)">
+              <mat-icon matTooltip="Subir XML" matTooltipPosition="above">code</mat-icon>
+            </button>
             <ng-container *ngIf="selectedIngresos">
               <span class="separator"></span>
               <button mat-icon-button (click)="onViewBillIngresos($event)">
@@ -276,6 +279,9 @@
                 <mat-icon matTooltip="Eliminar declaración" matTooltipPosition="above">delete</mat-icon>
               </button>
             </span>
+            <button *ngIf="taxpayer.role.name !== 'Contribuyente'" mat-icon-button (click)="onUploadXML($event)">
+              <mat-icon matTooltip="Subir XML" matTooltipPosition="above">code</mat-icon>
+            </button>
             <ng-container *ngIf="selectedEgresos">
               <span class="separator"></span>
               <button mat-icon-button (click)="onViewBillEgresos($event)">

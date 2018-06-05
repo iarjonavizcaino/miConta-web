@@ -311,6 +311,7 @@ export class InicioContadorComponent implements OnInit, OnDestroy {
       });
     });
   }
+
   showBitacora(ev: any) {
     this.stopPropagation(ev);
     this.bitacoraProv.getByTaxpayer(this.selectedTaxpayer._id).subscribe(res => {

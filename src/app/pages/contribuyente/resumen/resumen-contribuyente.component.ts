@@ -7,7 +7,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { NewBillComponent } from '../../_catalog/new-bill/new-bill.component';
 import { ModalFechaComponent } from '../../_catalog/modal-fecha/modal-fecha.component';
 import { NotificationsService } from 'angular2-notifications';
-import { BillProvider, TaxesProvider, HistoricalProvider, TaxpayerProvider } from '../../../providers/providers';
+import { BillProvider, TaxesProvider, HistoricalProvider, TaxpayerProvider, FirebaseProvider } from '../../../providers/providers';
 import { ConfirmComponent } from '../../../components/confirm/confirm.component';
 import { ModalImpuestosComponent } from '../../_catalog/modal-impuestos/modal-impuestos.component';
 import { ModalCierreBimestreComponent } from '../../_catalog/modal-cierre-bimestre/modal-cierre-bimestre.component';
@@ -16,6 +16,7 @@ import * as XLSX from 'xlsx';
 import * as moment from 'moment';
 import * as accounting from 'accounting-js';
 import { BidiModule } from '@angular/cdk/bidi';
+import { UploadXmlComponent } from '../../_catalog/upload-xml/upload-xml.component';
 
 const EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
 const EXCEL_EXTENSION = '.xls';
@@ -120,7 +121,10 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
   showDeleteButton1 = false;
   showDeleteButton2 = false;
 
+  taxpayer = JSON.parse(localStorage.getItem('user'));
+
   constructor(
+    private firebaseProv: FirebaseProvider,
     private taxProv: TaxesProvider,
     private billProv: BillProvider,
     private taxpayerProv: TaxpayerProvider,
@@ -219,6 +223,40 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.sub.unsubscribe();
+  }
+
+  onUploadXML(ev) {
+    this.stopPropagation(ev);
+    const dialogRef = this.xmlModal('Subir archivo XML');
+
+    dialogRef.afterClosed().subscribe(data => {
+      if (!data) { return; }
+      // save link to download file
+      data.forEach(element => {
+        // use provier and notify
+        this.billProv.create(element.bill).subscribe((res) => {
+          this.notify.success('Acción exitosa', 'La factura se ha guardado correctamente');
+          // save in firebase storage
+          this.firebaseProv.uploadFile('xml/', res.bill.uuid, 'xml', element.file).then(storage => {
+            res.bill.xmlFile = storage.downloadURL;
+            this.billProv.update(res.bill._id, res.bill).subscribe(update => {
+            }, err => { console.log(err); }); // update bill with xmlFile
+          }, err => { console.log(err); });  // save in firebase
+        }, err => { // create bill
+          this.notify.error('Error', JSON.parse(err._body).message);
+        });
+      });
+    });
+  }
+
+  xmlModal(title: string) {
+    return this.dialogCtrl.open(UploadXmlComponent, {
+      disableClose: true,
+      data: {
+        title: title,
+        taxpayer: this.currentTaxpayer
+      }
+    });
   }
 
   onManualBillEgresos(ev: any) {
