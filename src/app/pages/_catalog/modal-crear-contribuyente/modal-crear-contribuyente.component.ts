@@ -251,6 +251,8 @@ export class ModalCrearContribuyenteComponent implements OnInit {
     this.currentProfile.obligations = this.obligations;
     this.taxPayer.profile = this.currentProfile;
     this.taxPayer.fiscalRegime = this.regimen;
+    this.taxPayer.loyalFile = this.loyalFile;
+    this.taxPayer.sailsFile = this.sailsFile;
     this.dialogRef.close({ taxpayer: this.taxPayer, loyalFile: this.loyalFile, sailsFile: this.sailsFile });  // close modal
   }
   onClose() {

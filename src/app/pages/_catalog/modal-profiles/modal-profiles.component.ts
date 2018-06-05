@@ -1,7 +1,7 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, ViewChild } from '@angular/core';
 import { FormGroup } from '@angular/forms/src/model';
 import { FormBuilder, Validators } from '@angular/forms';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatAutocompleteTrigger } from '@angular/material';
 import { RtHeader, RtAction, RtActionName } from '../../../components/rt-datatable/rt-datatable.component';
 import { Subject } from 'rxjs/Subject';
 import { Observable } from 'rxjs/Observable';
@@ -15,6 +15,8 @@ import { ConceptProvider, ObligationProvider, ActivityProvider } from '../../../
   styleUrls: ['./modal-profiles.component.scss']
 })
 export class ModalProfilesComponent implements OnInit {
+  @ViewChild('conceptAuto', { read: MatAutocompleteTrigger }) autoCompleteConcept: MatAutocompleteTrigger;
+  @ViewChild('obligationAuto', { read: MatAutocompleteTrigger }) autoCompleteObligation: MatAutocompleteTrigger;
   currentObligation: any;
   currentConcept: any;
 
@@ -120,20 +122,34 @@ export class ModalProfilesComponent implements OnInit {
       option.description.toLowerCase().indexOf(name.toLowerCase()) === 0);
   }
 
+  openListConcept() {
+    this.autoCompleteConcept.openPanel();
+  }
+
+  openListObligation() {
+    this.autoCompleteObligation.openPanel();
+  }
+
   addConcept() {
     const index = this.profile.concepts.findIndex(concept => concept._id === this.currentConcept._id);
     if (index === -1) {
       this.actionConcepts.next({ name: RtActionName.CREATE, newItem: this.currentConcept });
-      this.currentConcept = null;
     }
+    this.currentConcept = null;
+     this.profileForm.patchValue({
+      concept: null
+    });
   }
 
   addObligation() {
     const index = this.profile.obligations.findIndex(obligation => obligation._id === this.currentObligation._id);
     if (index === -1) {
       this.actionObligations.next({ name: RtActionName.CREATE, newItem: this.currentObligation });
-      this.currentObligation = null;
     }
+    this.currentObligation = null;
+    this.profileForm.patchValue({
+      obligation: null
+    });
   }
 
   onConceptSelected(ev: any) {
