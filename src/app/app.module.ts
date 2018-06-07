@@ -138,6 +138,8 @@ import { ModalCierreBimestreComponent } from './pages/_catalog/modal-cierre-bime
 import { ModalBitacoraComponent } from './pages/_catalog/modal-bitacora/modal-bitacora.component';
 import { DownloadFilesComponent } from './pages/_catalog/download-files/download-files.component';
 import { RecoverPasswordComponent } from './pages/_catalog/recover-password/recover-password.component';
+import { ResumenXmlComponent } from './pages/_catalog/resumen-xml/resumen-xml.component';
+
 // all routes pages
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -234,7 +236,8 @@ const routes: Routes = [
     ModalCierreBimestreComponent,
     ModalBitacoraComponent,
     DownloadFilesComponent,
-    RecoverPasswordComponent
+    RecoverPasswordComponent,
+    ResumenXmlComponent
   ],
   declarations: [
     AppComponent,
@@ -290,7 +293,8 @@ const routes: Routes = [
     ModalCierreBimestreComponent,
     ModalBitacoraComponent,
     DownloadFilesComponent,
-    RecoverPasswordComponent
+    RecoverPasswordComponent,
+    ResumenXmlComponent
   ],
   imports: [
     BrowserModule,

@@ -10,6 +10,7 @@ import { UploadXmlComponent } from '../../_catalog/upload-xml/upload-xml.compone
 // tslint:disable-next-line:max-line-length
 import { TaxpayerProvider, AccountantProvider, BillProvider, HistoricalProvider, BitacoraProvider, FirebaseProvider } from '../../../providers/providers';
 import { ModalBitacoraComponent } from '../../_catalog/modal-bitacora/modal-bitacora.component';
+import { ResumenXmlComponent } from '../../_catalog/resumen-xml/resumen-xml.component';
 
 @Component({
   selector: 'app-inicio-contador',
@@ -36,6 +37,7 @@ export class InicioContadorComponent implements OnInit, OnDestroy {
   users = [];
   usersBackup = [];
   office: string;
+
   constructor(
     private firebaseProv: FirebaseProvider,
     private router: Router,
@@ -294,21 +296,38 @@ export class InicioContadorComponent implements OnInit, OnDestroy {
 
     dialogRef.afterClosed().subscribe(data => {
       if (!data) { return; }
+      const sumaryBills = {
+        billSuccessfully: [],
+        billsWithErrors: []
+      };
       // save link to download file
       data.forEach(element => {
         // use provier and notify
         this.billProv.create(element.bill).subscribe((res) => {
-          this.notify.success('Acción exitosa', 'La factura se ha guardado correctamente');
+          // this.notify.success('Acción exitosa', 'La factura se ha guardado correctamente');
           // save in firebase storage
           this.firebaseProv.uploadFile('xml/', res.bill.uuid, 'xml', element.file).then(storage => {
             res.bill.xmlFile = storage.downloadURL;
             this.billProv.update(res.bill._id, res.bill).subscribe(update => {
+              sumaryBills.billSuccessfully.push(update.bill);
             }, err => { console.log(err); }); // update bill with xmlFile
           }, err => { console.log(err); });  // save in firebase
         }, err => { // create bill
-          this.notify.error('Error', JSON.parse(err._body).message);
+          // this.notify.error('Error', JSON.parse(err._body).message);
+          console.log('cannot create', element.bill);
+          sumaryBills.billsWithErrors.push(element.bill);
         });
       });
+
+      // show sumary
+      this.dialogCtrl.open(ResumenXmlComponent, {
+        disableClose: true,
+        data: {
+          title: 'Resumen de Facturas',
+          bills: sumaryBills
+        }
+      });
+
     });
   }
 

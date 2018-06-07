@@ -129,7 +129,7 @@
           <div class="col-12 col-md-6">
             <mat-form-field>
               <mat-icon matPrefix>person</mat-icon>
-              <input [readonly]="false" required matInput placeholder="Usuario" [(ngModel)]="accountant.account.user" [formControl]="accountantForm.controls['user']">
+              <input [readonly]="false" required matInput placeholder="Usuario" [(ngModel)]="accountant.account.user" [formControl]="accountantForm.controls['user']" autocomplete="off">
               <mat-error *ngIf="accountantForm.controls['user'].hasError('required')">
                 Campo
                 <strong>requerido</strong>
@@ -139,7 +139,7 @@
           <div class="col-12 col-md-6">
             <mat-form-field>
               <mat-icon matPrefix>vpn_key</mat-icon>
-              <input [readonly]="false" required matInput type="password" placeholder="Contraseña" [(ngModel)]="accountant.account.password" [formControl]="accountantForm.controls['password']">
+              <input [readonly]="false" required matInput type="password" placeholder="Contraseña" [(ngModel)]="accountant.account.password" [formControl]="accountantForm.controls['password']" autocomplete="new-password">
               <mat-error *ngIf="accountantForm.controls['password'].hasError('required')">
                 Campo
                 <strong>requerido</strong>

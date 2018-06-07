@@ -39,6 +39,7 @@ export class UploadXmlComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    if (!this.data) { return; }
     this.title = this.data.title;
     this.taxpayer = this.data.taxpayer;
     this.concepts = this.taxpayer.profile.concepts;

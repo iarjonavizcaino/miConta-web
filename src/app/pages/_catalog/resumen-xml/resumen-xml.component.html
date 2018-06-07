@@ -1,0 +1,47 @@
+<section class="resumen-catalog">
+  <header class="header">
+    <h3 class="title">
+      {{title}}</h3>
+    <button mat-icon-button (click)="onClose()">
+      <mat-icon>close</mat-icon>
+    </button>
+  </header>
+
+  <div class="body">
+    <div class="row">
+      <div class="col-6">
+        <h4>Correctas:
+          <strong>{{billSuccessfully.length}}</strong>
+        </h4>
+      </div>
+      <div class="col-6">
+        <h4>Incorrectas:
+          <strong>{{billsWithErrors.length}}</strong>
+        </h4>
+      </div>
+    </div>
+    <mat-divider></mat-divider>
+    <mat-list *ngIf="!(billsWithErrors.length == 0 && billSuccessfully.length == 0)">
+      <h3 mat-subheader>Facturas incorrectas</h3>
+      <mat-list-item *ngFor="let bill of billsWithErrors">
+        <mat-icon mat-list-icon style="color: #FC0056;">error</mat-icon>
+        <h4 mat-line>{{bill.uuid}}</h4>
+        <p mat-line style="font-weight: bold;"> {{bill.type}} </p>
+      </mat-list-item>
+      <mat-divider></mat-divider>
+      <h3 mat-subheader>Facturas correctas</h3>
+      <mat-list-item *ngFor="let bill of billSuccessfully">
+        <mat-icon mat-list-icon style="color: #4BB543;">check</mat-icon>
+        <h4 mat-line>{{bill.uuid}}</h4>
+        <p mat-line style="font-weight: bold;"> {{bill.type}} </p>
+      </mat-list-item>
+    </mat-list>
+
+  </div>
+
+  <footer class="footer">
+    <button mat-button (click)="onClose()">
+      Cerrar
+    </button>
+  </footer>
+</section>
