@@ -58,6 +58,23 @@ export class LoginComponent implements OnInit {
     if (this.loginForm.invalid) { return; }
 
     const credentials: Credentials = this.loginForm.value;
+    this.auth.firstLogin(credentials).subscribe(res => {
+      // console.log(res);
+      this.selectedRole = res.role;
+      this.myGodWhatAreYouDone(credentials);
+      localStorage.removeItem('users');
+    }, err => {
+      if (err.status === 0) {
+        this.noConnection = true;
+        return;
+      }
+      const error = JSON.parse(err._body);
+      this.isLoginWrong = true;
+      this.message = error.detail;
+    });
+  } // onLogin()
+
+  private myGodWhatAreYouDone(credentials: Credentials) {
     switch (this.selectedRole) {
       case _roles.accountant_prod: // contador
         this.auth.loginAccountant(credentials).subscribe(user => {
@@ -127,9 +144,8 @@ export class LoginComponent implements OnInit {
           this.message = error.detail;
         });
         break;
-    }
-    localStorage.removeItem('users');
-  }
+    } // switch
+  } // myGodWhatAreYouDone()
 
   keyDownFunction(event) {
     if (event.keyCode === 13) {

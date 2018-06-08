@@ -25,20 +25,24 @@ export class AuthService {
     private sessionServ: SessionService
   ) { }
 
+  firstLogin(login: any): Observable<any> {
+    return this.api.post('credentials/login', login);
+  }
+
   loginAccountant(cred: Credentials): Observable<any> {
-    return this.api.post('login/accountant/', {username: cred.usuario, password: cred.contrasena});
+    return this.api.post('login/accountant/', { username: cred.usuario, password: cred.contrasena });
   }
 
   loginOffice(cred: Credentials): Observable<any> {
-    return this.api.post('login/office/', {username: cred.usuario, password: cred.contrasena});
+    return this.api.post('login/office/', { username: cred.usuario, password: cred.contrasena });
   }
 
   loginTaxpayer(cred: Credentials): Observable<any> {
-    return this.api.post('login/taxpayer/', {username: cred.usuario, password: cred.contrasena});
+    return this.api.post('login/taxpayer/', { username: cred.usuario, password: cred.contrasena });
   }
 
   loginSuperadmin(cred: Credentials): Observable<any> {
-    return this.api.post('login/superadmin/', {username: cred.usuario, password: cred.contrasena});
+    return this.api.post('login/superadmin/', { username: cred.usuario, password: cred.contrasena });
   }
 
   loginSuccess(user: Employee, token: string) {

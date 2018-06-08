@@ -7,8 +7,7 @@
       </div>
       <form [formGroup]="loginForm" class="login100-form" (keydown)="keyDownFunction($event)">
         <!-- <h1 class="title">Iniciar sesión</h1> -->
-        <mat-form-field class="wrap-input100">
-          <!-- <span class="label-input100">Rol</span> -->
+        <!-- <mat-form-field class="wrap-input100">
           <mat-select required placeholder="Seleccionar rol" [(ngModel)]="selectedRole" formControlName="role">
             <mat-option *ngFor="let role of roles" [value]="role._id">
               {{role.name}}
@@ -18,7 +17,7 @@
             El rol es
             <strong>requerido</strong>
           </mat-error>
-        </mat-form-field>
+        </mat-form-field> -->
         <mat-form-field class="wrap-input100">
           <!-- <span class="label-input100">Usuario</span> -->
           <input required matInput placeholder="Nombre de usuario" formControlName="usuario">
