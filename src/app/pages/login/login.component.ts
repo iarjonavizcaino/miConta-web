@@ -59,7 +59,8 @@ export class LoginComponent implements OnInit {
 
     const credentials: Credentials = this.loginForm.value;
     this.auth.firstLogin(credentials).subscribe(res => {
-      // console.log(res);
+      console.log(res);
+      localStorage.setItem('credentialId', res.credential);
       this.selectedRole = res.role;
       this.myGodWhatAreYouDone(credentials);
       localStorage.removeItem('users');

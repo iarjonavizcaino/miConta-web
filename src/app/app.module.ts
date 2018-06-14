@@ -66,7 +66,8 @@ import {
   HistoricalProvider,
   BitacoraProvider,
   FirebaseProvider,
-  SendMailProvider
+  SendMailProvider,
+  CredentialsProvider
 } from './providers/providers';
 
 // Pages
@@ -349,6 +350,7 @@ const routes: Routes = [
     BitacoraProvider,
     FirebaseProvider,
     SendMailProvider,
+    CredentialsProvider,
     //  Services
     RoleGuard,
     AuthGuard,

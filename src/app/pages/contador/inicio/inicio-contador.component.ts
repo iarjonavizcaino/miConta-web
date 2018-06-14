@@ -8,7 +8,7 @@ import { ConfirmComponent } from '../../../components/confirm/confirm.component'
 import { NotificationsService } from 'angular2-notifications';
 import { UploadXmlComponent } from '../../_catalog/upload-xml/upload-xml.component';
 // tslint:disable-next-line:max-line-length
-import { TaxpayerProvider, AccountantProvider, BillProvider, HistoricalProvider, BitacoraProvider, FirebaseProvider } from '../../../providers/providers';
+import { TaxpayerProvider, AccountantProvider, BillProvider, HistoricalProvider, BitacoraProvider, FirebaseProvider, CredentialsProvider } from '../../../providers/providers';
 import { ModalBitacoraComponent } from '../../_catalog/modal-bitacora/modal-bitacora.component';
 import { ResumenXmlComponent } from '../../_catalog/resumen-xml/resumen-xml.component';
 
@@ -39,6 +39,7 @@ export class InicioContadorComponent implements OnInit, OnDestroy {
   office: string;
 
   constructor(
+    private credentialProv: CredentialsProvider,
     private firebaseProv: FirebaseProvider,
     private router: Router,
     private dialogCtrl: MatDialog,
@@ -246,12 +247,14 @@ export class InicioContadorComponent implements OnInit, OnDestroy {
       this.taxpayerProv.delete(this.selectedTaxpayer._id).subscribe(data => {
         res = data.taxpayer;
         this.accountant.totalTaxpayer -= 1;
-        // tslint:disable-next-line:no-shadowed-variable
-        this.accountantProv.addTaxpayer(res._id, this.currentAccountant).subscribe(data => {
-          this.accountant = data.accountant;
+        this.credentialProv.delete({ user: data.taxpayer.account.user, password: data.taxpayer.account.password }).subscribe(deleted => {
+          // tslint:disable-next-line:no-shadowed-variable
+          this.accountantProv.addTaxpayer(res._id, this.currentAccountant).subscribe(data => {
+            this.accountant = data.accountant;
+          });
+          this.notify.success('Acción exitosa', `Contribuyente ${this.selectedTaxpayer.socialReason} eliminado`);
+          this.action.next({ name: RtActionName.DELETE, itemId: this.selectedTaxpayer._id });
         });
-        this.notify.success('Acción exitosa', `Contribuyente ${this.selectedTaxpayer.socialReason} eliminado`);
-        this.action.next({ name: RtActionName.DELETE, itemId: this.selectedTaxpayer._id });
       });
     }, err => {
       this.notify.error('Error', 'No se pudo modificar el contribuyente');

@@ -8,7 +8,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { NotificationsService } from 'angular2-notifications';
 import { ModalAsignarContribComponent } from '../../_catalog/modal-asignar-contrib/modal-asignar-contrib.component';
 import { TaxpayerCatalogComponent } from '../../_catalog/taxpayer-catalog/taxpayer-catalog.component';
-import { AccountantProvider, OfficeProvider } from '../../../providers/providers';
+import { AccountantProvider, OfficeProvider, CredentialsProvider } from '../../../providers/providers';
 
 @Component({
   selector: 'app-inicio-despacho',
@@ -37,6 +37,7 @@ export class InicioDespachoComponent implements OnInit, OnDestroy {
   users = [];
   usersBackup = [];
   constructor(
+    private credentialProv: CredentialsProvider,
     private notification: NotificationsService,
     private router: Router,
     private dialogCtrl: MatDialog,
@@ -221,12 +222,16 @@ export class InicioDespachoComponent implements OnInit, OnDestroy {
       this.accountantProv.delete(this.selectedAccountant._id).subscribe(data => {
         res = data.accountant;
         // tslint:disable-next-line:no-shadowed-variable
-        this.officeProv.addAccountant(res._id, this.currentOffice).subscribe(data => {
-          this.office = data.office;
-          this.data = this.office.accountants;
+        // tslint:disable-next-line:max-line-length
+        this.credentialProv.delete({ user: data.accountant.account.user, password: data.accountant.account.password }).subscribe(deleted => {
+          // tslint:disable-next-line:no-shadowed-variable
+          this.officeProv.addAccountant(res._id, this.currentOffice).subscribe(data => {
+            this.office = data.office;
+            this.data = this.office.accountants;
+          });
+          this.notification.success('Acción exitosa', `Contador ${this.selectedAccountant.name} eliminado`);
+          this.action.next({ name: RtActionName.DELETE, itemId: this.selectedAccountant._id });
         });
-        this.notification.success('Acción exitosa', `Contador ${this.selectedAccountant.name} eliminado`);
-        this.action.next({ name: RtActionName.DELETE, itemId: this.selectedAccountant._id });
       }, err => {
         this.notification.error('Error', 'No se pudo eliminar el contador');
       });

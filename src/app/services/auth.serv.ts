@@ -26,7 +26,7 @@ export class AuthService {
   ) { }
 
   firstLogin(login: any): Observable<any> {
-    return this.api.post('credentials/login', login);
+    return this.api.post('credential/login', login);
   }
 
   loginAccountant(cred: Credentials): Observable<any> {

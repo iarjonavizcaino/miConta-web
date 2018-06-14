@@ -14,7 +14,7 @@ import { HistoricalProvider } from './historical.prov';
 import { BitacoraProvider } from './bitacora.prov';
 import { FirebaseProvider } from './firebase.prov';
 import { SendMailProvider } from './sendMail.prov';
-
+import { CredentialsProvider } from './credentials.prov';
 export {
     ConceptProvider,
     ObligationProvider,
@@ -31,5 +31,6 @@ export {
     HistoricalProvider,
     BitacoraProvider,
     FirebaseProvider,
-    SendMailProvider
+    SendMailProvider,
+    CredentialsProvider
 };

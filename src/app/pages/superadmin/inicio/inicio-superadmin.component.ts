@@ -8,7 +8,7 @@ import { Router } from '@angular/router';
 import { NotificationsService } from 'angular2-notifications';
 import { ModalAsignarContribComponent } from '../../_catalog/modal-asignar-contrib/modal-asignar-contrib.component';
 import { TaxpayerCatalogComponent } from '../../_catalog/taxpayer-catalog/taxpayer-catalog.component';
-import { OfficeProvider } from '../../../providers/providers';
+import { OfficeProvider, CredentialsProvider } from '../../../providers/providers';
 
 @Component({
   selector: 'app-inicio-superadmin',
@@ -33,6 +33,7 @@ export class InicioSuperadminComponent implements OnInit {
   totalAccountant = 0;
 
   constructor(
+    private credentialsProv: CredentialsProvider,
     private notification: NotificationsService,
     private router: Router,
     private dialogCtrl: MatDialog,
@@ -59,19 +60,22 @@ export class InicioSuperadminComponent implements OnInit {
       if (!office) { return; }
       this.officeProv.create(office).subscribe(data => {
         office = data.office;
-        // office = { name: office.name, accountant: 0, taxpayer: 0 };
-        this.action.next({ name: RtActionName.CREATE, newItem: office });
-        const dialogRef2 = this.dialogCtrl.open(ConfirmComponent, {
-          data: {
-            title: 'Creedenciales de Acceso',
-            message: `Usuario: ${office.account.user}, Contraseña: ${office.account.password}`,
-            type: 'success'
-          }
-        });
-        // tslint:disable-next-line:no-shadowed-variable
-        dialogRef2.afterClosed().subscribe((data) => {
-          this.notification.success('Acción exitosa', `Nuevo despacho creado: ${office.name}`);
-        });
+        // create credentials
+        // tslint:disable-next-line:max-line-length
+        this.credentialsProv.create({ 'user': office.account.user, 'password': office.account.password, 'role': '5a728f43b15f741695e35c95' }).subscribe(cred => {
+          this.action.next({ name: RtActionName.CREATE, newItem: office });
+          const dialogRef2 = this.dialogCtrl.open(ConfirmComponent, {
+            data: {
+              title: 'Creedenciales de Acceso',
+              message: `Usuario: ${office.account.user}, Contraseña: ${office.account.password}`,
+              type: 'success'
+            }
+          });
+          // tslint:disable-next-line:no-shadowed-variable
+          dialogRef2.afterClosed().subscribe((data) => {
+            this.notification.success('Acción exitosa', `Nuevo despacho creado: ${office.name}`);
+          });
+        }, err => console.log('err creating credentials', err));
       }, err => {
         this.notification.error('Error', 'No se pudo crear el despacho');
       });
@@ -83,7 +87,6 @@ export class InicioSuperadminComponent implements OnInit {
     const dialogRef = this.modalDespacho('Detalle despacho', this.despachoSelected);
     dialogRef.afterClosed().subscribe((office) => {
       if (!office) { return; }
-
       this.officeProv.update(office).subscribe(data => {
         office = data.office;
         this.action.next({ name: RtActionName.UPDATE, itemId: office._id, newItem: office });
@@ -108,14 +111,17 @@ export class InicioSuperadminComponent implements OnInit {
     dialogRef.afterClosed().subscribe((res) => {
       if (!res) { return; }
       if (this.despachoSelected.accountants.length) {
-        this.notification.error('Error', `El despacho ${this.despachoSelected.name} tiene contadores, no se puede eliminar`);
+        this.notification.warn('Error', `El despacho ${this.despachoSelected.name} tiene contadores, no se puede eliminar`);
         return;
       }
       this.officeProv.delete(this.despachoSelected._id).subscribe(data => {
         res = data.office;
-        this.notification.success('Acción exitosa', `Despacho ${this.despachoSelected.name} eliminado`);
-        this.action.next({ name: RtActionName.DELETE, itemId: this.despachoSelected._id });
-        this.despachoSelected = null;
+        // remove credentials
+        this.credentialsProv.delete({ user: data.office.account.user, password: data.office.account.password }).subscribe(deleted => {
+          this.notification.success('Acción exitosa', `Despacho ${this.despachoSelected.name} eliminado`);
+          this.action.next({ name: RtActionName.DELETE, itemId: this.despachoSelected._id });
+          this.despachoSelected = null;
+        })
       }, err => {
         this.notification.error('Error', 'No se pudo eliminar el despacho');
       });
