@@ -24,7 +24,7 @@
     <mat-list *ngIf="!(billsWithErrors.length == 0 && billSuccessfully.length == 0)">
       <h3 mat-subheader>Facturas incorrectas</h3>
       <mat-list-item *ngFor="let bill of billsWithErrors">
-        <mat-icon mat-list-icon style="color: #FC0056;">error</mat-icon>
+        <mat-icon mat-list-icon style="color: #FC0056;">warning</mat-icon>
         <h4 mat-line>{{bill.uuid}}</h4>
         <p mat-line style="font-weight: bold;"> {{bill.type}} </p>
       </mat-list-item>
