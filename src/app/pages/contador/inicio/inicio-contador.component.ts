@@ -8,7 +8,7 @@ import { ConfirmComponent } from '../../../components/confirm/confirm.component'
 import { NotificationsService } from 'angular2-notifications';
 import { UploadXmlComponent } from '../../_catalog/upload-xml/upload-xml.component';
 // tslint:disable-next-line:max-line-length
-import { TaxpayerProvider, AccountantProvider, BillProvider, HistoricalProvider, BitacoraProvider, FirebaseProvider, CredentialsProvider } from '../../../providers/providers';
+import { TaxpayerProvider, AccountantProvider, BillProvider, HistoricalProvider, BitacoraProvider, FirebaseProvider, CredentialsProvider, SendMailProvider } from '../../../providers/providers';
 import { ModalBitacoraComponent } from '../../_catalog/modal-bitacora/modal-bitacora.component';
 import { ResumenXmlComponent } from '../../_catalog/resumen-xml/resumen-xml.component';
 
@@ -39,6 +39,7 @@ export class InicioContadorComponent implements OnInit, OnDestroy {
   office: string;
 
   constructor(
+    private sendMailProv: SendMailProvider,
     private credentialProv: CredentialsProvider,
     private firebaseProv: FirebaseProvider,
     private router: Router,
@@ -214,16 +215,19 @@ export class InicioContadorComponent implements OnInit, OnDestroy {
           console.log(data.historical);
         });
         this.action.next({ name: RtActionName.CREATE, newItem: data.taxpayer });
-        const dialogRef2 = this.dialogCtrl.open(ConfirmComponent, {
-          data: {
-            title: 'Creedenciales de Acceso',
-            message: `Usuario: ${data.taxpayer.account.user}, Contraseña: ${data.taxpayer.account.password}`,
-            type: 'success'
-          }
-        });
-        // tslint:disable-next-line:no-shadowed-variable
-        dialogRef2.afterClosed().subscribe((data) => {
-          this.notify.success('Acción exitosa', `Nuevo contribuyente creado: ${data.taxpayer.socialReason}`);
+
+        this.sendMailProv.send({ email: res.taxpayer.email, subject: 'Credenciales de Acceso' }).subscribe(res2 => {
+          const dialogRef2 = this.dialogCtrl.open(ConfirmComponent, {
+            data: {
+              title: 'Creedenciales de Acceso',
+              message: `Usuario: ${data.taxpayer.account.user}, Contraseña: ${data.taxpayer.account.password}`,
+              type: 'success'
+            }
+          });
+          // tslint:disable-next-line:no-shadowed-variable
+          dialogRef2.afterClosed().subscribe((data) => {
+            this.notify.success('Acción exitosa', `Nuevo contribuyente creado: ${data.taxpayer.socialReason}`);
+          });
         });
       }, err => {
         console.log(err);

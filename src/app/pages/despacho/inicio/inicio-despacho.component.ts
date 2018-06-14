@@ -8,7 +8,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { NotificationsService } from 'angular2-notifications';
 import { ModalAsignarContribComponent } from '../../_catalog/modal-asignar-contrib/modal-asignar-contrib.component';
 import { TaxpayerCatalogComponent } from '../../_catalog/taxpayer-catalog/taxpayer-catalog.component';
-import { AccountantProvider, OfficeProvider, CredentialsProvider } from '../../../providers/providers';
+import { AccountantProvider, OfficeProvider, CredentialsProvider, SendMailProvider } from '../../../providers/providers';
 
 @Component({
   selector: 'app-inicio-despacho',
@@ -37,6 +37,7 @@ export class InicioDespachoComponent implements OnInit, OnDestroy {
   users = [];
   usersBackup = [];
   constructor(
+    private sendMailProv: SendMailProvider,
     private credentialProv: CredentialsProvider,
     private notification: NotificationsService,
     private router: Router,
@@ -117,16 +118,18 @@ export class InicioDespachoComponent implements OnInit, OnDestroy {
           this.data = this.office.accountants;
         });
         this.action.next({ name: RtActionName.CREATE, newItem: accountant }); // save data
-        const dialogRef2 = this.dialogCtrl.open(ConfirmComponent, {
-          data: {
-            title: 'Creedenciales de Acceso',
-            message: `Usuario: ${accountant.account.user}, Contraseña: ${accountant.account.password}`,
-            type: 'success'
-          }
-        });
-        // tslint:disable-next-line:no-shadowed-variable
-        dialogRef2.afterClosed().subscribe((data) => {
-          this.notification.success('Acción exitosa', `Contador creado correctamente: ${accountant.name}`);
+        this.sendMailProv.send({ email: accountant.email, subject: 'Credenciales de Acceso' }).subscribe(res => {
+          const dialogRef2 = this.dialogCtrl.open(ConfirmComponent, {
+            data: {
+              title: 'Creedenciales de Acceso',
+              message: `Usuario: ${accountant.account.user}, Contraseña: ${accountant.account.password}`,
+              type: 'success'
+            }
+          });
+          // tslint:disable-next-line:no-shadowed-variable
+          dialogRef2.afterClosed().subscribe((data) => {
+            this.notification.success('Acción exitosa', `Contador creado correctamente: ${accountant.name}`);
+          });
         });
       }, err => {
         this.notification.error('Error', 'No se pudo crear el contador');
