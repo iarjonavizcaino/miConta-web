@@ -62,7 +62,7 @@ export class InicioSuperadminComponent implements OnInit {
         office = data.office;
         // create credentials
         // tslint:disable-next-line:max-line-length
-        this.credentialsProv.create({ 'user': office.account.user, 'password': office.account.password, 'role': '5a728f43b15f741695e35c95' }).subscribe(cred => {
+        this.credentialsProv.create({ 'email': office.email, 'user': office.account.user, 'password': office.account.password, 'role': '5a728f43b15f741695e35c95' }).subscribe(cred => {
           this.action.next({ name: RtActionName.CREATE, newItem: office });
           const dialogRef2 = this.dialogCtrl.open(ConfirmComponent, {
             data: {
