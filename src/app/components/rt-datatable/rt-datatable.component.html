@@ -122,7 +122,12 @@
   </section>
   <footer class="footer">
     <div class="col-12 col-md-5 status">
-      Mostrando de {{ skip + 1 }} a {{ skip + limit }} de {{ data.length }}
+      <span *ngIf="data.length > (skip+limit)">
+        Mostrando de {{ skip + 1 }} a {{ skip + limit }} de {{ data.length }}
+      </span>
+      <span *ngIf="data.length <= (skip+limit)">
+        Mostrando de {{ skip + 1 }} a {{ data.length }} de {{ data.length }}      
+      </span>
     </div>
     <div class="col-12 col-md-7 col__paginator">
       <paginator [offset]="skip" [limit]="limit" [size]="data.length" (pageChanged)="onPageChanged($event)"></paginator>

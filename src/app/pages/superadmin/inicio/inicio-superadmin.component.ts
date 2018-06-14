@@ -121,7 +121,7 @@ export class InicioSuperadminComponent implements OnInit {
           this.notification.success('Acción exitosa', `Despacho ${this.despachoSelected.name} eliminado`);
           this.action.next({ name: RtActionName.DELETE, itemId: this.despachoSelected._id });
           this.despachoSelected = null;
-        })
+        });
       }, err => {
         this.notification.error('Error', 'No se pudo eliminar el despacho');
       });
