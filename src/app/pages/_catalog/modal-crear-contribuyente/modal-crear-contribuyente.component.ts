@@ -29,6 +29,8 @@ export const MY_FORMATS = {
     monthYearA11yLabel: 'MMMM YYYY',
   },
 };
+const EMAIL_REGEX =  /^[a-z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-z0-9-]+(\.[a-z0-9-]+)+$/;
+
 @Component({
   selector: 'app-modal-crear-contribuyente',
   templateUrl: './modal-crear-contribuyente.component.html',
@@ -114,7 +116,7 @@ export class ModalCrearContribuyenteComponent implements OnInit {
       password: [null, Validators.required],
       user: [null, Validators.required],
       profile: [null, Validators.required],
-
+      email: [null, Validators.compose([Validators.required, Validators.pattern(EMAIL_REGEX)])],
       // configuration
       yearBefore: [null, Validators.required],
       debtSAT: [null, Validators.required],
