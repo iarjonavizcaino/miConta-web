@@ -444,7 +444,7 @@
     <button mat-button (click)="onClose()">
       Cancelar
     </button>
-    <button mat-raised-button color="primary" [disabled]="!taxpayerForm.valid || wrongLimit" (click)="onSave()">
+    <button mat-raised-button color="primary" [disabled]="!taxpayerForm.valid || wrongLimit || !addressForm.valid" (click)="onSave()">
       Guardar
     </button>
   </footer>

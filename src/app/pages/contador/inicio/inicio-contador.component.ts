@@ -115,12 +115,13 @@ export class InicioContadorComponent implements OnInit, OnDestroy {
     dialogRef.afterClosed().subscribe((taxpayer) => {
       if (!taxpayer) { return; }
       console.log('taxpayer', taxpayer.taxpayer);
-      this.taxpayerProv.update(taxpayer).subscribe(data => {
+      this.taxpayerProv.update(taxpayer.taxpayer).subscribe(data => {
         taxpayer = data.taxpayer;
         this.action.next({ name: RtActionName.UPDATE, itemId: taxpayer._id, newItem: taxpayer });
         this.notify.success('Acción exitosa', `Contribuyente ${this.selectedTaxpayer.socialReason} modificado`);
         this.selectedTaxpayer = taxpayer;
       }, err => {
+        console.log(err);
         this.notify.error('Error', 'No se pudo modificar el contribuyente');
       });
     });

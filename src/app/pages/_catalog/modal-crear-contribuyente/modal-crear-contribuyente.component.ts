@@ -143,12 +143,23 @@ export class ModalCrearContribuyenteComponent implements OnInit {
   ngOnInit() {
     this.readonly = this.data.readonly;
     this.title = this.data.title;
-    if (this.data.taxPayer) {   // detail
+    if (this.data.taxPayer) {   // edit
       this.taxPayer = this.data.taxPayer;
       this.statement = this.data.taxPayer.statements;
       this.currentProfile = this.data.taxPayer.profile;
       this.concepts = this.currentProfile.concepts;
       this.obligations = this.currentProfile.obligations;
+      if (!this.taxPayer.address) {
+        this.taxPayer.address = {
+          street: '',
+          number: '',
+          neighborhood: '',
+          zipcode: '',
+          city: '',
+          municipality: '',
+          state: ''
+        };
+      }
     } else {
       // new taxpayer
       this.taxPayer = {
@@ -294,6 +305,7 @@ export class ModalCrearContribuyenteComponent implements OnInit {
     this.taxPayer.fiscalRegime = this.regimen;
     this.taxPayer.loyalFile = this.loyalFile;
     this.taxPayer.sailsFile = this.sailsFile;
+    console.log('current state', this.currentState);
     this.taxPayer.address.state = this.currentState.name;
     this.dialogRef.close({ taxpayer: this.taxPayer, loyalFile: this.loyalFile, sailsFile: this.sailsFile });  // close modal
   }
