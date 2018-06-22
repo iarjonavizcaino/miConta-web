@@ -714,7 +714,7 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
         billsToDelete2.push(bill._id);
       }
     });
-    const dialogRef = this.modalConfirm();
+    const dialogRef = this.modalConfirm(billsToDelete2.length);
     dialogRef.afterClosed().subscribe((result) => {
       if (!result) { return; } // confirm yes: true, cancel: false
       this.billProv.deleteMany(billsToDelete2).subscribe((res) => {
@@ -737,7 +737,7 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
         billsToDelete.push(bill._id);
       }
     });
-    const dialogRef = this.modalConfirm();
+    const dialogRef = this.modalConfirm(billsToDelete.length);
     dialogRef.afterClosed().subscribe((result) => {
       if (!result) { return; }
       this.billProv.deleteMany(billsToDelete).subscribe((res) => {
@@ -811,13 +811,13 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
 
 
   }
-  private modalConfirm() {
+  private modalConfirm(bills: number) {
     return this.dialogCtrl.open(ConfirmComponent, {
       disableClose: true,
       data: {
         type: 'danger',
         title: '¡Atención!',
-        message: '¿Estás seguro de eliminar la(s) factura(s) seleccionada(s)?'
+        message: '¿Estás seguro de eliminar ' + bills + ' factura(s)?'
       }
     });
   }
