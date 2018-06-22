@@ -186,7 +186,7 @@
 
         <form [formGroup]="addressForm">
           <div class="row">
-            <div class="col-12 col-sm-5">
+            <div class="col-lg-7 col-sm-5">
               <mat-form-field>
                 <mat-icon matPrefix>location_on</mat-icon>
                 <input [readonly]="false" matInput required placeholder="Calle" [formControl]="addressForm.controls['street']" [(ngModel)]="taxpayer.address.street">
@@ -195,6 +195,8 @@
                   <strong>requerido</strong>
                 </mat-error>
               </mat-form-field>
+            </div>
+            <div class="col-lg-3 col-sm-5">
               <mat-form-field>
                 <mat-icon matPrefix>streetview</mat-icon>
                 <input [readonly]="false" required matInput type="number" placeholder="Número" [formControl]="addressForm.controls['number']"
@@ -204,6 +206,10 @@
                   <strong>requerido</strong>
                 </mat-error>
               </mat-form-field>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-7 col-sm-5">
               <mat-form-field>
                 <mat-icon matPrefix>location_on</mat-icon>
                 <input [readonly]="false" required matInput placeholder="Colonia" [formControl]="addressForm.controls['neighborhood']" [(ngModel)]="taxpayer.address.neighborhood">
@@ -212,6 +218,8 @@
                   <strong>requerido</strong>
                 </mat-error>
               </mat-form-field>
+            </div>
+            <div class="col-lg-3 col-sm-5">
               <mat-form-field>
                 <mat-icon matPrefix>streetview</mat-icon>
                 <input [readonly]="false" type="text" required minlength="5" maxlength="5" [formControl]="addressForm.controls['zipcode']"
@@ -226,11 +234,21 @@
                 </mat-error>
               </mat-form-field>
             </div>
-            <div class="col-12 col-sm-5">
+          </div>
+          <div class="row">
+            <div class="col-lg-10 col-sm-10">
               <mat-form-field>
                 <mat-icon matPrefix>location_on</mat-icon>
                 <input [readonly]="false" required matInput placeholder="Ciudad" [formControl]="addressForm.controls['city']" [(ngModel)]="taxpayer.address.city">
               </mat-form-field>
+              <mat-error *ngIf="addressForm.controls['city'].hasError('required')">
+                Campo
+                <strong>requerido</strong>
+              </mat-error>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-5 col-sm-5">
               <mat-form-field>
                 <mat-icon matPrefix>location_on</mat-icon>
                 <input [readonly]="false" matInput placeholder="Municipio" [formControl]="addressForm.controls['municipality']" [(ngModel)]="taxpayer.address.municipality">
@@ -239,6 +257,8 @@
                   <strong>requerido</strong>
                 </mat-error>
               </mat-form-field>
+            </div>
+            <div class="col-lg-5 col-sm-5">
               <mat-form-field>
                 <mat-icon matPrefix>location_on</mat-icon>
                 <input type="text" [readonly]="false" required placeholder="Estado" matInput [formControl]="addressForm.controls['state']"
