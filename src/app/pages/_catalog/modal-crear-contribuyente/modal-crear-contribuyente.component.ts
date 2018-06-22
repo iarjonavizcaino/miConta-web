@@ -18,6 +18,7 @@ import { DownloadFilesComponent } from '../download-files/download-files.compone
 const RFC_REGEX = /^([A-ZÑ]{3,4}([0-9]{2})(0[1-9]|1[0-2])(0[1-9]|1[0-9]|2[0-9]|3[0-1]))([A-Z\d]{3})?$/;
 import { MatSidenav, MAT_DATE_LOCALE, DateAdapter, MAT_DATE_FORMATS } from '@angular/material';
 import { MAT_MOMENT_DATE_FORMATS, MomentDateAdapter } from '@angular/material-moment-adapter';
+import { states } from '../../../../states';
 export const MY_FORMATS = {
   parse: {
     dateInput: 'LL',
@@ -29,7 +30,7 @@ export const MY_FORMATS = {
     monthYearA11yLabel: 'MMMM YYYY',
   },
 };
-const EMAIL_REGEX =  /^[a-z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-z0-9-]+(\.[a-z0-9-]+)+$/;
+const EMAIL_REGEX = /^[a-z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-z0-9-]+(\.[a-z0-9-]+)+$/;
 
 @Component({
   selector: 'app-modal-crear-contribuyente',
@@ -68,8 +69,13 @@ export class ModalCrearContribuyenteComponent implements OnInit {
   filteredProfiles: Observable<any[]>;
 
   taxPayer: any;
+  currentState: any;
+  filteredStates: Observable<any[]>;
+  states = states;
 
   taxpayerForm: FormGroup;
+  addressForm: FormGroup;
+
   readonly: boolean;
   statement: any = [];
   selectedStatement: any;
@@ -122,6 +128,15 @@ export class ModalCrearContribuyenteComponent implements OnInit {
       debtSAT: [null, Validators.required],
       ivaFavor: [null, Validators.required]
     });
+    this.addressForm = fb.group({
+      street: [null, Validators.required],
+      number: [null, Validators.required],
+      neighborhood: [null, Validators.required],
+      zipcode: [null, Validators.compose([Validators.minLength(5), Validators.maxLength(5), Validators.required])],
+      city: [null, Validators.required],
+      state: [null, Validators.required],
+      municipality: [null, Validators.required],
+    });
     this.adapter.setLocale('esp');
   }
 
@@ -153,6 +168,15 @@ export class ModalCrearContribuyenteComponent implements OnInit {
           user: '',
           password: '',
         },
+        address: {
+          street: '',
+          number: '',
+          neighborhood: '',
+          zipcode: '',
+          city: '',
+          municipality: '',
+          state: ''
+        },
         role: {
           name: '',
           _id: ''
@@ -179,6 +203,21 @@ export class ModalCrearContribuyenteComponent implements OnInit {
         .map(profile => profile && typeof profile === 'object' ? profile.name : profile)
         .map(name => name ? this.filterProfile(name) : this.profiles.slice());
     });
+    this.filteredStates = this.addressForm.get('state').valueChanges
+      .startWith(null)
+      .map(state => state && typeof state === 'object' ? state.name : state)
+      .map(name => name ? this.filterState(name) : this.states.slice());
+
+  } // ngOnInit()
+
+  displayFnState(state: any): any {
+    this.currentState = state ? state.name : state;
+    return state ? state.name : state;
+  }
+
+  filterState(name: string): any[] {
+    return this.states.filter(option =>
+      option.name.toLowerCase().indexOf(name.toLowerCase()) === 0);
   }
 
   onChangeStatus(ev) {
@@ -255,6 +294,7 @@ export class ModalCrearContribuyenteComponent implements OnInit {
     this.taxPayer.fiscalRegime = this.regimen;
     this.taxPayer.loyalFile = this.loyalFile;
     this.taxPayer.sailsFile = this.sailsFile;
+    this.taxPayer.address.state = this.currentState.name;
     this.dialogRef.close({ taxpayer: this.taxPayer, loyalFile: this.loyalFile, sailsFile: this.sailsFile });  // close modal
   }
   onClose() {
