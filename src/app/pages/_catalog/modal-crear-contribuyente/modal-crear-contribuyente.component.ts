@@ -145,6 +145,8 @@ export class ModalCrearContribuyenteComponent implements OnInit {
     this.title = this.data.title;
     if (this.data.taxPayer) {   // edit
       this.taxPayer = this.data.taxPayer;
+      const index = this.states.findIndex(state => state.name === this.data.taxPayer.address.state);
+      this.currentState = this.states[index];
       this.statement = this.data.taxPayer.statements;
       this.currentProfile = this.data.taxPayer.profile;
       this.concepts = this.currentProfile.concepts;
@@ -305,7 +307,6 @@ export class ModalCrearContribuyenteComponent implements OnInit {
     this.taxPayer.fiscalRegime = this.regimen;
     this.taxPayer.loyalFile = this.loyalFile;
     this.taxPayer.sailsFile = this.sailsFile;
-    console.log('current state', this.currentState);
     this.taxPayer.address.state = this.currentState.name;
     this.dialogRef.close({ taxpayer: this.taxPayer, loyalFile: this.loyalFile, sailsFile: this.sailsFile });  // close modal
   }

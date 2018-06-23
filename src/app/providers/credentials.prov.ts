@@ -13,7 +13,7 @@ export class CredentialsProvider {
     }
 
     update(credential: any) {
-        return this.api.put(`${this.base}${credential._id}`, credential);
+        return this.api.put(`${this.base}`, credential);
     }
 
     delete(credential: any) {

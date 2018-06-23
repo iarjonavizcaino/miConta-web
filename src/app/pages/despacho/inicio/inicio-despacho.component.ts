@@ -195,11 +195,23 @@ export class InicioDespachoComponent implements OnInit, OnDestroy {
 
     dialogRef.afterClosed().subscribe((accountant) => {
       if (!accountant) { return; }
+      const updateCredentials = {
+        old: {
+          user: this.selectedAccountant.account.user,
+          password: this.selectedAccountant.account.password
+        },
+        new: {
+          user: accountant.account.user,
+          password: accountant.account.password
+        }
+      };
       this.accountantProv.update(accountant).subscribe(data => {
-        accountant = data.accountant;
-        this.action.next({ name: RtActionName.UPDATE, itemId: accountant._id, newItem: accountant });
-        this.notification.success('Acción exitosa', `Contador ${this.selectedAccountant.name} modificado`);
-        this.selectedAccountant = accountant;
+        this.credentialProv.update(updateCredentials).subscribe(res => {
+          accountant = data.accountant;
+          this.action.next({ name: RtActionName.UPDATE, itemId: accountant._id, newItem: accountant });
+          this.notification.success('Acción exitosa', `Contador ${this.selectedAccountant.name} modificado`);
+          this.selectedAccountant = accountant;
+        }, err => console.log(err));
       }, err => {
         this.notification.error('Error', 'No se pudo modificar el contador');
       });
@@ -247,7 +259,7 @@ export class InicioDespachoComponent implements OnInit, OnDestroy {
       data: {
         title: title,
         readonly: readonly,
-        accountant: accountant
+        accountant: JSON.parse(JSON.stringify(accountant))
       }
     });
   }

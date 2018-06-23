@@ -90,11 +90,25 @@ export class InicioSuperadminComponent implements OnInit {
     const dialogRef = this.modalDespacho('Detalle despacho', this.despachoSelected);
     dialogRef.afterClosed().subscribe((office) => {
       if (!office) { return; }
+      const updateCredentials = {
+        old: {
+          user: this.despachoSelected.account.user,
+          password: this.despachoSelected.account.password
+        },
+        new: {
+          user: office.account.user,
+          password: office.account.password
+        }
+      };
       this.officeProv.update(office).subscribe(data => {
-        office = data.office;
-        this.action.next({ name: RtActionName.UPDATE, itemId: office._id, newItem: office });
-        this.notification.success('Acción exitosa', `Despacho modificado: ${this.despachoSelected.name}`);
-        this.despachoSelected = office;
+        this.credentialsProv.update(updateCredentials).subscribe(res => {
+          office = data.office;
+          this.action.next({ name: RtActionName.UPDATE, itemId: office._id, newItem: office });
+          this.notification.success('Acción exitosa', `Despacho modificado: ${this.despachoSelected.name}`);
+          this.despachoSelected = office;
+        }, err => {
+          console.log(err);
+        });
       }, err => {
         this.notification.error('Error', 'No se pudo modificar el despacho');
       });
@@ -136,7 +150,7 @@ export class InicioSuperadminComponent implements OnInit {
       disableClose: true,
       data: {
         title: title,
-        accountant: despacho,
+        accountant: JSON.parse(JSON.stringify(despacho)),
         office: true
       }
     });
