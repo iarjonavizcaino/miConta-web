@@ -48,6 +48,7 @@
   <div style="color:#1565C0; font-size: 1em" *ngFor="let u of users">
     <strong>{{u.role}}:
       <span class="accent">{{ u.name }}</span>
+      <span *ngIf="u.role === 'Contribuyente'">({{currentTaxpayer.rfc}})</span>
     </strong>
   </div>
   <hr *ngIf="roleUp !== 'contribuyente'">
