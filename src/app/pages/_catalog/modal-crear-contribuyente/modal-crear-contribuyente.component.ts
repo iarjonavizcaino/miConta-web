@@ -145,14 +145,12 @@ export class ModalCrearContribuyenteComponent implements OnInit {
     this.title = this.data.title;
     if (this.data.taxPayer) {   // edit
       this.taxPayer = this.data.taxPayer;
-      const index = this.states.findIndex(state => state.name === this.data.taxPayer.address.state);
-      this.currentState = this.states[index];
       this.statement = this.data.taxPayer.statements;
       this.currentProfile = this.data.taxPayer.profile;
       this.concepts = this.currentProfile.concepts;
       this.obligations = this.currentProfile.obligations;
       if (!this.taxPayer.address) {
-        this.taxPayer.address = {
+        this.taxPayer.address = { // address does't exists
           street: '',
           number: '',
           neighborhood: '',
@@ -161,6 +159,10 @@ export class ModalCrearContribuyenteComponent implements OnInit {
           municipality: '',
           state: ''
         };
+      } else {
+        // address exists then find state
+        const index = this.states.findIndex(state => state.name === this.data.taxPayer.address.state);
+        this.currentState = this.states[index]; // get state
       }
     } else {
       // new taxpayer
