@@ -76,7 +76,6 @@ import { MisDatosComponent } from './pages/contribuyente/mis-datos/mis-datos.com
 import { ObligacionesComponent } from './pages/contribuyente/obligaciones/obligaciones.component';
 import { LimitesComponent } from './pages/contribuyente/limites/limites.component';
 import { NotificacionesContribuyenteComponent } from './pages/contribuyente/notificaciones/notificaciones-contribuyente.component';
-import { CrudContribuyentesComponent } from './pages/contador/crud-contribuyentes/crud-contribuyentes.component';
 import { InicioDespachoComponent } from './pages/despacho/inicio/inicio-despacho.component';
 import { NotificacionesDespachoComponent } from './pages/despacho/notificaciones/notificaciones-despacho.component';
 import { AsignarContribuyentesComponent } from './pages/despacho/asignar-contribuyentes/asignar-contribuyentes.component';
@@ -160,10 +159,6 @@ const routes: Routes = [
   // contador routes
   {
     path: 'contador/inicio', component: InicioContadorComponent, canActivate: [RoleGuard],
-    data: { expectedRole: ['5a728f50b15f741695e35c97', '5a728f43b15f741695e35c95', '5a728f56b15f741695e35c98'] }
-  },
-  {
-    path: 'contador/contribuyentes', component: CrudContribuyentesComponent, canActivate: [RoleGuard],
     data: { expectedRole: ['5a728f50b15f741695e35c97', '5a728f43b15f741695e35c95', '5a728f56b15f741695e35c98'] }
   },
   {
@@ -275,7 +270,6 @@ const routes: Routes = [
     ObligacionesComponent,
     LimitesComponent,
     NotificacionesContribuyenteComponent,
-    CrudContribuyentesComponent,
     ResumenContribuyenteComponent,
     NotificacionesComponent,
     InicioDespachoComponent,
