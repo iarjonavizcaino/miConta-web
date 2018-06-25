@@ -131,10 +131,15 @@ export class InicioContadorComponent implements OnInit, OnDestroy {
           this.action.next({ name: RtActionName.UPDATE, itemId: taxpayer._id, newItem: taxpayer });
           this.notify.success('Acción exitosa', `Contribuyente ${this.selectedTaxpayer.socialReason} modificado`);
           this.selectedTaxpayer = taxpayer;
-        }, err => console.log(err));
+        }, err => {
+          const error = JSON.parse(err._body);
+          console.log(error);
+          this.notify.warn('Atención!', error.message);
+        });
       }, err => {
-        console.log(err);
-        this.notify.error('Error', 'No se pudo modificar el contribuyente');
+        const error = JSON.parse(err._body);
+        console.log(error);
+        this.notify.warn('Atención!', error.message);
       });
     });
 
@@ -243,8 +248,9 @@ export class InicioContadorComponent implements OnInit, OnDestroy {
           });
         });
       }, err => {
-        console.log(err);
-        this.notify.error('Error', 'No se pudo crear el contribuyente');
+        const error = JSON.parse(err._body);
+        console.log(error);
+        this.notify.warn('Atención!', error.message);
       });
     });
   } // onCreate()

@@ -78,9 +78,15 @@ export class InicioSuperadminComponent implements OnInit {
               this.notification.success('Acción exitosa', `Nuevo despacho creado: ${office.name}`);
             });
           });
-        }, err => console.log('err creating credentials', err));
+        }, err => {
+          const error = JSON.parse(err._body);
+          console.log(error);
+          this.notification.warn('Atención!', error.message);
+        });
       }, err => {
-        this.notification.error('Error', 'No se pudo crear el despacho');
+        const error = JSON.parse(err._body);
+        console.log(error);
+        this.notification.warn('Atención!', error.message);
       });
     });
   }
@@ -93,11 +99,11 @@ export class InicioSuperadminComponent implements OnInit {
       const updateCredentials = {
         old: {
           user: this.despachoSelected.account.user,
-          password: this.despachoSelected.account.password
+          password: this.despachoSelected.account.password,
         },
         new: {
           user: office.account.user,
-          password: office.account.password
+          password: office.account.password,
         }
       };
       this.officeProv.update(office).subscribe(data => {
@@ -107,10 +113,14 @@ export class InicioSuperadminComponent implements OnInit {
           this.notification.success('Acción exitosa', `Despacho modificado: ${this.despachoSelected.name}`);
           this.despachoSelected = office;
         }, err => {
-          console.log(err);
+          const error = JSON.parse(err._body);
+          console.log(error);
+          this.notification.warn('Atención!', error.message);
         });
       }, err => {
-        this.notification.error('Error', 'No se pudo modificar el despacho');
+        const error = JSON.parse(err._body);
+        console.log(error);
+        this.notification.warn('Atención!', error.message);
       });
     });
   }

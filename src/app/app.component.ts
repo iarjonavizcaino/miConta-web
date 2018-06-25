@@ -49,7 +49,7 @@ export class AppComponent implements OnInit {
   mode = 'side';
   notifyOptions = {
     position: ['bottom', 'left'],
-    timeOut: 4000,
+    timeOut: 8000,
     animate: 'fromLeft',
     maxStack: 5
   };

@@ -132,7 +132,12 @@ export class InicioDespachoComponent implements OnInit, OnDestroy {
           });
         });
       }, err => {
-        this.notification.error('Error', 'No se pudo crear el contador');
+        console.log(err);
+        if (err.status === 500 || err.status === 400) {
+          this.notification.warn('Atención!', 'El Usuario y/o Correo ya esta en uso. Utiliza otro.');
+        } else {
+          this.notification.error('Error', 'No se pudo crear el contador');
+        }
       });
     });
   }
@@ -211,9 +216,15 @@ export class InicioDespachoComponent implements OnInit, OnDestroy {
           this.action.next({ name: RtActionName.UPDATE, itemId: accountant._id, newItem: accountant });
           this.notification.success('Acción exitosa', `Contador ${this.selectedAccountant.name} modificado`);
           this.selectedAccountant = accountant;
-        }, err => console.log(err));
+        }, err => {
+          const error = JSON.parse(err._body);
+          console.log(error);
+          this.notification.warn('Atención!', error.message);
+        });
       }, err => {
-        this.notification.error('Error', 'No se pudo modificar el contador');
+        const error = JSON.parse(err._body);
+        console.log(error);
+        this.notification.warn('Atención!', error.message);
       });
     });
   }
