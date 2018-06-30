@@ -340,7 +340,7 @@ export class InicioContadorComponent implements OnInit, OnDestroy {
           }, err => { console.log(err); });  // save in firebase
         }, err => { // create bill
           // this.notify.error('Error', JSON.parse(err._body).message);
-          console.log('cannot create', element.bill);
+          console.log('cannot create', err);
           sumaryBills.billsWithErrors.push(element.bill);
         });
       });
