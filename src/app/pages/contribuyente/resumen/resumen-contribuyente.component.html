@@ -213,7 +213,8 @@
               </button>
             </span>
             <span *ngIf="showDeleteButton1">
-              <button *ngIf="periodActive" mat-icon-button (click)="onDeleteStatementIngresos($event)">
+              <!-- *ngIf="periodActive" -->
+              <button mat-icon-button (click)="onDeleteStatementIngresos($event)">
                 <mat-icon matTooltip="Eliminar declaración" matTooltipPosition="above">delete</mat-icon>
               </button>
             </span>
@@ -282,7 +283,8 @@
               </button>
             </span>
             <span *ngIf="showDeleteButton2">
-              <button *ngIf="periodActive" mat-icon-button (click)="onDeleteStatementEgresos($event)">
+              <!-- *ngIf="periodActive" -->
+              <button mat-icon-button (click)="onDeleteStatementEgresos($event)">
                 <mat-icon matTooltip="Eliminar declaración" matTooltipPosition="above">delete</mat-icon>
               </button>
             </span>

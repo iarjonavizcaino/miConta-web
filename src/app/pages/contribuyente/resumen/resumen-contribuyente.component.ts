@@ -636,7 +636,7 @@ export class ResumenContribuyenteComponent implements OnInit, OnDestroy {
       this.checkedIngresos = 0;
       this.dataIngresos.forEach((element) => {  // uncheck all items
         element.checked = false;
-        this.showDeleteButton1 = true;
+        this.showDeleteButton1 = false;
       });
     }
   }
